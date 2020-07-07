@@ -1,0 +1,6 @@
+node_modules
+dist
+
+.env
+config/config.dev.js
+config/config.prod.js
