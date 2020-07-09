@@ -1,4 +1,4 @@
-const { getApi } = require('./api');
+const { getApi } = require("./api");
 
 let latestHeight = null;
 let unsubscribeNewHead = null;
@@ -8,11 +8,11 @@ async function updateHeight() {
 
   unsubscribeNewHead = await api.rpc.chain.subscribeNewHeads(header => {
     latestHeight = header.number.toNumber();
-  })
+  });
 }
 
 function getLatestHeight() {
-  return latestHeight
+  return latestHeight;
 }
 
 module.exports = {

@@ -1,0 +1,15 @@
+{
+  "name": "@chainx2/scan",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/mongodb": "^3.5.25",
+    "cross-env": "^7.0.2"
+  },
+  "dependencies": {
+    "@polkadot/api": "^1.22.1",
+    "@polkadot/util": "^2.16.1",
+    "mongodb": "^3.5.9"
+  }
+}

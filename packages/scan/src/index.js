@@ -1,25 +1,32 @@
-const { u8aToHex } = require('@polkadot/util');
-const { sleep } = require('./util');
+const { u8aToHex } = require("@polkadot/util");
+const { sleep } = require("./util");
 const {
   getExtrinsicCollection,
   getBlockCollection,
   getFirstScanHeight,
-  updateScanHeight
-} = require('./mongoClient');
-const { getApi } = require('./api');
-const { updateHeight, getLatestHeight, unsubscribeNewHead } = require('./latestHead');
+  updateScanHeight,
+  deleteDataFrom
+} = require("./mongoClient");
+const { getApi } = require("./api");
+const {
+  updateHeight,
+  getLatestHeight,
+  unsubscribeNewHead
+} = require("./latestHead");
 
 async function main() {
   await updateHeight();
   const api = await getApi();
 
   let scanHeight = await getFirstScanHeight();
+  await deleteDataFrom(scanHeight);
+
   while (true) {
     const chainHeight = getLatestHeight();
     if (scanHeight > chainHeight) {
       // 如果要检索的高度大于现在的最大高度，那么等一等
       await sleep(1000);
-      continue
+      continue;
     }
 
     let blockHash;
@@ -28,12 +35,12 @@ async function main() {
     } catch (e) {
       console.log(e.message);
       await sleep(1000);
-      continue
+      continue;
     }
 
     if (!blockHash) {
       await sleep(1000);
-      continue
+      continue;
     }
 
     const block = await api.rpc.chain.getBlock(blockHash);
@@ -60,11 +67,11 @@ async function handleBlock(block) {
     await handleExtrinsic(extrinsic, {
       blockHeight,
       blockHash: hash,
-      index: index++,
-    })
+      index: index++
+    });
   }
 
-  console.log(`block ${blockHeight} inserted.`)
+  console.log(`block ${blockHeight} inserted.`);
 }
 
 async function handleExtrinsic(extrinsic, indexer) {
@@ -72,8 +79,8 @@ async function handleExtrinsic(extrinsic, indexer) {
   const { args } = extrinsic.method.toJSON();
   const name = extrinsic.method.methodName;
   const section = extrinsic.method.sectionName;
-  if (section.toLowerCase() === 'xassets') {
-    console.log(section)
+  if (section.toLowerCase() === "xassets") {
+    console.log(section);
   }
   const version = extrinsic.version;
   const data = u8aToHex(extrinsic.data); // 原始数据
@@ -86,10 +93,13 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
 }
 
-main().then(r => {
-  // TODO:
-}).catch((err) => {
-  // TODO:
-}).finally(() => {
-  unsubscribeNewHead()
-});
+main()
+  .then(r => {
+    // TODO:
+  })
+  .catch(err => {
+    // TODO:
+  })
+  .finally(() => {
+    unsubscribeNewHead();
+  });
