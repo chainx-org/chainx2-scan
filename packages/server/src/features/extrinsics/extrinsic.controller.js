@@ -1,22 +1,22 @@
 const { extractPage } = require("../../utils");
-const { getBlockCollection } = require("../../services/mongo");
+const { getExtrinsicCollection } = require("../../services/mongo");
 
-class BlockController {
-  async getBlocks(ctx) {
+class ExtrinsicController {
+  async getExtrinsics(ctx) {
     const { page, pageSize } = extractPage(ctx);
     if (pageSize === 0) {
       ctx.status = 400;
       return;
     }
 
-    const col = await getBlockCollection();
+    const col = await getExtrinsicCollection();
     ctx.body = await col
       .find({})
-      .sort({ "header.number": -1 })
+      .sort({ "indexer.blockHeight": -1, "indexer.index": 1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray();
   }
 }
 
-module.exports = new BlockController();
+module.exports = new ExtrinsicController();

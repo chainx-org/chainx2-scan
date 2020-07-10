@@ -1,4 +1,7 @@
-const featureRouters = [require("./features/blocks/routes")];
+const featureRouters = [
+  require("./features/blocks/routes"),
+  require("./features/extrinsics/routes")
+];
 
 module.exports = app => {
   for (const router of featureRouters) {
