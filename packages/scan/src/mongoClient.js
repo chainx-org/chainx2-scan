@@ -13,13 +13,29 @@ const mainScanName = "main-scan-height";
 let blockCol = null;
 let extrinsicCol = null;
 let statusCol = null;
+let db = null;
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url);
-  const db = client.db(dbName);
+  db = client.db(dbName);
   blockCol = db.collection(blockCollectionName);
   extrinsicCol = db.collection(extrinsicCollectionName);
   statusCol = db.collection(statusCollectionName);
+
+  await _createIndexes();
+}
+
+async function _createIndexes() {
+  if (!db) {
+    console.error("Please call initDb first");
+    process.exit(1);
+  }
+
+  await blockCol.createIndex({ "header.number": -1 });
+  await extrinsicCol.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.index": 1
+  });
 }
 
 async function getBlockCollection() {
