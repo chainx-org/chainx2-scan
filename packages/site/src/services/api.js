@@ -71,6 +71,10 @@ class Api {
   fetchExtrinsics = params => {
     return this.cancelableFetch('/extrinsics', params)
   }
+
+  fetchEvents = params => {
+    return this.cancelableFetch('/events', params)
+  }
 }
 
 export default new Api(process.env.REACT_APP_SERVER)

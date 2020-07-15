@@ -14,5 +14,9 @@ export default {
   COMMON_UNIT: {
     zh: '个',
     en: ''
+  },
+  common_module: {
+    zh: '模块',
+    en: 'Module'
   }
 }

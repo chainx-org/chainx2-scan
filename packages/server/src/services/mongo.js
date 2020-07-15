@@ -1,52 +1,63 @@
-const { MongoClient } = require("mongodb");
-const config = require("../../config");
-let client = null;
+const { MongoClient } = require('mongodb')
+const config = require('../../config')
+let client = null
 
-const dbName = "chainx-scan-v2";
+const dbName = 'chainx-scan-v2'
 const cols = {
-  block: "block",
-  extrinsic: "extrinsic",
-  status: "status"
-};
+  block: 'block',
+  extrinsic: 'extrinsic',
+  status: 'status',
+  event: 'event'
+}
 
-let blockCol = null;
-let extrinsicCol = null;
-let statusCol = null;
+let blockCol = null
+let extrinsicCol = null
+let eventCol = null
+let statusCol = null
 
 async function initDb() {
-  client = await MongoClient.connect(config.mongo.url);
-  const db = client.db(dbName);
-  blockCol = db.collection(cols.block);
-  extrinsicCol = db.collection(cols.extrinsic);
-  statusCol = db.collection(cols.status);
+  client = await MongoClient.connect(config.mongo.url)
+  const db = client.db(dbName)
+  blockCol = db.collection(cols.block)
+  extrinsicCol = db.collection(cols.extrinsic)
+  statusCol = db.collection(cols.status)
+  eventCol = db.collection(cols.event)
 
-  return db;
+  return db
 }
 
 async function getBlockCollection() {
   if (!blockCol) {
-    await initDb();
+    await initDb()
   }
-  return blockCol;
+  return blockCol
 }
 
 async function getExtrinsicCollection() {
   if (!extrinsicCol) {
-    await initDb();
+    await initDb()
   }
-  return extrinsicCol;
+  return extrinsicCol
 }
 
 async function getStatusCollection() {
   if (!statusCol) {
-    await initDb();
+    await initDb()
   }
-  return statusCol;
+  return statusCol
+}
+
+async function getEventCollection() {
+  if (!eventCol) {
+    await initDb()
+  }
+  return eventCol
 }
 
 module.exports = {
   initDb,
   getBlockCollection,
   getExtrinsicCollection,
+  getEventCollection,
   getStatusCollection
-};
+}

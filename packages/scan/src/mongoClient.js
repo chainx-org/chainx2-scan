@@ -37,12 +37,9 @@ async function _createIndexes() {
   await blockCol.createIndex({ 'header.number': -1 })
   await extrinsicCol.createIndex({
     'indexer.blockHeight': -1,
-    'indexer.index': 1
+    'indexer.index': -1
   })
-  await eventCol.createIndex({
-    'indexer.blockHeight': -1,
-    index: 1
-  })
+  await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
 }
 
 async function getBlockCollection() {
