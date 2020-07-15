@@ -10,7 +10,7 @@ class BlockController {
     }
 
     const col = await getBlockCollection()
-    const total = await col.countDocuments()
+    const total = await col.estimatedDocumentCount()
     const blocks = await col
       .find({})
       .sort({ 'header.number': -1 })

@@ -67,6 +67,10 @@ class Api {
   fetchBlocks = params => {
     return this.cancelableFetch('/blocks', params)
   }
+
+  fetchExtrinsics = params => {
+    return this.cancelableFetch('/extrinsics', params)
+  }
 }
 
 export default new Api(process.env.REACT_APP_SERVER)

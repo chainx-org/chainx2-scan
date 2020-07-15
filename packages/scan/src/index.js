@@ -3,6 +3,7 @@ const { sleep } = require('./util')
 const {
   getExtrinsicCollection,
   getBlockCollection,
+  getEventCollection,
   getFirstScanHeight,
   updateScanHeight,
   deleteDataFrom
@@ -44,10 +45,51 @@ async function main() {
     }
 
     const block = await api.rpc.chain.getBlock(blockHash)
+
     // TODO: 如果发现区块分叉，回滚数据库中的区块和交易
     await handleBlock(block.block)
 
     await updateScanHeight(scanHeight++)
+  }
+}
+
+async function handleEvents(events, indexer, extrinsics) {
+  if (events.length <= 0) {
+    return
+  }
+
+  const eventCol = await getEventCollection()
+  const bulk = eventCol.initializeOrderedBulkOp()
+  for (const { event, phase, topics } of events) {
+    const phaseType = phase.type
+    const phaseValue = phase.value.toNumber()
+    const extrinsicHash = extrinsics[phaseValue].hash.toHex()
+
+    const index = parseInt(event.index)
+    const meta = event.meta.toJSON()
+    const section = event.section
+    const method = event.method
+    const data = event.data.toJSON()
+
+    bulk.insert({
+      indexer,
+      extrinsicHash,
+      phase: {
+        type: phaseType,
+        value: phaseValue
+      },
+      index,
+      section,
+      method,
+      meta,
+      data,
+      topics
+    })
+  }
+
+  const result = await bulk.execute()
+  if (result.result && !result.result.ok) {
+    // TODO: 处理插入不成功的情况
   }
 }
 
@@ -56,6 +98,11 @@ async function handleBlock(block) {
   const blockJson = block.toJSON()
   const blockHeight = block.header.number.toNumber()
   const blockTime = extractBlockTime(block.extrinsics)
+  const blockIndexer = { blockHeight, blockHash: hash, blockTime }
+
+  const api = await getApi()
+  const allEvents = await api.query.system.events.at(hash)
+  await handleEvents(allEvents, blockIndexer, block.extrinsics)
 
   const blockCol = await getBlockCollection()
   const result = await blockCol.insertOne({ hash, blockTime, ...blockJson })
@@ -68,6 +115,7 @@ async function handleBlock(block) {
     await handleExtrinsic(extrinsic, {
       blockHeight,
       blockHash: hash,
+      blockTime,
       index: index++
     })
   }
@@ -87,6 +135,7 @@ function extractBlockTime(extrinsics) {
 }
 
 async function handleExtrinsic(extrinsic, indexer) {
+  const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
   const { args } = extrinsic.method.toJSON()
   const name = extrinsic.method.methodName
@@ -96,7 +145,7 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
-  const doc = { indexer, section, name, callIndex, version, args, data }
+  const doc = { hash, indexer, section, name, callIndex, version, args, data }
 
   const exCol = await getExtrinsicCollection()
   const result = await exCol.insertOne(doc)

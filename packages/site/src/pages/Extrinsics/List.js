@@ -3,10 +3,12 @@ import api from '../../services/api'
 import { Table } from '../../components'
 import $t from '../../locale'
 import DateShow from '../../components/DateShow'
+import TxLink from '../../components/TxLink'
 import BlockLink from '../../components/BlockLink'
+import TxAction from '../../components/TxAction'
 
 export default function() {
-  const [blocks, setBlocks] = useState([])
+  const [extrinsics, setExtrinsics] = useState([])
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(20)
@@ -14,10 +16,11 @@ export default function() {
 
   useEffect(() => {
     setLoading(true)
-    const { promise, cancel } = api.fetchBlocks({ page, pageSize })
+    const { promise, cancel } = api.fetchExtrinsics({ page, pageSize })
+
     promise
       .then(({ result: data }) => {
-        setBlocks(data.items)
+        setExtrinsics(data.items)
         setPage(data.page)
         setPageSize(data.pageSize)
         setTotal(data.total - pageSize)
@@ -37,37 +40,48 @@ export default function() {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
-      dataSource={blocks.map(item => {
+      expandedRowRender={data => {
+        console.log(data)
+        return (
+          <div>
+            <pre style={{ textAlign: 'left' }}>
+              {JSON.stringify(data.args, null, 2)}
+            </pre>
+          </div>
+        )
+      }}
+      dataSource={extrinsics.map(item => {
         return {
-          number: <BlockLink value={item.header.number} />,
+          key: item.hash,
           hash: (
-            <BlockLink
-              style={{ width: 138 }}
+            <TxLink
+              style={{ width: 136 }}
               className="text-truncate"
               value={item.hash}
             />
           ),
-          timestamp: <DateShow value={item.blockTime} />,
-          extrinsicNum: (item.extrinsics || []).length,
-          key: item.hash
+          blockHeight: <BlockLink value={item.indexer.blockHeight} />,
+          blockTime: <DateShow value={item.indexer.blockTime} />,
+          action: <TxAction module={item.section} call={item.name} />,
+          args: item.args
         }
       })}
       columns={[
         {
-          title: $t('block_height'),
-          dataIndex: 'number'
-        },
-        {
-          title: $t('block_hash'),
+          title: $t('ex_hash'),
           dataIndex: 'hash'
         },
         {
-          title: $t('block_time'),
-          dataIndex: 'timestamp'
+          title: $t('block_height'),
+          dataIndex: 'blockHeight'
         },
         {
-          title: $t('block_extrinsic_num'),
-          dataIndex: 'extrinsicNum'
+          title: $t('block_time'),
+          dataIndex: 'blockTime'
+        },
+        {
+          title: $t('ex_action'),
+          dataIndex: 'action'
         }
       ]}
     />

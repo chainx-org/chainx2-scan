@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import Blocks from './pages/Blocks'
+import Extrinsincs from './pages/Extrinsics'
 
 export default function Main() {
   return (
@@ -8,6 +9,7 @@ export default function Main() {
       <section className="container">
         <Switch>
           <Route path="/blocks" component={Blocks} />
+          <Route path="/extrinsics" component={Extrinsincs} />
         </Switch>
       </section>
     </div>
