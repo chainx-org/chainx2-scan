@@ -1,40 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import api from '../../services/api'
-import { Table, CommonLink } from '../../components'
+import { CommonLink, Table } from '../../components'
 import $t from '../../locale'
 import DateShow from '../../components/DateShow'
 import BlockLink from '../../components/BlockLink'
 import TxLink from '../../components/TxLink'
+import { useLoad } from '../../utils/hooks'
 
 export default function() {
-  const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const [total, setTotal] = useState(0)
-
-  useEffect(() => {
-    setLoading(true)
-    const { promise, cancel } = api.fetchEvents({ page, pageSize })
-
-    promise
-      .then(({ result: data }) => {
-        setEvents(data.items)
-        setPage(data.page)
-        setPageSize(data.pageSize)
-        setTotal(data.total - pageSize)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-
-    return () => cancel()
-  }, [page, pageSize])
+  const { items: events, loading, total } = useLoad(
+    api.fetchEvents,
+    page,
+    pageSize
+  )
 
   return (
     <Table
       loading={loading}
       onChange={({ current, pageSize: size }) => {
+        console.log('current', current)
         setPage(current)
         setPageSize(size)
       }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import api from '../../services/api'
 import { Table } from '../../components'
 import $t from '../../locale'
@@ -6,31 +6,16 @@ import DateShow from '../../components/DateShow'
 import TxLink from '../../components/TxLink'
 import BlockLink from '../../components/BlockLink'
 import TxAction from '../../components/TxAction'
+import { useLoad } from '../../utils/hooks'
 
 export default function() {
-  const [extrinsics, setExtrinsics] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const [total, setTotal] = useState(0)
-
-  useEffect(() => {
-    setLoading(true)
-    const { promise, cancel } = api.fetchExtrinsics({ page, pageSize })
-
-    promise
-      .then(({ result: data }) => {
-        setExtrinsics(data.items)
-        setPage(data.page)
-        setPageSize(data.pageSize)
-        setTotal(data.total - pageSize)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-
-    return () => cancel()
-  }, [page, pageSize])
+  const { items: extrinsics, loading, total } = useLoad(
+    api.fetchExtrinsics,
+    page,
+    pageSize
+  )
 
   return (
     <Table

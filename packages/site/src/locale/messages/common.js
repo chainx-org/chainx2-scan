@@ -18,5 +18,13 @@ export default {
   common_module: {
     zh: '模块',
     en: 'Module'
+  },
+  common_home: {
+    zh: '首页',
+    en: 'Home'
+  },
+  common_blockchain: {
+    zh: '区块链',
+    en: 'Chain'
   }
 }
