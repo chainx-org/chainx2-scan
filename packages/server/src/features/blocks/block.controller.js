@@ -1,5 +1,7 @@
-const { extractPage } = require('../../utils')
+const { isMongoId } = require('../../utils')
+const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
 const { getBlockCollection } = require('../../services/mongo')
+const { ObjectID } = require('mongodb')
 
 class BlockController {
   async getBlocks(ctx) {
@@ -24,6 +26,24 @@ class BlockController {
       pageSize,
       total
     }
+  }
+
+  async getBlock(ctx) {
+    const { heightOrHashOrId } = ctx.params
+    let query = {}
+    if (/^\d+$/.test(heightOrHashOrId)) {
+      query = { 'header.number': heightOrHashOrId }
+    } else if (isHash(heightOrHashOrId)) {
+      query = { hash: ensure0xPrefix(heightOrHashOrId) }
+    } else if (isMongoId(heightOrHashOrId)) {
+      query = ObjectID(heightOrHashOrId)
+    } else {
+      ctx.status = 400
+      return
+    }
+
+    const col = await getBlockCollection()
+    ctx.body = await col.findOne(query)
   }
 }
 

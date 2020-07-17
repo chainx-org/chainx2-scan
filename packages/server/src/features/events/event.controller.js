@@ -1,5 +1,8 @@
+const { isEventId, extractEvent } = require('./utils')
+const { isMongoId } = require('../../utils')
 const { extractPage } = require('../../utils')
 const { getEventCollection } = require('../../services/mongo')
+const { ObjectID } = require('mongodb')
 
 class EventController {
   async getEvents(ctx) {
@@ -24,6 +27,20 @@ class EventController {
       pageSize,
       total
     }
+  }
+
+  async getEvent(ctx) {
+    const { id } = ctx.params
+    let query = {}
+    if (isMongoId(id)) {
+      query = ObjectID(id)
+    } else if (isEventId(id)) {
+      const { blockHeight, eventIndex } = extractEvent(id)
+      query = { 'indexer.blockHeight': blockHeight, index: eventIndex }
+    }
+
+    const col = await getEventCollection()
+    ctx.body = await col.findOne(query)
   }
 }
 

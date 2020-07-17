@@ -1,3 +1,4 @@
+const { isHash } = require('../../utils')
 const { extractPage } = require('../../utils')
 const { getExtrinsicCollection } = require('../../services/mongo')
 
@@ -24,6 +25,17 @@ class ExtrinsicController {
       pageSize,
       total
     }
+  }
+
+  async getExtrinsic(ctx) {
+    const { hash } = ctx.params
+    if (!isHash(hash)) {
+      ctx.status = 400
+      return
+    }
+
+    const col = await getExtrinsicCollection()
+    ctx.body = await col.findOne({ hash })
   }
 }
 
