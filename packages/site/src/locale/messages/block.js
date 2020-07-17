@@ -3,6 +3,10 @@ export default {
     zh: '区块列表',
     en: 'Blocks'
   },
+  block_detail: {
+    zh: '区块详情',
+    en: 'Block Details'
+  },
   block_height: {
     zh: '区块高度',
     en: 'Height'

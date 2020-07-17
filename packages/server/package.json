@@ -10,6 +10,7 @@
     "koa-helmet": "^5.2.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^9.1.0",
-    "mongodb": "^3.5.9"
+    "mongodb": "^3.5.9",
+    "socket.io": "^2.3.0"
   }
 }

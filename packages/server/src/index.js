@@ -6,6 +6,7 @@ const http = require('http')
 const cors = require('@koa/cors')
 const { initDb } = require('./services/mongo')
 const config = require('../config')
+const Socket = require('socket.io')
 
 const app = new Koa()
 
@@ -17,9 +18,12 @@ app
 
 require('./routes')(app)
 const server = http.createServer(app.callback())
+const io = new Socket(server)
 
 initDb()
   .then(db => {
+    require('./io')(io, db)
+
     app.context.db = db
     const port = config.server.port || 3213
 

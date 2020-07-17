@@ -5,6 +5,7 @@ import Extrinsincs from './pages/Extrinsics'
 import Events from './pages/Events'
 import ScrollTop from './components/ScrollTop'
 import Home from './pages/Home'
+import './services/socket'
 
 export default function Main() {
   return (
