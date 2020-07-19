@@ -1,3 +1,4 @@
+const { setLatestBlocks } = require('../store')
 const { FEED_INTERVAL } = require('./constant')
 const { latestBlocksRoom } = require('./constant')
 const { getBlockCollection } = require('../services/mongo')
@@ -24,6 +25,7 @@ async function feedLatestBlocks(io, db) {
 
     if (simpleBlocks.length > 0) {
       io.to(latestBlocksRoom).emit('latestBlocks', simpleBlocks)
+      setLatestBlocks(simpleBlocks)
     }
   } catch (e) {
     console.error(e)

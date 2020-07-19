@@ -32,7 +32,7 @@ class BlockController {
     const { heightOrHashOrId } = ctx.params
     let query = {}
     if (/^\d+$/.test(heightOrHashOrId)) {
-      query = { 'header.number': heightOrHashOrId }
+      query = { 'header.number': parseInt(heightOrHashOrId) }
     } else if (isHash(heightOrHashOrId)) {
       query = { hash: ensure0xPrefix(heightOrHashOrId) }
     } else if (isMongoId(heightOrHashOrId)) {

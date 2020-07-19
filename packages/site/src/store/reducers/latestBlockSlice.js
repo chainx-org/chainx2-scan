@@ -12,6 +12,7 @@ const latestBlockSlice = createSlice({
   }
 })
 
-export const latestHeightSelector = state => state.latestBlocks[0].number
+export const latestHeightSelector = state =>
+  state.latestBlocks.blocks[0]?.number
 export const { setLatestBlocks } = latestBlockSlice.actions
 export default latestBlockSlice.reducer

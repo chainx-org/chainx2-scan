@@ -68,6 +68,10 @@ class Api {
     return this.cancelableFetch('/blocks', params)
   }
 
+  fetchBlock = blockId => {
+    return this.cancelableFetch(`/blocks/${blockId}`)
+  }
+
   fetchExtrinsics = params => {
     return this.cancelableFetch('/extrinsics', params)
   }
