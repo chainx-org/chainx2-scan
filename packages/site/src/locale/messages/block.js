@@ -34,5 +34,9 @@ export default {
   block_extrinsics_root: {
     zh: '交易根',
     en: 'Extrinsic Root'
+  },
+  block_latest_blocks: {
+    zh: '最新区块',
+    en: 'Latest Blocks'
   }
 }

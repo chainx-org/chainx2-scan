@@ -22,7 +22,7 @@ const io = new Socket(server)
 
 initDb()
   .then(db => {
-    require('./io')(io, db)
+    require('./io')(io)
 
     app.context.db = db
     const port = config.server.port || 3213

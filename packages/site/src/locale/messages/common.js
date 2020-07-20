@@ -26,5 +26,13 @@ export default {
   common_blockchain: {
     zh: '区块链',
     en: 'Chain'
+  },
+  common_validator: {
+    zh: '验证人',
+    en: 'Validator'
+  },
+  common_show_all: {
+    zh: '查看全部',
+    en: 'See All'
   }
 }

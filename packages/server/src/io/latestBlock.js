@@ -5,7 +5,7 @@ const { getBlockCollection } = require('../services/mongo')
 
 const blockSize = 10
 
-async function feedLatestBlocks(io, db) {
+async function feedLatestBlocks(io) {
   try {
     const col = await getBlockCollection()
     const blocks = await col
@@ -30,7 +30,7 @@ async function feedLatestBlocks(io, db) {
   } catch (e) {
     console.error(e)
   } finally {
-    setTimeout(feedLatestBlocks.bind(null, io, db), FEED_INTERVAL)
+    setTimeout(feedLatestBlocks.bind(null, io), FEED_INTERVAL)
   }
 }
 

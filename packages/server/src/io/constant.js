@@ -1,8 +1,8 @@
 const latestBlocksRoom = 'LATEST_BLOCKS_ROOM'
-const latestTxsRoom = 'LATEST_TRANSACTIONS_ROOM'
+const latestExtrinsicsRoom = 'LATEST_EXTRINSICS_ROOM'
 
 module.exports = {
   latestBlocksRoom,
-  latestTxsRoom,
+  latestExtrinsicsRoom,
   FEED_INTERVAL: 6000
 }
