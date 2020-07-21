@@ -12,6 +12,7 @@ import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 import Extrinsics from './Extrinsics'
 import { useLoadDetail } from '../../../utils/hooks'
+import NoData from '../../../components/NoData'
 
 export default function() {
   const { heightOrHash } = useParams()
@@ -40,6 +41,10 @@ export default function() {
         </div>
       </>
     )
+  }
+
+  if (!loading && !block) {
+    return <NoData id={heightOrHash} />
   }
 
   return (

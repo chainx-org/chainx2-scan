@@ -83,6 +83,10 @@ class Api {
   fetchEvents = params => {
     return this.cancelableFetch('/events', params)
   }
+
+  fetchEvent = eventId => {
+    return this.cancelableFetch(`/events/${eventId}`)
+  }
 }
 
 export default new Api(process.env.REACT_APP_SERVER)

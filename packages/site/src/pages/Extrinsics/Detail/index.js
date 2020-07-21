@@ -10,6 +10,7 @@ import PanelList from '../../../components/PanelList'
 import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 import Events from './Events'
+import { PanelJson } from '../../../components'
 
 export default function() {
   const { hash } = useParams()
@@ -74,18 +75,7 @@ export default function() {
           },
           {
             label: $t('ex_params'),
-            data: (
-              <pre
-                style={{
-                  textAlign: 'left',
-                  backgroundColor: 'unset',
-                  padding: 0,
-                  color: '#959595'
-                }}
-              >
-                {JSON.stringify(extrinsic.args, null, 2)}
-              </pre>
-            )
+            data: <PanelJson json={extrinsic.args} />
           },
           {
             label: $t('ex_version'),
