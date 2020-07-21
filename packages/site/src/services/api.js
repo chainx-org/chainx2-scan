@@ -76,6 +76,10 @@ class Api {
     return this.cancelableFetch('/extrinsics', params)
   }
 
+  fetchExtrinsic = hash => {
+    return this.cancelableFetch(`/extrinsics/${hash}`)
+  }
+
   fetchEvents = params => {
     return this.cancelableFetch('/events', params)
   }

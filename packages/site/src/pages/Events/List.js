@@ -21,7 +21,6 @@ export default function() {
     <Table
       loading={loading}
       onChange={({ current, pageSize: size }) => {
-        console.log('current', current)
         setPage(current)
         setPageSize(size)
       }}

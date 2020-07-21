@@ -8,7 +8,7 @@ import Detail from './Detail'
 export default function Extrinsics() {
   return (
     <Switch>
-      <Route path="/extrinsics/:id" component={Detail} />
+      <Route path="/extrinsics/:hash" component={Detail} />
       <Route
         path="/extrinsics"
         render={props => (

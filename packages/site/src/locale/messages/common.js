@@ -34,5 +34,13 @@ export default {
   common_show_all: {
     zh: '查看全部',
     en: 'See All'
+  },
+  common_to_home: {
+    zh: '返回首页',
+    en: 'To Home'
+  },
+  common_no_data: {
+    zh: '没有您要的信息',
+    en: 'No Data'
   }
 }

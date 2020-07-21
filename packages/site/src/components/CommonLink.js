@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 
 export default function CommonLink(props) {
   const { value, link, className, style } = props
-  if (!value) return null
+  if (typeof value === 'undefined' || value === null) return null
 
   return (
     <NavLink

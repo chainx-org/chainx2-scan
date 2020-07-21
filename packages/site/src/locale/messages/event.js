@@ -7,6 +7,10 @@ export default {
     zh: '事件 Id',
     en: 'Event Id'
   },
+  event_index: {
+    zh: 'Index',
+    en: 'Index'
+  },
   event_extrinsic: {
     zh: '相关交易',
     en: 'Referenced Extrinsic'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import Breadcrumb from '../../../components/Breadcrumb'
 import $t from '../../../locale'
@@ -11,26 +11,16 @@ import PanelList from '../../../components/PanelList'
 import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 import Extrinsics from './Extrinsics'
+import { useLoadDetail } from '../../../utils/hooks'
 
 export default function() {
   const { heightOrHash } = useParams()
-  const [block, setBlock] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const params = useMemo(() => [heightOrHash], [heightOrHash])
+  const { detail: block, loading } = useLoadDetail(api.fetchBlock, params)
+
   const latestHeight = useSelector(latestHeightSelector)
   const hasNext = block?.header?.number < latestHeight
   const preHeight = block?.header?.number - 1
-
-  useEffect(() => {
-    setLoading(true)
-    const { promise, cancel } = api.fetchBlock(heightOrHash)
-    promise
-      .then(({ result: data }) => {
-        setBlock(data)
-      })
-      .finally(() => setLoading(false))
-
-    return () => cancel()
-  }, [heightOrHash])
 
   const breadcrumb = (
     <Breadcrumb

@@ -12,10 +12,20 @@ class EventController {
       return
     }
 
+    const { extrinsic_hash: extrinsicHash } = ctx.query
+    const queryExtrinsic = !!extrinsicHash
+    const query = queryExtrinsic ? { extrinsicHash } : {}
+
     const col = await getEventCollection()
-    const total = await col.estimatedDocumentCount()
+    let total
+    if (queryExtrinsic) {
+      total = await col.countDocuments(query)
+    } else {
+      total = await col.estimatedDocumentCount()
+    }
+
     const events = await col
-      .find({})
+      .find(query)
       .sort({ 'indexer.blockHeight': -1, index: -1 })
       .skip(page * pageSize)
       .limit(pageSize)
