@@ -10,6 +10,7 @@ import { latestHeightSelector } from '../../../store/reducers/latestBlockSlice'
 import PanelList from '../../../components/PanelList'
 import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
+import Extrinsics from './Extrinsics'
 
 export default function() {
   const { heightOrHash } = useParams()
@@ -18,7 +19,6 @@ export default function() {
   const latestHeight = useSelector(latestHeightSelector)
   const hasNext = block?.header?.number < latestHeight
   const preHeight = block?.header?.number - 1
-  console.log(block)
 
   useEffect(() => {
     setLoading(true)
@@ -112,6 +112,7 @@ export default function() {
           }
         ]}
       />
+      <Extrinsics blockHeight={block?.header?.number} />
     </div>
   )
 }

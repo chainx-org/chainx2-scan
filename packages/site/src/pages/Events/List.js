@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import api from '../../services/api'
 import { CommonLink, Table } from '../../components'
 import $t from '../../locale'
@@ -10,11 +10,12 @@ import { useLoad } from '../../utils/hooks'
 export default function() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const { items: events, loading, total } = useLoad(
-    api.fetchEvents,
-    page,
-    pageSize
-  )
+
+  const params = useMemo(() => {
+    return { page, pageSize }
+  }, [page, pageSize])
+
+  const { items: events, loading, total } = useLoad(api.fetchEvents, params)
 
   return (
     <Table

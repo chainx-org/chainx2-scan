@@ -9,6 +9,7 @@ export function makeCancelable(promise) {
         isCanceled ? reject(new Error({ isCanceled })) : reject(error)
       )
   })
+
   return {
     promise: wrappedPromise,
     cancel() {

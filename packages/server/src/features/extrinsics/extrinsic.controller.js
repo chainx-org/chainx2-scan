@@ -1,4 +1,4 @@
-const { isHash } = require('../../utils')
+const { isHash, isNum } = require('../../utils')
 const { extractPage } = require('../../utils')
 const { getExtrinsicCollection } = require('../../services/mongo')
 
@@ -10,11 +10,19 @@ class ExtrinsicController {
       return
     }
 
+    const { block } = ctx.query
+    let query = {}
+    if (isHash(block)) {
+      query = { 'indexer.blockHash': block }
+    } else if (isNum(block)) {
+      query = { 'indexer.blockHeight': parseInt(block) }
+    }
+
     const col = await getExtrinsicCollection()
-    const total = await col.estimatedDocumentCount()
+    const total = await col.countDocuments(query)
     const extrinsics = await col
-      .find({})
-      .sort({ 'indexer.blockHeight': -1, 'indexer.index': 1 })
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()

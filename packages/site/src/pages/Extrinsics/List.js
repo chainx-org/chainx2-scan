@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import api from '../../services/api'
 import { Table } from '../../components'
 import $t from '../../locale'
@@ -8,13 +8,18 @@ import BlockLink from '../../components/BlockLink'
 import TxAction from '../../components/TxAction'
 import { useLoad } from '../../utils/hooks'
 
-export default function() {
+export default function({ blockHeight }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
+  const params = useMemo(() => {
+    return blockHeight
+      ? { block: blockHeight, page, pageSize }
+      : { page, pageSize }
+  }, [blockHeight, page, pageSize])
+
   const { items: extrinsics, loading, total } = useLoad(
     api.fetchExtrinsics,
-    page,
-    pageSize
+    params
   )
 
   return (
@@ -26,7 +31,6 @@ export default function() {
       }}
       pagination={{ current: page, pageSize, total }}
       expandedRowRender={data => {
-        console.log(data)
         return (
           <div>
             <pre style={{ textAlign: 'left' }}>

@@ -12,6 +12,10 @@ function isHash(str = '') {
   return /^(0x)?[\da-fA-F]{64}$/.test(normalized)
 }
 
+function isNum(str = null) {
+  return str !== null && /\d+/.test(str)
+}
+
 function isMongoId(str = '') {
   return /^[\da-fA-F]{24}$/.test(str)
 }
@@ -19,6 +23,7 @@ function isMongoId(str = '') {
 module.exports = {
   isMongoId,
   isHash,
+  isNum,
   ensure0xPrefix,
   ...httpUtils
 }
