@@ -15,6 +15,7 @@ const {
   unsubscribeNewHead
 } = require('./latestHead')
 const { updateAssetsInfo } = require('./assetsInfo')
+// const { updateChainProperties } = require('./chainProperties')
 
 let preBlockHash = null
 
