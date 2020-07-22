@@ -39,16 +39,19 @@ export default function({ extrinsicHash }) {
             <div style={{ textAlign: 'left' }}>
               <h3>Meta:</h3>
               <pre>{JSON.stringify(data.meta, null, 2)}</pre>
+              <h3>Data:</h3>
+              <pre>{JSON.stringify(data.data, null, 2)}</pre>
             </div>
           )
         }}
-        dataSource={events.map(item => {
+        dataSource={events.map((item, idx) => {
           const {
             indexer: { blockHeight },
             section,
             method,
             index,
-            meta
+            meta,
+            data
           } = item
           const id = `${blockHeight}-${index}`
           return {
@@ -57,7 +60,8 @@ export default function({ extrinsicHash }) {
             method,
             section,
             meta,
-            key: index
+            data,
+            key: idx
           }
         })}
         columns={[

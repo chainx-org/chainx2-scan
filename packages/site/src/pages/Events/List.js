@@ -25,13 +25,25 @@ export default function() {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
+      expandedRowRender={data => {
+        return (
+          <div style={{ textAlign: 'left' }}>
+            <h3>Meta:</h3>
+            <pre>{JSON.stringify(data.meta, null, 2)}</pre>
+            <h3>Data:</h3>
+            <pre>{JSON.stringify(data.data, null, 2)}</pre>
+          </div>
+        )
+      }}
       dataSource={events.map(item => {
         const {
           indexer: { blockHeight, blockTime },
           extrinsicHash,
           section,
           method,
-          index
+          index,
+          meta,
+          data
         } = item
         const id = `${blockHeight}-${index}`
         return {
@@ -48,6 +60,8 @@ export default function() {
             />
           ),
           section,
+          meta,
+          data,
           key: id
         }
       })}
