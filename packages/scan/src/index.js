@@ -8,12 +8,14 @@ const {
   updateScanHeight,
   deleteDataFrom
 } = require('./mongoClient')
-const { getApi } = require('./api')
+const { getApi, disconnect } = require('./api')
 const {
   updateHeight,
   getLatestHeight,
   unsubscribeNewHead
 } = require('./latestHead')
+
+let preBlockHash = null
 
 async function main() {
   await updateHeight()
@@ -40,17 +42,47 @@ async function main() {
     }
 
     if (!blockHash) {
+      // 正常情况下这种情况不应该出现，上边已经判断过`scanHeight > chainHeight`
       await sleep(1000)
       continue
     }
 
     const block = await api.rpc.chain.getBlock(blockHash)
+    if (
+      preBlockHash &&
+      block.block.header.parentHash.toString('hex') !== preBlockHash
+    ) {
+      // 出现分叉，当前块的parentHash不等于数据库中的上一个块的hash
+      const nonForkHeight = await findNonForkHeight(scanHeight)
+      await updateScanHeight(nonForkHeight)
+      scanHeight = nonForkHeight + 1
+      preBlockHash = null
+      await deleteDataFrom(scanHeight)
+      continue
+    }
 
-    // TODO: 如果发现区块分叉，回滚数据库中的区块和交易
     await handleBlock(block.block)
+    preBlockHash = block.block.hash.toHex()
 
     await updateScanHeight(scanHeight++)
   }
+}
+
+async function findNonForkHeight(nowHeight) {
+  const api = await getApi()
+
+  let trialHeight = nowHeight
+  let blockInDb = null
+  let chainHash = null
+
+  do {
+    trialHeight -= 1
+    const blockCol = await getBlockCollection()
+    blockInDb = await blockCol.findOne({ 'header.number': trialHeight })
+    chainHash = await api.rpc.chain.getBlockHash(trialHeight)
+  } while (blockInDb.hash !== chainHash.toString())
+
+  return trialHeight
 }
 
 async function handleEvents(events, indexer, extrinsics) {
@@ -166,4 +198,5 @@ main()
     if (typeof unsubscribeNewHead === 'function') {
       unsubscribeNewHead()
     }
+    disconnect()
   })
