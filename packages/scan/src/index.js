@@ -14,6 +14,7 @@ const {
   getLatestHeight,
   unsubscribeNewHead
 } = require('./latestHead')
+const { updateAssetsInfo } = require('./assetsInfo')
 
 let preBlockHash = null
 
@@ -64,6 +65,7 @@ async function main() {
     await handleBlock(block.block)
     preBlockHash = block.block.hash.toHex()
 
+    await updateAssetsInfo(scanHeight)
     await updateScanHeight(scanHeight++)
   }
 }

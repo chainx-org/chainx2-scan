@@ -8,6 +8,7 @@ const blockCollectionName = 'block'
 const extrinsicCollectionName = 'extrinsic'
 const eventCollectionName = 'event'
 const statusCollectionName = 'status'
+const assetsCollectionName = 'assets'
 
 const mainScanName = 'main-scan-height'
 
@@ -15,6 +16,7 @@ let blockCol = null
 let extrinsicCol = null
 let statusCol = null
 let eventCol = null
+let assetsCol = null
 let db = null
 
 async function initDb() {
@@ -24,6 +26,7 @@ async function initDb() {
   extrinsicCol = db.collection(extrinsicCollectionName)
   eventCol = db.collection(eventCollectionName)
   statusCol = db.collection(statusCollectionName)
+  assetsCol = db.collection(assetsCollectionName)
 
   await _createIndexes()
 }
@@ -40,6 +43,14 @@ async function _createIndexes() {
     'indexer.index': -1
   })
   await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
+}
+
+async function getAssetsCollection() {
+  if (!assetsCol) {
+    await initDb()
+  }
+
+  return assetsCol
 }
 
 async function getBlockCollection() {
@@ -85,8 +96,21 @@ async function deleteDataFrom(blockHeight) {
   } = await extrinsicCol.deleteMany({
     'indexer.blockHeight': { $gte: blockHeight }
   })
+  const {
+    result: { ok: deleteEventOk }
+  } = await eventCol.deleteMany({
+    'indexer.blockHeight': { $gte: blockHeight }
+  })
+  const {
+    result: { ok: deleteAssetsOk }
+  } = await assetsCol.deleteMany({ queryHeight: { $gte: blockHeight } })
 
-  if (deleteBlockOk !== 1 || deleteExtrinsicOk !== 1) {
+  if (
+    deleteBlockOk !== 1 ||
+    deleteExtrinsicOk !== 1 ||
+    deleteEventOk !== 1 ||
+    deleteAssetsOk !== 1
+  ) {
     console.error(`Fail to delete data >= ${blockHeight}`)
     process.exit(1)
   }
@@ -119,6 +143,7 @@ module.exports = {
   getBlockCollection,
   getStatusCollection,
   getEventCollection,
+  getAssetsCollection,
   getFirstScanHeight,
   updateScanHeight,
   deleteDataFrom
