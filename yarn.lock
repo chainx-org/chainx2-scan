@@ -1534,7 +1534,7 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util-crypto@2.18.1":
+"@polkadot/util-crypto@2.18.1", "@polkadot/util-crypto@^2.18.1":
   version "2.18.1"
   resolved "https://registry.npm.taobao.org/@polkadot/util-crypto/download/@polkadot/util-crypto-2.18.1.tgz#c4c36cd49c303f551f878a573f516479c94aeafe"
   integrity sha1-xMNs1JwwP1Ufh4pXP1FkeclK6v4=

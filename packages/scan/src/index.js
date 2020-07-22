@@ -16,12 +16,14 @@ const {
 } = require('./latestHead')
 const { updateAssetsInfo } = require('./assetsInfo')
 // const { updateChainProperties } = require('./chainProperties')
+const { setSS58Format } = require('@polkadot/util-crypto')
 
 let preBlockHash = null
 
 async function main() {
   await updateHeight()
   const api = await getApi()
+  setSS58Format(42)
 
   let scanHeight = await getFirstScanHeight()
   await deleteDataFrom(scanHeight)
