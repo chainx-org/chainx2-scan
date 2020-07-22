@@ -174,12 +174,23 @@ async function handleExtrinsic(extrinsic, indexer) {
   const { args } = extrinsic.method.toJSON()
   const name = extrinsic.method.methodName
   const section = extrinsic.method.sectionName
+  const signer = extrinsic._raw.signature.get('signer').toHex()
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
   }
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
-  const doc = { hash, indexer, section, name, callIndex, version, args, data }
+  const doc = {
+    hash,
+    indexer,
+    signer,
+    section,
+    name,
+    callIndex,
+    version,
+    args,
+    data
+  }
 
   const exCol = await getExtrinsicCollection()
   const result = await exCol.insertOne(doc)
