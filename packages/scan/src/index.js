@@ -208,9 +208,15 @@ main()
     // TODO:
     console.error(err)
   })
-  .finally(() => {
-    if (typeof unsubscribeNewHead === 'function') {
-      unsubscribeNewHead()
-    }
-    disconnect()
-  })
+  .finally(cleanUp)
+
+function cleanUp() {
+  console.log('clean up')
+  if (typeof unsubscribeNewHead === 'function') {
+    unsubscribeNewHead()
+  }
+  disconnect()
+  process.exit(0)
+}
+
+process.on('SIGINT', cleanUp)
