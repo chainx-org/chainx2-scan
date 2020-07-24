@@ -99,8 +99,11 @@ async function handleEvents(events, indexer, extrinsics) {
   const bulk = eventCol.initializeOrderedBulkOp()
   for (const { event, phase, topics } of events) {
     const phaseType = phase.type
-    const phaseValue = phase.value.toNumber()
-    const extrinsicHash = extrinsics[phaseValue].hash.toHex()
+    let [phaseValue, extrinsicHash] = [null, null]
+    if (!phase.isNull) {
+      phaseValue = phase.isNull ? null : phase.value.toNumber()
+      extrinsicHash = extrinsics[phaseValue].hash.toHex()
+    }
 
     const index = parseInt(event.index)
     const meta = event.meta.toJSON()
