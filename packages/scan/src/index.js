@@ -17,6 +17,7 @@ const {
 const { updateAssetsInfo } = require('./assetsInfo')
 // const { updateChainProperties } = require('./chainProperties')
 const { setSS58Format } = require('@polkadot/util-crypto')
+const { extractAuthor } = require('./block/extractAuthor')
 
 let preBlockHash = null
 
@@ -65,7 +66,10 @@ async function main() {
       continue
     }
 
-    await handleBlock(block.block)
+    const validators = await api.query.session.validators.at(blockHash)
+    const author = extractAuthor(validators, block.block.header)
+
+    await handleBlock(block.block, author)
     preBlockHash = block.block.hash.toHex()
 
     await updateAssetsInfo(scanHeight)
@@ -133,7 +137,7 @@ async function handleEvents(events, indexer, extrinsics) {
   }
 }
 
-async function handleBlock(block) {
+async function handleBlock(block, author) {
   const hash = block.hash.toHex()
   const blockJson = block.toJSON()
   const blockHeight = block.header.number.toNumber()
@@ -145,7 +149,12 @@ async function handleBlock(block) {
   await handleEvents(allEvents, blockIndexer, block.extrinsics)
 
   const blockCol = await getBlockCollection()
-  const result = await blockCol.insertOne({ hash, blockTime, ...blockJson })
+  const result = await blockCol.insertOne({
+    hash,
+    blockTime,
+    author,
+    ...blockJson
+  })
   if (result.result && !result.result.ok) {
     // FIXME: 处理插入不成功的情况
   }
