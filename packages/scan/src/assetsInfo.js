@@ -10,6 +10,7 @@ async function updateAssetsInfo(height = 0) {
   const assetsInfo = Object.entries(assets.toJSON()).map(([key, asset]) => {
     return {
       queryHeight: height,
+      id: key,
       asset
     }
   })
