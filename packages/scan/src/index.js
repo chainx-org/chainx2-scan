@@ -12,7 +12,7 @@ const { getApi, disconnect } = require('./api')
 const {
   updateHeight,
   getLatestHeight,
-  unsubscribeNewHead
+  getUnSubscribeNewHeadFunction
 } = require('./latestHead')
 const { updateAssetsInfo } = require('./assetsInfo')
 // const { updateChainProperties } = require('./chainProperties')
@@ -22,6 +22,10 @@ const {
   extractBlockTime,
   findNonForkHeight
 } = require('./block')
+const {
+  listenAndUpdateValidators,
+  getUnSubscribeValidatorsFunction
+} = require('./validatorsInfo')
 
 let preBlockHash = null
 
@@ -29,6 +33,8 @@ async function main() {
   await updateHeight()
   const api = await getApi()
   setSS58Format(42)
+
+  await listenAndUpdateValidators()
 
   let scanHeight = await getFirstScanHeight()
   await deleteDataFrom(scanHeight)
@@ -202,8 +208,13 @@ main()
 
 function cleanUp() {
   console.log('clean up')
+  const unsubscribeNewHead = getUnSubscribeNewHeadFunction()
   if (typeof unsubscribeNewHead === 'function') {
     unsubscribeNewHead()
+  }
+  const unSubscribeValidators = getUnSubscribeValidatorsFunction()
+  if (typeof unSubscribeValidators === 'function') {
+    unSubscribeValidators()
   }
   disconnect()
   process.exit(0)

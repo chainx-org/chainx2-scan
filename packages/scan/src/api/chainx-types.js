@@ -1,4 +1,3 @@
-// eslint-disable-next-line sort-keys,header/header
 module.exports = {
   SignedBalance: {
     _enum: {
@@ -307,10 +306,7 @@ module.exports = {
     isOnline: 'bool',
     restrictions: 'AssetRestrictions'
   },
-  Unbonded: {
-    lockedUntil: 'BlockNumber',
-    value: 'Balance'
-  },
+
   // eslint-disable-next-line sort-keys
   OutPoint: {
     hash: 'H256',
@@ -341,6 +337,102 @@ module.exports = {
   BTCAddrType: {
     _enum: ['P2PKH', 'P2SH']
   },
+  Unbonded: {
+    lockedUntil: 'BlockNumber',
+    value: 'Balance'
+  },
+  WithdrawalState: {
+    _enum: [
+      'Applying',
+      'Processing',
+      'NormalFinish',
+      'RootFinish',
+      'NormalCancel',
+      'RootCancel'
+    ]
+  },
+  WithdrawalRecord: {
+    assetId: 'AssetId',
+    applicant: 'AccountId',
+    balance: 'Balance',
+    addr: 'AddrStr',
+    ext: 'Memo',
+    height: 'BlockNumber'
+  },
+  WithdrawalLimit: {
+    minimalWithdrawal: 'Balance',
+    fee: 'Balance'
+  },
+  TrusteeInfoConfig: {
+    minTrusteeCount: 'u32',
+    maxTrusteeCount: 'u32'
+  },
+  GenericTrusteeIntentionProps: {
+    about: 'Text',
+    hotEntity: 'Vec<u8>',
+    coldEntity: 'Vec<u8>'
+  },
+  GenericTrusteeSessionInfo: {
+    trusteeList: 'Vec<AccountId>',
+    threshold: 'u16',
+    hotAddress: 'Vec<u8>',
+    coldAddress: 'Vec<u8>'
+  },
+  BtcTrusteeType: 'Vec<u8>',
+  BtcTrusteeAddrInfo: {
+    addr: 'BtcAddress',
+    redeemScript: 'Vec<u8>'
+  },
+  BtcTrusteeIntentionProps: {
+    about: 'Text',
+    hotEntity: 'BtcTrusteeType',
+    coldEntity: 'BtcTrusteeType'
+  },
+  BtcTrusteeSessionInfo: {
+    trusteeList: 'Vec<AccountId>',
+    threshold: 'u16',
+    hotAddress: 'BtcTrusteeAddrInfo',
+    coldAddress: 'BtcTrusteeAddrInfo'
+  },
+
+  BtcTxType: {
+    _enum: [
+      'Withdrawal',
+      'Deposit',
+      'HotAndCold',
+      'TrusteeTransition',
+      'Irrelevance'
+    ]
+  },
+  // eslint-disable-next-line sort-keys
+  BtcHeaderIndex: {
+    hash: 'H256',
+    height: 'u32'
+  },
+  BtcTxResult: {
+    _enum: ['Success', 'Failed']
+  },
+  BtcTxState: {
+    result: 'BtcTxResult',
+    txType: 'BtcTxType'
+  },
+  // eslint-disable-next-line sort-keys
+  BtcDepositCache: {
+    txid: 'H256',
+    // eslint-disable-next-line sort-keys
+    balance: 'u64'
+  },
+  BtcVoteResult: {
+    _enum: ['Unfinish', 'Finish']
+  },
+  BtcWithdrawalProposal: {
+    sigState: 'BtcVoteResult',
+    withdrawalIdList: 'Vec<u32>',
+    // eslint-disable-next-line sort-keys
+    tx: 'BtcTransaction',
+    // eslint-disable-next-line sort-keys
+    trusteeList: 'Vec<(AccountId, bool)>'
+  },
   MiningPower: 'u128',
   // eslint-disable-next-line sort-keys
   AddressHash: 'H160',
@@ -360,5 +452,8 @@ module.exports = {
     // eslint-disable-next-line sort-keys
     rewardPotAccount: 'AccountId',
     rewardPotBalance: 'RpcBalance'
-  }
+  },
+  // eslint-disable-next-line sort-keys
+  RpcBalance: 'String',
+  RpcWeightType: 'String'
 }

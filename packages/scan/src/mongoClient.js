@@ -9,6 +9,7 @@ const extrinsicCollectionName = 'extrinsic'
 const eventCollectionName = 'event'
 const statusCollectionName = 'status'
 const assetsCollectionName = 'assets'
+const validatorsCollectionName = 'validators'
 
 const mainScanName = 'main-scan-height'
 
@@ -17,6 +18,7 @@ let extrinsicCol = null
 let statusCol = null
 let eventCol = null
 let assetsCol = null
+let validatorsCol = null
 let db = null
 
 async function initDb() {
@@ -27,6 +29,7 @@ async function initDb() {
   eventCol = db.collection(eventCollectionName)
   statusCol = db.collection(statusCollectionName)
   assetsCol = db.collection(assetsCollectionName)
+  validatorsCol = db.collection(validatorsCollectionName)
 
   await _createIndexes()
 }
@@ -43,6 +46,14 @@ async function _createIndexes() {
     'indexer.index': -1
   })
   await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
+}
+
+async function getValidatorsCollection() {
+  if (!validatorsCol) {
+    await initDb()
+  }
+
+  return validatorsCol
 }
 
 async function getAssetsCollection() {
@@ -139,6 +150,7 @@ async function updateScanHeight(height) {
 }
 
 module.exports = {
+  getValidatorsCollection,
   getExtrinsicCollection,
   getBlockCollection,
   getStatusCollection,
