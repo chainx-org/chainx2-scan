@@ -17,7 +17,11 @@ const {
 const { updateAssetsInfo } = require('./assetsInfo')
 // const { updateChainProperties } = require('./chainProperties')
 const { setSS58Format } = require('@polkadot/util-crypto')
-const { extractAuthor, extractBlockTime } = require('./block')
+const {
+  extractAuthor,
+  extractBlockTime,
+  findNonForkHeight
+} = require('./block')
 
 let preBlockHash = null
 
@@ -75,23 +79,6 @@ async function main() {
     await updateAssetsInfo(scanHeight)
     await updateScanHeight(scanHeight++)
   }
-}
-
-async function findNonForkHeight(nowHeight) {
-  const api = await getApi()
-
-  let trialHeight = nowHeight
-  let blockInDb = null
-  let chainHash = null
-
-  do {
-    trialHeight -= 1
-    const blockCol = await getBlockCollection()
-    blockInDb = await blockCol.findOne({ 'header.number': trialHeight })
-    chainHash = await api.rpc.chain.getBlockHash(trialHeight)
-  } while (blockInDb.hash !== chainHash.toString())
-
-  return trialHeight
 }
 
 async function handleEvents(events, indexer, extrinsics) {
