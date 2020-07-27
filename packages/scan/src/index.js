@@ -17,7 +17,7 @@ const {
 const { updateAssetsInfo } = require('./assetsInfo')
 // const { updateChainProperties } = require('./chainProperties')
 const { setSS58Format } = require('@polkadot/util-crypto')
-const { extractAuthor } = require('./block/extractAuthor')
+const { extractAuthor, extractBlockTime } = require('./block')
 
 let preBlockHash = null
 
@@ -170,17 +170,6 @@ async function handleBlock(block, author) {
   }
 
   console.log(`block ${blockHeight} inserted.`)
-}
-
-function extractBlockTime(extrinsics) {
-  const setTimeExtrinsic = extrinsics.find(
-    ex =>
-      ex.method.sectionName === 'timestamp' && ex.method.methodName === 'set'
-  )
-  if (setTimeExtrinsic) {
-    const { args } = setTimeExtrinsic.method.toJSON()
-    return args.now
-  }
 }
 
 async function handleExtrinsic(extrinsic, indexer) {
