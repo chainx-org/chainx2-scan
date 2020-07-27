@@ -1,30 +1,12 @@
+// eslint-disable-next-line sort-keys,header/header
 module.exports = {
-  Address: 'AccountId',
-  Token: 'Text',
-  // eslint-disable-next-line sort-keys
-  Desc: 'Text',
-  Memo: 'Text',
-  // eslint-disable-next-line sort-keys
-  AddrStr: 'Text',
-  NetworkType: {
-    _enum: ['Mainnet', 'Testnet']
+  SignedBalance: {
+    _enum: {
+      Negative: 'Balance',
+      Positive: 'Balance'
+    }
   },
   // eslint-disable-next-line sort-keys
-  Chain: {
-    _enum: ['ChainX', 'Bitcoin', 'Ethereum', 'Polkadot']
-  },
-  Precision: 'u8',
-  // eslint-disable-next-line sort-keys
-  AssetId: 'u32',
-  AssetInfo: {
-    token: 'Token',
-    token_name: 'Token',
-    // eslint-disable-next-line sort-keys
-    chain: 'Chain',
-    precision: 'Precision',
-    // eslint-disable-next-line sort-keys
-    desc: 'Desc'
-  },
   AssetType: {
     _enum: [
       'Free',
@@ -34,126 +16,10 @@ module.exports = {
       'ReservedDexSpot',
       'ReservedDexFuture',
       'ReservedCurrency',
-      'ReservedXRC20'
+      'ReservedXRC20',
+      'LockedFee'
     ]
   },
-  // eslint-disable-next-line sort-keys
-  AssetRestrictions: {
-    mask: 'u32'
-  },
-  // eslint-disable-next-line sort-keys
-  AssetRestriction: {
-    _enum: [
-      'Move',
-      'Transfer',
-      'Deposit',
-      'Withdraw',
-      'DestroyWithdrawal',
-      'DestroyFree'
-    ]
-  },
-  SignedBalance: {
-    _enum: {
-      Positive: 'Balance',
-      // eslint-disable-next-line sort-keys
-      Negative: 'Balance'
-    }
-  },
-  // eslint-disable-next-line sort-keys
-  Compact: 'u32',
-  // eslint-disable-next-line sort-keys
-  BTCHeader: {
-    version: 'u32',
-    // eslint-disable-next-line sort-keys
-    previous_header_hash: 'H256',
-    // eslint-disable-next-line sort-keys
-    merkle_root_hash: 'H256',
-    time: 'u32',
-    // eslint-disable-next-line sort-keys
-    bits: 'Compact',
-    once: 'u32'
-  },
-  BTCHeaderInfo: {
-    header: 'BTCHeader',
-    height: 'u32',
-    // eslint-disable-next-line sort-keys
-    confirmed: 'bool',
-    txid_list: 'Vec<H256>'
-  },
-  OutPoint: {
-    hash: 'H256',
-    index: 'u32'
-  },
-  TransactionInput: {
-    previous_output: 'OutPoint',
-    script_sig: 'Bytes',
-    sequence: 'u32',
-    // eslint-disable-next-line sort-keys
-    script_witness: 'Vec<Bytes>'
-  },
-  TransactionOutput: {
-    value: 'u64',
-    // eslint-disable-next-line sort-keys
-    script_pubkey: 'Bytes'
-  },
-  // eslint-disable-next-line sort-keys
-  BTCTransaction: {
-    version: 'i32',
-    // eslint-disable-next-line sort-keys
-    inputs: 'Vec<TransactionInput>',
-    outputs: 'Vec<TransactionOutput>',
-    // eslint-disable-next-line sort-keys
-    lock_time: 'u32'
-  },
-  BTCTxType: {
-    _enum: [
-      'Withdrawal',
-      'Deposit',
-      'HotAndCold',
-      'TrusteeTransition',
-      'Lock',
-      'Unlock',
-      'Irrelevance'
-    ]
-  },
-  // eslint-disable-next-line sort-keys
-  BTCTxInfo: {
-    raw_tx: 'BTCTransaction',
-    tx_type: 'BTCTxType',
-    // eslint-disable-next-line sort-keys
-    height: 'u32'
-  },
-  // eslint-disable-next-line sort-keys
-  BTCAddrTyep: {
-    _enum: ['P2PKH', 'P2SH']
-  },
-  BTCNetwork: {
-    _enum: ['Mainnet', 'Testnet']
-  },
-  // eslint-disable-next-line sort-keys
-  AddressHash: 'H160',
-  BTCAddress: {
-    kind: 'Type',
-    network: 'Network',
-    // eslint-disable-next-line sort-keys
-    hash: 'AddressHash'
-  },
-  BTCParams: {
-    max_bits: 'u32',
-    // eslint-disable-next-line sort-keys
-    block_max_future: 'u32',
-    target_timespan_seconds: 'u32',
-    // eslint-disable-next-line sort-keys
-    target_spacing_seconds: 'u32',
-    // eslint-disable-next-line sort-keys
-    retargeting_factor: 'u32',
-    retargeting_interval: 'u32',
-    // eslint-disable-next-line sort-keys
-    min_timespan: 'u32',
-    // eslint-disable-next-line sort-keys
-    max_timespan: 'u32'
-  },
-  ContractInfo: 'RawAliveContractInfo',
   XRC20Selector: {
     _enum: [
       'BalanceOf',
@@ -166,135 +32,333 @@ module.exports = {
     ]
   },
   // eslint-disable-next-line sort-keys
-  Selector: '[u8; 4]',
+  OrderType: {
+    _enum: ['Limit', 'Market']
+  },
+  Side: {
+    _enum: ['Buy', 'Sell']
+  },
   // eslint-disable-next-line sort-keys
-  AssetInfoForRpc: {
-    token: 'String',
-    token_name: 'String',
+  String: 'Text',
+  // eslint-disable-next-line sort-keys
+  Memo: 'Text',
+  // eslint-disable-next-line sort-keys
+  AssetInfo: {
+    token: 'Token',
+    tokenName: 'Token',
     // eslint-disable-next-line sort-keys
     chain: 'Chain',
     precision: 'Precision',
     // eslint-disable-next-line sort-keys
-    desc: 'String'
+    desc: 'Desc'
   },
-  TotalAssetInfoForRpc: {
-    info: 'AssetInfoForRpc',
+  BTCHeaderInfo: {
+    header: 'BTCHeader',
+    height: 'u32',
     // eslint-disable-next-line sort-keys
-    balance: 'BTreeMap<AssetType, String>',
-    isOnline: 'bool',
-    restrictions: 'AssetRestrictions'
+    confirmed: 'bool',
+    txidList: 'Vec<H256>'
+  },
+  BTCTxInfo: {
+    rawTx: 'BTCTransaction',
+    txType: 'BTCTxType',
+    // eslint-disable-next-line sort-keys
+    height: 'u32'
   },
   // eslint-disable-next-line sort-keys
-  MiningPower: 'u128',
-  MiningWeight: 'u128',
-  StakingRequirement: 'u32',
+  BTCParams: {
+    maxBits: 'u32',
+    // eslint-disable-next-line sort-keys
+    blockMaxFuture: 'u32',
+    targetTimespanSeconds: 'u32',
+    // eslint-disable-next-line sort-keys
+    targetSpacingSeconds: 'u32',
+    // eslint-disable-next-line sort-keys
+    retargetingFactor: 'u32',
+    retargetingInterval: 'u32',
+    // eslint-disable-next-line sort-keys
+    minTimespan: 'u32',
+    // eslint-disable-next-line sort-keys
+    maxTimespan: 'u32'
+  },
+  TradingPairProfile: {
+    id: 'TradingPairId',
+    // eslint-disable-next-line sort-keys
+    currencyPair: 'CurrencyPair',
+    pipPrecision: 'u32',
+    tickPrecision: 'u32',
+    // eslint-disable-next-line sort-keys
+    online: 'bool'
+  },
   // eslint-disable-next-line sort-keys
-  Price: 'u64',
-  PriceFluctuation: 'u32',
+  Order: {
+    props: 'OrderProperty',
+    status: 'OrderStatus',
+    // eslint-disable-next-line sort-keys
+    remaining: 'Balance',
+    // eslint-disable-next-line sort-keys
+    executedIndices: 'Vec<TradingHistoryIndex>',
+    // eslint-disable-next-line sort-keys
+    alreadyFilled: 'Balance',
+    lastUpdateAt: 'BlockNumber'
+  },
+  TradingPairInfo: {
+    latestPrice: 'Price',
+    // eslint-disable-next-line sort-keys
+    lastUpdated: 'BlockNumber'
+  },
+  // eslint-disable-next-line sort-keys
+  OrderExecutedInfo: {
+    tradingHistoryIdx: 'TradingHistoryIndex',
+    // eslint-disable-next-line sort-keys
+    pairId: 'TradingPairId',
+    price: 'Price',
+    // eslint-disable-next-line sort-keys
+    maker: 'AccountId',
+    taker: 'AccountId',
+    // eslint-disable-next-line sort-keys
+    makerOrderId: 'OrderId',
+    takerOrderId: 'OrderId',
+    turnover: 'Balance',
+    // eslint-disable-next-line sort-keys
+    executedAt: 'BlockNumber'
+  },
   // eslint-disable-next-line sort-keys
   AssetLedger: {
-    last_total_mining_weight: 'MiningWeight',
-    last_total_mining_weight_update: 'BlockNumber'
+    lastTotalMiningWeight: 'MiningWeight',
+    lastTotalMiningWeightUpdate: 'BlockNumber'
   },
+  MinerLedger: {
+    lastMiningWeight: 'MiningWeight',
+    lastMiningWeightUpdate: 'BlockNumber',
+    // eslint-disable-next-line sort-keys
+    lastClaim: 'Option<BlockNumber>'
+  },
+  // eslint-disable-next-line sort-keys
+  ClaimRestriction: {
+    stakingRequirement: 'StakingRequirement',
+    // eslint-disable-next-line sort-keys
+    frequencyLimit: 'BlockNumber'
+  },
+  // eslint-disable-next-line sort-keys
   BondRequirement: {
-    self_bonded: 'Balance',
+    selfBonded: 'Balance',
     total: 'Balance'
   },
-  ClaimRestriction: {
-    frequency_limit: 'BlockNumber',
-    staking_requirement: 'StakingRequirement'
+  ValidatorLedger: {
+    total: 'Balance',
+    // eslint-disable-next-line sort-keys
+    lastTotalVoteWeight: 'WeightType',
+    lastTotalVoteWeightUpdate: 'BlockNumber'
   },
-  FixedAssetPower: 'u32',
+  // eslint-disable-next-line sort-keys
+  NominatorLedger: {
+    nomination: 'Balance',
+    // eslint-disable-next-line sort-keys
+    lastVoteWeight: 'WeightType',
+    lastVoteWeightUpdate: 'BlockNumber'
+  },
+  ValidatorProfile: {
+    registeredAt: 'BlockNumber',
+    // eslint-disable-next-line sort-keys
+    isChilled: 'bool',
+    lastChilled: 'Option<BlockNumber>'
+  },
+  // eslint-disable-next-line sort-keys
+  NominatorProfile: {
+    lastRebond: 'Option<BlockNumber>',
+    unbondedChunks: 'Vec<Unbonded>'
+  },
+  // eslint-disable-next-line sort-keys
   GlobalDistribution: {
-    mining: 'u32',
-    treasury: 'u32'
-  },
-  Handicap: {
-    highest_bid: 'Price',
-    lowest_offer: 'Price'
-  },
-  HandicapInfo: 'Handicap',
-  MinerLedger: {
-    last_claim: 'Option<BlockNumber>',
-    last_mining_weight: 'MiningWeight',
-    last_mining_weight_update: 'BlockNumber'
+    treasury: 'u32',
+    // eslint-disable-next-line sort-keys
+    mining: 'u32'
   },
   MiningDistribution: {
     asset: 'u32',
     staking: 'u32'
   },
-
-  NominatorLedger: {
-    last_vote_weight: 'WeightType',
-    last_vote_weight_update: 'BlockNumber',
-    nomination: 'Balance'
-  },
-  NominatorProfile: {
-    last_rebond: 'Option<BlockNumber>',
-    unbonded_chunks: 'Vec<Unbonded>'
-  },
-  Order: {
-    already_filled: 'Balance',
-    executed_indices: 'Vec<TradingHistoryIndex>',
-    last_update_at: 'BlockNumber',
-    props: 'OrderProperty',
-    remaining: 'Balance',
-    status: 'OrderStatus'
-  },
-  OrderExecutedInfo: {
-    executed_at: 'BlockNumber',
-    maker: 'AccountId',
-    maker_order_id: 'OrderId',
-    pair_id: 'TradingPairId',
-    price: 'Price',
-    taker: 'AccountId',
-    taker_order_id: 'OrderId',
-    trading_history_idx: 'TradingHistoryIndex',
-    turnover: 'Balance'
-  },
+  UnbondedIndex: 'u32',
+  // eslint-disable-next-line sort-keys
+  Desc: 'Text',
+  Token: 'Text',
+  // eslint-disable-next-line sort-keys
+  AddrStr: 'Text',
+  Selector: '[u8; 4]',
+  // eslint-disable-next-line sort-keys
+  HandicapInfo: 'Handicap',
+  Price: 'Balance',
+  // eslint-disable-next-line sort-keys
   OrderId: 'u64',
-  OrderInfo: 'Order',
-  OrderProperty: {
-    amount: 'Amount',
-    created_at: 'BlockNumber',
-    id: 'OrderId',
-    order_type: 'OrderType',
-    pair_id: 'TradingPairId',
-    price: 'Price',
-    side: 'Side',
-    submitter: 'AccountId'
-  },
-  OrderType: {
-    _enum: ['Limit', 'Market']
-  },
-
-  TradingHistoryIndex: 'u64',
   TradingPairId: 'u32',
-  TradingPairInfo: {
-    last_updated: 'BlockNumber',
-    latest_price: 'Price'
+  // eslint-disable-next-line sort-keys
+  TradingHistoryIndex: 'u64',
+  // eslint-disable-next-line sort-keys
+  PriceFluctuation: 'u32',
+  // eslint-disable-next-line sort-keys
+  FixedAssetPower: 'u32',
+  StakingRequirement: 'u32',
+  // eslint-disable-next-line sort-keys
+  Precision: 'u8',
+  // eslint-disable-next-line sort-keys
+  BTCTxType: {
+    _enum: [
+      'Withdrawal',
+      'Deposit',
+      'HotAndCold',
+      'TrusteeTransition',
+      'Lock',
+      'Unlock',
+      'Irrelevance'
+    ]
   },
-  TradingPairProfile: {
-    currency_pair: 'CurrencyPair',
-    id: 'TradingPairId',
-    online: 'bool',
-    pip_precision: 'u32',
-    tick_precision: 'u32'
+  CurrencyPair: {
+    base: 'AssetId',
+    quote: 'AssetId'
+  },
+  OrderStatus: {
+    _enum: [
+      'Created',
+      'ParitialFill',
+      'Filled',
+      'ParitialFillAndCanceled',
+      'Canceled'
+    ]
+  },
+  // eslint-disable-next-line sort-keys
+  MiningWeight: 'u128',
+  WeightType: 'u128',
+  // eslint-disable-next-line sort-keys
+  AssetId: 'u32',
+  Chain: {
+    _enum: ['ChainX', 'Bitcoin', 'Ethereum', 'Polkadot']
+  },
+  // eslint-disable-next-line sort-keys
+  AssetRestriction: {
+    _enum: [
+      'Move',
+      'Transfer',
+      'Deposit',
+      'Withdraw',
+      'DestroyWithdrawal',
+      'DestroyFree'
+    ]
+  },
+  AssetRestrictions: {
+    mask: 'u32'
+  },
+  BTCAddress: {
+    kind: 'Type',
+    network: 'Network',
+    // eslint-disable-next-line sort-keys
+    hash: 'AddressHash'
+  },
+  BTCHeader: {
+    version: 'u32',
+    // eslint-disable-next-line sort-keys
+    previousHeaderHash: 'H256',
+    // eslint-disable-next-line sort-keys
+    merkleRootHash: 'H256',
+    time: 'u32',
+    // eslint-disable-next-line sort-keys
+    bits: 'BTCCompact',
+    nonce: 'u32'
+  },
+  BTCNetwork: {
+    _enum: ['Mainnet', 'Testnet']
+  },
+  NetworkType: {
+    _enum: ['Mainnet', 'Testnet']
+  },
+  OrderInfo: 'Order',
+  // eslint-disable-next-line sort-keys
+  AssetInfoForRpc: {
+    token: 'Text',
+    tokenName: 'Text',
+    // eslint-disable-next-line sort-keys
+    chain: 'Chain',
+    precision: 'Precision',
+    // eslint-disable-next-line sort-keys
+    desc: 'Text'
+  },
+  Handicap: {
+    highestBid: 'Price',
+    lowestOffer: 'Price'
+  },
+  OrderProperty: {
+    id: 'OrderId',
+    side: 'Side',
+    // eslint-disable-next-line sort-keys
+    price: 'Price',
+    // eslint-disable-next-line sort-keys
+    amount: 'Amount',
+    pairId: 'TradingPairId',
+    submitter: 'AccountId',
+    // eslint-disable-next-line sort-keys
+    orderType: 'OrderType',
+    // eslint-disable-next-line sort-keys
+    createdAt: 'BlockNumber'
+  },
+  TotalAssetInfoForRpc: {
+    info: 'AssetInfoForRpc',
+    // eslint-disable-next-line sort-keys
+    balance: 'BTreeMap<AssetType, Text>',
+    isOnline: 'bool',
+    restrictions: 'AssetRestrictions'
   },
   Unbonded: {
-    locked_until: 'BlockNumber',
+    lockedUntil: 'BlockNumber',
     value: 'Balance'
   },
-  UnbondedIndex: 'u32',
-  ValidatorLedger: {
-    last_total_vote_weight: 'WeightType',
-    last_total_vote_weight_update: 'BlockNumber',
-    total: 'Balance'
+  // eslint-disable-next-line sort-keys
+  OutPoint: {
+    hash: 'H256',
+    index: 'u32'
   },
-  ValidatorProfile: {
-    is_chilled: 'bool',
-    last_chilled: 'Option<BlockNumber>',
-    registered_at: 'BlockNumber'
+  TransactionInput: {
+    previous_output: 'OutPoint',
+    script_sig: 'Bytes',
+    sequence: 'u32',
+    // eslint-disable-next-line sort-keys
+    scriptWitness: 'Vec<Bytes>'
   },
-  WeightType: 'u128'
+  TransactionOutput: {
+    value: 'u64',
+    // eslint-disable-next-line sort-keys
+    scriptPubkey: 'Bytes'
+  },
+  // eslint-disable-next-line sort-keys
+  BTCTransaction: {
+    version: 'i32',
+    // eslint-disable-next-line sort-keys
+    inputs: 'Vec<TransactionInput>',
+    outputs: 'Vec<TransactionOutput>',
+    // eslint-disable-next-line sort-keys
+    lock_time: 'u32'
+  },
+  // eslint-disable-next-line sort-keys
+  BTCAddrType: {
+    _enum: ['P2PKH', 'P2SH']
+  },
+  MiningPower: 'u128',
+  // eslint-disable-next-line sort-keys
+  AddressHash: 'H160',
+  ValidatorInfo: {
+    account: 'AccountId',
+    registeredAt: 'BlockNumber',
+    // eslint-disable-next-line sort-keys
+    isChilled: 'bool',
+    lastChilled: 'Option<BlockNumber>',
+    total: 'RpcBalance',
+    // eslint-disable-next-line sort-keys
+    lastTotalVoteWeight: 'RpcWeightType',
+    lastTotalVoteWeightUpdate: 'BlockNumber',
+    // eslint-disable-next-line sort-keys
+    isValidating: 'bool',
+    selfBonded: 'RpcBalance',
+    // eslint-disable-next-line sort-keys
+    rewardPotAccount: 'AccountId',
+    rewardPotBalance: 'RpcBalance'
+  }
 }
