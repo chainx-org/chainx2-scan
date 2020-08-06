@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import hexAddPrefix from '@polkadot/util/hex/addPrefix'
+import hexAddPrefix from '@chainx-v2/util/hex/addPrefix'
 import { NavLink } from 'react-router-dom'
 
 export default function TxLink(props) {

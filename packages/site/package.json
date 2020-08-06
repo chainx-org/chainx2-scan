@@ -5,7 +5,7 @@
   "dependencies": {
     "@babel/core": "7.9.0",
     "@polkadot/keyring": "^2.18.1",
-    "@polkadot/util": "^2.18.1",
+    "@chainx-v2/util": "0.0.12",
     "@reduxjs/toolkit": "^1.4.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",

@@ -1,6 +1,5 @@
-const { ApiPromise, WsProvider } = require('@polkadot/api')
-const types = require('./chainx-types')
-const rpc = require('./chainx-rpc')
+const { ApiPromise, WsProvider } = require('@chainx-v2/api')
+
 
 let provider = null
 let api = null
@@ -9,7 +8,7 @@ async function getApi() {
   if (!api) {
     // TODO: config url from env variable
     provider = new WsProvider('ws://47.114.131.193:9000')
-    api = await ApiPromise.create({ provider, types, rpc })
+    api = await ApiPromise.create({ provider })
   }
 
   return api

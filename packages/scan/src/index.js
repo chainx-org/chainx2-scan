@@ -1,4 +1,4 @@
-const { u8aToHex } = require('@polkadot/util')
+const { u8aToHex } = require('@chainx-v2/util')
 const { sleep } = require('./util')
 const {
   getExtrinsicCollection,
@@ -16,7 +16,7 @@ const {
 } = require('./latestHead')
 const { updateAssetsInfo } = require('./assetsInfo')
 // const { updateChainProperties } = require('./chainProperties')
-const { setSS58Format } = require('@polkadot/util-crypto')
+const { setSS58Format } = require('@chainx-v2/crypto')
 const {
   extractAuthor,
   extractBlockTime,
