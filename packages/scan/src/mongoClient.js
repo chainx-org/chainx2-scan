@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb')
 const config = require('../config')
 let client = null
-const genesisHeight = 0
+const genesisHeight = 1
 
 const dbName = 'chainx-scan-v2'
 const blockCollectionName = 'block'
@@ -10,6 +10,7 @@ const eventCollectionName = 'event'
 const statusCollectionName = 'status'
 const assetsCollectionName = 'assets'
 const validatorsCollectionName = 'validators'
+const accountsCollectionName = 'accounts'
 
 const mainScanName = 'main-scan-height'
 
@@ -19,12 +20,14 @@ let statusCol = null
 let eventCol = null
 let assetsCol = null
 let validatorsCol = null
+let accountsCol = null
 let db = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
   db = client.db(dbName)
   blockCol = db.collection(blockCollectionName)
+  accountsCol = db.collection(accountsCollectionName)
   extrinsicCol = db.collection(extrinsicCollectionName)
   eventCol = db.collection(eventCollectionName)
   statusCol = db.collection(statusCollectionName)
@@ -46,6 +49,13 @@ async function _createIndexes() {
     'indexer.index': -1
   })
   await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
+}
+
+async function getAccountsCollection() {
+  if (!accountsCol) {
+    await initDb()
+  }
+  return accountsCol
 }
 
 async function getValidatorsCollection() {
@@ -127,6 +137,7 @@ async function deleteDataFrom(blockHeight) {
   }
 }
 
+// 获取首个扫描区块的高度
 async function getFirstScanHeight() {
   const statusCol = await getStatusCollection()
   const heightInfo = await statusCol.findOne({ name: mainScanName })
@@ -156,6 +167,7 @@ module.exports = {
   getStatusCollection,
   getEventCollection,
   getAssetsCollection,
+  getAccountsCollection,
   getFirstScanHeight,
   updateScanHeight,
   deleteDataFrom

@@ -5,6 +5,7 @@ const {
   getBlockCollection,
   getEventCollection,
   getFirstScanHeight,
+  getAccountsCollection,
   updateScanHeight,
   deleteDataFrom
 } = require('./mongoClient')
@@ -30,13 +31,17 @@ const {
 let preBlockHash = null
 
 async function main() {
+  // 更新区块高度
   await updateHeight()
+  // 初始化sdk
   const api = await getApi()
+  // 设置测试网
   setSS58Format(42)
-
+  // 监听并更新validators
   await listenAndUpdateValidators()
-
+  // 获取首个扫描区块高度
   let scanHeight = await getFirstScanHeight()
+  // 删除该扫描区块
   await deleteDataFrom(scanHeight)
 
   while (true) {
@@ -87,6 +92,20 @@ async function main() {
   }
 }
 
+async function handleAccounts(indexr, account) {
+  const exCol = await getAccountsCollection()
+  const data = {
+    indexr,
+    "account": account
+  }
+
+  const result = await exCol.insertOne(data)
+  if (result.result && !result.result.ok) {
+    // TODO: 处理插入不成功的情况
+    console.log("插入失败")
+  }
+}
+
 async function handleEvents(events, indexer, extrinsics) {
   if (events.length <= 0) {
     return
@@ -107,6 +126,17 @@ async function handleEvents(events, indexer, extrinsics) {
     const section = event.section
     const method = event.method
     const data = event.data.toJSON()
+
+    /**
+     *
+     * 处理账户
+     *
+     * */
+    if (method == 'NewAccount') {
+      console.log(event.data.toJSON());
+      const account = event.data.toJSON();
+      await handleAccounts(indexer, account);
+    }
 
     bulk.insert({
       indexer,
@@ -131,14 +161,19 @@ async function handleEvents(events, indexer, extrinsics) {
 }
 
 async function handleBlock(block, author) {
+  // 获取区块的hash
   const hash = block.hash.toHex()
   const blockJson = block.toJSON()
+  // 获取区块的高度
   const blockHeight = block.header.number.toNumber()
+  // 获取区块交易时间
   const blockTime = extractBlockTime(block.extrinsics)
+  // 组装 blockhHeight, blockHash, blockTime合成index
   const blockIndexer = { blockHeight, blockHash: hash, blockTime }
 
   const api = await getApi()
   const allEvents = await api.query.system.events.at(hash)
+  // 从区块Hash中获取全部Event
   await handleEvents(allEvents, blockIndexer, block.extrinsics)
 
   const blockCol = await getBlockCollection()
@@ -162,9 +197,14 @@ async function handleBlock(block, author) {
     })
   }
 
-  console.log(`block ${blockHeight} inserted.`)
+  //console.log(`block ${blockHeight} inserted.`)
 }
 
+/**
+ *
+ * 解析并处理交易
+ *
+*/
 async function handleExtrinsic(extrinsic, indexer) {
   const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
