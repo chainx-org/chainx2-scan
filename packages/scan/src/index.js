@@ -1,4 +1,4 @@
-const { u8aToHex } = require('@chainx-v2/util')
+const { u8aToHex,hexToString } = require('@chainx-v2/util')
 const { sleep } = require('./util')
 const {
   getExtrinsicCollection,
@@ -217,6 +217,7 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
+  const datastring = hexToString(data);
   const doc = {
     hash,
     indexer,
