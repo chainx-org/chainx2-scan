@@ -7,13 +7,15 @@ const cols = {
   block: 'block',
   extrinsic: 'extrinsic',
   status: 'status',
-  event: 'event'
+  event: 'event',
+  accounts: 'accounts'
 }
 
 let blockCol = null
 let extrinsicCol = null
 let eventCol = null
 let statusCol = null
+let accountsCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
@@ -22,6 +24,7 @@ async function initDb() {
   extrinsicCol = db.collection(cols.extrinsic)
   statusCol = db.collection(cols.status)
   eventCol = db.collection(cols.event)
+  accountsCol = db.collection(cols.accounts)
 
   return db
 }
@@ -47,6 +50,13 @@ async function getStatusCollection() {
   return statusCol
 }
 
+async function getAccountsCollection() {
+  if (!accountsCol) {
+    await initDb()
+  }
+  return accountsCol
+}
+
 async function getEventCollection() {
   if (!eventCol) {
     await initDb()
@@ -59,5 +69,6 @@ module.exports = {
   getBlockCollection,
   getExtrinsicCollection,
   getEventCollection,
-  getStatusCollection
+  getStatusCollection,
+  getAccountsCollection
 }

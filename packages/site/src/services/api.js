@@ -84,6 +84,10 @@ class Api {
     return this.cancelableFetch('/events', params)
   }
 
+  fetchAccounts = params => {
+    return this.cancelableFetch('/accounts',params)
+  }
+
   fetchEvent = eventId => {
     return this.cancelableFetch(`/events/${eventId}`)
   }
