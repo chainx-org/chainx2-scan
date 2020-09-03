@@ -16,8 +16,7 @@ const {
   getUnSubscribeNewHeadFunction
 } = require('./latestHead')
 const { updateAssetsInfo } = require('./assetsInfo')
-// const { updateChainProperties } = require('./chainProperties')
-const { setSS58Format } = require('@chainx-v2/crypto')
+const { updateChainProperties } = require('./chainProperties')
 const {
   extractAuthor,
   extractBlockTime,
@@ -42,7 +41,7 @@ async function main() {
   // 初始化sdk
   const api = await getApi()
   // 设置测试网
-  setSS58Format(42)
+  await updateChainProperties()
   // 监听并更新validators
   await listenAndUpdateValidators()
   // 获取首个扫描区块高度
@@ -202,7 +201,7 @@ async function handleExtrinsic(extrinsic, indexer) {
     console.log(section)
   }
 
-  if (name == 'transfer') {
+  if (name === 'transfer') {
     console.log('transfer' + args.toString())
     await updateBalance(extrinsic, signer, args.dest)
     await extractUserTransfer(extrinsic, indexer, signer, args)
