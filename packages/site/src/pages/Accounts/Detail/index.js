@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import React, { useMemo } from 'react'
+import React, {useMemo, useState} from 'react'
 import { useLoadDetail } from '../../../utils/hooks'
 import api from '../../../services/api'
 import Breadcrumb from '../../../components/Breadcrumb'
@@ -8,14 +8,19 @@ import Spinner from '../../../components/Spinner'
 import NoData from '../../../components/NoData'
 import PanelList from '../../../components/PanelList'
 import AccountLink from '../../../components/AccountLink'
-//import Accounts from './Accounts'
-
+import TransferList from  '../Detail/transferlist'
+import TransActionList from '../Detail/transactionlist'
+import classnames from "classnames";
 
 export default function() {
-    const { hash } = useParams()
-    const params = useMemo(() => [hash], [hash])
+
+    const [activeKey, setActiveKey] = useState('transfer')
+
+    const { address } = useParams()
+    const params = useMemo(() => [address], [address])
+
     const { detail: accounts, loading } = useLoadDetail(
-        api.fetchAccounts,
+        api.fetchAccount,
         params
     )
 
@@ -40,7 +45,7 @@ export default function() {
     }
 
     if (!loading && !accounts) {
-        return <NoData id={hash} />
+        return <NoData id={address} />
     }
 
     return (
@@ -49,23 +54,88 @@ export default function() {
             <PanelList
                 dataSource={[
                     {
-                        label: $t('block_height'),
+                        label: $t('address_item'),
                         data: <AccountLink value={accounts.account} />
                     },
                     {
-                        label: $t('block_time'),
-                        data: accounts.account
+                        label: $t('account_publickey'),
+                        data: accounts.publickey
                     },
                     {
-                        label: $t('ex_index'),
-                        data: accounts.account
+                        label: $t('total_transaction_item'),
+                        data: accounts.count
                     },
                     {
-                        label: $t('ex_signer'),
+                        label: $t('btc_recharge_address'),
                         data: '--'
                     }
                 ]}
             />
+
+            <div className="box">
+                <div className="tabs">
+                    <ul>
+                        <li
+                            onClick={() => setActiveKey("transfer")}
+
+                            className={classnames({ "is-active": activeKey === "transfer" })}
+                        >
+                            <a>
+                              转账列表
+                            </a>
+                        </li>
+
+                        <li
+                            onClick={() => setActiveKey("transaction")}
+                            className={classnames({ "is-active": activeKey === "transaction" })}
+                        >
+                            <a>
+                                交易列表
+                            </a>
+                        </li>
+
+                        <li
+                            onClick={() => setActiveKey("vote")}
+                            className={classnames({ "is-active": activeKey === "vote" })}
+                        >
+                            <a>
+                                投票列表
+                            </a>
+                        </li>
+
+                        <li
+                            onClick={() => setActiveKey("currententrust")}
+                            className={classnames({ "is-active": activeKey === "currententrust" })}
+                        >
+                            <a>
+                                当前委托列表
+                            </a>
+                        </li>
+
+                        <li
+                            onClick={() => setActiveKey("historyentrust")}
+                            className={classnames({ "is-active": activeKey === "historyentrust" })}
+                        >
+                            <a>
+                                历史委托列表
+                            </a>
+                        </li>
+
+                        <li
+                            onClick={() => setActiveKey("recharge")}
+                            className={classnames({ "is-active": activeKey === "recharge" })}
+                        >
+                            <a>
+                                充值列表
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                { activeKey === "transfer" && <TransferList  address={address}/>}
+                { activeKey === "transaction" && <TransActionList address={address}/>}
+
+            </div>
 
         </div>
     )

@@ -11,6 +11,8 @@ const statusCollectionName = 'status'
 const assetsCollectionName = 'assets'
 const validatorsCollectionName = 'validators'
 const accountsCollectionName = 'accounts'
+const transferCollectionName = 'transfer'
+const voteCollectionName = 'vote'
 
 const mainScanName = 'main-scan-height'
 
@@ -21,6 +23,8 @@ let eventCol = null
 let assetsCol = null
 let validatorsCol = null
 let accountsCol = null
+let transferCol = null
+let voteCol = null
 let db = null
 
 async function initDb() {
@@ -33,6 +37,8 @@ async function initDb() {
   statusCol = db.collection(statusCollectionName)
   assetsCol = db.collection(assetsCollectionName)
   validatorsCol = db.collection(validatorsCollectionName)
+  transferCol = db.collection(transferCollectionName)
+  voteCol = db.collection(voteCollectionName)
 
   await _createIndexes()
 }
@@ -56,6 +62,20 @@ async function getAccountsCollection() {
     await initDb()
   }
   return accountsCol
+}
+
+async function getTransferColCollection() {
+  if (!transferCol) {
+    await initDb()
+  }
+  return transferCol
+}
+
+async function getVoteCollection() {
+  if (!voteCol) {
+    await initDb()
+  }
+  return voteCol
 }
 
 async function getValidatorsCollection() {
@@ -169,6 +189,8 @@ module.exports = {
   getAssetsCollection,
   getAccountsCollection,
   getFirstScanHeight,
+  getTransferColCollection,
   updateScanHeight,
-  deleteDataFrom
+  deleteDataFrom,
+  getVoteCollection
 }

@@ -27,7 +27,8 @@ const {
   listenAndUpdateValidators,
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
-const { getPCXAssetByAccount,getOtherAssetByAccount } = require('./chainProperties')
+
+const { updateBalance,extractAccount,extractUserTransfer,updateTransactionCount } = require('./account')
 let preBlockHash = null
 
 async function main() {
@@ -114,15 +115,9 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    /**
-     *
-     * 处理账户
-     *
-     * */
     if (method == 'NewAccount') {
-      console.log(event.data.toJSON());
       const account = event.data.toJSON();
-      await handleAccounts(indexer, account);
+      await extractAccount(account);
     }
 
     bulk.insert({
@@ -187,47 +182,7 @@ async function handleBlock(block, author) {
   //console.log(`block ${blockHeight} inserted.`)
 }
 
-async function handleAccounts(indexr, account) {
-  const exCol = await getAccountsCollection()
-  const balance = await getPCXAssetByAccount(account)
-  const data = {
-    indexr,
-    "account": account[0],
-    "balance" : balance
-  }
-  const result = await exCol.insertOne(data)
-  if (result.result && !result.result.ok) {
-    // TODO: 处理插入不成功的情况
-    console.log("插入失败")
-  }
-}
 
-/**
- *
- * 对Account账户进行交易,根据交易查询banlance
- *
- * */
-async function handleAccountsExtrisicBalance(extrinsic,indexer,from, dest) {
-  const col = await getAccountsCollection();
-  const fromBalance = await getPCXAssetByAccount(from) ;
-  const destBalnace = await getPCXAssetByAccount(dest);
-  const fromOtherBalance = await getOtherAssetByAccount(from);
-  const destOtherBalance = await  getOtherAssetByAccount(dest);
-
-  // 更新from转出账户
-  await col.findOneAndUpdate(
-      { account: from },
-      { $set: { balance : fromBalance, other: fromOtherBalance } },
-      { upsert: true }
-  )
-  // 更新dest转出账户
-  await col.findOneAndUpdate(
-      { account: dest },
-      { $set: { balance: destBalnace, other: destOtherBalance } },
-      { upsert: true }
-  )
-
-}
 
 /**
  *
@@ -244,13 +199,15 @@ async function handleExtrinsic(extrinsic, indexer) {
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
   }
-  // 如果交易是转账，dest加上value, from 减去 value
+
   if (name == 'transfer') {
-    await handleAccountsExtrisicBalance(extrinsic,indexer,signer,args.dest)
+    console.log('transfer'+ args.toString())
+    await updateBalance(extrinsic,signer,args.dest)
+    await extractUserTransfer(extrinsic,indexer,signer,args)
   }
+  await updateTransactionCount(signer);
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
-  const datastring = hexToString(data);
 
   const doc = {
     hash,

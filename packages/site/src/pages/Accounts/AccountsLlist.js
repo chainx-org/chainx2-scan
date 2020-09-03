@@ -29,13 +29,13 @@ export default function({ blockHeight }) {
             pagination={{ current: page, pageSize, total }}
 
             dataSource={accounts.map(item => {
-                debugger
                 return {
                     key: item._id,
                     address: <AccountLink value={item.account} />,
                     avalibleBalance: item.balance ? (item.balance.free  - item.balance.feeFrozen) / Math.pow(10,8) : '' ,
-                    totalBalance:  item.balance ? (item.balance.free + item.balance.reserved) / Math.pow(10,8) : '',
-                    totalBtc: 0
+                    totalBalance:  item.balance ? ((item.balance.free == '0x000000000000003635c5c58d16a77d25' ? 0 : item.balance.free) + item.balance.reserved) / Math.pow(10,8) : '',
+                    totalBtc: 0,
+                    totalAccount: item.count
                 }
             })}
             columns={[
@@ -53,12 +53,12 @@ export default function({ blockHeight }) {
                 },
                 {
                     title: $t('total_btc_item'),
-                    dataIndex: 'totalBalance'
+                    dataIndex: '--'
                 },
 
                 {
                     title: $t('total_transaction_item'),
-                    dataIndex: 'totalBalance'
+                    dataIndex: 'totalAccount'
                 }
             ]}
         />
