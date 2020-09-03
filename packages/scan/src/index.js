@@ -1,4 +1,4 @@
-const { u8aToHex,hexToString } = require('@chainx-v2/util')
+const { u8aToHex, hexToString } = require('@chainx-v2/util')
 const { sleep } = require('./util')
 const {
   getExtrinsicCollection,
@@ -28,7 +28,12 @@ const {
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
 
-const { updateBalance,extractAccount,extractUserTransfer,updateTransactionCount } = require('./account')
+const {
+  updateBalance,
+  extractAccount,
+  extractUserTransfer,
+  updateTransactionCount
+} = require('./account')
 let preBlockHash = null
 
 async function main() {
@@ -93,7 +98,6 @@ async function main() {
   }
 }
 
-
 async function handleEvents(events, indexer, extrinsics) {
   if (events.length <= 0) {
     return
@@ -115,9 +119,9 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    if (method == 'NewAccount') {
-      const account = event.data.toJSON();
-      await extractAccount(account);
+    if (method === 'NewAccount') {
+      const account = event.data.toJSON()
+      await extractAccount(account)
     }
 
     bulk.insert({
@@ -182,13 +186,11 @@ async function handleBlock(block, author) {
   //console.log(`block ${blockHeight} inserted.`)
 }
 
-
-
 /**
  *
  * 解析并处理交易
  *
-*/
+ */
 async function handleExtrinsic(extrinsic, indexer) {
   const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
@@ -201,11 +203,11 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
 
   if (name == 'transfer') {
-    console.log('transfer'+ args.toString())
-    await updateBalance(extrinsic,signer,args.dest)
-    await extractUserTransfer(extrinsic,indexer,signer,args)
+    console.log('transfer' + args.toString())
+    await updateBalance(extrinsic, signer, args.dest)
+    await extractUserTransfer(extrinsic, indexer, signer, args)
   }
-  await updateTransactionCount(signer);
+  await updateTransactionCount(signer)
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
 
