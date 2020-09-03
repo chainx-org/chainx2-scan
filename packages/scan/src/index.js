@@ -1,3 +1,5 @@
+const { extractExtrinsicBusinessData } = require('./extrinsic')
+
 const { u8aToHex, hexToString } = require('@chainx-v2/util')
 const { sleep } = require('./util')
 const {
@@ -201,11 +203,7 @@ async function handleExtrinsic(extrinsic, indexer) {
     console.log(section)
   }
 
-  if (name === 'transfer') {
-    console.log('transfer' + args.toString())
-    await updateBalance(extrinsic, signer, args.dest)
-    await extractUserTransfer(extrinsic, indexer, signer, args)
-  }
+  await extractExtrinsicBusinessData(extrinsic, indexer)
   await updateTransactionCount(signer)
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
