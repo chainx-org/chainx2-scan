@@ -2,9 +2,10 @@ const {
   getExtrinsicCollection,
   getAccountsCollection
 } = require('../mongoClient')
+const { signerPlaceHolder } = require('../constants')
 
 module.exports = async function updateTransactionCount(signer) {
-  if (signer === 'F7Hs') {
+  if (signer === signerPlaceHolder) {
     return
   }
   const exCol = await getExtrinsicCollection()
