@@ -8,9 +8,10 @@
     "cross-env": "^7.0.2"
   },
   "dependencies": {
-    "@chainx-v2/api": "0.0.21",
-    "@chainx-v2/util": "0.0.21",
-    "@chainx-v2/crypto": "0.0.21",
+    "@chainx-v2/account": "^0.0.24",
+    "@chainx-v2/api": "0.0.24",
+    "@chainx-v2/crypto": "0.0.24",
+    "@chainx-v2/util": "0.0.24",
     "mongodb": "^3.5.9"
   }
 }

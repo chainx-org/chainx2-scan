@@ -1195,60 +1195,60 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@chainx-v2/account@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/account/-/account-0.0.21.tgz#ed03f149e0ee868ca5e8cea95bc8d580291bc79c"
-  integrity sha512-nRxQUFSbBCSo0dFABf+jgZVObKjvBn972yS/RwrM0Nt61kzXIdpMGGtBEVrvdIuVHyIXd3HVb7DmVqKTdfcgeg==
+"@chainx-v2/account@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/account/-/account-0.0.24.tgz#e8ef3bca660464d2720f290c16b7a08d37190d88"
+  integrity sha512-io1xW4soRvSccjX6im75owLv4JCrrOdQa9eP/xjRIsWTZAvpGRcP6gfoyfgIGIoe8zhbmbpDvw+JzkC6U11f0g==
   dependencies:
-    "@chainx-v2/keyring" "^0.0.21"
+    "@chainx-v2/keyring" "^0.0.24"
     "@types/node" "^14.0.23"
     bip32 "^1.0.2"
     bs58 "^4.0.1"
     tweetnacl "^1.0.0"
 
-"@chainx-v2/api-derive@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/api-derive/-/api-derive-0.0.21.tgz#046c7570095ce704062f85dce1c9cf3920f39034"
-  integrity sha512-BQJuLmnSaPUIVwxOBnWXuzbQiOLBZD+AGls+nu9Bo1JrUV20zgSKv+d3H3ZPCCefQ7RG+AjvrYVRSy5rRqAi9A==
+"@chainx-v2/api-derive@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/api-derive/-/api-derive-0.0.24.tgz#e5630c523c10ae1759b96f884a5a36cf707dec49"
+  integrity sha512-fM/0g+1pYUsXpef23IveHT+TaCxluUDVomd5AoFkYt2avw9ZcXM7GuAi0cqBDPDC/jTpJzvW23KzgzqVzl43gg==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/api" "^0.0.21"
-    "@chainx-v2/crypto" "^0.0.21"
-    "@chainx-v2/rpc-core" "^0.0.21"
-    "@chainx-v2/rpc-provider" "^0.0.21"
-    "@chainx-v2/types" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/api" "^0.0.24"
+    "@chainx-v2/crypto" "^0.0.24"
+    "@chainx-v2/rpc-core" "^0.0.24"
+    "@chainx-v2/rpc-provider" "^0.0.24"
+    "@chainx-v2/types" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     bn.js "^5.1.2"
     memoizee "^0.4.14"
     rxjs "^6.5.5"
 
-"@chainx-v2/api@0.0.21", "@chainx-v2/api@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/api/-/api-0.0.21.tgz#bad71bdc234659ec24cd20074391938885609524"
-  integrity sha512-xVu6vX6cqh420NgkG5vdUbbmJZQ6IpM/Hjyd8lhkqO2Ee9sWx0anOPqzvD4pL8VZTBdhV05F7I/AtC0x/Sdj2A==
+"@chainx-v2/api@0.0.24", "@chainx-v2/api@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/api/-/api-0.0.24.tgz#35a14ac83fbc8c191c15e59da7e4e6b4efa3ea70"
+  integrity sha512-uGYYH1RTGMGhhGKbnYf0V3NBjRBeB/II8LtEcqJ/W8EinDaN9+XBs3YRwMYN7SbEnDX08mkX5OxVW6c776sQHQ==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/account" "^0.0.21"
-    "@chainx-v2/api-derive" "^0.0.21"
-    "@chainx-v2/crypto" "^0.0.21"
-    "@chainx-v2/keyring" "^0.0.21"
-    "@chainx-v2/metadata" "^0.0.21"
-    "@chainx-v2/rpc-core" "^0.0.21"
-    "@chainx-v2/rpc-provider" "^0.0.21"
-    "@chainx-v2/types" "^0.0.21"
-    "@chainx-v2/types-known" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/account" "^0.0.24"
+    "@chainx-v2/api-derive" "^0.0.24"
+    "@chainx-v2/crypto" "^0.0.24"
+    "@chainx-v2/keyring" "^0.0.24"
+    "@chainx-v2/metadata" "^0.0.24"
+    "@chainx-v2/rpc-core" "^0.0.24"
+    "@chainx-v2/rpc-provider" "^0.0.24"
+    "@chainx-v2/types" "^0.0.24"
+    "@chainx-v2/types-known" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     bn.js "^5.1.2"
     eventemitter3 "^4.0.4"
     rxjs "^6.5.5"
 
-"@chainx-v2/crypto@0.0.21", "@chainx-v2/crypto@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/crypto/-/crypto-0.0.21.tgz#618c76041c3560d045125f62a1821a214ec99f1d"
-  integrity sha512-OpV6oBoqsfE8lFnjai+2aWyE40rr6zk0to5/eznSoDiTBdiyoiqyufOYFrhz8jM5RFq3Vze486yAVv5hiEWL9g==
+"@chainx-v2/crypto@0.0.24", "@chainx-v2/crypto@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/crypto/-/crypto-0.0.24.tgz#24532919db09f48a145c1a769b46870af7c083af"
+  integrity sha512-5qiY3iqdbz89Qc5L4XRcPqB/Y8yzMSSDxLmR6TlC2uPExWR+TqXjmRluF2AV6VdF+hf1uUavyaMMa40b6n1DfQ==
   dependencies:
     "@babel/runtime" "^7.10.5"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/util" "^0.0.24"
     "@polkadot/util" "^2.18.1"
     "@polkadot/wasm-crypto" "^1.2.1"
     base-x "^3.0.8"
@@ -1261,95 +1261,83 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@chainx-v2/keyring@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/keyring/-/keyring-0.0.21.tgz#0225d6214487a901aa280a9cf77d206aa753a791"
-  integrity sha512-bRAMht/GF5XioPjX57ZAiRVH9J/p+ebDMcV3CHJnuE/uWG/Kf2p0j6QPIih/EhdWvlVsDkawRKubU1KZRh4trw==
+"@chainx-v2/keyring@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/keyring/-/keyring-0.0.24.tgz#395471a2fdc26e513f27ceeeb1131e229985d941"
+  integrity sha512-gHOUqDoPHf7UFrvDWpEjr1M0UchHuNGWaVwuLhrb+Z+jL/DrFUF4I+2QR6SBZQ0eAGQEJN0u+0RrKpM9u6Vg5Q==
   dependencies:
     "@babel/runtime" "^7.10.5"
-    "@chainx-v2/crypto" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/crypto" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
 
-"@chainx-v2/metadata@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/metadata/-/metadata-0.0.21.tgz#9d30198ec91f5e26cad583d39cdd8589da032e44"
-  integrity sha512-f0+vFjhG1a0e0Qw1d/mS88lGL+WKn1j2NKar9Y3LP97tpz7/TDRAgGNBhv24gQg094V13dK+Sz7LeL+OsRd4bw==
+"@chainx-v2/metadata@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/metadata/-/metadata-0.0.24.tgz#f8431357a9081cf6ad62755b215e328daaf4f796"
+  integrity sha512-f2ILDF1p2PeZJDU7UzB+jIBHBFun2JMyrQXnpd0mnKvpgXlUj8SWyoY5heocVnt//u14NdtQ7in9MSceN70/CQ==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/crypto" "^0.0.21"
-    "@chainx-v2/types" "^0.0.21"
-    "@chainx-v2/types-known" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/crypto" "^0.0.24"
+    "@chainx-v2/types" "^0.0.24"
+    "@chainx-v2/types-known" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     bn.js "^5.1.2"
 
-"@chainx-v2/rpc-core@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/rpc-core/-/rpc-core-0.0.21.tgz#6c78f892442ec4ebf4161d3861ea342662362817"
-  integrity sha512-nD/JtxFQGCI7i7+4d4IdTnXDhDAmipwvHZ9LjuwuFIGTK18R2m1hxGSwo14MwzfGvw9lG7x6sDIY/9/U55zwDQ==
+"@chainx-v2/rpc-core@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/rpc-core/-/rpc-core-0.0.24.tgz#d5a176d83e56ae9f5dd5bfe101d6989b1884e7d5"
+  integrity sha512-pNM8JBjIbkC1f2hboOevgkZ8eUZKxPwI/wDNtrXcTCH+akkbwlWr3OZH6sLoJepNaxxFwbvWNOple0ONRA0DLg==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/metadata" "^0.0.21"
-    "@chainx-v2/rpc-provider" "^0.0.21"
-    "@chainx-v2/types" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/metadata" "^0.0.24"
+    "@chainx-v2/rpc-provider" "^0.0.24"
+    "@chainx-v2/types" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     memoizee "^0.4.14"
     rxjs "^6.5.5"
 
-"@chainx-v2/rpc-provider@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/rpc-provider/-/rpc-provider-0.0.21.tgz#4ce598469df7b9eb5554079b6f9ab201afee0cc2"
-  integrity sha512-DDFG9O9C1F0q0CTlSvbT+MKOUNQaL3y9/fbvval5BJ4WURhNJ0t/ssYI/VDgA5OpitlDR3V/BMeCRsHSMxbgqg==
+"@chainx-v2/rpc-provider@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/rpc-provider/-/rpc-provider-0.0.24.tgz#0474561d9ea5d0db55bf3be4bb01a6ea0ddbc673"
+  integrity sha512-CscMQfwOes/EECnWXYBDWedecaqNrmpyL+WlMTPIIScxGWMXnd82faGpMoNqwrUBmCK2oZnfAyUYaCLU6dNaPA==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/crypto" "^0.0.21"
-    "@chainx-v2/metadata" "^0.0.21"
-    "@chainx-v2/types" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/crypto" "^0.0.24"
+    "@chainx-v2/metadata" "^0.0.24"
+    "@chainx-v2/types" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     bn.js "^5.1.2"
     eventemitter3 "^4.0.4"
     isomorphic-fetch "^2.2.1"
     websocket "^1.0.31"
 
-"@chainx-v2/types-known@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/types-known/-/types-known-0.0.21.tgz#ea69d9799a883a244a8cd048a41bd6e8bdc4371a"
-  integrity sha512-RUwXWXRQo7BTlVli+VbxpB4Vtwx69oZc8MWpPJJ3DNo+uGbHC8S9RXENckRNVKAyJ6BxLDbNKVYB2YMjfNO1lw==
+"@chainx-v2/types-known@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/types-known/-/types-known-0.0.24.tgz#2dd8d9626cb8b307c2dd3672dd3818e46e08eb1a"
+  integrity sha512-pMhrOAKObgUSo089fJwT+abC3cOb2i6zH9DNCwrEfruAZomdmy4vnCnwc4lUDrOAyPPDHwb/HE1RD36N6yz8+w==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/types" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/types" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     bn.js "^5.1.2"
 
-"@chainx-v2/types@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/types/-/types-0.0.21.tgz#40c15d745938e3dbeec30d47e8eae9ca04aabcef"
-  integrity sha512-619i5Dabr4OhJRkUmmHKQIXkP+MEpFNO1j1uiwpALCFK+yHf1nLJR9c/DQPnNwLqyteuaJhONFDnh7EFNsTuYg==
+"@chainx-v2/types@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/types/-/types-0.0.24.tgz#5e59eb9de8ce4eb1cde86c5cb72255d1a6de6d84"
+  integrity sha512-C6yLqXuW2cyVmEvKNhCycDtnSARqKDEu1dGJblg3PPaJhtINrGwm3G4kohI6HRUW1MlpVXlXgbjSukGSrDAY+A==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@chainx-v2/crypto" "^0.0.21"
-    "@chainx-v2/metadata" "^0.0.21"
-    "@chainx-v2/util" "^0.0.21"
+    "@chainx-v2/crypto" "^0.0.24"
+    "@chainx-v2/metadata" "^0.0.24"
+    "@chainx-v2/util" "^0.0.24"
     "@types/bn.js" "^4.11.6"
     bn.js "^5.1.2"
     memoizee "^0.4.14"
     rxjs "^6.5.5"
 
-"@chainx-v2/util@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.npmjs.org/@chainx-v2/util/-/util-0.0.12.tgz#fc2522c197b67de0352342e958b2643fc608eb81"
-  integrity sha512-QYh6O6uZCzSfnFDaI/AmMaKJx4jgj/h9En5JZrd1rrip69ptFD3wpbd2tMyRDW7BAPsu0pUej+R+sulg6ANiBg==
-  dependencies:
-    "@babel/runtime" "^7.10.5"
-    "@types/bn.js" "^4.11.6"
-    bn.js "^5.1.2"
-    camelcase "^5.3.1"
-    chalk "^4.1.0"
-    ip-regex "^4.1.0"
-
-"@chainx-v2/util@0.0.21", "@chainx-v2/util@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/@chainx-v2/util/-/util-0.0.21.tgz#972b971a50583cdce36dd30ce226b6103b02c0cc"
-  integrity sha512-sXuONieFaHAGVWZb63xEnl9CqNd+lSsXxLr9o0ASfdtkScRse8kwJc9sGHCYSqv2+PLCkFw1avJhaHP2Hm7zNA==
+"@chainx-v2/util@0.0.24", "@chainx-v2/util@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.npmjs.org/@chainx-v2/util/-/util-0.0.24.tgz#efc8b184bf91387ef04a1151dc12102b03795965"
+  integrity sha512-JwbUzCMGbSetUErR8X4E3eYd/DMs0qZyrprVc36hCoorqBXWAHV8L+6oH+HTNoIwoqPTHMsbnGpIbJ5QoHjSFw==
   dependencies:
     "@babel/runtime" "^7.10.5"
     "@types/bn.js" "^4.11.6"
