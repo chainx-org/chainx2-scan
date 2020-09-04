@@ -14,6 +14,7 @@ const accountsCollectionName = 'accounts'
 const transferCollectionName = 'transfer'
 const voteCollectionName = 'vote'
 const chainCollectionName = 'chain'
+const ordersCollectionName = 'orders'
 
 const mainScanName = 'main-scan-height'
 
@@ -28,6 +29,7 @@ let transferCol = null
 let voteCol = null
 let db = null
 let chainCol = null
+let ordersCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
@@ -42,6 +44,7 @@ async function initDb() {
   transferCol = db.collection(transferCollectionName)
   voteCol = db.collection(voteCollectionName)
   chainCol = db.collection(chainCollectionName)
+  ordersCol = db.collection(ordersCollectionName)
 
   await _createIndexes()
 }
@@ -132,6 +135,13 @@ async function getChainCollection() {
   return chainCol
 }
 
+async function getOrdersCollection() {
+  if (!ordersCol) {
+    await initDb()
+  }
+  return ordersCol
+}
+
 // 删除>=给定区块高度的数据
 async function deleteDataFrom(blockHeight) {
   if (!blockCol || !extrinsicCol) {
@@ -203,5 +213,6 @@ module.exports = {
   updateScanHeight,
   deleteDataFrom,
   getVoteCollection,
-  getChainCollection
+  getChainCollection,
+  getOrdersCollection
 }

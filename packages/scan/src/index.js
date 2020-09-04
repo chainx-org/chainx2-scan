@@ -1,13 +1,12 @@
 const { extractExtrinsicBusinessData } = require('./extrinsic')
 
-const { u8aToHex, hexToString } = require('@chainx-v2/util')
+const { u8aToHex } = require('@chainx-v2/util')
 const { sleep } = require('./util')
 const {
   getExtrinsicCollection,
   getBlockCollection,
   getEventCollection,
   getFirstScanHeight,
-  getAccountsCollection,
   updateScanHeight,
   deleteDataFrom
 } = require('./mongoClient')
@@ -28,13 +27,8 @@ const {
   listenAndUpdateValidators,
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
-
-const {
-  updateBalance,
-  extractAccount,
-  extractUserTransfer,
-  updateTransactionCount
-} = require('./account')
+const { extractEventBusinessData } = require('./events')
+const { updateTransactionCount } = require('./account')
 let preBlockHash = null
 
 async function main() {
@@ -120,10 +114,7 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    if (method === 'NewAccount') {
-      const account = event.data.toJSON()
-      await extractAccount(account)
-    }
+    await extractEventBusinessData(event)
 
     bulk.insert({
       indexer,

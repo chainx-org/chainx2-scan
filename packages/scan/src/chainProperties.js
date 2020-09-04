@@ -25,7 +25,6 @@ async function updateChainProperties() {
 async function getPCXAssetByAccount(address) {
   const api = await getApi()
   const balance = await api.query.system.account(address)
-  console.log(balance)
   return balance.data.toJSON()
 }
 
@@ -35,7 +34,6 @@ async function getPCXAssetByAccount(address) {
 async function getOtherAssetByAccount(address) {
   const api = await getApi()
   const balance = await api.rpc.xassets.getAssetsByAccount(address)
-  console.log(balance)
   return balance.toJSON()
 }
 
