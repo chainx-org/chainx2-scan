@@ -1,7 +1,7 @@
 const { extractExtrinsicBusinessData } = require('./extrinsic')
 
 const { u8aToHex } = require('@chainx-v2/util')
-const { sleep } = require('./util')
+const { sleep, logger } = require('./util')
 const {
   getExtrinsicCollection,
   getBlockCollection,
@@ -85,6 +85,7 @@ async function main() {
     const validators = await api.query.session.validators.at(blockHash)
     const author = extractAuthor(validators, block.block.header)
 
+    logger.info('indexing block:', block.block.header.number.toString())
     await handleBlock(block.block, author)
     preBlockHash = block.block.hash.toHex()
 
