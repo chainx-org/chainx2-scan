@@ -70,7 +70,6 @@ async function handleStakingEvent(method, event) {
       )
       return
     }
-    /** result.length > 0, qed */
     const new_value = result[0].value - value
     await insertNewVote(col, nominator, nominee, new_value)
   } else if (method === 'Rebond') {
