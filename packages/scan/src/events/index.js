@@ -24,18 +24,14 @@ async function handleSpotEvent(method, event) {
   }
 }
 
-function getCurrentVote(col, nominator, nominee) {
-  return new Promise((resolve, reject) => {
-    col
-      .find({
-        nominator: nominator,
-        nominee: nominee
-      })
-      .limit(1)
-      .toArray(function(err, data) {
-        err ? reject(err) : resolve(data)
-      })
-  })
+async function getCurrentVote(col, nominator, nominee) {
+  return await col
+    .find({
+      nominator: nominator,
+      nominee: nominee
+    })
+    .limit(1)
+    .toArray()
 }
 
 async function insertNewVote(col, nominator, nominee, value) {
