@@ -5,11 +5,13 @@ module.exports = async function extractVoteInfo(extrinsic,indexer,signer,args) {
     if (!signer) {
         return;
     }
+    const api = await getApi();
     const exCol = await getVoteCollection()
     // skaking信息
-    const nominationByAccount = await getApi().rpc.xstaking.getNominationByAccount(signer)
+    const nominationByAccount = api.rpc.xstaking.getNominationByAccount('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
     // 利息信息
-    const dividendByAccount = await getApi().rpc.xstaking.getDividendByAccount(signer)
+
+    const dividendByAccount = api.rpc.xstaking.getDividendByAccount('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
     console.log("nomination:" + JSON.stringify(nominationByAccount ))
     console.log("dividend", JSON.stringify(dividendByAccount))
     console.log(args)

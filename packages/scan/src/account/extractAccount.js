@@ -7,10 +7,12 @@ module.exports = async function extractAccont(account) {
     const address = account[0]
     const pcxBalance = await getPCXAssetByAccount(address)
     const otherBalance = await getAllAssetByAccount(address)
+    console.log('222222' + JSON.stringify(otherBalance))
+    console.log(otherBalance)
     const data = {
         "account": address,
         "pcx" : pcxBalance,
-        "other": otherBalance,
+        "btc": otherBalance && otherBalance['1'] ?  otherBalance['1']  : null,
         "publickey" : Account.decodeAddress(address)
     }
     const result = await exCol.insertOne(data)

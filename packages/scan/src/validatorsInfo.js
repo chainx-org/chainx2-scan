@@ -20,10 +20,6 @@ async function updateValidatorsInfo(queryHeight = 0) {
   const api = await getApi()
   const validators = await api.rpc.xstaking.getValidators()
 
-  //获取抵押节点的相关信息
-  const nominatorInfo = await api.rpc.xstaking.getValidatorByAccount('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
-  console.log("节点信息" + JSON.stringify(nominatorInfo))
-
   const validatorsCol = await getValidatorsCollection()
   await validatorsCol.deleteMany({})
   const infoArr = validators.toJSON().map(validator => ({

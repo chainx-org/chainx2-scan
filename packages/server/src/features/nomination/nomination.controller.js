@@ -41,7 +41,6 @@ class NominationController {
                 last_vote_weight_update:currentValidator.lastTotalVoteWeightUpdate,
                 last_vote_weight:currentValidator.lastTotalVoteWeight,
             })
-
         }
 
         ctx.body = {

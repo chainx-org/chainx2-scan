@@ -35,9 +35,9 @@ export default function({ blockHeight }) {
                     avalibleBalance: <Amount
                         value={item.pcx.free}
                     /> ,
-                    totalBalance: 0,
-                    totalBtc: 0,
-                    totalAccount: item.count
+                    totalBalance:   <Amount minDigits = {5} value={ item.pcx.free +  item.pcx.reserved} />,
+                    totalBtc:  <Amount symbol="BTC" value={item && item.btc ? item.btc.Usable : 0} hideSymbol />,
+                    totalAccount: item.count ? item.count : 0
                 }
             })}
             columns={[
@@ -55,7 +55,7 @@ export default function({ blockHeight }) {
                 },
                 {
                     title: $t('total_btc_item'),
-                    dataIndex: '--'
+                    dataIndex: 'totalBtc'
                 },
 
                 {

@@ -11,9 +11,9 @@ function App() {
     <Router>
       <React.Fragment>
         <Header />
-        <AppContextProvider>
+
         <Main />
-        </AppContextProvider>
+
       </React.Fragment>
     </Router>
   )
