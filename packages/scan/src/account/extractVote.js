@@ -1,7 +1,17 @@
 const { getVoteCollection } = require('../mongoClient')
+const { getApi } = require('../api')
 
-module.exports = async function extractUserTransaction(extrinsic,indexer,signer,args) {
+module.exports = async function extractVoteInfo(extrinsic,indexer,signer,args) {
+    if (!signer) {
+        return;
+    }
     const exCol = await getVoteCollection()
+    // skaking信息
+    const nominationByAccount = await getApi().rpc.xstaking.getNominationByAccount(signer)
+    // 利息信息
+    const dividendByAccount = await getApi().rpc.xstaking.getDividendByAccount(signer)
+    console.log("nomination:" + JSON.stringify(nominationByAccount ))
+    console.log("dividend", JSON.stringify(dividendByAccount))
     console.log(args)
     const data = {
         "node": extrinsic.hash.toHex(),
@@ -9,7 +19,9 @@ module.exports = async function extractUserTransaction(extrinsic,indexer,signer,
         "history": indexer.blockTime,
         "account": signer,
         "value": args,
-        "block": args
+        "block": args,
+        "nominationByAccount": nominationByAccount,
+        "dividendByAccount":dividendByAccount
     }
     const result = await exCol.insertOne(data)
     if (result.result && !result.result.ok) {

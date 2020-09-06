@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router'
 import BlockChainNav from '../../components/BlockChainNav'
 import List from './AccountsLlist'
 import Detail from './Detail'
-import TransferList from './Detail/transferlist'
 
 export default function Accounts() {
     return (

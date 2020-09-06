@@ -104,6 +104,10 @@ class Api {
     return this.cancelableFetch(`/events/${eventId}`)
   }
 
+  fetchAccountNominations = params => {
+    return this.cancelableFetch(`/nomination`,params)
+  }
+
   /**
    *
    * 获取验证人列表

@@ -8,8 +8,9 @@ import Spinner from '../../../components/Spinner'
 import NoData from '../../../components/NoData'
 import PanelList from '../../../components/PanelList'
 import AccountLink from '../../../components/AccountLink'
-import TransferList from  '../Detail/transferlist'
-import TransActionList from '../Detail/transactionlist'
+import TransferList from  '../Detail/TransferList'
+import TransActionList from '../Detail/TransactionList'
+import NominationList  from "./NominationList";
 import classnames from "classnames";
 
 export default function() {
@@ -134,7 +135,7 @@ export default function() {
                 </div>
                 { activeKey === "transfer" && <TransferList  address={address}/>}
                 { activeKey === "transaction" && <TransActionList address={address}/>}
-
+                { activeKey === "vote" && <NominationList address= {address}/>}
             </div>
 
         </div>

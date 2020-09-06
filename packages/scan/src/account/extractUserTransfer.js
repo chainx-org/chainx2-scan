@@ -1,6 +1,9 @@
 const { getTransferColCollection } = require('../mongoClient')
 
 module.exports = async function extractUserTransfer(extrinsic,indexer,signer,args) {
+    if (!signer) {
+        return;
+    }
     const exCol = await getTransferColCollection()
     console.log(args)
     const data = {

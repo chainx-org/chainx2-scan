@@ -15,7 +15,7 @@ class TransferController {
 
         let address = ctx.query.address
         const col = await getTransferColCollection()
-        const total = await col.estimatedDocumentCount()
+        const total = await col.count({'sender': address})
         const transferList = await col
             .find({'sender': address})
             .skip(page * pageSize)

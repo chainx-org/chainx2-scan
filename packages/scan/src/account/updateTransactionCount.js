@@ -1,20 +1,19 @@
 const { getExtrinsicCollection, getAccountsCollection } = require('../mongoClient')
 
 module.exports = async function updateTransactionCount(signer) {
-    if (signer == 'F7Hs') {
+    //todo 遗留问题，后续处理
+    if (!signer) {
         return;
     }
     const exCol = await getExtrinsicCollection()
     const accountCol = await getAccountsCollection();
 
     const transactions = await exCol.find({'signer': signer}).toArray();
-    console.log(transactions)
     let count = 0;
     if (transactions) {
         count = transactions.length;
     }
     // 更新from转出账户
-    console.log('signer.....' + signer + 'length....' + count);
     const result = await accountCol.findOneAndUpdate(
         { account: signer },
         { $set: { count : count } },

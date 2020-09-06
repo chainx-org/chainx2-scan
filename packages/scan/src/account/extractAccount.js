@@ -1,14 +1,16 @@
-const { getPCXAssetByAccount } = require('./common')
+const { getPCXAssetByAccount, getAllAssetByAccount } = require('./common')
 const { getAccountsCollection } = require('../mongoClient')
 const { Account } = require('@chainx-v2/account')
 
 module.exports = async function extractAccont(account) {
     const exCol = await getAccountsCollection()
     const address = account[0]
-    const balance = await getPCXAssetByAccount(address)
+    const pcxBalance = await getPCXAssetByAccount(address)
+    const otherBalance = await getAllAssetByAccount(address)
     const data = {
         "account": address,
-        "balance" : balance,
+        "pcx" : pcxBalance,
+        "other": otherBalance,
         "publickey" : Account.decodeAddress(address)
     }
     const result = await exCol.insertOne(data)

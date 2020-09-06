@@ -8,11 +8,11 @@ const cols = {
   extrinsic: 'extrinsic',
   status: 'status',
   event: 'event',
-  accounts: 'accounts'
+  accounts: 'accounts',
+  validators: 'validators'
 }
 
 const transferCollectionName = 'transfer'
-const voteCollectionName = 'vote'
 
 let blockCol = null
 let extrinsicCol = null
@@ -20,7 +20,7 @@ let eventCol = null
 let statusCol = null
 let accountsCol = null
 let transferCol = null
-let voteCol = null
+let validatorsCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
@@ -31,7 +31,7 @@ async function initDb() {
   eventCol = db.collection(cols.event)
   accountsCol = db.collection(cols.accounts)
   transferCol = db.collection(transferCollectionName)
-  voteCol = db.collection(voteCollectionName)
+  validatorsCol= db.collection(cols.validators)
 
   return db
 }
@@ -58,13 +58,12 @@ async function getTransferColCollection() {
   return transferCol
 }
 
-async function getVoteCollection() {
-  if (!voteCol) {
+async function getValidatorsCollection() {
+  if (!validatorsCol) {
     await initDb()
   }
-  return voteCol
+  return validatorsCol
 }
-
 
 async function getStatusCollection() {
   if (!statusCol) {
@@ -95,5 +94,5 @@ module.exports = {
   getStatusCollection,
   getAccountsCollection,
   getTransferColCollection,
-  getVoteCollection
+  getValidatorsCollection
 }

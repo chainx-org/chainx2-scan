@@ -4,6 +4,7 @@ import extrinsic from './extrinsic'
 import txAction from './txAction'
 import event from './event'
 import accounts from "./accounts";
+import nomination from "./nomination";
 
 export default {
   ...common,
@@ -11,5 +12,6 @@ export default {
   ...extrinsic,
   ...txAction,
   ...event,
-  ...accounts
+  ...accounts,
+  ...nomination
 }

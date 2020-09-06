@@ -16,3 +16,4 @@ export { default as ExternalLink } from "./ExternalLink";
 export { default as Amount } from "./Amount";
 export { default as TokenChain } from "./TokenChain"
 export { default as TokenName } from "./TokenName"
+export { default as ValidatorLink } from "./ValidatorLink"

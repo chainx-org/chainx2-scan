@@ -4,7 +4,9 @@ const featureRouters = [
   require('./features/events/routes'),
   require('./features/accounts/routes'),
   require('./features/transfer/routes'),
-  require('./features/transaction/routes')
+  require('./features/transaction/routes'),
+  require('./features/nomination/router'),
+  require('./features/orders/routes')
 ]
 
 module.exports = app => {

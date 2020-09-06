@@ -10,9 +10,6 @@ async function getPCXAssetByAccount(address) {
     return  balance.data.toJSON();
 }
 
-/**
- *
- * */
 async function getAllAssetByAccount(address) {
     const api = await  getApi()
     const balance  = await api.rpc.xassets.getAssetsByAccount(address)

@@ -6,9 +6,7 @@ import DateShow from '../../../components/DateShow'
 import AccountLink from '../../../components/AccountLink'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
-import TxAction from '../../../components/TxAction'
 import { useLoad } from '../../../utils/hooks'
-import { useLoadDetail } from '../../../utils/hooks'
 
 export default function({ address }) {
     const [page, setPage] = useState(1)
@@ -43,7 +41,6 @@ export default function({ address }) {
                 )
             }}
             dataSource={transferList.map(item => {
-                debugger
                 return {
                     key: item.hash,
                     hash: (
