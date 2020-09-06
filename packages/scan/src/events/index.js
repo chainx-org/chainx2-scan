@@ -1,5 +1,6 @@
 const { extractAccount } = require('../account')
-const { getOrdersCollection } = require('../mongoClient')
+const { getOrdersCollection, getVoteCollection } = require('../mongoClient')
+const { logger } = require('../util')
 
 function getNormalizedOrderFromEvent(event) {
   const order = event.data.toJSON()[0]
@@ -7,7 +8,7 @@ function getNormalizedOrderFromEvent(event) {
   return order
 }
 
-async function extractDexData(method, event) {
+async function handleSpotEvents(method, event) {
   if (method === 'PutOrder') {
     const order = getNormalizedOrderFromEvent(event)
     const col = await getOrdersCollection()
@@ -23,6 +24,47 @@ async function extractDexData(method, event) {
   }
 }
 
+function getCurrentVote(col, nominator, nominee) {
+  return new Promise((resolve, reject) => {
+    col
+      .find({
+        nominator: nominator,
+        nominee: nominee
+      })
+      .limit(1)
+      .toArray(function(err, data) {
+        err ? reject(err) : resolve(data)
+      })
+  })
+}
+
+async function handleStakingEvents(method, event) {
+  if (method === 'Bond') {
+    let [nominator, nominee, value] = event.data.toJSON()
+    value = parseInt(value)
+
+    const col = await getVoteCollection()
+    const result = await getCurrentVote(col, nominator, nominee)
+
+    const new_value = result.length ? value + result[0].value : value
+
+    await col.findOneAndUpdate(
+      {
+        nominator: nominator,
+        nominee: nominee
+      },
+      {
+        $set: {
+          nominator: nominator,
+          nominee: nominee,
+          value: new_value
+        }
+      },
+      { upsert: true }
+    )
+  }
+}
+
 async function extractEventBusinessData(event) {
   const { section, method } = event
 
@@ -30,7 +72,9 @@ async function extractEventBusinessData(event) {
     const account = event.data.toJSON()
     await extractAccount(account)
   } else if (section === 'xSpot') {
-    await extractDexData(method, event)
+    await handleSpotEvents(method, event)
+  } else if (section === 'xStaking') {
+    await handleStakingEvents(method, event)
   }
 }
 
