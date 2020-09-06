@@ -8,7 +8,7 @@ function getNormalizedOrderFromEvent(event) {
   return order
 }
 
-async function handleSpotEvents(method, event) {
+async function handleSpotEvent(method, event) {
   if (method === 'PutOrder') {
     const order = getNormalizedOrderFromEvent(event)
     const col = await getOrdersCollection()
@@ -55,7 +55,7 @@ async function insertNewVote(col, nominator, nominee, value) {
   )
 }
 
-async function handleStakingEvents(method, event) {
+async function handleStakingEvent(method, event) {
   if (method === 'Bond') {
     let [nominator, nominee, value] = event.data.toJSON()
     value = parseInt(value)
@@ -68,6 +68,12 @@ async function handleStakingEvents(method, event) {
     value = parseInt(value)
     const col = await getVoteCollection()
     const result = await getCurrentVote(col, nominator, nominee)
+    if (!result.length) {
+      logger.error(
+        `the record of ${nominator} to ${nominee} does not exist, this should not happen`
+      )
+      return
+    }
     /** result.length > 0, qed */
     const new_value = result[0].value - value
     await insertNewVote(col, nominator, nominee, new_value)
@@ -94,9 +100,9 @@ async function extractEventBusinessData(event) {
     const account = event.data.toJSON()
     await extractAccount(account)
   } else if (section === 'xSpot') {
-    await handleSpotEvents(method, event)
+    await handleSpotEvent(method, event)
   } else if (section === 'xStaking') {
-    await handleStakingEvents(method, event)
+    await handleStakingEvent(method, event)
   }
 }
 
