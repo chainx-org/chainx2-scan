@@ -5,3 +5,4 @@ dist
 .env
 .idea
 yarn-error.log
+package-lock.json
