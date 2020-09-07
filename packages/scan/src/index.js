@@ -28,14 +28,7 @@ const {
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
 
-const {
-  updateBalance,
-  extractAccount,
-  extractUserTransfer,
-  updateTransactionCount,
-  extractVoteInfo,
-  extractOrder
-} = require('./account')
+const { extractAccount } = require('./account')
 
 const { extractEventBusinessData } = require('./events')
 
@@ -212,7 +205,6 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
 
   await extractExtrinsicBusinessData(extrinsic, indexer)
-  await updateTransactionCount(signer)
 
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
