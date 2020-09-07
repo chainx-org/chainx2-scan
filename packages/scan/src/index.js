@@ -120,11 +120,6 @@ async function handleEvents(events, indexer, extrinsics) {
 
     await extractEventBusinessData(event)
 
-    if (method == 'NewAccount') {
-      const account = event.data.toJSON()
-      await extractAccount(account)
-    }
-
     bulk.insert({
       indexer,
       extrinsicHash,
