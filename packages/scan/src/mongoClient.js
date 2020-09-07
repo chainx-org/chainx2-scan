@@ -13,6 +13,7 @@ const validatorsCollectionName = 'validators'
 const accountsCollectionName = 'accounts'
 const transferCollectionName = 'transfer'
 const voteCollectionName = 'vote'
+const orderCollectionName = 'order'
 
 const mainScanName = 'main-scan-height'
 
@@ -25,6 +26,7 @@ let validatorsCol = null
 let accountsCol = null
 let transferCol = null
 let voteCol = null
+let orderCol = null
 let db = null
 
 async function initDb() {
@@ -39,6 +41,7 @@ async function initDb() {
   validatorsCol = db.collection(validatorsCollectionName)
   transferCol = db.collection(transferCollectionName)
   voteCol = db.collection(voteCollectionName)
+  orderCol = db.collection(orderCollectionName)
 
   await _createIndexes()
 }
@@ -69,6 +72,13 @@ async function getTransferColCollection() {
     await initDb()
   }
   return transferCol
+}
+
+async function getOrderColCollection() {
+  if (!orderCol) {
+    await initDb()
+  }
+  return orderCol
 }
 
 async function getVoteCollection() {
@@ -192,5 +202,6 @@ module.exports = {
   getTransferColCollection,
   updateScanHeight,
   deleteDataFrom,
-  getVoteCollection
+  getVoteCollection,
+  getOrderColCollection
 }
