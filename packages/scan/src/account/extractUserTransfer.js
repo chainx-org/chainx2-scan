@@ -11,7 +11,6 @@ module.exports = async function extractUserTransfer(
     return
   }
   const exCol = await getTransferColCollection()
-  console.log(args)
   const data = {
     hash: hash,
     blockHeight: indexer.blockHeight,

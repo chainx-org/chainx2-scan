@@ -15,7 +15,7 @@ async function extractExtrinsicBusinessData(extrinsic, indexer) {
 
   if (section === 'balances' && methodName === 'transfer') {
     await updateBalance(extrinsic, signer, args.dest)
-    await extractUserTransfer(extrinsic, indexer, signer, args)
+    await extractUserTransfer(extrinsic, hash, indexer, signer, args)
   } else if (section === 'xStaking') {
     // 更新xStaking列表
     await extractVoteInfo(extrinsic, hash, indexer, signer, args)
