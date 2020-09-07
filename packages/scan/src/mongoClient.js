@@ -174,12 +174,16 @@ async function deleteDataFrom(blockHeight) {
   const {
     result: { ok: deleteAssetsOk }
   } = await assetsCol.deleteMany({ queryHeight: { $gte: blockHeight } })
+  const {
+    result: { ok: deleteAccountsOk }
+  } = await accountsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
 
   if (
     deleteBlockOk !== 1 ||
     deleteExtrinsicOk !== 1 ||
     deleteEventOk !== 1 ||
-    deleteAssetsOk !== 1
+    deleteAssetsOk !== 1 ||
+    deleteAccountsOk !== 1
   ) {
     console.error(`Fail to delete data >= ${blockHeight}`)
     process.exit(1)
