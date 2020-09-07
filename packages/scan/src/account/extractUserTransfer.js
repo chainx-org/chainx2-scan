@@ -2,6 +2,7 @@ const { getTransferColCollection } = require('../mongoClient')
 
 module.exports = async function extractUserTransfer(
   extrinsic,
+  hash,
   indexer,
   signer,
   args
@@ -12,7 +13,7 @@ module.exports = async function extractUserTransfer(
   const exCol = await getTransferColCollection()
   console.log(args)
   const data = {
-    hash: extrinsic.hash.toHex(),
+    hash: hash,
     blockHeight: indexer.blockHeight,
     blockTime: indexer.blockTime,
     sender: signer,

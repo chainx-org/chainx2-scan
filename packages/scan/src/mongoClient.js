@@ -28,6 +28,7 @@ let validatorsCol = null
 let accountsCol = null
 let transferCol = null
 let voteCol = null
+let orderCol = null
 let db = null
 let chainCol = null
 let ordersCol = null
@@ -46,6 +47,8 @@ async function initDb() {
   voteCol = db.collection(voteCollectionName)
   chainCol = db.collection(chainCollectionName)
   ordersCol = db.collection(ordersCollectionName)
+
+  orderCol = db.collection(orderCollectionName)
 
   await _createIndexes()
 }
@@ -76,6 +79,13 @@ async function getTransferColCollection() {
     await initDb()
   }
   return transferCol
+}
+
+async function getOrderColCollection() {
+  if (!orderCol) {
+    await initDb()
+  }
+  return orderCol
 }
 
 async function getVoteCollection() {

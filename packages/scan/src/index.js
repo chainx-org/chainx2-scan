@@ -1,6 +1,5 @@
-const { extractExtrinsicBusinessData } = require('./extrinsic')
-const { sleep, logger } = require('./util')
 const { u8aToHex, hexToString, u8aToString } = require('@chainx-v2/util')
+const { sleep } = require('./util')
 
 const {
   getExtrinsicCollection,
@@ -28,13 +27,13 @@ const {
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
 
-const { extractEventBusinessData } = require('./events')
 const {
   updateBalance,
   extractAccount,
   extractUserTransfer,
   updateTransactionCount,
-  extractVoteInfo
+  extractVoteInfo,
+  extractOrder
 } = require('./account')
 
 let preBlockHash = null
@@ -125,6 +124,11 @@ async function handleEvents(events, indexer, extrinsics) {
 
     await extractEventBusinessData(event)
 
+    if (method == 'NewAccount') {
+      const account = event.data.toJSON()
+      await extractAccount(account)
+    }
+
     bulk.insert({
       indexer,
       extrinsicHash,
@@ -205,19 +209,22 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
+  } else if (section === 'balances') {
+    // 转账，更新余额表，更新转账列表
+    console.log('transfer' + args.toString())
+    await updateBalance(extrinsic, hash, signer, args.dest)
+    await extractUserTransfer(extrinsic, hash, indexer, signer, args)
+  } else if (section === 'xStaking') {
+    // 更新xStaking列表
+    console.log('xStaking')
+    await extractVoteInfo(extrinsic, hash, indexer, signer, args)
+  } else if (section === 'xSpot') {
+    // 更新委托订单
+    console.log('xSpot')
+    await extractOrder(extrinsic, hash, indexer, name, signer, args)
   }
 
   await extractExtrinsicBusinessData(extrinsic, indexer)
-  await updateTransactionCount(signer)
-  if (section == 'balances') {
-    console.log('transfer' + args.toString())
-    await updateBalance(extrinsic, signer, args.dest)
-    await extractUserTransfer(extrinsic, indexer, signer, args)
-  }
-  if (section == 'xStaking') {
-    console.log('xtaking')
-    await extractVoteInfo(extrinsic, indexer, signer, args)
-  }
   await updateTransactionCount(signer)
 
   const version = extrinsic.version

@@ -28,9 +28,12 @@ export default function({ blockHeight }) {
         return {
           key: item._id,
           address: <AccountLink value={item.account} />,
-          avalibleBalance: <Amount value={item.pcx.free} />,
+          avalibleBalance: <Amount value={item.pcx ? item.pcx.free : ''} />,
           totalBalance: (
-            <Amount minDigits={5} value={item.pcx.free + item.pcx.reserved} />
+            <Amount
+              minDigits={5}
+              value={item.pcx ? item.pcx.free + item.pcx.reserved : 0}
+            />
           ),
           totalBtc: (
             <Amount

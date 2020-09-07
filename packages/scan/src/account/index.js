@@ -4,6 +4,7 @@ const extractUserTransfer = require('./extractUserTransfer')
 const extractVote = require('./extractVote')
 const updateTransactionCount = require('./updateTransactionCount')
 const extractVoteInfo = require('./extractVote')
+const extractOrder = require('./extractOrder')
 
 module.exports = {
   extractAccount,
@@ -11,5 +12,6 @@ module.exports = {
   extractUserTransfer,
   extractVote,
   updateTransactionCount,
-  extractVoteInfo
+  extractVoteInfo,
+  extractOrder
 }
