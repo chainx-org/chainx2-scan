@@ -24,8 +24,8 @@ async function handleSpotEvent(method, event) {
   }
 }
 
-async function getCurrentVote(col, nominator, nominee) {
-  return await col
+function getCurrentVote(col, nominator, nominee) {
+  return col
     .find({
       nominator: nominator,
       nominee: nominee
