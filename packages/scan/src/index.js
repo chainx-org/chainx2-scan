@@ -1,5 +1,6 @@
 const { u8aToHex } = require('@chainx-v2/util')
 const { sleep, logger } = require('./util')
+const { extractExtrinsicBusinessData } = require('./extrinsic')
 
 const {
   getExtrinsicCollection,
@@ -209,24 +210,8 @@ async function handleExtrinsic(extrinsic, indexer) {
   if (signer.length < 48) {
     signer = ''
   }
-  if (section.toLowerCase() === 'xassets') {
-    console.log(section)
-  } else if (section === 'balances') {
-    // 转账，更新余额表，更新转账列表
-    console.log('transfer' + args.toString())
-    await updateBalance(extrinsic, hash, signer, args.dest)
-    await extractUserTransfer(extrinsic, hash, indexer, signer, args)
-  } else if (section === 'xStaking') {
-    // 更新xStaking列表
-    console.log('xStaking')
-    await extractVoteInfo(extrinsic, hash, indexer, signer, args)
-  } else if (section === 'xSpot') {
-    // 更新委托订单
-    console.log('xSpot')
-    await extractOrder(extrinsic, hash, indexer, name, signer, args)
-  }
 
-  //await extractExtrinsicBusinessData(extrinsic, indexer)
+  await extractExtrinsicBusinessData(extrinsic, indexer)
   await updateTransactionCount(signer)
 
   const version = extrinsic.version
