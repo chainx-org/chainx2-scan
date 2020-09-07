@@ -22,7 +22,7 @@ module.exports = async function extractAuthor(extrinsic, hash, from, dest) {
     { upsert: true }
   )
 
-  await col.findOneAndUpdate(
+  await accountCol.findOneAndUpdate(
     { account: dest },
     { $set: { pcx: destBalnace } },
     { $set: { btc: otherDest && otherDest['1'] ? otherDest['1'] : null } },

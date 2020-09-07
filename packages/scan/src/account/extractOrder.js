@@ -1,4 +1,4 @@
-const { getOrderColCollection } = require('../mongoClient')
+const { getOrdersCollection, getEventCollection } = require('../mongoClient')
 
 module.exports = async function extractOrder(
   extrinsic,
@@ -11,7 +11,7 @@ module.exports = async function extractOrder(
   if (!signer) {
     return
   }
-  const col = await getOrderColCollection()
+  const col = await getOrdersCollection()
   const eventCol = await getEventCollection()
   // 查找交易 event事件
   const eventList = await eventCol.find({ extrinsicHash: hash }).toArray()

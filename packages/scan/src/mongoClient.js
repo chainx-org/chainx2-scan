@@ -48,8 +48,6 @@ async function initDb() {
   chainCol = db.collection(chainCollectionName)
   ordersCol = db.collection(ordersCollectionName)
 
-  orderCol = db.collection(orderCollectionName)
-
   await _createIndexes()
 }
 

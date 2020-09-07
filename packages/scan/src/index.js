@@ -1,5 +1,5 @@
 const { u8aToHex, hexToString, u8aToString } = require('@chainx-v2/util')
-const { sleep } = require('./util')
+const { sleep, logger } = require('./util')
 
 const {
   getExtrinsicCollection,
@@ -35,6 +35,8 @@ const {
   extractVoteInfo,
   extractOrder
 } = require('./account')
+
+const { extractEventBusinessData } = require('./events')
 
 let preBlockHash = null
 
@@ -224,7 +226,7 @@ async function handleExtrinsic(extrinsic, indexer) {
     await extractOrder(extrinsic, hash, indexer, name, signer, args)
   }
 
-  await extractExtrinsicBusinessData(extrinsic, indexer)
+  //await extractExtrinsicBusinessData(extrinsic, indexer)
   await updateTransactionCount(signer)
 
   const version = extrinsic.version
