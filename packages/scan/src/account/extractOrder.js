@@ -2,6 +2,7 @@ const { getOrderColCollection } = require('../mongoClient')
 
 module.exports = async function extractOrder(
   extrinsic,
+  hash,
   indexer,
   name,
   signer,
@@ -13,9 +14,7 @@ module.exports = async function extractOrder(
   const col = await getOrderColCollection()
   const eventCol = await getEventCollection()
   // 查找交易 event事件
-  const eventList = await eventCol
-    .find({ extrinsicHash: extrinsic.hash.toHex() })
-    .toArray()
+  const eventList = await eventCol.find({ extrinsicHash: hash }).toArray()
   // 合并交易结果
   let status = null
   eventList.map(ele => {

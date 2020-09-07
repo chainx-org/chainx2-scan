@@ -7,7 +7,7 @@ module.exports = async function extractAccont(account) {
   const address = account[0]
   const pcxBalance = await getPCXAssetByAccount(address)
   const otherBalance = await getAllAssetByAccount(address)
-  console.log(otherBalance)
+  // Todo 合并dex数据，投票资产数据
   const data = {
     account: address,
     pcx: pcxBalance,

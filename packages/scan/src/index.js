@@ -204,17 +204,19 @@ async function handleExtrinsic(extrinsic, indexer) {
   if (signer.length < 48) {
     signer = ''
   }
-
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
   } else if (section === 'balances') {
+    // 转账，更新余额表，更新转账列表
     console.log('transfer' + args.toString())
     await updateBalance(extrinsic, hash, signer, args.dest)
     await extractUserTransfer(extrinsic, hash, indexer, signer, args)
   } else if (section === 'xStaking') {
-    console.log('xtaking')
+    // 更新xStaking列表
+    console.log('xStaking')
     await extractVoteInfo(extrinsic, hash, indexer, signer, args)
   } else if (section === 'xSpot') {
+    // 更新委托订单
     await extractOrder(extrinsic, hash, indexer, name, signer, args)
   }
 
