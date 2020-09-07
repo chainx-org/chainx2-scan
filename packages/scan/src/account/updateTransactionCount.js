@@ -5,7 +5,8 @@ const {
 const { signerPlaceHolder } = require('../constants')
 
 module.exports = async function updateTransactionCount(signer) {
-  if (signer === signerPlaceHolder) {
+  //todo 遗留问题，后续处理
+  if (!signer) {
     return
   }
   const exCol = await getExtrinsicCollection()
@@ -13,7 +14,7 @@ module.exports = async function updateTransactionCount(signer) {
 
   const transactions = await exCol.find({ signer: signer }).toArray()
   let count = transactions ? transactions.length : 0
-  // 更新账户交易数
+  // 更新from转出账户
   const result = await accountCol.findOneAndUpdate(
     { account: signer },
     { $set: { count: count } },

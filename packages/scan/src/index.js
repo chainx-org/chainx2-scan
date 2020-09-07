@@ -1,7 +1,7 @@
 const { extractExtrinsicBusinessData } = require('./extrinsic')
-
-const { u8aToHex } = require('@chainx-v2/util')
 const { sleep, logger } = require('./util')
+const { u8aToHex, hexToString, u8aToString } = require('@chainx-v2/util')
+
 const {
   getExtrinsicCollection,
   getBlockCollection,
@@ -27,8 +27,16 @@ const {
   listenAndUpdateValidators,
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
+
 const { extractEventBusinessData } = require('./events')
-const { updateTransactionCount } = require('./account')
+const {
+  updateBalance,
+  extractAccount,
+  extractUserTransfer,
+  updateTransactionCount,
+  extractVoteInfo
+} = require('./account')
+
 let preBlockHash = null
 
 async function main() {
@@ -190,13 +198,28 @@ async function handleExtrinsic(extrinsic, indexer) {
   const { args } = extrinsic.method.toJSON()
   const name = extrinsic.method.methodName
   const section = extrinsic.method.sectionName
-  const signer = extrinsic._raw.signature.get('signer').toString()
+  let signer = extrinsic._raw.signature.get('signer').toString()
+  //如果signer的解析长度不正确，则该交易是无签名交易
+  if (signer.length < 48) {
+    signer = ''
+  }
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
   }
 
   await extractExtrinsicBusinessData(extrinsic, indexer)
   await updateTransactionCount(signer)
+  if (section == 'balances') {
+    console.log('transfer' + args.toString())
+    await updateBalance(extrinsic, signer, args.dest)
+    await extractUserTransfer(extrinsic, indexer, signer, args)
+  }
+  if (section == 'xStaking') {
+    console.log('xtaking')
+    await extractVoteInfo(extrinsic, indexer, signer, args)
+  }
+  await updateTransactionCount(signer)
+
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
 

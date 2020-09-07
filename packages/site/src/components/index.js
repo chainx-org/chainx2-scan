@@ -11,8 +11,9 @@ export { default as NumberFormat } from './NumberFormat'
 export { default as NoData } from './NoData'
 export { default as PanelJson } from './PanelJson'
 export { default as AddressLink } from './AddressLink'
-export { default as AntSpinner } from "./AntSpinner";
-export { default as ExternalLink } from "./ExternalLink";
-export { default as Amount } from "./Amount";
-export { default as TokenChain } from "./TokenChain"
-export { default as TokenName } from "./TokenName"
+export { default as AntSpinner } from './AntSpinner'
+export { default as ExternalLink } from './ExternalLink'
+export { default as Amount } from './Amount'
+export { default as TokenChain } from './TokenChain'
+export { default as TokenName } from './TokenName'
+export { default as ValidatorLink } from './ValidatorLink'

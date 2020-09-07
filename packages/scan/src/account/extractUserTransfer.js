@@ -6,7 +6,11 @@ module.exports = async function extractUserTransfer(
   signer,
   args
 ) {
+  if (!signer) {
+    return
+  }
   const exCol = await getTransferColCollection()
+  console.log(args)
   const data = {
     hash: extrinsic.hash.toHex(),
     blockHeight: indexer.blockHeight,

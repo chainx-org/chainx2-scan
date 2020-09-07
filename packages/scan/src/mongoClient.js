@@ -1,8 +1,6 @@
 const { MongoClient } = require('mongodb')
 const config = require('../config')
 
-let client = null
-
 const genesisHeight = 1
 
 const dbName = 'chainx-scan-v2'
