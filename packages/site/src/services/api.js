@@ -84,9 +84,64 @@ class Api {
     return this.cancelableFetch('/events', params)
   }
 
+  fetchAccounts = params => {
+    return this.cancelableFetch('/accounts',params)
+  }
+
+  fetchAccount = address => {
+    return this.cancelableFetch(`/accounts/${address}`)
+  }
+
+  fetchTransfer = params => {
+    return this.cancelableFetch(`/transfer`, params)
+  }
+
+  fetchTransactoin = params => {
+    return this.cancelableFetch(`/transaction`,params)
+  }
+
   fetchEvent = eventId => {
     return this.cancelableFetch(`/events/${eventId}`)
   }
+
+  /**
+   *
+   * 获取验证人列表
+   *
+   * */
+
+  fetchIntentions$ = (params, options = {}) => {
+    const { tabFilter = null } = options;
+    return this.fetch$(`/intentions`, params).pipe(
+        map(result => {
+          if (!tabFilter) {
+            return result;
+          }
+          switch (tabFilter) {
+            case "unsettled":
+              result.items = result.items.filter(item => !item.isValidator);
+              break;
+            case "all":
+              result.items = result.items.filter(item => item.isValidator);
+              break;
+            default:
+              result.items = result.items.filter(item => item.isTrustee.indexOf(tabFilter) >= 0);
+              break;
+          }
+          result.total = result.items.length;
+          result.items.sort((a, b) => {
+            if (a.isTrustee.length && !b.isTrustee.length) {
+              return -1;
+            } else if (!a.isTrustee.length && b.isTrustee.length) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+          return result;
+        })
+    );
+  };
 }
 
 export default new Api(process.env.REACT_APP_SERVER)

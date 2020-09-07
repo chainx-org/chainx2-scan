@@ -3,11 +3,13 @@ import block from './block'
 import extrinsic from './extrinsic'
 import txAction from './txAction'
 import event from './event'
+import accounts from "./accounts";
 
 export default {
   ...common,
   ...block,
   ...extrinsic,
   ...txAction,
-  ...event
+  ...event,
+  ...accounts
 }

@@ -1,6 +1,8 @@
 const { MongoClient } = require('mongodb')
 const config = require('../config')
+
 let client = null
+
 const genesisHeight = 1
 
 const dbName = 'chainx-scan-v2'
@@ -10,26 +12,42 @@ const eventCollectionName = 'event'
 const statusCollectionName = 'status'
 const assetsCollectionName = 'assets'
 const validatorsCollectionName = 'validators'
+const accountsCollectionName = 'accounts'
+const transferCollectionName = 'transfer'
+const voteCollectionName = 'vote'
+const chainCollectionName = 'chain'
+const ordersCollectionName = 'orders'
 
 const mainScanName = 'main-scan-height'
 
+let client = null
 let blockCol = null
 let extrinsicCol = null
 let statusCol = null
 let eventCol = null
 let assetsCol = null
 let validatorsCol = null
+let accountsCol = null
+let transferCol = null
+let voteCol = null
 let db = null
+let chainCol = null
+let ordersCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
   db = client.db(dbName)
   blockCol = db.collection(blockCollectionName)
+  accountsCol = db.collection(accountsCollectionName)
   extrinsicCol = db.collection(extrinsicCollectionName)
   eventCol = db.collection(eventCollectionName)
   statusCol = db.collection(statusCollectionName)
   assetsCol = db.collection(assetsCollectionName)
   validatorsCol = db.collection(validatorsCollectionName)
+  transferCol = db.collection(transferCollectionName)
+  voteCol = db.collection(voteCollectionName)
+  chainCol = db.collection(chainCollectionName)
+  ordersCol = db.collection(ordersCollectionName)
 
   await _createIndexes()
 }
@@ -46,6 +64,27 @@ async function _createIndexes() {
     'indexer.index': -1
   })
   await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
+}
+
+async function getAccountsCollection() {
+  if (!accountsCol) {
+    await initDb()
+  }
+  return accountsCol
+}
+
+async function getTransferColCollection() {
+  if (!transferCol) {
+    await initDb()
+  }
+  return transferCol
+}
+
+async function getVoteCollection() {
+  if (!voteCol) {
+    await initDb()
+  }
+  return voteCol
 }
 
 async function getValidatorsCollection() {
@@ -92,6 +131,20 @@ async function getStatusCollection() {
   return statusCol
 }
 
+async function getChainCollection() {
+  if (!chainCol) {
+    await initDb()
+  }
+  return chainCol
+}
+
+async function getOrdersCollection() {
+  if (!ordersCol) {
+    await initDb()
+  }
+  return ordersCol
+}
+
 // 删除>=给定区块高度的数据
 async function deleteDataFrom(blockHeight) {
   if (!blockCol || !extrinsicCol) {
@@ -127,6 +180,7 @@ async function deleteDataFrom(blockHeight) {
   }
 }
 
+// 获取首个扫描区块的高度
 async function getFirstScanHeight() {
   const statusCol = await getStatusCollection()
   const heightInfo = await statusCol.findOne({ name: mainScanName })
@@ -156,7 +210,12 @@ module.exports = {
   getStatusCollection,
   getEventCollection,
   getAssetsCollection,
+  getAccountsCollection,
   getFirstScanHeight,
+  getTransferColCollection,
   updateScanHeight,
-  deleteDataFrom
+  deleteDataFrom,
+  getVoteCollection,
+  getChainCollection,
+  getOrdersCollection
 }

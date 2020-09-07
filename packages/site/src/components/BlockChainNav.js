@@ -17,6 +17,10 @@ export default function BlockChainNav(props) {
         <li className={classnames({ 'is-active': activeKey === 'events' })}>
           <NavLink to="/events">{$t('event_list')}</NavLink>
         </li>
+
+        <li className={classnames({ 'is-active': activeKey === 'accounts' })}>
+          <NavLink to="/accounts">{$t('accounts_list')}</NavLink>
+        </li>
       </ul>
     </div>
   )

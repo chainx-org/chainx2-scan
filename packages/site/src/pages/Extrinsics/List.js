@@ -57,16 +57,20 @@ export default function({ blockHeight }) {
       })}
       columns={[
         {
-          title: $t('ex_hash'),
-          dataIndex: 'hash'
-        },
-        {
           title: $t('block_height'),
           dataIndex: 'blockHeight'
         },
         {
           title: $t('block_time'),
           dataIndex: 'blockTime'
+        },
+        {
+          title: $t('ex_hash'),
+          dataIndex: 'hash'
+        },
+        {
+          title: $t('ex_signer'),
+          dataIndex: 'signer'
         },
         {
           title: $t('ex_action'),

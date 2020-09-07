@@ -3,6 +3,8 @@ import { store } from '../index'
 import { setLatestBlocks } from '../store/reducers/latestBlockSlice'
 import { setLatestExtrinsics } from '../store/reducers/latestExtrinsicSlice'
 
+
+
 const socket = io(process.env.REACT_APP_SERVER)
 socket.connect()
 socket.on('connect', () => {

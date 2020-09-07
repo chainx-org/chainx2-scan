@@ -1,5 +1,7 @@
-const { u8aToHex } = require('@polkadot/util')
-const { sleep } = require('./util')
+const { extractExtrinsicBusinessData } = require('./extrinsic')
+
+const { u8aToHex } = require('@chainx-v2/util')
+const { sleep, logger } = require('./util')
 const {
   getExtrinsicCollection,
   getBlockCollection,
@@ -15,8 +17,7 @@ const {
   getUnSubscribeNewHeadFunction
 } = require('./latestHead')
 const { updateAssetsInfo } = require('./assetsInfo')
-// const { updateChainProperties } = require('./chainProperties')
-const { setSS58Format } = require('@polkadot/util-crypto')
+const { updateChainProperties } = require('./chainProperties')
 const {
   extractAuthor,
   extractBlockTime,
@@ -26,17 +27,22 @@ const {
   listenAndUpdateValidators,
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
-
+const { extractEventBusinessData } = require('./events')
+const { updateTransactionCount } = require('./account')
 let preBlockHash = null
 
 async function main() {
+  // 更新区块高度
   await updateHeight()
+  // 初始化sdk
   const api = await getApi()
-  setSS58Format(42)
-
+  // 设置测试网
+  await updateChainProperties()
+  // 监听并更新validators
   await listenAndUpdateValidators()
-
+  // 获取首个扫描区块高度
   let scanHeight = await getFirstScanHeight()
+  // 删除该扫描区块
   await deleteDataFrom(scanHeight)
 
   while (true) {
@@ -79,6 +85,7 @@ async function main() {
     const validators = await api.query.session.validators.at(blockHash)
     const author = extractAuthor(validators, block.block.header)
 
+    logger.info('indexing block:', block.block.header.number.toString())
     await handleBlock(block.block, author)
     preBlockHash = block.block.hash.toHex()
 
@@ -108,6 +115,8 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
+    await extractEventBusinessData(event)
+
     bulk.insert({
       indexer,
       extrinsicHash,
@@ -131,14 +140,19 @@ async function handleEvents(events, indexer, extrinsics) {
 }
 
 async function handleBlock(block, author) {
+  // 获取区块的hash
   const hash = block.hash.toHex()
   const blockJson = block.toJSON()
+  // 获取区块的高度
   const blockHeight = block.header.number.toNumber()
+  // 获取区块交易时间
   const blockTime = extractBlockTime(block.extrinsics)
+  // 组装 blockhHeight, blockHash, blockTime合成index
   const blockIndexer = { blockHeight, blockHash: hash, blockTime }
 
   const api = await getApi()
   const allEvents = await api.query.system.events.at(hash)
+  // 从区块Hash中获取全部Event
   await handleEvents(allEvents, blockIndexer, block.extrinsics)
 
   const blockCol = await getBlockCollection()
@@ -162,21 +176,30 @@ async function handleBlock(block, author) {
     })
   }
 
-  console.log(`block ${blockHeight} inserted.`)
+  //console.log(`block ${blockHeight} inserted.`)
 }
 
+/**
+ *
+ * 解析并处理交易
+ *
+ */
 async function handleExtrinsic(extrinsic, indexer) {
   const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
   const { args } = extrinsic.method.toJSON()
   const name = extrinsic.method.methodName
   const section = extrinsic.method.sectionName
-  const signer = extrinsic._raw.signature.get('signer').toHex()
+  const signer = extrinsic._raw.signature.get('signer').toString()
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
   }
+
+  await extractExtrinsicBusinessData(extrinsic, indexer)
+  await updateTransactionCount(signer)
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
+
   const doc = {
     hash,
     indexer,

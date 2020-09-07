@@ -15,8 +15,11 @@ import { useLoadDetail } from '../../../utils/hooks'
 import NoData from '../../../components/NoData'
 
 export default function() {
+
   const { heightOrHash } = useParams()
+
   const params = useMemo(() => [heightOrHash], [heightOrHash])
+
   const { detail: block, loading } = useLoadDetail(api.fetchBlock, params)
 
   const latestHeight = useSelector(latestHeightSelector)
