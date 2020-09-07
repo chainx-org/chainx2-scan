@@ -118,7 +118,7 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    await extractEventBusinessData(event)
+    await extractEventBusinessData(event, indexer)
 
     bulk.insert({
       indexer,
