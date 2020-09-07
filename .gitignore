@@ -4,3 +4,4 @@ dist
 .DS_Store
 .env
 .idea
+yarn-error.log
