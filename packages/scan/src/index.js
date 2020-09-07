@@ -1,4 +1,4 @@
-const { u8aToHex, hexToString, u8aToString } = require('@chainx-v2/util')
+const { u8aToHex } = require('@chainx-v2/util')
 const { sleep, logger } = require('./util')
 
 const {
