@@ -5,6 +5,7 @@ import txAction from './txAction'
 import event from './event'
 import accounts from './accounts'
 import nomination from './nomination'
+import assets from './assets'
 
 export default {
   ...common,
@@ -13,5 +14,6 @@ export default {
   ...txAction,
   ...event,
   ...accounts,
-  ...nomination
+  ...nomination,
+  ...assets
 }

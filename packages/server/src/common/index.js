@@ -21,7 +21,7 @@ async function getBalanceFromAccount(address) {
       count: 0
     }
   }
-  //TODO 这样查询效率比较低，暂时采取这样的方式，后续再优化
+
   const pcxBalance = await getPCXAssetByAccount(address)
   const btcBalance = await getAllAssetByAccount(address)
   // 获取交易笔数
@@ -36,6 +36,24 @@ async function getBalanceFromAccount(address) {
   }
 }
 
+async function fetchDexReserves(address) {
+  if (!address) {
+    return
+  }
+  const api = await getApi()
+  const reserve = await api.query.xSpot.nativeReserves(address)
+  return reserve
+}
+
+async function fetchNaminationLocks(address) {
+  if (!address) {
+    return
+  }
+  const api = await getApi()
+  const locks = await api.query.xStaking.locks(address)
+  return locks.toJSON()
+}
+
 async function getAllAssetByAccount(address) {
   if (!address) {
     return
@@ -48,5 +66,7 @@ async function getAllAssetByAccount(address) {
 module.exports = {
   getPCXAssetByAccount,
   getAllAssetByAccount,
+  fetchDexReserves,
+  fetchNaminationLocks,
   getBalanceFromAccount
 }
