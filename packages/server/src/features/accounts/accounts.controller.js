@@ -1,5 +1,9 @@
 const { extractPage } = require('../../utils')
-const { getBalanceFromAccount } = require('../../common')
+const {
+  getBalanceFromAccount,
+  fetchDexReserves,
+  fetchNaminationLocks
+} = require('../../common')
 const { getAccountsCollection } = require('../../services/mongo')
 const { Account } = require('@chainx-v2/account')
 
@@ -58,7 +62,6 @@ class AccountsController {
   //TODO 获取资产信息
   async getAssets(ctx) {
     const { address } = ctx.params
-    let query = { account: address }
     // Determine whether the address is legal
     if (!Account.isAddressValid(address)) {
       ctx.body = {
@@ -68,9 +71,15 @@ class AccountsController {
     }
 
     let { pcx } = await getBalanceFromAccount(address)
+    let dexReserve = await fetchDexReserves(address)
+    let locks = await fetchNaminationLocks(address)
 
     ctx.body = {
-      Free: pcx.free
+      Free: pcx.free,
+      ReservedDexSpot: dexReserve,
+      ReservedStakingRevocation: locks ? locks.Bonded : 0,
+      ReservedWithdrawal: locks ? locks.BondedWithdrawal : 0,
+      account: address
     }
   }
 }
