@@ -100,6 +100,10 @@ class Api {
     return this.cancelableFetch(`/transaction`, params)
   }
 
+  fetchNativeAssets = address => {
+    return this.cancelableFetch(`/accounts/${address}/assets`)
+  }
+
   fetchEvent = eventId => {
     return this.cancelableFetch(`/events/${eventId}`)
   }

@@ -6,6 +6,9 @@ const transactionController = require('./transaction.controller')
 const router = new Router()
 router.get('/accounts', blockController.getAccounts)
 router.get('/accounts/:address', blockController.getAccount)
+
+router.get('/accounts/:address/assets', blockController.getAssets)
+
 router.get('/transaction', transactionController.getTransaction)
 router.get('/transfer', transferController.getTransfer)
 
