@@ -1,21 +1,26 @@
 const { getTransferColCollection } = require('../mongoClient')
+const { isExtrinsicSuccess } = require('../events/utils')
 
 module.exports = async function extractUserTransfer(
   extrinsic,
   hash,
   indexer,
   signer,
-  args
+  args,
+  events
 ) {
+  if (!isExtrinsicSuccess(events)) {
+    // 交易没有执行成功
+    return
+  }
+
   const exCol = await getTransferColCollection()
   const data = {
-    hash: hash,
-    blockHeight: indexer.blockHeight,
-    blockTime: indexer.blockTime,
-    sender: signer,
-    receiver: args ? args.dest : '',
-    value: args ? args.value : '',
-    memo: args ? args.memo : ''
+    indexer,
+    extrinsicHash: hash,
+    from: signer,
+    to: args.dest,
+    value: args.value
   }
   const result = await exCol.insertOne(data)
   if (result.result && !result.result.ok) {

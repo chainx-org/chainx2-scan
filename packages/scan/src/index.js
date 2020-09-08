@@ -1,6 +1,7 @@
 const { u8aToHex } = require('@chainx-v2/util')
 const { sleep, logger } = require('./util')
 const { extractExtrinsicBusinessData } = require('./extrinsic')
+const { extractExtrinsicEvents } = require('./events/utils')
 
 const {
   getExtrinsicCollection,
@@ -171,9 +172,7 @@ async function handleBlock(block, author) {
 
   let index = 0
   for (const extrinsic of block.extrinsics) {
-    const events = allEvents.filter(
-      event => event.phase.value.toNumber() === index
-    )
+    const events = extractExtrinsicEvents(allEvents, index)
 
     await handleExtrinsic(
       extrinsic,
@@ -208,7 +207,7 @@ async function handleExtrinsic(extrinsic, indexer, events) {
     signer = ''
   }
 
-  await extractExtrinsicBusinessData(extrinsic, indexer)
+  await extractExtrinsicBusinessData(extrinsic, indexer, events)
 
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
