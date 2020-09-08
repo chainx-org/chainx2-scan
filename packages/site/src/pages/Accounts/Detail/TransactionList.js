@@ -5,9 +5,7 @@ import $t from '../../../locale'
 import DateShow from '../../../components/DateShow'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
-import TxAction from '../../../components/TxAction'
 import { useLoad } from '../../../utils/hooks'
-import { useLoadDetail } from '../../../utils/hooks'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)

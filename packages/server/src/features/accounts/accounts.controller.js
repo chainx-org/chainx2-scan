@@ -50,14 +50,6 @@ class AccountsController {
 
     ctx.body = accountsData
   }
-
-  async getTransaction(ctx) {
-    const { address } = ctx.params
-    let query = { signer: address }
-
-    const col = await getExtrinsicCollection()
-    ctx.body = await col.find(query).toArray()
-  }
 }
 
 module.exports = new AccountsController()

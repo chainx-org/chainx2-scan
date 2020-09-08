@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { Table, Amount, ValidatorLink, NumberFormat } from '../../../components'
+import { Table } from '../../../components'
 import api from '../../../services/api'
 import $t from '../../../locale'
-import { FormattedMessage } from 'react-intl'
 import { useLoad } from '../../../utils/hooks'
 import { useParams } from 'react-router-dom'
 import DateShow from '../../../components/DateShow'
 
 export default function AccountNomination(props) {
-  const [list, setList] = useState([])
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
+  const [page] = useState(1)
+  const [pageSize] = useState(20)
 
   const { address } = useParams()
 
@@ -23,12 +21,6 @@ export default function AccountNomination(props) {
     api.fetchAccountNominations,
     params
   )
-
-  const getRevocations = revocations => {
-    return JSON.parse(revocations)
-      .flat()
-      .reduce((a, b) => a + b, 0)
-  }
 
   return (
     <Table

@@ -1,10 +1,8 @@
-const { isMongoId } = require('../../utils')
 const { extractPage } = require('../../utils')
 const {
   getExtrinsicCollection,
   getEventCollection
 } = require('../../services/mongo')
-const { ObjectID } = require('mongodb')
 
 class TransactionController {
   async getTransaction(ctx) {
