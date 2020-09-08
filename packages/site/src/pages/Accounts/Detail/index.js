@@ -94,31 +94,6 @@ export default function() {
             >
               <a>投票列表</a>
             </li>
-
-            <li
-              onClick={() => setActiveKey('currententrust')}
-              className={classnames({
-                'is-active': activeKey === 'currententrust'
-              })}
-            >
-              <a>当前委托列表</a>
-            </li>
-
-            <li
-              onClick={() => setActiveKey('historyentrust')}
-              className={classnames({
-                'is-active': activeKey === 'historyentrust'
-              })}
-            >
-              <a>历史委托列表</a>
-            </li>
-
-            <li
-              onClick={() => setActiveKey('recharge')}
-              className={classnames({ 'is-active': activeKey === 'recharge' })}
-            >
-              <a>充值列表</a>
-            </li>
           </ul>
         </div>
         {activeKey === 'transfer' && <TransferList address={address} />}
