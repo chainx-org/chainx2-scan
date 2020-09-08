@@ -1,7 +1,7 @@
 const { getOrdersCollection, getVoteCollection } = require('../mongoClient')
 const { handleSystemEvent } = require('./system')
 const { handleBalancesEvent } = require('./balances')
-const { handleStakingEvent } = require('./xstaking')
+const { handleStakingEventNew } = require('./xstaking')
 const { handleSpotEvent } = require('./xspot')
 
 async function extractEventBusinessData(event, indexer) {
@@ -14,7 +14,7 @@ async function extractEventBusinessData(event, indexer) {
   } else if (section === 'xSpot') {
     await handleSpotEvent(method, event)
   } else if (section === 'xStaking') {
-    await handleStakingEvent(method, event)
+    await handleStakingEventNew(event, indexer)
   }
 }
 
