@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react'
 import { Table, Amount, TokenName, TokenChain } from '../../../components'
 import api from '../../../services/api'
+
 import { useLoadDetail } from '../../../utils/hooks'
+
 import { useParams } from 'react-router-dom'
 import $t from '../../../locale'
 
@@ -13,7 +15,6 @@ export default function AccountAsset(props) {
     api.fetchNativeAssets,
     params
   )
-  debugger
 
   const nativeColumns = [
     {
