@@ -13,9 +13,9 @@ module.exports = async function extractUserTransfer(
     blockHeight: indexer.blockHeight,
     blockTime: indexer.blockTime,
     sender: signer,
-    receiver: args.dest,
-    value: args.value,
-    memo: args.memo
+    receiver: args ? args.dest : '',
+    value: args ? args.value : '',
+    memo: args ? args.memo : ''
   }
   const result = await exCol.insertOne(data)
   if (result.result && !result.result.ok) {
