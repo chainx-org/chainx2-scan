@@ -1,12 +1,7 @@
-const { isMongoId } = require('../../utils')
-const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
-const {
-  getAccountsCollection,
-  getTransferColCollection,
-  getExtrinsicCollection,
-  getVoteCollection
-} = require('../../services/mongo')
-const { ObjectID } = require('mongodb')
+const { extractPage } = require('../../utils')
+const { getBalanceFromAccount } = require('../../common')
+
+const { getAccountsCollection } = require('../../services/mongo')
 
 class AccountsController {
   async getAccounts(ctx) {
@@ -18,15 +13,26 @@ class AccountsController {
 
     const col = await getAccountsCollection()
     const total = await col.estimatedDocumentCount()
-    const accounts = await col
+
+    const accountsList = await col
       .find({})
       .sort({ 'header.number': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
 
+    //TODO 这样查询效率比较低，暂时采取这样的方式，后续再优化
+    for (let i = 0; i < accountsList.length; i++) {
+      let { pcx, btc, count } = await getBalanceFromAccount(
+        accountsList[i].account
+      )
+      accountsList[i].pcx = pcx
+      accountsList[i].btc = btc
+      accountsList[i].count = count
+    }
+
     ctx.body = {
-      items: accounts,
+      items: accountsList,
       page,
       pageSize,
       total
@@ -36,20 +42,17 @@ class AccountsController {
   async getAccount(ctx) {
     const { address } = ctx.params
     let query = { account: address }
-
     const col = await getAccountsCollection()
     let accountsData = await col.findOne(query)
-    // 获取交易笔数
-    const extrinsicCol = await getExtrinsicCollection()
-    let extrinclists = await extrinsicCol.find({ signer: address }).toArray()
-    if (accountsData) {
-      accountsData.count = extrinclists.length
-    } else {
-      accountsData = {}
+    let balaceData = await getBalanceFromAccount(address)
+    ctx.body = {
+      ...accountsData,
+      ...balaceData
     }
-
-    ctx.body = accountsData
   }
+
+  //TODO 获取资产信息
+  async getAssets(ctx) {}
 }
 
 module.exports = new AccountsController()

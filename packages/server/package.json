@@ -11,6 +11,8 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^9.1.0",
     "mongodb": "^3.5.9",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "@chainx-v2/account": "^0.0.24",
+    "@chainx-v2/api": "0.0.24"
   }
 }

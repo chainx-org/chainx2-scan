@@ -1,5 +1,4 @@
 const { getApi } = require('../api')
-const { sleep, logger } = require('../util')
 /**
  *
  * @return  balance { free, reserved, miscFrozen,feeFrozen }
