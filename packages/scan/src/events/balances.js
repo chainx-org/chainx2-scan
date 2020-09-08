@@ -3,6 +3,8 @@ const _ = require('lodash')
 const BigNumber = require('bignumber.js')
 const { getNativeAssetCollection } = require('../mongoClient')
 
+const safeBlocks = 300
+
 async function handleBalancesEvent(event, indexer) {
   const { method } = event
   const { blockHeight } = indexer
@@ -12,9 +14,25 @@ async function handleBalancesEvent(event, indexer) {
     const fromAsset = await getNativeBalance(from)
     const toAsset = await getNativeBalance(to)
 
-    const col = await getNativeAssetCollection()
-    await col.insertOne({ blockHeight, address: from, ...fromAsset })
-    await col.insertOne({ blockHeight, address: to, ...toAsset })
+    await updateAddressBalance(blockHeight, from, fromAsset)
+    await updateAddressBalance(blockHeight, to, toAsset)
+  }
+}
+
+async function updateAddressBalance(blockHeight, address, asset) {
+  const col = await getNativeAssetCollection()
+  await col.insertOne({ blockHeight, address, ...asset })
+
+  const records = await col
+    .find({
+      address,
+      blockHeight: { $lt: blockHeight - safeBlocks }
+    })
+    .toArray()
+
+  if (records.length > 1) {
+    const minHeight = Math.min(records.map(r => r.blockHeight))
+    col.deleteMany({ blockHeight: { $lte: minHeight } })
   }
 }
 
