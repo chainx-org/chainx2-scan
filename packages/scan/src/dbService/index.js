@@ -6,6 +6,7 @@ async function getAssetInfoById(id) {
     .find({ id })
     .sort({ queryHeight: -1 })
     .limit(1)
+    .toArray()
   return arr[0]
 }
 
