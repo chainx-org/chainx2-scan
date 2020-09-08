@@ -1,7 +1,7 @@
 const { extractPage } = require('../../utils')
 const { getBalanceFromAccount } = require('../../common')
-
 const { getAccountsCollection } = require('../../services/mongo')
+const { Account } = require('@chainx-v2/account')
 
 class AccountsController {
   async getAccounts(ctx) {
@@ -13,7 +13,6 @@ class AccountsController {
 
     const col = await getAccountsCollection()
     const total = await col.estimatedDocumentCount()
-
     const accountsList = await col
       .find({})
       .sort({ 'header.number': -1 })
@@ -21,7 +20,7 @@ class AccountsController {
       .limit(pageSize)
       .toArray()
 
-    //TODO 这样查询效率比较低，暂时采取这样的方式，后续再优化
+    //TODO Such query efficiency is relatively low, take this way for the time being, and then optimize
     for (let i = 0; i < accountsList.length; i++) {
       let { pcx, btc, count } = await getBalanceFromAccount(
         accountsList[i].account
@@ -30,7 +29,6 @@ class AccountsController {
       accountsList[i].btc = btc
       accountsList[i].count = count
     }
-
     ctx.body = {
       items: accountsList,
       page,
@@ -42,6 +40,12 @@ class AccountsController {
   async getAccount(ctx) {
     const { address } = ctx.params
     let query = { account: address }
+    if (!Account.isAddressValid(address)) {
+      ctx.body = {
+        errmsg: 'illegal address'
+      }
+      return
+    }
     const col = await getAccountsCollection()
     let accountsData = await col.findOne(query)
     let balaceData = await getBalanceFromAccount(address)
@@ -52,7 +56,23 @@ class AccountsController {
   }
 
   //TODO 获取资产信息
-  async getAssets(ctx) {}
+  async getAssets(ctx) {
+    const { address } = ctx.params
+    let query = { account: address }
+    // Determine whether the address is legal
+    if (!Account.isAddressValid(address)) {
+      ctx.body = {
+        errmsg: 'illegal address'
+      }
+      return
+    }
+
+    let { pcx } = await getBalanceFromAccount(address)
+
+    ctx.body = {
+      Free: pcx.free
+    }
+  }
 }
 
 module.exports = new AccountsController()
