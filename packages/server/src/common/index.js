@@ -17,6 +17,7 @@ async function getBalanceFromAccount(address) {
   if (!address) {
     return
   }
+
   const pcxBalance = await getPCXAssetByAccount(address)
   const btcBalance = await getAllAssetByAccount(address)
   // 获取交易笔数
@@ -61,7 +62,7 @@ async function getAllAssetByAccount(address) {
 module.exports = {
   getPCXAssetByAccount,
   getAllAssetByAccount,
-  getBalanceFromAccount,
   fetchDexReserves,
-  fetchNaminationLocks
+  fetchNaminationLocks,
+  getBalanceFromAccount
 }
