@@ -65,90 +65,59 @@ async function _createIndexes() {
   await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
 }
 
-async function getAccountsCollection() {
-  if (!accountsCol) {
+async function getOrInit(col) {
+  if (!col) {
     await initDb()
   }
-  return accountsCol
+  return col
+}
+
+async function getAccountsCollection() {
+  return await getOrInit(accountsCol)
 }
 
 async function getTransferColCollection() {
-  if (!transferCol) {
-    await initDb()
-  }
-  return transferCol
+  return await getOrInit(transferCol)
 }
 
 async function getOrderColCollection() {
-  if (!orderCol) {
-    await initDb()
-  }
-  return orderCol
+  return await getOrInit(orderCol)
 }
 
 async function getVoteCollection() {
-  if (!voteCol) {
-    await initDb()
-  }
-  return voteCol
+  return await getOrInit(voteCol)
 }
 
 async function getValidatorsCollection() {
-  if (!validatorsCol) {
-    await initDb()
-  }
-
-  return validatorsCol
+  return await getOrInit(validatorsCol)
 }
 
 async function getAssetsCollection() {
-  if (!assetsCol) {
-    await initDb()
-  }
-
-  return assetsCol
+  return getOrInit(assetsCol)
 }
 
 async function getBlockCollection() {
-  if (!blockCol) {
-    await initDb()
-  }
-  return blockCol
+  return await getOrInit(blockCol)
 }
 
 async function getExtrinsicCollection() {
-  if (!extrinsicCol) {
-    await initDb()
-  }
-  return extrinsicCol
+  return await getOrInit(extrinsicCol)
 }
 
 async function getEventCollection() {
-  if (!eventCol) {
-    await initDb()
-  }
-  return eventCol
+  return await getOrInit(eventCol)
 }
 
 async function getStatusCollection() {
-  if (!statusCol) {
-    await initDb()
-  }
-  return statusCol
+  return await getOrInit(statusCol)
 }
 
 async function getChainCollection() {
-  if (!chainCol) {
-    await initDb()
-  }
-  return chainCol
+  return await getOrInit(chainCol)
 }
 
 async function getOrdersCollection() {
-  if (!ordersCol) {
-    await initDb()
-  }
-  return ordersCol
+  return await getOrInit(ordersCol)
 }
 
 // 删除>=给定区块高度的数据

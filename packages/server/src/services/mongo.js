@@ -9,7 +9,8 @@ const cols = {
   status: 'status',
   event: 'event',
   accounts: 'accounts',
-  validators: 'validators'
+  validators: 'validators',
+  vote: 'vote'
 }
 
 const transferCollectionName = 'transfer'
@@ -21,10 +22,15 @@ let statusCol = null
 let accountsCol = null
 let transferCol = null
 let validatorsCol = null
+let voteCol = null
 
 async function initDb() {
-  client = await MongoClient.connect(config.mongo.url)
+  client = await MongoClient.connect(config.mongo.url, {
+    useUnifiedTopology: true
+  })
+
   const db = client.db(dbName)
+
   blockCol = db.collection(cols.block)
   extrinsicCol = db.collection(cols.extrinsic)
   statusCol = db.collection(cols.status)
@@ -32,57 +38,48 @@ async function initDb() {
   accountsCol = db.collection(cols.accounts)
   transferCol = db.collection(transferCollectionName)
   validatorsCol = db.collection(cols.validators)
+  voteCol = db.collection(cols.vote)
 
   return db
 }
 
-async function getBlockCollection() {
-  if (!blockCol) {
+async function getOrInit(col) {
+  if (!col) {
     await initDb()
   }
-  return blockCol
+  return col
+}
+
+async function getBlockCollection() {
+  return await getOrInit(blockCol)
 }
 
 async function getExtrinsicCollection() {
-  if (!extrinsicCol) {
-    await initDb()
-  }
-  return extrinsicCol
+  return await getOrInit(extrinsicCol)
 }
 
 async function getTransferColCollection() {
-  if (!transferCol) {
-    await initDb()
-  }
-  return transferCol
+  return await getOrInit(transferCol)
 }
 
 async function getValidatorsCollection() {
-  if (!validatorsCol) {
-    await initDb()
-  }
-  return validatorsCol
+  return await getOrInit(validatorsCol)
 }
 
 async function getStatusCollection() {
-  if (!statusCol) {
-    await initDb()
-  }
-  return statusCol
+  return await getOrInit(statusCol)
 }
 
 async function getAccountsCollection() {
-  if (!accountsCol) {
-    await initDb()
-  }
-  return accountsCol
+  return await getOrInit(accountsCol)
 }
 
 async function getEventCollection() {
-  if (!eventCol) {
-    await initDb()
-  }
-  return eventCol
+  return await getOrInit(eventCol)
+}
+
+async function getVoteCollection() {
+  return await getOrInit(voteCol)
 }
 
 module.exports = {
@@ -93,5 +90,6 @@ module.exports = {
   getStatusCollection,
   getAccountsCollection,
   getTransferColCollection,
-  getValidatorsCollection
+  getValidatorsCollection,
+  getVoteCollection
 }
