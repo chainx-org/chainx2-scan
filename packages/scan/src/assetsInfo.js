@@ -1,6 +1,7 @@
 const { getApi } = require('./api')
 const { getAssetsCollection } = require('./mongoClient')
 
+// TODO: init memory assets info with value in DB
 let memAssetsInfo = null
 
 async function updateAssetsInfo(height = 0) {
