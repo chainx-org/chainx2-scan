@@ -25,6 +25,11 @@ async function handleBalancesEvent(event, indexer) {
 
 async function updateAddressBalance(blockHeight, blockHash, address) {
   const col = await getNativeAssetCollection()
+  const existedRecords = await col.find({ blockHeight, address }).toArray()
+  if (existedRecords.length > 0) {
+    return
+  }
+
   const asset = await getNativeBalance(address, blockHash)
   await col.insertOne({ blockHeight, address, ...asset })
 
