@@ -49,8 +49,8 @@ class NominationController {
           nominationList[i].name === 'unbond'
             ? nominationList[i].args.value
             : 0,
-        last_vote_weight_update: currentValidator.lastTotalVoteWeightUpdate,
-        last_vote_weight: currentValidator.lastTotalVoteWeight
+        last_vote_weight_update: '--',
+        last_vote_weight: '--' //currentValidator.lastTotalVoteWeight
       })
     }
 

@@ -43,43 +43,50 @@ async function initDb() {
   return db
 }
 
-async function getOrInit(col) {
+async function tryInit(col) {
   if (!col) {
     await initDb()
   }
-  return col
 }
 
 async function getBlockCollection() {
-  return await getOrInit(blockCol)
+  await tryInit(blockCol)
+  return blockCol
 }
 
 async function getExtrinsicCollection() {
-  return await getOrInit(extrinsicCol)
+  await tryInit(extrinsicCol)
+  return extrinsicCol
 }
 
 async function getTransferColCollection() {
-  return await getOrInit(transferCol)
+  await tryInit(transferCol)
+  return transferCol
 }
 
 async function getValidatorsCollection() {
-  return await getOrInit(validatorsCol)
+  await tryInit(validatorsCol)
+  return validatorsCol
 }
 
 async function getStatusCollection() {
-  return await getOrInit(statusCol)
+  await tryInit(statusCol)
+  return statusCol
 }
 
 async function getAccountsCollection() {
-  return await getOrInit(accountsCol)
+  await tryInit(accountsCol)
+  return accountsCol
 }
 
 async function getEventCollection() {
-  return await getOrInit(eventCol)
+  await tryInit(eventCol)
+  return eventCol
 }
 
 async function getVoteCollection() {
-  return await getOrInit(voteCol)
+  await tryInit(voteCol)
+  return voteCol
 }
 
 module.exports = {

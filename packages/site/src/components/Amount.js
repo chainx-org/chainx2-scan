@@ -1,6 +1,4 @@
 import React, { memo } from 'react'
-import { useAppContext } from './AppContext'
-
 function zeroSmoke(value) {
   const str = value.toString()
   const Reg = new RegExp(/0{4,}$/)

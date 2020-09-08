@@ -22,45 +22,8 @@ export function AppContextProvider(props) {
 
   useEffect(() => {
     //TODO 暂时使用mock数据
-    const token = [
-      {
-        token: 'SDOT',
-        token_name: 'Shadow DOT',
-        chain: 'Ethereum',
-        precision: 3,
-        des: 'ChainX s Shadow Polkadot from Ethereum',
-        ok: true,
-        num: 0
-      },
-      {
-        token: 'PCX',
-        token_name: 'Polkadot ChainX',
-        chain: 'ChainX',
-        precision: 8,
-        des: 'ChainX s crypto currency in Polkadot ecology',
-        ok: true,
-        num: 0
-      },
-      {
-        token: 'L-BTC',
-        token_name: 'Lock-up BTC',
-        chain: 'Bitcoin',
-        precision: 8,
-        des: 'ChainX s lock-up Bitcoin',
-        ok: true,
-        num: 2169035
-      },
-      {
-        token: 'BTC',
-        token_name: 'Interchain BTC',
-        chain: 'Bitcoin',
-        precision: 8,
-        des: 'ChainX s interchain Bitcoin',
-        ok: true,
-        num: 0
-      }
-    ]
   }, [api])
+
   const { tokens = [], intentions = [] } = state
   if (!tokens.length || !intentions.length) {
     return (
@@ -80,5 +43,3 @@ export function AppContextProvider(props) {
 }
 
 export const useAppContext = () => useContext(AppContext)
-
-export default AppContext
