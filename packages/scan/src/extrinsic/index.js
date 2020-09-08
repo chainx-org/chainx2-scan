@@ -1,6 +1,7 @@
 const { extractUserTransfer } = require('../account')
 const ignoreSectionNames = ['timestsamp']
 const { extractVoteInfo, extractOrder } = require('../account')
+const { isTransferExtrinsic } = require('./util')
 
 async function extractExtrinsicBusinessData(extrinsic, indexer, events) {
   const hash = extrinsic.hash.toHex()
@@ -17,8 +18,8 @@ async function extractExtrinsicBusinessData(extrinsic, indexer, events) {
     return
   }
 
-  if (section === 'balances' && methodName === 'transfer') {
-    await extractUserTransfer(extrinsic, hash, indexer, signer, args, events)
+  if (isTransferExtrinsic(section, methodName)) {
+    await extractUserTransfer(extrinsic, indexer, signer, args, events)
   } else if (section === 'xStaking') {
     // 更新xStaking列表
     await extractVoteInfo(extrinsic, hash, indexer, signer, args)
