@@ -57,10 +57,9 @@ export default function AccountAsset(props) {
         dataSource={
           nativeAssets &&
           nativeAssets.items.map(item => {
-            debugger
             return {
               key: item.token,
-              token: item.token,
+              token: item.Token,
               free: (
                 <Amount
                   value={item.Free}

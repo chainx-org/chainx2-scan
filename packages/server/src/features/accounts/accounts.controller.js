@@ -81,10 +81,12 @@ class AccountsController {
       items: [
         {
           Token: 'PCX',
-          Free: PCXBalance.free,
+          Free: PCXBalance ? PCXBalance.free : 0,
           ReservedDexSpot: dexReserve,
-          ReservedStakingRevocation: locks ? locks.Bonded : 0,
-          ReservedStaking: locks ? locks.BondedWithdrawal : 0,
+          ReservedStakingRevocation:
+            JSON.stringify(locks) === '{}' ? 0 : locks.Bonded,
+          ReservedStaking:
+            JSON.stringify(locks) === '{}' ? 0 : locks.BondedWithdrawal,
           Account: address
         }
       ]
