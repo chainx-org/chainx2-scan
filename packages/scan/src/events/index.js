@@ -1,6 +1,7 @@
 const { getOrdersCollection, getVoteCollection } = require('../mongoClient')
 const { logger } = require('../util')
 const { handleSystemEvent } = require('./system')
+const { handleBalancesEvent } = require('./balances')
 
 function getNormalizedOrderFromEvent(event) {
   const order = event.data.toJSON()[0]
@@ -93,6 +94,8 @@ async function extractEventBusinessData(event, indexer) {
 
   if (section === 'system') {
     await handleSystemEvent(event, indexer)
+  } else if (section === 'balances') {
+    await handleBalancesEvent(event, indexer)
   } else if (section === 'xSpot') {
     await handleSpotEvent(method, event)
   } else if (section === 'xStaking') {
