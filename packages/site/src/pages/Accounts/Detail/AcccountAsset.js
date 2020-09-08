@@ -13,7 +13,6 @@ export default function AccountAsset(props) {
     api.fetchNativeAssets,
     params
   )
-  debugger
 
   const nativeColumns = [
     {
