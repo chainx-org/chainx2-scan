@@ -70,22 +70,21 @@ class AccountsController {
       return
     }
 
-    let { pcx } = await getBalanceFromAccount(address)
+    let { PCXBalance } = await getBalanceFromAccount(address)
     let dexReserve = await fetchDexReserves(address)
     let locks = await fetchNaminationLocks(address)
 
-    let data = []
-    data.push({
-      token: 'pcx',
-      Free: pcx.free,
-      ReservedDexSpot: dexReserve,
-      ReservedStakingRevocation: locks ? locks.Bonded : 0,
-      ReservedStaking: locks ? locks.BondedWithdrawal : 0,
-      account: address
-    })
-
     ctx.body = {
-      items: data
+      items: [
+        {
+          Token: 'PCX',
+          Free: PCXBalance.free,
+          ReservedDexSpot: dexReserve,
+          ReservedStakingRevocation: locks ? locks.Bonded : 0,
+          ReservedStaking: locks ? locks.BondedWithdrawal : 0,
+          Account: address
+        }
+      ]
     }
   }
 }

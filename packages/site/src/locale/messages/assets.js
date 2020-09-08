@@ -1,4 +1,8 @@
 export default {
+  CHAINX_ASSET: {
+    zh: 'ChainX资产',
+    en: 'ChainX Assets'
+  },
   ASSETNAME: {
     zh: '资产',
     en: 'Asset'
