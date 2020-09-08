@@ -7,19 +7,25 @@ const safeBlocks = 300
 
 async function handleBalancesEvent(event, indexer) {
   const { method } = event
-  const { blockHeight } = indexer
+  const { blockHeight, blockHash } = indexer
 
   if (method === 'Transfer') {
     const [from, to] = event.data.toJSON()
 
-    await updateAddressBalance(blockHeight, from)
-    await updateAddressBalance(blockHeight, to)
+    await updateAddressBalance(blockHeight, blockHash, from)
+    if (from !== to) {
+      await updateAddressBalance(blockHeight, blockHash, to)
+    }
+  } else if (method === 'Endowed') {
+    const [account] = event.data.toJSON()
+
+    await updateAddressBalance(blockHeight, blockHash, account)
   }
 }
 
-async function updateAddressBalance(blockHeight, address) {
+async function updateAddressBalance(blockHeight, blockHash, address) {
   const col = await getNativeAssetCollection()
-  const asset = await getNativeBalance(address, blockHeight)
+  const asset = await getNativeBalance(address, blockHash)
   await col.insertOne({ blockHeight, address, ...asset })
 
   const records = await col
@@ -42,9 +48,9 @@ const emptyAsset = {
   feeFrozen: '0'
 }
 
-async function getNativeBalance(address, blockHeight) {
+async function getNativeBalance(address, blockHash) {
   const api = await getApi()
-  const asset = await api.query.system.account.at(blockHeight, address)
+  const asset = await api.query.system.account.at(blockHash, address)
   let data = asset.toJSON().data
   if (_.isEmpty(data)) {
     data = emptyAsset
