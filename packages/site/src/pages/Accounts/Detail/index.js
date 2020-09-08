@@ -53,7 +53,7 @@ export default function() {
         dataSource={[
           {
             label: $t('address_item'),
-            data: <AccountLink value={accounts.account} />
+            data: <AccountLink value={accounts.address} />
           },
           {
             label: $t('account_publickey'),
