@@ -3,7 +3,8 @@ const featureRouters = [
   require('./features/extrinsics/routes'),
   require('./features/events/routes'),
   require('./features/accounts/routes'),
-  require('./features/nomination/router')
+  require('./features/nomination/router'),
+  require('./features/votes/routes')
 ]
 
 module.exports = app => {
