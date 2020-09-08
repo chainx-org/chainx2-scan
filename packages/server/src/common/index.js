@@ -15,7 +15,11 @@ async function getPCXAssetByAccount(address) {
 
 async function getBalanceFromAccount(address) {
   if (!address) {
-    return
+    return {
+      pcx: {},
+      btc: {},
+      count: 0
+    }
   }
   //TODO 这样查询效率比较低，暂时采取这样的方式，后续再优化
   const pcxBalance = await getPCXAssetByAccount(address)
