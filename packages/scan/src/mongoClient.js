@@ -161,6 +161,7 @@ async function deleteDataFrom(blockHeight) {
   const {
     result: { ok: deleteAccountsOk }
   } = await accountsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
+  await transferCol.deleteMany({ 'indexer.blockHeight': { $gte: blockHeight } })
 
   if (
     deleteBlockOk !== 1 ||
