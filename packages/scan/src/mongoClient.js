@@ -34,8 +34,12 @@ let chainCol = null
 let ordersCol = null
 
 async function initDb() {
-  client = await MongoClient.connect(config.mongo.url)
+  client = await MongoClient.connect(config.mongo.url, {
+    useUnifiedTopology: true
+  })
+
   db = client.db(dbName)
+
   blockCol = db.collection(blockCollectionName)
   accountsCol = db.collection(accountsCollectionName)
   extrinsicCol = db.collection(extrinsicCollectionName)
@@ -65,59 +69,70 @@ async function _createIndexes() {
   await eventCol.createIndex({ 'indexer.blockHeight': -1, index: -1 })
 }
 
-async function getOrInit(col) {
+async function tryInit(col) {
   if (!col) {
     await initDb()
   }
-  return col
 }
 
 async function getAccountsCollection() {
-  return await getOrInit(accountsCol)
+  await tryInit(accountsCol)
+  return accountsCol
 }
 
 async function getTransferColCollection() {
-  return await getOrInit(transferCol)
+  await tryInit(transferCol)
+  return transferCol
 }
 
 async function getOrderColCollection() {
-  return await getOrInit(orderCol)
+  await tryInit(orderCol)
+  return orderCol
 }
 
 async function getVoteCollection() {
-  return await getOrInit(voteCol)
+  await tryInit(voteCol)
+  return voteCol
 }
 
 async function getValidatorsCollection() {
-  return await getOrInit(validatorsCol)
+  await tryInit(validatorsCol)
+  return validatorsCol
 }
 
 async function getAssetsCollection() {
-  return getOrInit(assetsCol)
+  await tryInit(assetsCol)
+  return assetsCol
 }
 
 async function getBlockCollection() {
-  return await getOrInit(blockCol)
+  await tryInit(blockCol)
+  return blockCol
 }
 
 async function getExtrinsicCollection() {
-  return await getOrInit(extrinsicCol)
+  await tryInit(extrinsicCol)
+  return extrinsicCol
 }
 
 async function getEventCollection() {
-  return await getOrInit(eventCol)
+  await tryInit(eventCol)
+  return eventCol
 }
 
 async function getStatusCollection() {
-  return await getOrInit(statusCol)
+  await tryInit(statusCol)
+  return statusCol
 }
 
 async function getChainCollection() {
-  return await getOrInit(chainCol)
+  await tryInit(chainCol)
+  return chainCol
 }
 
 async function getOrdersCollection() {
-  return await getOrInit(ordersCol)
+  await tryInit(ordersCol)
+  return ordersCol
 }
 
 // 删除>=给定区块高度的数据
