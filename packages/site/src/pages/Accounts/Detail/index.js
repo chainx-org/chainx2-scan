@@ -11,10 +11,11 @@ import AccountLink from '../../../components/AccountLink'
 import TransferList from '../Detail/TransferList'
 import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
+import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 
 export default function() {
-  const [activeKey, setActiveKey] = useState('transfer')
+  const [activeKey, setActiveKey] = useState('assets')
 
   const { address } = useParams()
   const params = useMemo(() => [address], [address])
@@ -73,6 +74,12 @@ export default function() {
         <div className="tabs">
           <ul>
             <li
+              onClick={() => setActiveKey('assets')}
+              className={classnames({ 'is-active': activeKey === 'assets' })}
+            >
+              <a>资产列表</a>
+            </li>
+            <li
               onClick={() => setActiveKey('transfer')}
               className={classnames({ 'is-active': activeKey === 'transfer' })}
             >
@@ -96,6 +103,7 @@ export default function() {
             </li>
           </ul>
         </div>
+        {activeKey === 'assets' && <AcccountAsset address={address} />}
         {activeKey === 'transfer' && <TransferList address={address} />}
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}

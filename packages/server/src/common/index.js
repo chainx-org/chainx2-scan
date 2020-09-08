@@ -37,7 +37,7 @@ async function fetchDexReserves(address) {
   }
   const api = await getApi()
   const reserve = await api.query.xSpot.nativeReserves(address)
-  return reserve.toString()
+  return reserve
 }
 
 async function fetchNaminationLocks(address) {
