@@ -74,12 +74,18 @@ class AccountsController {
     let dexReserve = await fetchDexReserves(address)
     let locks = await fetchNaminationLocks(address)
 
-    ctx.body = {
+    let data = []
+    data.push({
+      token: 'pcx',
       Free: pcx.free,
       ReservedDexSpot: dexReserve,
       ReservedStakingRevocation: locks ? locks.Bonded : 0,
-      ReservedWithdrawal: locks ? locks.BondedWithdrawal : 0,
+      ReservedStaking: locks ? locks.BondedWithdrawal : 0,
       account: address
+    })
+
+    ctx.body = {
+      items: data
     }
   }
 }
