@@ -1,12 +1,5 @@
-const { isMongoId } = require('../../utils')
-const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
-const {
-  getAccountsCollection,
-  getTransferColCollection,
-  getExtrinsicCollection,
-  getVoteCollection
-} = require('../../services/mongo')
-const { ObjectID } = require('mongodb')
+const { extractPage } = require('../../utils')
+const { getTransferColCollection } = require('../../services/mongo')
 
 class TransferController {
   async getTransfer(ctx) {
