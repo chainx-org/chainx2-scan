@@ -12,10 +12,6 @@ module.exports = async function extractVoteInfo(
   signer,
   args
 ) {
-  if (!signer) {
-    return
-  }
-
   const voteCol = await getVoteCollection()
   const eventCol = await getEventCollection()
   const validatorsCol = await getValidatorsCollection()

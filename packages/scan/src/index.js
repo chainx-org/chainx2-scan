@@ -1,6 +1,7 @@
 const { u8aToHex } = require('@chainx-v2/util')
 const { sleep, logger } = require('./util')
 const { extractExtrinsicBusinessData } = require('./extrinsic')
+const { extractExtrinsicEvents } = require('./events/utils')
 
 const {
   getExtrinsicCollection,
@@ -118,7 +119,7 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    await extractEventBusinessData(event)
+    await extractEventBusinessData(event, indexer)
 
     bulk.insert({
       indexer,
@@ -171,12 +172,18 @@ async function handleBlock(block, author) {
 
   let index = 0
   for (const extrinsic of block.extrinsics) {
-    await handleExtrinsic(extrinsic, {
-      blockHeight,
-      blockHash: hash,
-      blockTime,
-      index: index++
-    })
+    const events = extractExtrinsicEvents(allEvents, index)
+
+    await handleExtrinsic(
+      extrinsic,
+      {
+        blockHeight,
+        blockHash: hash,
+        blockTime,
+        index: index++
+      },
+      events
+    )
   }
 
   //console.log(`block ${blockHeight} inserted.`)
@@ -187,7 +194,8 @@ async function handleBlock(block, author) {
  * 解析并处理交易
  *
  */
-async function handleExtrinsic(extrinsic, indexer) {
+async function handleExtrinsic(extrinsic, indexer, events) {
+  // TODO: 利用events可以判断交易是否执行成功
   const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
   const { args } = extrinsic.method.toJSON()
@@ -199,7 +207,7 @@ async function handleExtrinsic(extrinsic, indexer) {
     signer = ''
   }
 
-  await extractExtrinsicBusinessData(extrinsic, indexer)
+  await extractExtrinsicBusinessData(extrinsic, indexer, events)
 
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据

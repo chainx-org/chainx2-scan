@@ -8,9 +8,6 @@ module.exports = async function extractOrder(
   signer,
   args
 ) {
-  if (!signer) {
-    return
-  }
   const col = await getOrdersCollection()
   const eventCol = await getEventCollection()
   // 查找交易 event事件

@@ -2,20 +2,27 @@ const { getApi } = require('./api')
 const { getChainCollection } = require('./mongoClient')
 const { setSS58Format } = require('@chainx-v2/crypto')
 
+let properties = null
+
 async function updateChainProperties() {
   const api = await getApi()
   const chain = await api.rpc.system.chain()
   const systemProperties = await api.rpc.system.properties()
+  properties = systemProperties.toJSON()
 
   const col = await getChainCollection()
   await col.deleteMany({})
   await col.insertOne({
     chain: chain.toString(),
-    properties: systemProperties.toJSON()
+    properties
   })
 
-  setSS58Format(systemProperties.toJSON().ss58Format)
+  setSS58Format(properties.ss58Format)
   return systemProperties
+}
+
+function getChainProperties() {
+  return properties
 }
 
 /**
@@ -28,9 +35,6 @@ async function getPCXAssetByAccount(address) {
   return balance.data.toJSON()
 }
 
-/**
- *
- * */
 async function getOtherAssetByAccount(address) {
   const api = await getApi()
   const balance = await api.rpc.xassets.getAssetsByAccount(address)
@@ -40,5 +44,6 @@ async function getOtherAssetByAccount(address) {
 module.exports = {
   updateChainProperties,
   getOtherAssetByAccount,
-  getPCXAssetByAccount
+  getPCXAssetByAccount,
+  getChainProperties
 }
