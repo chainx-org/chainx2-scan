@@ -16,7 +16,7 @@ async function handleBalancesEvent(event, indexer) {
     if (from !== to) {
       await updateAddressBalance(blockHeight, blockHash, to)
     }
-  } else if (method === 'Endowed') {
+  } else if (method === 'Endowed' || method === 'Reserved') {
     const [account] = event.data.toJSON()
 
     await updateAddressBalance(blockHeight, blockHash, account)
@@ -36,8 +36,8 @@ async function updateAddressBalance(blockHeight, blockHash, address) {
     .toArray()
 
   if (records.length > 1) {
-    const minHeight = Math.min(records.map(r => r.blockHeight))
-    col.deleteMany({ blockHeight: { $lte: minHeight } })
+    const maxSafeHeight = Math.max(...records.map(r => r.blockHeight))
+    col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
   }
 }
 
