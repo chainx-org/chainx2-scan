@@ -1,11 +1,4 @@
-const { isMongoId } = require('../../utils')
-const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
-const {
-  getExtrinsicCollection,
-  getValidatorsCollection,
-  getEventCollection,
-  getVoteCollection
-} = require('../../services/mongo')
+const { getVoteCollection } = require('../../services/mongo')
 
 class VotesController {
   async getVotes(ctx) {
