@@ -7,9 +7,6 @@ module.exports = async function extractUserTransfer(
   signer,
   args
 ) {
-  if (!signer) {
-    return
-  }
   const exCol = await getTransferColCollection()
   const data = {
     hash: hash,

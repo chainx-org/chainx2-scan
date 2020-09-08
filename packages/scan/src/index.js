@@ -118,7 +118,7 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    await extractEventBusinessData(event)
+    await extractEventBusinessData(event, indexer)
 
     bulk.insert({
       indexer,
@@ -171,12 +171,20 @@ async function handleBlock(block, author) {
 
   let index = 0
   for (const extrinsic of block.extrinsics) {
-    await handleExtrinsic(extrinsic, {
-      blockHeight,
-      blockHash: hash,
-      blockTime,
-      index: index++
-    })
+    const events = allEvents.filter(
+      event => event.phase.value.toNumber() === index
+    )
+
+    await handleExtrinsic(
+      extrinsic,
+      {
+        blockHeight,
+        blockHash: hash,
+        blockTime,
+        index: index++
+      },
+      events
+    )
   }
 
   //console.log(`block ${blockHeight} inserted.`)
@@ -187,7 +195,8 @@ async function handleBlock(block, author) {
  * 解析并处理交易
  *
  */
-async function handleExtrinsic(extrinsic, indexer) {
+async function handleExtrinsic(extrinsic, indexer, events) {
+  // TODO: 利用events可以判断交易是否执行成功
   const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
   const { args } = extrinsic.method.toJSON()
