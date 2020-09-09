@@ -33,7 +33,7 @@ async function handleSpotEvent(event, indexer) {
       orderId: props.id,
       ...event.data.toJSON()
     })
-    removeUselessHistoricalRecords(blockHeight, props.id)
+    await removeUselessHistoricalRecords(blockHeight, props.id)
   } else if (
     method === 'MakerOrderUpdated' ||
     method === 'TakerOrderUpdated' ||
