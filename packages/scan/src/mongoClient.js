@@ -16,6 +16,7 @@ const voteCollectionName = 'vote'
 const chainCollectionName = 'chain'
 const ordersCollectionName = 'orders'
 const nativeAssetCollectionName = 'nativeAsset'
+const foreignAssetCollectionName = 'foreignAsset'
 
 const mainScanName = 'main-scan-height'
 
@@ -34,6 +35,7 @@ let db = null
 let chainCol = null
 let ordersCol = null
 let nativeAssetCol = null
+let foreignAssetCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url, {
@@ -54,6 +56,7 @@ async function initDb() {
   chainCol = db.collection(chainCollectionName)
   ordersCol = db.collection(ordersCollectionName)
   nativeAssetCol = db.collection(nativeAssetCollectionName)
+  foreignAssetCol = db.collection(foreignAssetCollectionName)
 
   await _createIndexes()
 }
@@ -76,6 +79,11 @@ async function tryInit(col) {
   if (!col) {
     await initDb()
   }
+}
+
+async function getForeignAssetCollection() {
+  await tryInit(foreignAssetCol)
+  return foreignAssetCol
 }
 
 async function getNativeAssetCollection() {
@@ -222,5 +230,6 @@ module.exports = {
   getVoteCollection,
   getChainCollection,
   getOrdersCollection,
-  getNativeAssetCollection
+  getNativeAssetCollection,
+  getForeignAssetCollection
 }

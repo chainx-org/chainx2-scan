@@ -42,7 +42,7 @@ async function updateAddressBalance(blockHeight, blockHash, address) {
 
   if (records.length > 1) {
     const maxSafeHeight = Math.max(...records.map(r => r.blockHeight))
-    col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
+    await col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
   }
 }
 

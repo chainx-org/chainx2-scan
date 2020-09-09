@@ -1,3 +1,4 @@
+const { handleXAssetsEvent } = require('./xAssets')
 const { handleSystemEvent } = require('./system')
 const { handleBalancesEvent } = require('./balances')
 const { handleStakingEvent } = require('./xstaking')
@@ -14,6 +15,8 @@ async function extractEventBusinessData(event, indexer) {
     await handleSpotEvent(event, indexer)
   } else if (section === 'xStaking') {
     await handleStakingEvent(event, indexer)
+  } else if (section === 'xAssets') {
+    await handleXAssetsEvent(event, indexer)
   }
 }
 

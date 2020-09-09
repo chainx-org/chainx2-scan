@@ -1,8 +1,10 @@
 const emptySignature =
   '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
 const signerPlaceHolder = 'F7Hs'
+const safeBlocks = 300
 
 module.exports = {
   emptySignature,
-  signerPlaceHolder
+  signerPlaceHolder,
+  safeBlocks
 }
