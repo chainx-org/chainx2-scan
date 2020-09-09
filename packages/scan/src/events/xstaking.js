@@ -30,12 +30,7 @@ async function insertNewNominations(col, blockHeight, nominator, nominations) {
   )
 }
 
-async function updateNominatorLedgerAt(
-  blockHeight,
-  blockHash,
-  nominator,
-  nominee
-) {
+async function updateNominationsAt(blockHeight, blockHash, nominator) {
   const nominations = await getNominationsAt(nominator, blockHash)
   const col = await getVoteCollection()
   await col.insertOne({
@@ -62,13 +57,9 @@ async function handleStakingEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
 
-  if (method === 'Bond' || method === 'Unbond') {
-    let [nominator, nominee, value] = event.data.toJSON()
-    await updateNominatorLedgerAt(blockHeight, blockHash, nominator, nominee)
-  } else if (method === 'Rebond') {
-    let [nominator, from, to, value] = event.data.toJSON()
-    await updateNominatorLedgerAt(blockHeight, blockHash, nominator, from)
-    await updateNominatorLedgerAt(blockHeight, blockHash, nominator, to)
+  if (['Bond', 'Unbond', 'Rebond'].includes(method)) {
+    let [nominator] = event.data.toJSON()
+    await updateNominationsAt(blockHeight, blockHash, nominator)
   }
 }
 
