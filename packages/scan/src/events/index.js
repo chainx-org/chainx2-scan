@@ -1,4 +1,3 @@
-const { getOrdersCollection, getVoteCollection } = require('../mongoClient')
 const { handleSystemEvent } = require('./system')
 const { handleBalancesEvent } = require('./balances')
 const { handleStakingEventNew } = require('./xstaking')
