@@ -13,23 +13,6 @@ async function getNominationsAt(nominator, blockHash) {
   return nominations
 }
 
-async function insertNewNominations(col, blockHeight, nominator, nominations) {
-  await col.findOneAndUpdate(
-    {
-      blockHeight,
-      nominator
-    },
-    {
-      $set: {
-        blockHeight,
-        nominator,
-        nominations
-      }
-    },
-    { upsert: true }
-  )
-}
-
 async function updateNominationsAt(blockHeight, blockHash, nominator) {
   const nominations = await getNominationsAt(nominator, blockHash)
   const col = await getVoteCollection()
