@@ -6,11 +6,7 @@ const safeBlocks = 300
 
 async function getNominationsAt(nominator, blockHash) {
   const api = await getApi()
-  const nominations = await api.rpc.xstaking.getNominationByAccount(
-    nominator,
-    blockHash
-  )
-  return nominations
+  return await api.rpc.xstaking.getNominationByAccount(nominator, blockHash)
 }
 
 async function updateNominationsAt(blockHeight, blockHash, nominator) {
