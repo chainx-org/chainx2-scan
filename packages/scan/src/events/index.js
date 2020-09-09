@@ -1,6 +1,6 @@
 const { handleSystemEvent } = require('./system')
 const { handleBalancesEvent } = require('./balances')
-const { handleStakingEventNew } = require('./xstaking')
+const { handleStakingEvent } = require('./xstaking')
 const { handleSpotEvent } = require('./xspot')
 
 async function extractEventBusinessData(event, indexer) {
@@ -13,7 +13,7 @@ async function extractEventBusinessData(event, indexer) {
   } else if (section === 'xSpot') {
     await handleSpotEvent(method, event)
   } else if (section === 'xStaking') {
-    await handleStakingEventNew(event, indexer)
+    await handleStakingEvent(event, indexer)
   }
 }
 
