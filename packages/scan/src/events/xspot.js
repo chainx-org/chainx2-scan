@@ -1,6 +1,5 @@
 const { getOrdersCollection } = require('../mongoClient')
 const { logger } = require('../util')
-const { mapKeys } = require('lodash')
 const safeBlocks = 300
 
 async function removeUselessHistoricalRecords(blockHeight, orderId) {
@@ -24,14 +23,20 @@ async function handleSpotEvent(event, indexer) {
   const { blockHeight, blockHash } = indexer
   // create new order
   if (method === 'NewOrder') {
-    let [{ props }] = event.data.toJSON()
+    const json = event.data.toJSON()
+    const [
+      {
+        props: { id: orderId }
+      }
+    ] = json
+    const [order] = json
 
     const col = await getOrdersCollection()
     col.insert({
       blockHeight,
       blockHash,
-      orderId: props.id,
-      ...event.data.toJSON()
+      orderId,
+      ...order
     })
     await removeUselessHistoricalRecords(blockHeight, props.id)
   } else if (
