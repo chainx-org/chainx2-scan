@@ -15,7 +15,11 @@ async function getPCXAssetByAccount(address) {
 
 async function getBalanceFromAccount(address) {
   if (!address) {
-    return
+    return {
+      pcx: {},
+      btc: {},
+      count: 0
+    }
   }
 
   const pcxBalance = await getPCXAssetByAccount(address)
