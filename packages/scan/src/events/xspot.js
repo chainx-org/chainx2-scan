@@ -1,5 +1,6 @@
 const { getOrdersCollection } = require('../mongoClient')
 const { getApi } = require('../api')
+const { logger } = require('../util')
 
 const safeBlocks = 300
 
@@ -32,7 +33,7 @@ async function updateOrdersAt(blockHeight, blockHash, submitter) {
 
   if (records.length > 1) {
     const maxSafeHeight = Math.max(...records.map(r => r.blockHeight))
-    logger.info(`[vote]pruning the old state before height ${maxSafeHeight}`)
+    logger.info(`[orders]pruning the old state before height ${maxSafeHeight}`)
     col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
   }
 }
