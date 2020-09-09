@@ -5,8 +5,12 @@ const safeBlocks = 300
 
 async function getOrdersList(submitter, blockHash) {
   const api = await getApi()
-  console.log('submitter:' + submitter)
-  const orders = await api.rpc.xspot.getOrdersByAccount(submitter, 0, 100)
+  const orders = await api.rpc.xspot.getOrdersByAccount(
+    submitter,
+    0,
+    100,
+    blockHash
+  )
   return orders
 }
 
@@ -16,7 +20,7 @@ async function updateOrdersAt(blockHeight, blockHash, submitter) {
   await col.insertOne({
     blockHeight,
     submitter,
-    orders: orders.toJSON()
+    ...orders.data.toJSON()
   })
 
   const records = await col
@@ -46,7 +50,6 @@ async function handleSpotEvent(event, indexer) {
       'CanceledOrderUpdated'
     ].includes(method)
   ) {
-    console.log(event.data.toJSON().pop())
     let {
       props: { submitter }
     } = event.data.toJSON().pop()
