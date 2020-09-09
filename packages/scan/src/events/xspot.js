@@ -1,39 +1,20 @@
 const { getOrdersCollection } = require('../mongoClient')
-const { getApi } = require('../api')
 const { logger } = require('../util')
-
+const { mapKeys } = require('lodash')
 const safeBlocks = 300
 
-async function getOrdersList(submitter, blockHash) {
-  const api = await getApi()
-  const orders = await api.rpc.xspot.getOrdersByAccount(
-    submitter,
-    0,
-    100,
-    blockHash
-  )
-  return orders
-}
-
-async function updateOrdersAt(blockHeight, blockHash, submitter) {
-  const orders = await getOrdersList(submitter, blockHash)
+async function handleRollbackBlock(blockHeight, orderId) {
   const col = await getOrdersCollection()
-  await col.insertOne({
-    blockHeight,
-    submitter,
-    ...orders.data.toJSON()
-  })
-
   const records = await col
     .find({
-      submitter,
+      orderId: orderId,
       blockHeight: { $lt: blockHeight - safeBlocks }
     })
     .toArray()
 
   if (records.length > 1) {
     const maxSafeHeight = Math.max(...records.map(r => r.blockHeight))
-    logger.info(`[orders]pruning the old state before height ${maxSafeHeight}`)
+    logger.info(`[orders] pruning the old state before height ${maxSafeHeight}`)
     col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
   }
 }
@@ -42,19 +23,35 @@ async function handleSpotEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
   // create new order
-  if (
-    [
-      'NewOrder',
-      'MakerOrderUpdated',
-      'TakerOrderUpdated',
-      'OrderExecuted',
-      'CanceledOrderUpdated'
-    ].includes(method)
+  if (method === 'NewOrder') {
+    let [
+      { props, status, remaining, executedIndices, alreadyFilled, lastUpdateAt }
+    ] = event.data.toJSON()
+    props = mapKeys(props, (value, key) => {
+      if (key === 'id') return 'orderId'
+      else {
+        return key
+      }
+    })
+    const col = await getOrdersCollection()
+    col.insert({
+      blockHeight,
+      blockHash,
+      status,
+      remaining,
+      executedIndices,
+      alreadyFilled,
+      lastUpdateAt,
+      ...props
+    })
+    handleRollbackBlock(blockHeight, props.orderId)
+  } else if (
+    method === 'MakerOrderUpdated' ||
+    method === 'TakerOrderUpdated' ||
+    method === 'OrderExecuted' ||
+    method === 'CanceledOrderUpdated'
   ) {
-    let {
-      props: { submitter }
-    } = event.data.toJSON().pop()
-    await updateOrdersAt(blockHeight, blockHash, submitter)
+    //TODO handler order excute
   }
 }
 
