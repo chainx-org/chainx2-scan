@@ -24,24 +24,16 @@ async function handleSpotEvent(event, indexer) {
   const { blockHeight, blockHash } = indexer
   // create new order
   if (method === 'NewOrder') {
-    let [
-      { props, status, remaining, executedIndices, alreadyFilled, lastUpdateAt }
-    ] = event.data.toJSON()
-    props = mapKeys(props, (value, key) => {
-      return key === 'id' ? 'orderId' : key
-    })
+    let [{ props }] = event.data.toJSON()
+
     const col = await getOrdersCollection()
     col.insert({
       blockHeight,
       blockHash,
-      status,
-      remaining,
-      executedIndices,
-      alreadyFilled,
-      lastUpdateAt,
-      ...props
+      orderId: props.id,
+      ...event.data.toJSON()
     })
-    removeUselessHistoricalRecords(blockHeight, props.orderId)
+    removeUselessHistoricalRecords(blockHeight, props.id)
   } else if (
     method === 'MakerOrderUpdated' ||
     method === 'TakerOrderUpdated' ||
