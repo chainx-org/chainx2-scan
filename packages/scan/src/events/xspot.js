@@ -1,6 +1,7 @@
 const { getOrdersCollection } = require('../mongoClient')
 const { logger } = require('../util')
 const safeBlocks = 300
+const BigNumber = require('bignumber.js')
 
 async function removeUselessHistoricalRecords(blockHeight, orderId) {
   const col = await getOrdersCollection()
@@ -16,6 +17,14 @@ async function removeUselessHistoricalRecords(blockHeight, orderId) {
     logger.info(`[orders] pruning the old state before height ${maxSafeHeight}`)
     col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
   }
+}
+
+function normalizeOrder(order) {
+  const {
+    props: { amount }
+  } = order
+  order.props.amount = new BigNumber(amount).toString()
+  return order
 }
 
 async function handleSpotEvent(event, indexer) {
@@ -36,7 +45,7 @@ async function handleSpotEvent(event, indexer) {
       blockHeight,
       blockHash,
       orderId,
-      ...order
+      ...normalizeOrder(order)
     })
     await removeUselessHistoricalRecords(blockHeight, props.id)
   } else if (
