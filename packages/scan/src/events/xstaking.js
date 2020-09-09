@@ -1,67 +1,65 @@
 const { getVoteCollection } = require('../mongoClient')
+const { getApi } = require('../api')
 const { logger } = require('../util')
 
-function getCurrentVote(col, nominator, nominee) {
-  return col
-    .find({
-      nominator: nominator,
-      nominee: nominee
-    })
-    .limit(1)
-    .toArray()
+const safeBlocks = 300
+
+async function getNominationsAt(nominator, blockHash) {
+  const api = await getApi()
+  const nominations = await api.rpc.xstaking.getNominationByAccount(
+    nominator,
+    blockHash
+  )
+  return nominations
 }
 
-async function insertNewVote(col, nominator, nominee, value) {
+async function insertNewNominations(col, blockHeight, nominator, nominations) {
   await col.findOneAndUpdate(
     {
-      nominator: nominator,
-      nominee: nominee
+      blockHeight,
+      nominator
     },
     {
       $set: {
-        nominator: nominator,
-        nominee: nominee,
-        value: value
+        blockHeight,
+        nominator,
+        nominations
       }
     },
     { upsert: true }
   )
 }
 
-async function handleStakingEvent(method, event) {
-  if (method === 'Bond') {
-    let [nominator, nominee, value] = event.data.toJSON()
-    value = parseInt(value)
-    const col = await getVoteCollection()
-    const result = await getCurrentVote(col, nominator, nominee)
-    const new_value = result.length ? value + result[0].value : value
-    await insertNewVote(col, nominator, nominee, new_value)
-  } else if (method === 'Unbond') {
-    let [nominator, nominee, value] = event.data.toJSON()
-    value = parseInt(value)
-    const col = await getVoteCollection()
-    const result = await getCurrentVote(col, nominator, nominee)
-    if (!result.length) {
-      logger.error(
-        `the record of ${nominator} to ${nominee} does not exist, this should not happen`
-      )
-      return
-    }
-    const new_value = result[0].value - value
-    await insertNewVote(col, nominator, nominee, new_value)
-  } else if (method === 'Rebond') {
-    let [nominator, from, to, value] = event.data.toJSON()
-    value = parseInt(value)
-    const col = await getVoteCollection()
+async function updateNominationsAt(blockHeight, blockHash, nominator) {
+  const nominations = await getNominationsAt(nominator, blockHash)
+  const col = await getVoteCollection()
+  await col.insertOne({
+    blockHeight,
+    nominator,
+    nominations: nominations.toJSON()
+  })
 
-    const from_result = await getCurrentVote(col, nominator, from)
-    const new_from_value = from_result[0].value - value
+  const records = await col
+    .find({
+      nominator,
+      blockHeight: { $lt: blockHeight - safeBlocks }
+    })
+    .toArray()
 
-    const to_result = await getCurrentVote(col, nominator, to)
-    const new_to_value = to_result.length ? value + to_result[0].value : value
+  if (records.length > 1) {
+    const maxSafeHeight = Math.max(...records.map(r => r.blockHeight))
+    logger.info(`[vote]pruning the old state before height ${maxSafeHeight}`)
+    col.deleteMany({ blockHeight: { $lt: maxSafeHeight } })
+  }
+}
 
-    await insertNewVote(col, nominator, from, new_from_value)
-    await insertNewVote(col, nominator, to, new_to_value)
+async function handleStakingEvent(event, indexer) {
+  const { method } = event
+  const { blockHeight, blockHash } = indexer
+
+  if (['Bond', 'Unbond', 'Rebond'].includes(method)) {
+    let [nominator] = event.data.toJSON()
+    await updateNominationsAt(blockHeight, blockHash, nominator)
   }
 }
 
