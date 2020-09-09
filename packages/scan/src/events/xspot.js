@@ -3,7 +3,7 @@ const { logger } = require('../util')
 const { mapKeys } = require('lodash')
 const safeBlocks = 300
 
-async function handleRollbackBlock(blockHeight, orderId) {
+async function removeUselessHistoricalRecords(blockHeight, orderId) {
   const col = await getOrdersCollection()
   const records = await col
     .find({
@@ -28,10 +28,7 @@ async function handleSpotEvent(event, indexer) {
       { props, status, remaining, executedIndices, alreadyFilled, lastUpdateAt }
     ] = event.data.toJSON()
     props = mapKeys(props, (value, key) => {
-      if (key === 'id') return 'orderId'
-      else {
-        return key
-      }
+      return key === 'id' ? 'orderId' : key
     })
     const col = await getOrdersCollection()
     col.insert({
@@ -44,7 +41,7 @@ async function handleSpotEvent(event, indexer) {
       lastUpdateAt,
       ...props
     })
-    handleRollbackBlock(blockHeight, props.orderId)
+    removeUselessHistoricalRecords(blockHeight, props.orderId)
   } else if (
     method === 'MakerOrderUpdated' ||
     method === 'TakerOrderUpdated' ||
