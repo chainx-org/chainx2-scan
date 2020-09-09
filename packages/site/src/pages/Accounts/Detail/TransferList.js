@@ -7,6 +7,7 @@ import AccountLink from '../../../components/AccountLink'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
 import { useLoad } from '../../../utils/hooks'
+import Amount from '../../../components/Amount'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
@@ -39,35 +40,40 @@ export default function({ address }) {
       }}
       dataSource={transferList.map(item => {
         return {
-          key: item.hash,
+          key: item.extrinsicHash,
+          token: item.token,
           hash: (
             <TxLink
               style={{ width: 136 }}
               className="text-truncate"
-              value={item.hash}
+              value={item.extrinsicHash}
             />
           ),
-          blockHeight: <BlockLink value={item.blockHeight} />,
-          blockTime: <DateShow value={item.blockTime} />,
+          blockHeight: <BlockLink value={item.indexer.blockHeight} />,
+          blockTime: <DateShow value={item.indexer.blockTime} />,
           sender: (
             <AccountLink
               style={{ width: 136 }}
               className="text-truncate"
-              value={item.sender}
+              value={item.from}
             />
           ),
           receiver: (
             <AccountLink
               style={{ width: 136 }}
               className="text-truncate"
-              value={item.receiver}
+              value={item.to}
             />
           ),
-          value: item.value,
+          value: <Amount value={item.value} symbol={item.token} />,
           memo: item.memo
         }
       })}
       columns={[
+        {
+          title: $t('ASSETNAME'),
+          dataIndex: 'token'
+        },
         {
           title: $t('block_height'),
           dataIndex: 'blockHeight'

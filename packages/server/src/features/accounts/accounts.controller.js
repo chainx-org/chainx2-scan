@@ -29,7 +29,7 @@ class AccountsController {
     //TODO Such query efficiency is relatively low, take this way for the time being, and then optimize
     for (let i = 0; i < accountsList.length; i++) {
       let { pcx, btc, count } = await getBalanceFromAccount(
-        accountsList[i].account
+        accountsList[i].address
       )
       accountsList[i].pcx = pcx
       accountsList[i].btc = btc
@@ -45,7 +45,7 @@ class AccountsController {
 
   async getAccount(ctx) {
     const { address } = ctx.params
-    let query = { account: address }
+    let query = { address: address }
     if (!Account.isAddressValid(address)) {
       ctx.body = {
         errmsg: 'illegal address'
@@ -55,9 +55,11 @@ class AccountsController {
     const col = await getAccountsCollection()
     let accountsData = await col.findOne(query)
     let balaceData = await getBalanceFromAccount(address)
+    const publickey = Account.decodeAddress(address)
     ctx.body = {
       ...accountsData,
-      ...balaceData
+      ...balaceData,
+      publickey
     }
   }
 

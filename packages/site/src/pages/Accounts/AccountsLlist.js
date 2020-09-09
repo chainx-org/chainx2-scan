@@ -27,7 +27,7 @@ export default function({ blockHeight }) {
       dataSource={accounts.map(item => {
         return {
           key: item._id,
-          address: <AccountLink value={item.account} />,
+          address: <AccountLink value={item.address} />,
           avalibleBalance: <Amount value={item.pcx ? item.pcx.free : ''} />,
           totalBalance: (
             <Amount

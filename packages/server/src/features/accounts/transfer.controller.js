@@ -12,9 +12,9 @@ class TransferController {
 
     let address = ctx.query.address
     const col = await getTransferColCollection()
-    const total = await col.count({ sender: address })
+    const total = await col.count({ from: address })
     const transferList = await col
-      .find({ sender: address })
+      .find({ from: address })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()

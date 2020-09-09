@@ -11,7 +11,7 @@ async function extractEventBusinessData(event, indexer) {
   } else if (section === 'balances') {
     await handleBalancesEvent(event, indexer)
   } else if (section === 'xSpot') {
-    await handleSpotEvent(method, event)
+    await handleSpotEvent(event, indexer)
   } else if (section === 'xStaking') {
     await handleStakingEvent(event, indexer)
   }
