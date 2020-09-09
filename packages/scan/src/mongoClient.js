@@ -15,6 +15,7 @@ const transferCollectionName = 'transfer'
 const voteCollectionName = 'vote'
 const chainCollectionName = 'chain'
 const ordersCollectionName = 'orders'
+const nativeAssetCollectionName = 'nativeAsset'
 
 const mainScanName = 'main-scan-height'
 
@@ -32,6 +33,7 @@ let orderCol = null
 let db = null
 let chainCol = null
 let ordersCol = null
+let nativeAssetCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url, {
@@ -51,6 +53,7 @@ async function initDb() {
   voteCol = db.collection(voteCollectionName)
   chainCol = db.collection(chainCollectionName)
   ordersCol = db.collection(ordersCollectionName)
+  nativeAssetCol = db.collection(nativeAssetCollectionName)
 
   await _createIndexes()
 }
@@ -73,6 +76,11 @@ async function tryInit(col) {
   if (!col) {
     await initDb()
   }
+}
+
+async function getNativeAssetCollection() {
+  await tryInit(nativeAssetCol)
+  return nativeAssetCol
 }
 
 async function getAccountsCollection() {
@@ -162,6 +170,7 @@ async function deleteDataFrom(blockHeight) {
     result: { ok: deleteAccountsOk }
   } = await accountsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
   await transferCol.deleteMany({ 'indexer.blockHeight': { $gte: blockHeight } })
+  await nativeAssetCol.deleteMany({ blockHeight: { $gte: blockHeight } })
 
   if (
     deleteBlockOk !== 1 ||
@@ -212,5 +221,6 @@ module.exports = {
   deleteDataFrom,
   getVoteCollection,
   getChainCollection,
-  getOrdersCollection
+  getOrdersCollection,
+  getNativeAssetCollection
 }
