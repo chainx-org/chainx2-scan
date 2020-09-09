@@ -53,6 +53,22 @@ const emptyAsset = {
   feeFrozen: '0'
 }
 
+const emptyStakingLocks = {
+  bonded: '0',
+  bondedWithdrawal: '0'
+}
+
+function normalizeStakingReserved(staking) {
+  if (_.isEmpty(staking)) {
+    return emptyStakingLocks
+  }
+
+  return {
+    bonded: staking.Bonded,
+    bondedWithdrawal: staking.BondedWithdrawal
+  }
+}
+
 async function getNativeBalance(address, blockHash) {
   const api = await getApi()
   const asset = await api.query.system.account.at(blockHash, address)
@@ -60,8 +76,20 @@ async function getNativeBalance(address, blockHash) {
   if (_.isEmpty(data)) {
     data = emptyAsset
   }
+
+  const reserve = await api.query.xSpot.nativeReserves.at(blockHash, address)
+  data.dexReserved = reserve.toString()
+
+  const staking = await api.query.xStaking.locks(address)
+  data.stakingReserved = normalizeStakingReserved(staking.toJSON())
+
   return Object.entries(data).reduce((result, [key, value]) => {
-    result[key] = new BigNumber(value).toString()
+    if (key === 'stakingReserved') {
+      result[key] = value
+    } else {
+      result[key] = new BigNumber(value).toString()
+    }
+
     return result
   }, {})
 }
