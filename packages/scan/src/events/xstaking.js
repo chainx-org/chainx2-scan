@@ -50,6 +50,8 @@ async function insertNewNominations(col, blockHeight, nominator, nominations) {
   )
 }
 
+const historyDepth = 10
+
 async function updateNominatorLedgerAt(
   blockHeight,
   blockHash,
@@ -78,10 +80,6 @@ async function updateNominatorLedgerAt(
     })
   } else {
     const maxHeight = Math.max(...result.map(r => r.blockHeight))
-
-    /** TODO: optimize the pruning, take finalizedHeight into account. */
-    await col.deleteMany({ blockHeight: { $lt: maxHeight - 10 }, nominator })
-
     const bestResult = await col
       .find({
         blockHeight: maxHeight,
@@ -102,6 +100,33 @@ async function updateNominatorLedgerAt(
     })
 
     await insertNewNominations(col, blockHeight, nominator, newNominations)
+
+    /** TODO: optimize the pruning, take finalizedHeight into account. */
+    if (blockHeight - historyDepth > 0 && result.length > 1) {
+      logger.debug(
+        `[vote]pruning the state of ${nominator} older than height ${blockHeight -
+          historyDepth}, current history size: ${result.length}`
+      )
+      // TODO: improve the pruning
+      // This deletion can delete all the old state except the new inserted one,
+      // so we check the pruned result again and keep the bestState when there is
+      // no other history state.
+      await col.deleteMany({
+        blockHeight: { $lt: blockHeight - historyDepth },
+        nominator
+      })
+      const pruned_result = await col
+        .find({
+          nominator
+        })
+        .toArray()
+      if (pruned_result.length <= 1) {
+        logger.debug(
+          `[vote]restore the bestState of ${nominator} at height ${maxHeight}`
+        )
+        await col.insertOne(bestState)
+      }
+    }
   }
 }
 
