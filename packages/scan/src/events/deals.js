@@ -30,7 +30,7 @@ async function handleDailEvent(event, indexer) {
       }
     ] = json
 
-    const [dail] = json
+    const [deal] = json
 
     const col = await getDailsCollection()
 
@@ -38,7 +38,7 @@ async function handleDailEvent(event, indexer) {
       blockHeight,
       blockHash,
       tradingHistoryIdx,
-      ...dail
+      ...deal
     })
     await removeUselessHistoricalRecords(blockHeight, tradingHistoryIdx)
   }

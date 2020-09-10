@@ -30,7 +30,7 @@ function normalizeOrder(order) {
 async function handleSpotEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
-  // create new order
+
   if (
     [
       'NewOrder',

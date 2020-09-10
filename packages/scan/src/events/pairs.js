@@ -21,7 +21,7 @@ async function removeUselessHistoricalRecords(blockHeight, pairId) {
 async function handlePairsEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
-  // create new order
+
   if (['TradingPairAdded', 'TradingPairUpdated'].includes(method)) {
     const json = event.data.toJSON()
     const [
