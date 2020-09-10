@@ -5,7 +5,7 @@ const { handleStakingEvent } = require('./xstaking')
 const { handleSpotEvent } = require('./xspot')
 
 async function extractEventBusinessData(event, indexer) {
-  const { section, method } = event
+  const { section } = event
 
   if (section === 'system') {
     await handleSystemEvent(event, indexer)
