@@ -6,7 +6,6 @@ const extractVoteInfo = require('./extractVote')
 const extractOrder = require('./extractOrder')
 
 module.exports = {
-  extractAccount,
   extractUserTransfer,
   extractVote,
   extractVoteInfo,
