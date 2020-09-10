@@ -36,7 +36,7 @@ async function handleSpotEvent(event, indexer) {
       'NewOrder',
       'MakerOrderUpdated',
       'TakerOrderUpdated',
-      'TakerOrderUpdated'
+      'CanceledOrderUpdated'
     ].includes(method)
   ) {
     const json = event.data.toJSON()
