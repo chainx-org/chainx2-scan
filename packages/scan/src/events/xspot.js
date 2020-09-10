@@ -47,7 +47,7 @@ async function handleSpotEvent(event, indexer) {
       orderId,
       ...normalizeOrder(order)
     })
-    await removeUselessHistoricalRecords(blockHeight, props.id)
+    await removeUselessHistoricalRecords(blockHeight, orderId)
   } else if (
     method === 'MakerOrderUpdated' ||
     method === 'TakerOrderUpdated' ||
