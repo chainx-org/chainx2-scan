@@ -1,6 +1,7 @@
 const { getApi } = require('../api')
 const _ = require('lodash')
 const BigNumber = require('bignumber.js')
+const { normalizeAmount } = require('./utils')
 const { getNativeAssetCollection } = require('../mongoClient')
 
 const safeBlocks = 300
@@ -64,8 +65,8 @@ function normalizeStakingReserved(staking) {
   }
 
   return {
-    bonded: staking.Bonded,
-    bondedWithdrawal: staking.BondedWithdrawal
+    bonded: normalizeAmount(staking.Bonded),
+    bondedWithdrawal: normalizeAmount(staking.BondedWithdrawal)
   }
 }
 
