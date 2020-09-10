@@ -18,7 +18,7 @@ async function removeUselessHistoricalRecords(blockHeight, tradingHistoryIdx) {
   }
 }
 
-async function handleDailEvent(event, indexer) {
+async function handleDealEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
   // create new order
@@ -45,5 +45,5 @@ async function handleDailEvent(event, indexer) {
 }
 
 module.exports = {
-  handleDailEvent
+  handleDealEvent
 }
