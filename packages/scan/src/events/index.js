@@ -3,7 +3,7 @@ const { handleSystemEvent } = require('./system')
 const { handleBalancesEvent } = require('./balances')
 const { handleStakingEvent } = require('./xstaking')
 const { handleSpotEvent } = require('./xspot')
-const { handleDailEvent } = require('./dails')
+const { handleDailEvent } = require('./deals')
 const { handlePairsEvent } = require('./pairs')
 
 async function extractEventBusinessData(event, indexer) {

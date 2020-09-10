@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb')
 const config = require('../config')
 
-const genesisHeight = 0
+const genesisHeight = 1
 
 const dbName = 'chainx-scan-v2'
 const blockCollectionName = 'block'
