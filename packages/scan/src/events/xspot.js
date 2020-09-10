@@ -55,8 +55,6 @@ async function handleSpotEvent(event, indexer) {
       ...normalizeOrder(order)
     })
     await removeUselessHistoricalRecords(blockHeight, orderId)
-  } else if (method === 'OrderExecuted') {
-    //TODO handler order excute
   }
 }
 
