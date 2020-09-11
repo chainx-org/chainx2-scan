@@ -17,6 +17,8 @@ const chainCollectionName = 'chain'
 const ordersCollectionName = 'orders'
 const nativeAssetCollectionName = 'nativeAsset'
 const foreignAssetCollectionName = 'foreignAsset'
+const pairsCollectionName = 'pairs'
+const dealsCollectionName = 'deals'
 
 const mainScanName = 'main-scan-height'
 
@@ -36,6 +38,8 @@ let chainCol = null
 let ordersCol = null
 let nativeAssetCol = null
 let foreignAssetCol = null
+let pairsCol = null
+let dealsCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url, {
@@ -57,6 +61,8 @@ async function initDb() {
   ordersCol = db.collection(ordersCollectionName)
   nativeAssetCol = db.collection(nativeAssetCollectionName)
   foreignAssetCol = db.collection(foreignAssetCollectionName)
+  pairsCol = db.collection(pairsCollectionName)
+  dealsCol = db.collection(dealsCollectionName)
 
   await _createIndexes()
 }
@@ -151,6 +157,16 @@ async function getOrdersCollection() {
   return ordersCol
 }
 
+async function getPairsCollection() {
+  await tryInit(pairsCol)
+  return pairsCol
+}
+
+async function getDailsCollection() {
+  await tryInit(dealsCol)
+  return dealsCol
+}
+
 // 删除>=给定区块高度的数据
 async function deleteDataFrom(blockHeight) {
   if (!blockCol || !extrinsicCol) {
@@ -231,5 +247,7 @@ module.exports = {
   getChainCollection,
   getOrdersCollection,
   getNativeAssetCollection,
-  getForeignAssetCollection
+  getForeignAssetCollection,
+  getPairsCollection,
+  getDailsCollection
 }

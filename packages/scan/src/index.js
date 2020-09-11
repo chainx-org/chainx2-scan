@@ -29,8 +29,6 @@ const {
   getUnSubscribeValidatorsFunction
 } = require('./validatorsInfo')
 
-const { extractAccount } = require('./account')
-
 const { extractEventBusinessData } = require('./events')
 
 let preBlockHash = null

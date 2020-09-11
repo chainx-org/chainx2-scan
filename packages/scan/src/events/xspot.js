@@ -30,8 +30,15 @@ function normalizeOrder(order) {
 async function handleSpotEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
-  // create new order
-  if (method === 'NewOrder') {
+
+  if (
+    [
+      'NewOrder',
+      'MakerOrderUpdated',
+      'TakerOrderUpdated',
+      'CanceledOrderUpdated'
+    ].includes(method)
+  ) {
     const json = event.data.toJSON()
     const [
       {
@@ -48,13 +55,6 @@ async function handleSpotEvent(event, indexer) {
       ...normalizeOrder(order)
     })
     await removeUselessHistoricalRecords(blockHeight, orderId)
-  } else if (
-    method === 'MakerOrderUpdated' ||
-    method === 'TakerOrderUpdated' ||
-    method === 'OrderExecuted' ||
-    method === 'CanceledOrderUpdated'
-  ) {
-    //TODO handler order excute
   }
 }
 
