@@ -19,7 +19,8 @@ async function feedLatestBlocks(io) {
         hash: block.hash,
         number: block.header.number,
         timestamp: block.blockTime,
-        extrinsicsCnt: (block.extrinsics || []).length
+        extrinsicsCnt: (block.extrinsics || []).length,
+        author: block.author
       }
     })
 

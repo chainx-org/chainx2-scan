@@ -9,18 +9,21 @@ async function feedLatestExtrinsics(io) {
   try {
     const col = await getExtrinsicCollection()
     const extrinsics = await col
-      .find({})
+      .find({ section: { $nin: ['timestamp', 'imOnline', 'finalityTracker'] } })
       .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
       .limit(extrinsicSize)
       .toArray()
 
-    const simpleExtrinsics = extrinsics.map(({ hash, section, name }) => {
-      return {
-        hash,
-        section,
-        name
+    const simpleExtrinsics = extrinsics.map(
+      ({ signer, hash, section, name }) => {
+        return {
+          signer,
+          hash,
+          section,
+          name
+        }
       }
-    })
+    )
 
     if (simpleExtrinsics.length > 0) {
       io.to(latestExtrinsicsRoom).emit('latestExtrinsics', simpleExtrinsics)

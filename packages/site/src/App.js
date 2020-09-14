@@ -3,8 +3,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import Main from './Main'
 import Header from './pages/Header'
 
-import { AppContextProvider } from './components/AppContext'
-
 function App() {
   return (
     <Router>

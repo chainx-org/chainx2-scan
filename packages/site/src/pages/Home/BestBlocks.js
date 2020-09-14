@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner'
 import BlockLink from '../../components/BlockLink'
 import NumberFormat from '../../components/NumberFormat'
 import SeeAll from './SeeAll'
+import AddressLink from '@components/AddressLink'
 
 export default function BestBlocks() {
   const blocks = useSelector(latestBlocksSelector)
@@ -37,13 +38,15 @@ export default function BestBlocks() {
           </thead>
           <tbody>
             {blocks && blocks.length
-              ? blocks.slice(0, 6).map(({ number, extrinsicsCnt }) => {
+              ? blocks.slice(0, 6).map(({ author, number, extrinsicsCnt }) => {
                   return (
                     <tr key={number}>
                       <td>
                         <BlockLink value={number} />
                       </td>
-                      <td>--</td>
+                      <td>
+                        <AddressLink short={true} value={author} />
+                      </td>
                       <td className="has-text-right">
                         <NumberFormat value={extrinsicsCnt} />
                       </td>
