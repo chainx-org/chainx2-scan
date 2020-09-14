@@ -197,6 +197,7 @@ async function deleteDataFrom(blockHeight) {
   await nativeAssetCol.deleteMany({ blockHeight: { $gte: blockHeight } })
   await dealsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
   await ordersCol.deleteMany({ blockHeight: { $gte: blockHeight } })
+  await pairsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
 
   if (
     deleteBlockOk !== 1 ||
