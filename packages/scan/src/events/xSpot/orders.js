@@ -1,7 +1,7 @@
-const { getOrdersCollection } = require('../mongoClient')
-const { logger } = require('../util')
-const safeBlocks = 300
+const { getOrdersCollection } = require('../../mongoClient')
 const BigNumber = require('bignumber.js')
+const { safeBlocks } = require('../../constants')
+const { logger } = require('../../util')
 
 async function removeUselessHistoricalRecords(blockHeight, orderId) {
   const col = await getOrdersCollection()
@@ -27,37 +27,27 @@ function normalizeOrder(order) {
   return order
 }
 
-async function handleSpotEvent(event, indexer) {
-  const { method } = event
+async function handleOrders(event, indexer) {
   const { blockHeight, blockHash } = indexer
 
-  if (
-    [
-      'NewOrder',
-      'MakerOrderUpdated',
-      'TakerOrderUpdated',
-      'CanceledOrderUpdated'
-    ].includes(method)
-  ) {
-    const json = event.data.toJSON()
-    const [
-      {
-        props: { id: orderId }
-      }
-    ] = json
-    const [order] = json
+  const json = event.data.toJSON()
+  const [
+    {
+      props: { id: orderId }
+    }
+  ] = json
+  const [order] = json
 
-    const col = await getOrdersCollection()
-    col.insert({
-      blockHeight,
-      blockHash,
-      orderId,
-      ...normalizeOrder(order)
-    })
-    await removeUselessHistoricalRecords(blockHeight, orderId)
-  }
+  const col = await getOrdersCollection()
+  col.insert({
+    blockHeight,
+    blockHash,
+    orderId,
+    ...normalizeOrder(order)
+  })
+  await removeUselessHistoricalRecords(blockHeight, orderId)
 }
 
 module.exports = {
-  handleSpotEvent
+  handleOrders
 }
