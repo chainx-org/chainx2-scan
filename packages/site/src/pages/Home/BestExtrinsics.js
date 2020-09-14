@@ -10,7 +10,6 @@ import AddressLink from '@components/AddressLink'
 
 export default function BestExtrinsics() {
   const extrinsics = useSelector(latestExtrinsicsSelector)
-  console.log('extrinsics', extrinsics)
 
   return (
     <section className="panel">

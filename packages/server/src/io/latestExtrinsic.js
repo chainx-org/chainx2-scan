@@ -9,7 +9,7 @@ async function feedLatestExtrinsics(io) {
   try {
     const col = await getExtrinsicCollection()
     const extrinsics = await col
-      .find({ section: { $nin: ['timestamp', 'imOnline', 'finalityTracker'] } })
+      .find({})
       .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
       .limit(extrinsicSize)
       .toArray()
