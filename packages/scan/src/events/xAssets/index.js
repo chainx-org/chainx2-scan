@@ -13,7 +13,7 @@ async function handleXAssetsEvent(event, indexer) {
     if (from !== to) {
       await updateAddressBalance(blockHeight, blockHash, to)
     }
-  } else if (['Issue', 'Set', 'Destory'].includes(method)) {
+  } else if (['Issue', 'Set', 'Destroy'].includes(method)) {
     const [, accountId] = event.data.toJSON()
     await updateAddressBalance(blockHeight, blockHash, accountId)
   }

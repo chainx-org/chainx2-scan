@@ -1,9 +1,9 @@
-const { getDailsCollection } = require('../mongoClient')
+const { getDealsCollection } = require('../mongoClient')
 const { logger } = require('../util')
 const safeBlocks = 300
 
 async function removeUselessHistoricalRecords(blockHeight, tradingHistoryIdx) {
-  const col = await getDailsCollection()
+  const col = await getDealsCollection()
   const records = await col
     .find({
       tradingHistoryIdx: tradingHistoryIdx,
@@ -32,7 +32,7 @@ async function handleDealEvent(event, indexer) {
 
     const [deal] = json
 
-    const col = await getDailsCollection()
+    const col = await getDealsCollection()
 
     col.insert({
       blockHeight,

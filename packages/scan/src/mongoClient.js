@@ -162,7 +162,7 @@ async function getPairsCollection() {
   return pairsCol
 }
 
-async function getDailsCollection() {
+async function getDealsCollection() {
   await tryInit(dealsCol)
   return dealsCol
 }
@@ -249,5 +249,5 @@ module.exports = {
   getNativeAssetCollection,
   getForeignAssetCollection,
   getPairsCollection,
-  getDailsCollection
+  getDealsCollection
 }
