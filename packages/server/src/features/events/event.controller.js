@@ -26,7 +26,7 @@ class EventController {
 
     const events = await col
       .find(query)
-      .sort({ 'indexer.blockHeight': -1, index: -1 })
+      .sort({ 'indexer.blockHeight': -1, sort: -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
@@ -46,7 +46,7 @@ class EventController {
       query = ObjectID(id)
     } else if (isEventId(id)) {
       const { blockHeight, eventIndex } = extractEvent(id)
-      query = { 'indexer.blockHeight': blockHeight, index: eventIndex }
+      query = { 'indexer.blockHeight': blockHeight, sort: eventIndex }
     }
 
     const col = await getEventCollection()

@@ -63,7 +63,7 @@ export default function() {
           },
           {
             label: $t('event_index'),
-            data: event.index
+            data: event.sort
           },
           {
             label: $t('common_module'),

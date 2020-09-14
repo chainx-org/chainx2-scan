@@ -103,7 +103,8 @@ async function handleEvents(events, indexer, extrinsics) {
 
   const eventCol = await getEventCollection()
   const bulk = eventCol.initializeOrderedBulkOp()
-  for (const { event, phase, topics } of events) {
+  for (let sort = 0; sort < events.length; sort++) {
+    const { event, phase, topics } = events[sort]
     const phaseType = phase.type
     let [phaseValue, extrinsicHash] = [null, null]
     if (!phase.isNull) {
@@ -126,6 +127,7 @@ async function handleEvents(events, indexer, extrinsics) {
         type: phaseType,
         value: phaseValue
       },
+      sort,
       index,
       section,
       method,

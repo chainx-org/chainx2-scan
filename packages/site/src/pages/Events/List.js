@@ -41,11 +41,12 @@ export default function() {
           extrinsicHash,
           section,
           method,
+          sort,
           index,
           meta,
           data
         } = item
-        const id = `${blockHeight}-${index}`
+        const id = `${blockHeight}-${sort}`
         return {
           id: <CommonLink value={id} link={`/events/${id}`} />,
           blockHeight: <BlockLink value={blockHeight} />,
