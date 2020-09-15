@@ -1,3 +1,5 @@
+const { safeAdd } = require('../../utils')
+const { getDb } = require('../../services/mongo')
 const { extractPage } = require('../../utils')
 
 const {
@@ -17,26 +19,51 @@ class AccountsController {
       return
     }
 
-    const col = await getAccountsCollection()
+    const db = await getDb()
+    const col = await db.collection('nativeAsset')
     const total = await col.estimatedDocumentCount()
-    const accountsList = await col
-      .find({})
-      .sort({ 'header.number': -1 })
-      .skip(page * pageSize)
-      .limit(pageSize)
-      .toArray()
-
-    //TODO Such query efficiency is relatively low, take this way for the time being, and then optimize
-    for (let i = 0; i < accountsList.length; i++) {
-      let { pcx, btc, count } = await getBalanceFromAccount(
-        accountsList[i].address
+    const accounts = await new Promise((resolve, reject) => {
+      col.aggregate(
+        [
+          { $sort: { blockHeight: -1 } },
+          {
+            $group: {
+              _id: '$address',
+              blockHeight: { $first: '$blockHeight' },
+              free: { $first: '$free' },
+              reserved: { $first: '$reserved' },
+              miscFrozen: { $first: '$miscFrozen' },
+              feeFrozen: { $first: '$feeFrozen' },
+              dexReserved: { $first: '$dexReserved' },
+              stakingReserved: { $first: '$stakingReserved' }
+            }
+          },
+          { $sort: { free: -1 } },
+          { $skip: page * pageSize },
+          { $limit: pageSize }
+        ],
+        (err, cursor) => {
+          if (err) {
+            reject(err)
+          } else {
+            cursor.toArray((err, docs) => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve(docs)
+              }
+            })
+          }
+        }
       )
-      accountsList[i].pcx = pcx
-      accountsList[i].btc = btc
-      accountsList[i].count = count
-    }
+    })
+
     ctx.body = {
-      items: accountsList,
+      items: accounts.map(a => ({
+        address: a._id,
+        ...a,
+        total: safeAdd(a.free, a.reserved)
+      })),
       page,
       pageSize,
       total

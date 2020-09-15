@@ -25,13 +25,14 @@ let transferCol = null
 let validatorsCol = null
 let voteCol = null
 let ordersCol = null
+let db = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url, {
     useUnifiedTopology: true
   })
 
-  const db = client.db(dbName)
+  db = client.db(dbName)
 
   blockCol = db.collection(cols.block)
   extrinsicCol = db.collection(cols.extrinsic)
@@ -42,6 +43,14 @@ async function initDb() {
   validatorsCol = db.collection(cols.validators)
   voteCol = db.collection(cols.vote)
   ordersCol = db.collection(cols.orders)
+
+  return db
+}
+
+async function getDb() {
+  if (!db) {
+    await initDb()
+  }
 
   return db
 }
@@ -107,5 +116,6 @@ module.exports = {
   getTransferColCollection,
   getValidatorsCollection,
   getVoteCollection,
-  getOrdersCollection
+  getOrdersCollection,
+  getDb
 }

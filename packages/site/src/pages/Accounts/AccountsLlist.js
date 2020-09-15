@@ -15,6 +15,7 @@ export default function({ blockHeight }) {
   }, [blockHeight, page, pageSize])
 
   const { items: accounts, loading, total } = useLoad(api.fetchAccounts, params)
+  console.log('accounts', accounts)
 
   return (
     <Table
@@ -28,21 +29,16 @@ export default function({ blockHeight }) {
         return {
           key: item._id,
           address: <AccountLink value={item.address} />,
-          avalibleBalance: <Amount value={item.pcx ? item.pcx.free : ''} />,
-          totalBalance: (
-            <Amount
-              minDigits={5}
-              value={item.pcx ? item.pcx.free + item.pcx.reserved : 0}
-            />
-          ),
-          totalBtc: (
-            <Amount
-              symbol="BTC"
-              value={item && item.btc ? item.btc.Usable : 0}
-              hideSymbol
-            />
-          ),
-          totalAccount: item.count ? item.count : 0
+          avalibleBalance: <Amount value={item.free} />,
+          totalBalance: <Amount minDigits={5} value={item.total} />
+          // totalBtc: (
+          //   <Amount
+          //     symbol="BTC"
+          //     value={item && item.btc ? item.btc.Usable : 0}
+          //     hideSymbol
+          //   />
+          // ),
+          // totalAccount: item.count ? item.count : 0
         }
       })}
       columns={[
@@ -57,16 +53,16 @@ export default function({ blockHeight }) {
         {
           title: $t('total_balance_item'),
           dataIndex: 'totalBalance'
-        },
-        {
-          title: $t('total_btc_item'),
-          dataIndex: 'totalBtc'
-        },
-
-        {
-          title: $t('total_transaction_item'),
-          dataIndex: 'totalAccount'
         }
+        // {
+        //   title: $t('total_btc_item'),
+        //   dataIndex: 'totalBtc'
+        // },
+        //
+        // {
+        //   title: $t('total_transaction_item'),
+        //   dataIndex: 'totalAccount'
+        // }
       ]}
     />
   )

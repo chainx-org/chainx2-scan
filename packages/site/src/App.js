@@ -8,7 +8,6 @@ function App() {
     <Router>
       <React.Fragment>
         <Header />
-
         <Main />
       </React.Fragment>
     </Router>
