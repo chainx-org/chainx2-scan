@@ -1,17 +1,18 @@
 import React, { useMemo } from 'react'
-import { Table, Amount, TokenName, TokenChain } from '../../../components'
+import { Amount, Table } from '../../../components'
 import api from '../../../services/api'
 
 import { useLoadDetail } from '../../../utils/hooks'
 
 import { useParams } from 'react-router-dom'
 import $t from '../../../locale'
+import { safeAdd } from '@src/shared'
 
 export default function AccountAsset(props) {
   const { address } = useParams()
   const params = useMemo(() => [address], [address])
 
-  const { detail: nativeAssets, loading } = useLoadDetail(
+  const { detail: nativeAsset, loading } = useLoadDetail(
     api.fetchNativeAssets,
     params
   )
@@ -55,54 +56,42 @@ export default function AccountAsset(props) {
         loading={loading}
         pagination={false}
         dataSource={
-          nativeAssets &&
-          nativeAssets.items.map(item => {
+          nativeAsset &&
+          [{ ...nativeAsset, token: 'PCX' }].map(item => {
             return {
               key: item.token,
-              token: item.Token,
+              token: item.token,
               free: (
                 <Amount
-                  value={item.Free}
+                  value={item.free}
                   symbol={item.token}
                   hideSymbol={true}
                 />
               ),
               reservedStaking: (
                 <Amount
-                  value={item.ReservedStaking}
+                  value={item.stakingReserved.bonded}
                   symbol={item.token}
                   hideSymbol={true}
                 />
               ),
               reservedStakingRevocation: (
                 <Amount
-                  value={item.ReservedStakingRevocation}
+                  value={item.stakingReserved.bondedWithdrawal}
                   symbol={item.token}
                   hideSymbol={true}
                 />
               ),
               reservedDexSpot: (
                 <Amount
-                  value={item.ReservedDexSpot}
-                  symbol={item.token}
-                  hideSymbol={true}
-                />
-              ),
-              reservedWithdrawal: (
-                <Amount
-                  value={item.ReservedWithdrawal}
+                  value={item.dexReserved}
                   symbol={item.token}
                   hideSymbol={true}
                 />
               ),
               total: (
                 <Amount
-                  value={
-                    item.Free +
-                    item.ReservedStaking +
-                    item.ReservedStakingRevocation +
-                    item.ReservedDexSpot
-                  }
+                  value={safeAdd(item.free, item.reserved)}
                   symbol={item.token}
                   hideSymbol={true}
                 />

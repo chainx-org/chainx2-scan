@@ -15,7 +15,6 @@ export default function({ blockHeight }) {
   }, [blockHeight, page, pageSize])
 
   const { items: accounts, loading, total } = useLoad(api.fetchAccounts, params)
-  console.log('accounts', accounts)
 
   return (
     <Table

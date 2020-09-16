@@ -1,3 +1,6 @@
+const { getExtrinsicCount } = require('./utils')
+const { encodeAddress } = require('./utils')
+const { getNativeAsset } = require('./utils')
 const { safeAdd } = require('../../utils')
 const { getDb } = require('../../services/mongo')
 const { extractPage } = require('../../utils')
@@ -8,7 +11,6 @@ const {
   fetchNaminationLocks
 } = require('../../common')
 
-const { getAccountsCollection } = require('../../services/mongo')
 const { Account } = require('@chainx-v2/account')
 
 class AccountsController {
@@ -71,22 +73,28 @@ class AccountsController {
   }
 
   async getAccount(ctx) {
-    const { address } = ctx.params
-    let query = { address: address }
-    if (!Account.isAddressValid(address)) {
+    const { addressOrId } = ctx.params
+    if (!addressOrId) {
       ctx.body = {
-        errmsg: 'illegal address'
+        errMsg: 'Invalid address or account id'
       }
       return
     }
-    const col = await getAccountsCollection()
-    let accountsData = await col.findOne(query)
-    let balaceData = await getBalanceFromAccount(address)
-    const publickey = Account.decodeAddress(address)
+
+    const isAddress = !addressOrId.startsWith('0x')
+    if (isAddress && !Account.isAddressValid(addressOrId)) {
+      ctx.body = {
+        errMsg: 'illegal address or account id'
+      }
+      return
+    }
+
+    const address = isAddress ? addressOrId : encodeAddress(addressOrId)
+    const extrinsicCount = await getExtrinsicCount(address)
+    const nativeAsset = await getNativeAsset(addressOrId)
     ctx.body = {
-      ...accountsData,
-      ...balaceData,
-      publickey
+      ...nativeAsset,
+      extrinsicCount
     }
   }
 
@@ -94,32 +102,14 @@ class AccountsController {
   async getAssets(ctx) {
     const { address } = ctx.params
 
-    // Determine whether the address is legal
     if (!Account.isAddressValid(address)) {
       ctx.body = {
-        errmsg: 'illegal address'
+        errMsg: 'illegal address'
       }
       return
     }
 
-    let { PCXBalance } = await getBalanceFromAccount(address)
-    let dexReserve = await fetchDexReserves(address)
-    let locks = await fetchNaminationLocks(address)
-
-    ctx.body = {
-      items: [
-        {
-          Token: 'PCX',
-          Free: PCXBalance ? PCXBalance.free : 0,
-          ReservedDexSpot: dexReserve,
-          ReservedStakingRevocation:
-            JSON.stringify(locks) === '{}' ? 0 : locks.Bonded,
-          ReservedStaking:
-            JSON.stringify(locks) === '{}' ? 0 : locks.BondedWithdrawal,
-          Account: address
-        }
-      ]
-    }
+    ctx.body = await getNativeAsset(address)
   }
 }
 

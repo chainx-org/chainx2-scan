@@ -13,6 +13,7 @@ import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
+import { decodeAddress } from '@src/shared'
 
 export default function() {
   const [activeKey, setActiveKey] = useState('assets')
@@ -20,7 +21,8 @@ export default function() {
   const { address } = useParams()
   const params = useMemo(() => [address], [address])
 
-  const { detail: accounts, loading } = useLoadDetail(api.fetchAccount, params)
+  const { detail: account, loading } = useLoadDetail(api.fetchAccount, params)
+  const pubKey = account?.address ? decodeAddress(account.address) : ''
 
   const breadcrumb = (
     <Breadcrumb
@@ -42,7 +44,7 @@ export default function() {
     )
   }
 
-  if (!loading && !accounts) {
+  if (!loading && !account) {
     return <NoData id={address} />
   }
 
@@ -53,15 +55,15 @@ export default function() {
         dataSource={[
           {
             label: $t('address_item'),
-            data: <AccountLink value={accounts.address} />
+            data: <AccountLink value={account.address} />
           },
           {
             label: $t('account_publickey'),
-            data: accounts.publickey
+            data: pubKey
           },
           {
             label: $t('total_transaction_item'),
-            data: accounts.count
+            data: account.extrinsicCount
           },
           {
             label: $t('btc_recharge_address'),
@@ -103,7 +105,7 @@ export default function() {
             </li>
           </ul>
         </div>
-        {/*  {activeKey === 'assets' && <AcccountAsset address={address} />}*/}
+        {activeKey === 'assets' && <AcccountAsset address={address} />}
         {/*  {activeKey === 'transfer' && <TransferList address={address} />}*/}
         {/*  {activeKey === 'transaction' && <TransActionList address={address} />}*/}
         {/*  {activeKey === 'vote' && <NominationList address={address} />}*/}
