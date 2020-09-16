@@ -42,5 +42,21 @@ export default {
   common_no_data: {
     zh: '没有您要的信息',
     en: 'No Data'
+  },
+  common_operation: {
+    zh: '操作',
+    en: 'Operation'
+  },
+  common_result: {
+    zh: '结果',
+    en: 'Result'
+  },
+  common_success: {
+    zh: '成功',
+    en: 'Success'
+  },
+  common_fail: {
+    zh: '失败',
+    en: 'Fail'
   }
 }

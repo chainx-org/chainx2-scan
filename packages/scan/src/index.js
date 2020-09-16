@@ -1,3 +1,4 @@
+const { isExtrinsicSuccess } = require('./events/utils')
 const { u8aToHex } = require('@chainx-v2/util')
 const { sleep, logger } = require('./util')
 const { extractExtrinsicBusinessData } = require('./extrinsic')
@@ -208,6 +209,7 @@ async function handleExtrinsic(extrinsic, indexer, events) {
   }
 
   await extractExtrinsicBusinessData(extrinsic, indexer, events)
+  const isSuccess = isExtrinsicSuccess(events)
 
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据
@@ -221,7 +223,8 @@ async function handleExtrinsic(extrinsic, indexer, events) {
     callIndex,
     version,
     args,
-    data
+    data,
+    isSuccess
   }
 
   const exCol = await getExtrinsicCollection()

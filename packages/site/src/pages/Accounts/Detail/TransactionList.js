@@ -9,6 +9,8 @@ import {
   fetchExtrinsics
 } from '@src/store/reducers/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import Fail from '@components/Fail'
+import Success from '@components/Success'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
@@ -53,7 +55,8 @@ export default function({ address }) {
           blockTime: <DateShow value={item.indexer.blockTime} />,
           section: item.section,
           operation: `${item.section}(${item.name})`,
-          args: item.args
+          args: item.args,
+          status: item.isSuccess ? <Success /> : <Fail />
         }
       })}
       columns={[
@@ -70,8 +73,12 @@ export default function({ address }) {
           dataIndex: 'hash'
         },
         {
-          title: '操作',
+          title: $t('common_operation'),
           dataIndex: 'operation'
+        },
+        {
+          title: $t('common_result'),
+          dataIndex: 'status'
         }
       ]}
     />
