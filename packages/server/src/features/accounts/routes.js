@@ -14,6 +14,10 @@ router.get(
   '/accounts/:address/votes',
   nominationController.getAccountNominations
 )
+router.get(
+  '/accounts/:address/extrinsics',
+  transactionController.getAccountExtrinsics
+)
 
 router.get('/transaction', transactionController.getTransaction)
 router.get('/transfer', transferController.getTransfer)

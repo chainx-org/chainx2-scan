@@ -6,7 +6,13 @@ const accountSlice = createSlice({
   name: 'settings',
   initialState: {
     transfers: [],
-    votes: []
+    votes: [],
+    extrinsics: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    }
   },
   reducers: {
     setTransfers(state, action) {
@@ -14,11 +20,14 @@ const accountSlice = createSlice({
     },
     setVotes(state, action) {
       state.votes = action.payload
+    },
+    setExtrinsics(state, action) {
+      state.extrinsics = action.payload
     }
   }
 })
 
-export const { setTransfers, setVotes } = accountSlice.actions
+export const { setTransfers, setVotes, setExtrinsics } = accountSlice.actions
 
 export const fetchTransfers = (
   address,
@@ -57,7 +66,25 @@ export const fetchVotes = (address, setLoading = nonFunc) => async dispatch => {
   }
 }
 
+export const fetchExtrinsics = (
+  address,
+  setLoading = nonFunc
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: extrinsics } = await api.fetch(
+      `/accounts/${address}/extrinsics`
+    )
+    console.log('extrinsics', extrinsics)
+
+    dispatch(setExtrinsics(extrinsics))
+  } finally {
+    setLoading(false)
+  }
+}
+
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
+export const extrinsicsSelector = state => state.accounts.extrinsics
 
 export default accountSlice.reducer

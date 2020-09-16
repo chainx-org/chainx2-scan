@@ -5,6 +5,35 @@ const {
 } = require('../../services/mongo')
 
 class TransactionController {
+  async getAccountExtrinsics(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      ctx.body = {
+        errMsg: 'Invalid pageSize'
+      }
+      return
+    }
+
+    const { address } = ctx.params
+    const col = await getExtrinsicCollection()
+    const total = await col.count({ signer: address })
+
+    const extrinsics = await col
+      .find({ signer: address })
+      .sort({ 'indexer.blockHeight': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items: extrinsics,
+      page,
+      pageSize,
+      total
+    }
+  }
+
   async getTransaction(ctx) {
     const { page, pageSize } = extractPage(ctx)
     if (pageSize === 0) {

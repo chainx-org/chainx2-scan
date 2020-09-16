@@ -1,23 +1,26 @@
-import React, { useMemo, useState } from 'react'
-import api from '../../../services/api'
+import React, { useEffect, useState } from 'react'
 import { Table } from '../../../components'
 import $t from '../../../locale'
 import DateShow from '../../../components/DateShow'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
-import { useLoad } from '../../../utils/hooks'
+import {
+  extrinsicsSelector,
+  fetchExtrinsics
+} from '@src/store/reducers/accountSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const params = useMemo(() => {
-    return address ? { address: address, page, pageSize } : { page, pageSize }
-  }, [address, page, pageSize])
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
 
-  const { items: transferList, loading, total } = useLoad(
-    api.fetchTransactoin,
-    params
-  )
+  useEffect(() => {
+    dispatch(fetchExtrinsics(address, setLoading))
+  }, [address, dispatch])
+
+  const { items: extrinsics, total } = useSelector(extrinsicsSelector)
 
   return (
     <Table
@@ -36,7 +39,7 @@ export default function({ address }) {
           </div>
         )
       }}
-      dataSource={transferList.map(item => {
+      dataSource={(extrinsics || []).map(item => {
         return {
           key: item.hash,
           hash: (
@@ -48,16 +51,9 @@ export default function({ address }) {
           ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
-          signer: (
-            <TxLink
-              style={{ width: 136 }}
-              className="text-truncate"
-              value={item.sender}
-            />
-          ),
-
           section: item.section,
-          args: JSON.stringify(item.args)
+          operation: `${item.section}(${item.name})`,
+          args: item.args
         }
       })}
       columns={[
@@ -74,17 +70,8 @@ export default function({ address }) {
           dataIndex: 'hash'
         },
         {
-          title: '签名',
-          dataIndex: 'sender'
-        },
-
-        {
           title: '操作',
-          dataIndex: 'section'
-        },
-        {
-          title: 'args',
-          dataIndex: 'args'
+          dataIndex: 'operation'
         }
       ]}
     />

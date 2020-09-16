@@ -31,6 +31,7 @@ export default function({ blockHeight }) {
       }}
       pagination={{ current: page, pageSize, total }}
       expandedRowRender={data => {
+        console.log(data.args)
         return (
           <div>
             <pre style={{ textAlign: 'left' }}>
