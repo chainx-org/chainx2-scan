@@ -1,59 +1,59 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Table } from '../../../components'
-import api from '../../../services/api'
 import $t from '../../../locale'
-import { useLoad } from '../../../utils/hooks'
-import { useParams } from 'react-router-dom'
 import DateShow from '../../../components/DateShow'
+import {
+  accountVotesSelector,
+  fetchVotes
+} from '@src/store/reducers/accountSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import AddressLink from '@components/AddressLink'
 
-export default function AccountNomination(props) {
-  const [page] = useState(1)
-  const [pageSize] = useState(20)
+export default function AccountNomination({ address }) {
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
-  const { address } = useParams()
+  useEffect(() => {
+    dispatch(fetchVotes(address, setLoading))
+  }, [address, dispatch])
 
-  const params = useMemo(() => {
-    return address ? { address: address, page, pageSize } : { page, pageSize }
-  }, [address, page, pageSize])
-
-  const { items: nominationList, loading } = useLoad(
-    api.fetchAccountNominations,
-    params
-  )
+  const votes = useSelector(accountVotesSelector)
+  console.log('votes', votes)
 
   return (
     <Table
       loading={loading}
       pagination={false}
-      dataSource={
-        nominationList &&
-        nominationList.map(data => {
-          return {
-            key: data.nominee,
-            blockTime: <DateShow value={data.indexer.blockTime} />,
-            //nominee: <ValidatorLink value={data.nominee} />,
-            nomination: data.nomination,
-            //revocations: <Amount value={data.revocations} hideSymbol />,
-            revocations: data.revocations,
-            updateHeight: data.last_vote_weight_update,
-            weight: data.last_vote_weight
-          }
-        })
-      }
+      dataSource={(votes || []).map(data => {
+        return {
+          key: data.nominee,
+          // blockTime: <DateShow value={data.indexer.blockTime} />,
+          nominee: <AddressLink value={data.validator} short={true} />,
+          nomination: data.nomination
+          //revocations: <Amount value={data.revocations} hideSymbol />,
+          // revocations: data.revocations,
+          // updateHeight: data.last_vote_weight_update,
+          // weight: data.last_vote_weight
+        }
+      })}
       columns={[
         {
-          title: $t('VOTETIME'),
-          dataIndex: 'blockTime'
+          title: 'Validator',
+          dataIndex: 'nominee'
         },
-        {
-          title: $t('UPDATEWEIGHT'),
-          dataIndex: 'updateHeight'
-        },
-        {
-          title: $t('WEIGHT'),
-          dataIndex: 'weight'
-        },
+        // {
+        //   title: $t('VOTETIME'),
+        //   dataIndex: 'blockTime'
+        // },
+        // {
+        //   title: $t('UPDATEWEIGHT'),
+        //   dataIndex: 'updateHeight'
+        // },
+        // {
+        //   title: $t('WEIGHT'),
+        //   dataIndex: 'weight'
+        // },
         {
           title: (
             <>
@@ -62,17 +62,17 @@ export default function AccountNomination(props) {
             </>
           ),
           dataIndex: 'nomination'
-        },
-        {
-          title: (
-            <>
-              {$t('UNFREEZERESERVED')}
-              (PCX)
-            </>
-          ),
-          dataIndex: 'revocations',
-          align: 'right'
         }
+        // {
+        //   title: (
+        //     <>
+        //       {$t('UNFREEZERESERVED')}
+        //       (PCX)
+        //     </>
+        //   ),
+        //   dataIndex: 'revocations',
+        //   align: 'right'
+        // }
       ]}
     />
   )

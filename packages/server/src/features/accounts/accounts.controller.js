@@ -5,12 +5,6 @@ const { safeAdd } = require('../../utils')
 const { getDb } = require('../../services/mongo')
 const { extractPage } = require('../../utils')
 
-const {
-  getBalanceFromAccount,
-  fetchDexReserves,
-  fetchNaminationLocks
-} = require('../../common')
-
 const { Account } = require('@chainx-v2/account')
 
 class AccountsController {
