@@ -26,6 +26,33 @@ class TransferController {
       total
     }
   }
+
+  async accountTransfers(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      ctx.body = {
+        errMsg: 'Invalid pageSize'
+      }
+      return
+    }
+
+    const { address } = ctx.params
+    const col = await getTransferColCollection()
+    const total = await col.count({ $or: [{ from: address }, { to: address }] })
+    const transfers = await col
+      .find({ $or: [{ from: address }, { to: address }] })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items: transfers,
+      page,
+      pageSize,
+      total
+    }
+  }
 }
 
 module.exports = new TransferController()

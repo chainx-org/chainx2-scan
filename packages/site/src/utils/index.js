@@ -18,4 +18,6 @@ export function makeCancelable(promise) {
   }
 }
 
+export function nonFunc() {}
+
 export * from './hooks'

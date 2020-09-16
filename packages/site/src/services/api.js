@@ -96,6 +96,10 @@ class Api {
     return this.cancelableFetch(`/transfer`, params)
   }
 
+  fetchAccountTransfers = (address, params) => {
+    return this.cancelableFetch(`/accounts/${address}/transfers`, params)
+  }
+
   fetchTransactoin = params => {
     return this.cancelableFetch(`/transaction`, params)
   }

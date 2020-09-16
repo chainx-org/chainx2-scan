@@ -1,25 +1,29 @@
-import React, { useMemo, useState } from 'react'
-import api from '../../../services/api'
+import React, { useEffect, useState } from 'react'
 import { Table } from '../../../components'
 import $t from '../../../locale'
 import DateShow from '../../../components/DateShow'
 import AccountLink from '../../../components/AccountLink'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
-import { useLoad } from '../../../utils/hooks'
 import Amount from '../../../components/Amount'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  fetchTransfers,
+  transfersSelector
+} from '@src/store/reducers/accountSlice'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const params = useMemo(() => {
-    return address ? { address: address, page, pageSize } : { page, pageSize }
-  }, [address, page, pageSize])
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
-  const { items: transferList, loading, total } = useLoad(
-    api.fetchTransfer,
-    params
-  )
+  useEffect(() => {
+    dispatch(fetchTransfers(address, { page: page - 1, pageSize }, setLoading))
+  }, [address, page, pageSize, dispatch])
+
+  const { items: transfers = [], total = 0 } =
+    useSelector(transfersSelector) || {}
 
   return (
     <Table
@@ -29,16 +33,7 @@ export default function({ address }) {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
-      expandedRowRender={data => {
-        return (
-          <div>
-            <pre style={{ textAlign: 'left' }}>
-              {JSON.stringify(data.args, null, 2)}
-            </pre>
-          </div>
-        )
-      }}
-      dataSource={transferList.map(item => {
+      dataSource={transfers.map(item => {
         return {
           key: item.extrinsicHash,
           token: item.token,
@@ -65,8 +60,7 @@ export default function({ address }) {
               value={item.to}
             />
           ),
-          value: <Amount value={item.value} symbol={item.token} />,
-          memo: item.memo
+          value: <Amount value={item.value} symbol={item.token} />
         }
       })}
       columns={[
@@ -97,10 +91,6 @@ export default function({ address }) {
         {
           title: '金额',
           dataIndex: 'value'
-        },
-        {
-          title: '备注',
-          dataIndex: 'memo'
         }
       ]}
     />

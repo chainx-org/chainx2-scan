@@ -106,7 +106,7 @@ export default function() {
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
-        {/*  {activeKey === 'transfer' && <TransferList address={address} />}*/}
+        {activeKey === 'transfer' && <TransferList address={address} />}
         {/*  {activeKey === 'transaction' && <TransActionList address={address} />}*/}
         {/*  {activeKey === 'vote' && <NominationList address={address} />}*/}
       </div>
