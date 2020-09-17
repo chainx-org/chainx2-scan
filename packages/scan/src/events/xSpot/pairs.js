@@ -1,3 +1,4 @@
+const { updatePairs } = require('../../common/updatePair')
 const { getPairsCollection } = require('../../mongoClient')
 const { logger } = require('../../util')
 const safeBlocks = 300
@@ -6,7 +7,6 @@ async function removeUselessHistoricalRecords(blockHeight, pairId) {
   const col = await getPairsCollection()
   const records = await col
     .find({
-      pairId: pairId,
       blockHeight: { $lt: blockHeight - safeBlocks }
     })
     .toArray()
@@ -21,18 +21,9 @@ async function removeUselessHistoricalRecords(blockHeight, pairId) {
 async function handlePairs(event, indexer) {
   const { blockHeight, blockHash } = indexer
 
-  const json = event.data.toJSON()
-  const [{ id: pairId }] = json
-  const [pair] = json
+  await updatePairs(blockHeight, blockHash)
 
-  const col = await getPairsCollection()
-  await col.insertOne({
-    blockHeight,
-    blockHash,
-    pairId,
-    ...pair
-  })
-  await removeUselessHistoricalRecords(blockHeight, pairId)
+  await removeUselessHistoricalRecords(blockHeight)
 }
 
 module.exports = {
