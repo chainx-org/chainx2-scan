@@ -26,7 +26,7 @@ async function handlePairs(event, indexer) {
   const [pair] = json
 
   const col = await getPairsCollection()
-  col.insertOne({
+  await col.insertOne({
     blockHeight,
     blockHash,
     pairId,

@@ -3,6 +3,7 @@ const { u8aToHex } = require('@polkadot/util')
 const { sleep, logger } = require('./util')
 const { extractExtrinsicBusinessData } = require('./extrinsic')
 const { extractExtrinsicEvents } = require('./events/utils')
+const { init } = require('./init')
 
 const {
   getExtrinsicCollection,
@@ -39,14 +40,13 @@ async function main() {
   await updateHeight()
   // 初始化sdk
   const api = await getApi()
-  // 设置测试网
   await updateChainProperties()
   // 监听并更新validators
   await listenAndUpdateValidators()
   // 获取首个扫描区块高度
   let scanHeight = await getFirstScanHeight()
-  // 删除该扫描区块
   await deleteDataFrom(scanHeight)
+  await init(scanHeight)
 
   while (true) {
     const chainHeight = getLatestHeight()
