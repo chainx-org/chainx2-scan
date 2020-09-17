@@ -7,6 +7,8 @@ import TxLink from '../../components/TxLink'
 import BlockLink from '../../components/BlockLink'
 import TxAction from '../../components/TxAction'
 import { useLoad } from '../../utils/hooks'
+import Success from '@components/Success'
+import Fail from '@components/Fail'
 
 export default function({ blockHeight }) {
   const [page, setPage] = useState(1)
@@ -53,7 +55,8 @@ export default function({ blockHeight }) {
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           action: <TxAction module={item.section} call={item.name} />,
-          args: item.args
+          args: item.args,
+          status: item.isSuccess ? <Success /> : <Fail />
         }
       })}
       columns={[
@@ -76,6 +79,10 @@ export default function({ blockHeight }) {
         {
           title: $t('ex_action'),
           dataIndex: 'action'
+        },
+        {
+          title: $t('common_result'),
+          dataIndex: 'status'
         }
       ]}
     />
