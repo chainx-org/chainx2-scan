@@ -6,6 +6,7 @@ import event from './event'
 import accounts from './accounts'
 import nomination from './nomination'
 import assets from './assets'
+import dex from './dex'
 
 export default {
   ...common,
@@ -15,5 +16,6 @@ export default {
   ...event,
   ...accounts,
   ...nomination,
-  ...assets
+  ...assets,
+  ...dex
 }

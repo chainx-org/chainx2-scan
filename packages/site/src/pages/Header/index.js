@@ -7,7 +7,7 @@ import { matchPath } from 'react-router'
 
 export default function() {
   const location = useLocation()
-  const isMatchBlocks = ['/extrinsics', '/events', 'blocks'].some(
+  const isMatchBlocks = ['/extrinsics', '/events', 'blocks', '/accounts'].some(
     path => !!matchPath(location.pathname, { path })
   )
 
@@ -38,6 +38,13 @@ export default function() {
               to="/blocks"
             >
               {$t('common_blockchain')}
+            </NavLink>
+            <NavLink
+              className="navbar-item is-tab"
+              activeClassName="is-active"
+              to="/dex"
+            >
+              {$t('dex_section')}
             </NavLink>
           </div>
         </div>
