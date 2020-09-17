@@ -1,6 +1,6 @@
 const { getApi } = require('./api')
 const { getChainCollection } = require('./mongoClient')
-const { setSS58Format } = require('@chainx-v2/crypto')
+const { setSS58Format } = require('@polkadot/util-crypto')
 
 let properties = null
 
