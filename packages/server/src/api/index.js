@@ -1,4 +1,5 @@
-const { ApiPromise, WsProvider } = require('@chainx-v2/api')
+const { ApiPromise, WsProvider } = require('@polkadot/api')
+const { options } = require('@chainx-v2/api')
 
 let provider = null
 let api = null
@@ -9,7 +10,7 @@ async function getApi() {
       ? process.env.WS_ENDPOINT
       : 'ws://47.114.131.193:9000'
     provider = new WsProvider(ws_endpoint)
-    api = await ApiPromise.create({ provider })
+    api = await ApiPromise.create(options({ provider }))
   }
 
   return api

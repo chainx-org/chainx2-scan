@@ -1,5 +1,5 @@
 const { isExtrinsicSuccess } = require('./events/utils')
-const { u8aToHex } = require('@chainx-v2/util')
+const { u8aToHex } = require('@polkadot/util')
 const { sleep, logger } = require('./util')
 const { extractExtrinsicBusinessData } = require('./extrinsic')
 const { extractExtrinsicEvents } = require('./events/utils')

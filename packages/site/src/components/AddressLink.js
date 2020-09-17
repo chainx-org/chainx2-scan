@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
-import hexAddPrefix from '@chainx-v2/util/hex/addPrefix'
+import hexAddPrefix from '@polkadot/util/hex/addPrefix'
 
 import { decodeAddress, encodeAddress } from '../shared'
 

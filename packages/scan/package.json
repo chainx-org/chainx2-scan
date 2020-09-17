@@ -11,10 +11,11 @@
     "start": "node src/index.js"
   },
   "dependencies": {
-    "@chainx-v2/account": "^0.0.27",
-    "@chainx-v2/api": "^0.0.27",
-    "@chainx-v2/crypto": "^0.0.27",
-    "@chainx-v2/util": "^0.0.27",
+    "@chainx-v2/account": "^0.0.33",
+    "@chainx-v2/api": "^0.0.33",
+    "@polkadot/api": "^1.33.1",
+    "@polkadot/util-crypto": "^3.4.1",
+    "@polkadot/util": "^3.4.1",
     "bignumber.js": "^9.0.0",
     "lodash": "^4.17.20",
     "log4js": "^6.3.0",
