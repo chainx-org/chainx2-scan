@@ -4,6 +4,7 @@ import { fetchPairs } from '@src/store/reducers/dexSlice'
 import PairList from '@src/pages/Dex/PairList'
 import $t from '@src/locale'
 import classnames from 'classnames'
+import CurrentEntrust from '@src/pages/Dex/CurrentEntrust'
 
 const { useState } = require('react')
 
@@ -45,6 +46,7 @@ export default function() {
             </li>
           </ul>
         </div>
+        {activeKey === 'currentEntrust' && <CurrentEntrust />}
       </div>
     </>
   )

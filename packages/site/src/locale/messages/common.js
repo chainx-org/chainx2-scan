@@ -58,5 +58,9 @@ export default {
   common_fail: {
     zh: '失败',
     en: 'Fail'
+  },
+  common_status: {
+    zh: '状态',
+    en: 'Status'
   }
 }

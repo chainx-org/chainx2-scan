@@ -45,11 +45,21 @@ export const fetchPairs = () => async dispatch => {
   dispatch(setPairs(pairs))
 }
 
-export const fetchOpenOrders = pairId => async dispatch => {
-  await api.fetch('/dex/')
+export const fetchOpenOrders = (
+  pairId,
+  page = 0,
+  pageSize = 10
+) => async dispatch => {
+  const { result } = await api.fetch(`/dex/open_orders/${pairId}`, {
+    page,
+    pageSize
+  })
+  dispatch(setOpenOrders(result))
 }
 
 export const pairsSelector = state => state.dex.pairs
 export const activePairSelector = state => state.dex.activePair
+export const openOrdersSelector = state => state.dex.openOrders
+export const historyOrdersSelector = state => state.dex.historyOrders
 
 export default dexSlice.reducer
