@@ -7,5 +7,9 @@ const router = new Router()
 router.get('/dex/pairs', dexController.getPairs)
 router.get('/dex/orders', orderController.getOpenOrders)
 router.get('/dex/fills/:pairId', fillController.getFills)
+router.get(
+  '/dex/account_orders/:address/:pairId',
+  orderController.getAccountOpenOrders
+)
 
 module.exports = router
