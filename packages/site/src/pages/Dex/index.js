@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchPairs } from '@src/store/reducers/dexSlice'
+import PairList from '@src/pages/Dex/PairList'
 
 export default function() {
   const dispatch = useDispatch()
@@ -9,5 +10,15 @@ export default function() {
     dispatch(fetchPairs())
   }, [])
 
-  return 'Dex will be available soon'
+  return (
+    <>
+      <div className="columns">
+        <div className="column">
+          <PairList />
+        </div>
+      </div>
+
+      <div className="box"></div>
+    </>
+  )
 }

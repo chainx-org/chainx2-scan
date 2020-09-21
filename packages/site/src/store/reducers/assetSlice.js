@@ -29,4 +29,7 @@ export const fetchForeignAssetsInfo = () => async dispatch => {
   dispatch(setForeignAssets(foreignAssets))
 }
 
+export const nativeAssetSelector = state => state.assets.nativeAsset
+export const foreignAssetsSelector = state => state.assets.foreignAssets
+
 export default assetSlice.reducer
