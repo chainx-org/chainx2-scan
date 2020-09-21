@@ -60,6 +60,66 @@ class OrderController {
     }
   }
 
+  async getPairOpenOrders(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const { pairId } = ctx.params
+
+    const query = {
+      'props.pairId': parseInt(pairId),
+      status: { $ne: 'Canceled' }
+    }
+
+    const col = await getOrdersCol()
+
+    const [{ count: total }] = await aggregate(col, [
+      { $sort: { blockHeight: -1 } },
+      {
+        $group: {
+          _id: '$orderId',
+          props: { $first: '$props' },
+          status: { $first: '$status' }
+        }
+      },
+      { $match: query },
+      {
+        $count: 'count'
+      }
+    ])
+
+    const orders = await aggregate(col, [
+      { $sort: { blockHeight: -1 } },
+      {
+        $group: {
+          _id: '$orderId',
+          blockHeight: { $first: '$blockHeight' },
+          blockHash: { $first: '$blockHash' },
+          props: { $first: '$props' },
+          status: { $first: '$status' },
+          remaining: { $first: '$remaining' },
+          executedIndices: { $first: '$executedIndices' },
+          alreadyFilled: { $first: '$alreadyFilled' },
+          lastUpdateAt: { $first: '$lastUpdateAt' }
+        }
+      },
+      { $match: query },
+      { $sort: { lastUpdateAt: -1 } },
+      { $skip: page * pageSize },
+      { $limit: pageSize }
+    ])
+
+    ctx.body = {
+      items: orders,
+      page,
+      pageSize,
+      total
+    }
+  }
+
   async getAccountOpenOrders(ctx) {
     const { page, pageSize } = extractPage(ctx)
     if (pageSize === 0) {
