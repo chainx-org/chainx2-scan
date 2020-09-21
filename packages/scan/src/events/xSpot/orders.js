@@ -28,7 +28,7 @@ function normalizeOrder(order) {
 }
 
 async function handleOrders(event, indexer) {
-  const { blockHeight, blockHash } = indexer
+  const { blockHeight, blockHash, blockTime } = indexer
 
   const json = event.data.toJSON()
   const [
@@ -42,6 +42,7 @@ async function handleOrders(event, indexer) {
   col.insert({
     blockHeight,
     blockHash,
+    blockTime,
     orderId,
     ...normalizeOrder(order)
   })
