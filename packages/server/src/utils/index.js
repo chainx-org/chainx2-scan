@@ -1,5 +1,6 @@
 const httpUtils = require('./http')
 const BigNumber = require('bignumber.js')
+const mongoUtils = require('./aggregate-wrapper')
 
 function ensure0xPrefix(str = '') {
   if (!str.startsWith('0x')) {
@@ -33,5 +34,6 @@ module.exports = {
   isNum,
   ensure0xPrefix,
   safeAdd,
-  ...httpUtils
+  ...httpUtils,
+  ...mongoUtils
 }

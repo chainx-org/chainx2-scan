@@ -1,3 +1,4 @@
+const { aggregate } = require('../../utils')
 const { extractPage } = require('../../utils')
 const { getDb } = require('../../services/mongo')
 
@@ -12,71 +13,37 @@ class OrderController {
     const db = await getDb()
     const col = await db.collection('orders')
 
-    const [{ count: total }] = await new Promise((resolve, reject) => {
-      col.aggregate(
-        [
-          { $sort: { blockHeight: -1 } },
-          {
-            $group: {
-              _id: '$orderId'
-            }
-          },
-          {
-            $count: 'count'
-          }
-        ],
-        (err, cursor) => {
-          if (err) {
-            reject(err)
-          } else {
-            cursor.toArray((err, docs) => {
-              if (err) {
-                reject(err)
-              } else {
-                resolve(docs)
-              }
-            })
-          }
+    const [{ count: total }] = await aggregate(col, [
+      { $sort: { blockHeight: -1 } },
+      {
+        $group: {
+          _id: '$orderId'
         }
-      )
-    })
+      },
+      {
+        $count: 'count'
+      }
+    ])
 
-    const orders = await new Promise((resolve, reject) => {
-      col.aggregate(
-        [
-          { $sort: { blockHeight: -1 } },
-          {
-            $group: {
-              _id: '$orderId',
-              blockHeight: { $first: '$blockHeight' },
-              blockHash: { $first: '$blockHash' },
-              props: { $first: '$props' },
-              status: { $first: '$status' },
-              remaining: { $first: '$remaining' },
-              executedIndices: { $first: '$executedIndices' },
-              alreadyFilled: { $first: '$alreadyFilled' },
-              lastUpdateAt: { $first: '$lastUpdateAt' }
-            }
-          },
-          { $sort: { lastUpdateAt: -1 } },
-          { $skip: page * pageSize },
-          { $limit: pageSize }
-        ],
-        (err, cursor) => {
-          if (err) {
-            reject(err)
-          } else {
-            cursor.toArray((err, docs) => {
-              if (err) {
-                reject(err)
-              } else {
-                resolve(docs)
-              }
-            })
-          }
+    const orders = await aggregate(col, [
+      { $sort: { blockHeight: -1 } },
+      {
+        $group: {
+          _id: '$orderId',
+          blockHeight: { $first: '$blockHeight' },
+          blockHash: { $first: '$blockHash' },
+          props: { $first: '$props' },
+          status: { $first: '$status' },
+          remaining: { $first: '$remaining' },
+          executedIndices: { $first: '$executedIndices' },
+          alreadyFilled: { $first: '$alreadyFilled' },
+          lastUpdateAt: { $first: '$lastUpdateAt' }
         }
-      )
-    })
+      },
+      { $sort: { lastUpdateAt: -1 } },
+      { $skip: page * pageSize },
+      { $limit: pageSize }
+    ])
 
     ctx.body = {
       items: orders.map(o => ({
