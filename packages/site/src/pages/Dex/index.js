@@ -15,7 +15,7 @@ export default function() {
 
   useEffect(() => {
     dispatch(fetchPairs())
-  }, [])
+  }, [dispatch])
 
   return (
     <>

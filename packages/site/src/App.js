@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchNativeAssetInfo())
     dispatch(fetchForeignAssetsInfo())
-  }, [])
+  }, [dispatch])
 
   return (
     <Router>

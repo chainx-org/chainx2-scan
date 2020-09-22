@@ -1,7 +1,7 @@
 import React from 'react'
 import $t from '@src/locale'
 import { useSelector } from 'react-redux'
-import { activePairSelector, pairsSelector } from '@src/store/reducers/dexSlice'
+import { pairsSelector } from '@src/store/reducers/dexSlice'
 import PCX from '../../assets/tokens/pcx_circle.jpg'
 
 import classnames from 'classnames'
@@ -11,7 +11,6 @@ const tokenImgs = [PCX]
 
 export default function PairList() {
   const pairs = useSelector(pairsSelector)
-  const active = useSelector(activePairSelector)
 
   return (
     <section className="panel">

@@ -20,7 +20,6 @@ export default function CurrentEntrust() {
   const active = useSelector(activePairSelector)
   const { pipDecimals = 0, tickDecimals = 0 } = active || {}
   const openOrders = useSelector(openOrdersSelector)
-  console.log(active)
   const { items: orders, total } = openOrders
 
   const dispatch = useDispatch()
@@ -29,7 +28,7 @@ export default function CurrentEntrust() {
     if (typeof active !== 'undefined' && active !== null) {
       dispatch(fetchOpenOrders(active.pairId))
     }
-  }, [active])
+  }, [active, dispatch])
 
   return (
     <Table
@@ -39,8 +38,7 @@ export default function CurrentEntrust() {
       }}
       pagination={{ current: page, pageSize, total }}
       dataSource={(orders || []).map((data, idx) => {
-        const remaining = data.remaining
-        const hasFill = data.props.amount - remaining
+        const hasFill = data.alreadyFilled
 
         return {
           accountid: (
