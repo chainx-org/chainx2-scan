@@ -18,7 +18,7 @@ class FillController {
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ queryHeight: -1 })
+      .sort({ executedAt: -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
