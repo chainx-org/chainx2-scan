@@ -21,11 +21,11 @@ module.exports = async function extractUserTransfer(
   const section = extrinsic.method.sectionName.toLowerCase()
   if (section === 'xassets') {
     assetId = args.id + ''
-    const info = await getAssetInfoById(assetId)
-    if (!info) {
+    const asset = await getAssetInfoById(assetId)
+    if (!asset) {
       throw new Error(`Can not find asset for asset id: ${assetId}`)
     }
-    token = info.asset.info.token
+    token = asset.info.token
   }
 
   const hash = extrinsic.hash.toHex()
