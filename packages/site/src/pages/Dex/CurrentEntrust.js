@@ -28,7 +28,7 @@ export default function CurrentEntrust() {
     if (typeof active !== 'undefined' && active !== null) {
       dispatch(fetchOpenOrders(active.pairId, page - 1, pageSize))
     }
-  }, [active, dispatch])
+  }, [active, dispatch, page, pageSize])
 
   return (
     <Table

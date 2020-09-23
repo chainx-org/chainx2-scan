@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
 
 import hexAddPrefix from '@polkadot/util/hex/addPrefix'
-import { useAppContext } from './AppContext'
 import { FormattedMessage } from 'react-intl'
 
 export default function VilidatorLink({

@@ -33,12 +33,7 @@ const dexSlice = createSlice({
   }
 })
 
-const {
-  setPairs,
-  setActivePairIndex,
-  setOpenOrders,
-  setFills
-} = dexSlice.actions
+const { setPairs, setOpenOrders, setFills } = dexSlice.actions
 
 export const fetchPairs = () => async dispatch => {
   const { result: pairs } = await api.fetch('/dex/pairs')

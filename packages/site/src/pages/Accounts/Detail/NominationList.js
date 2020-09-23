@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { Table } from '../../../components'
 import $t from '../../../locale'
-import DateShow from '../../../components/DateShow'
 import {
   accountVotesSelector,
   fetchVotes
