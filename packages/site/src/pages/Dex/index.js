@@ -5,6 +5,7 @@ import PairList from '@src/pages/Dex/PairList'
 import $t from '@src/locale'
 import classnames from 'classnames'
 import CurrentEntrust from '@src/pages/Dex/CurrentEntrust'
+import HistoryEntrust from '@src/pages/Dex/HistoryEntrust'
 
 const { useState } = require('react')
 
@@ -47,6 +48,7 @@ export default function() {
           </ul>
         </div>
         {activeKey === 'currentEntrust' && <CurrentEntrust />}
+        {activeKey === 'historyEntrust' && <HistoryEntrust />}
       </div>
     </>
   )

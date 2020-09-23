@@ -14,7 +14,7 @@ const dexSlice = createSlice({
     pairs: [],
     activePair: null,
     openOrders: emptyPageInfo,
-    historyOrders: emptyPageInfo
+    fills: emptyPageInfo
   },
   reducers: {
     setPairs(state, action) {
@@ -27,8 +27,8 @@ const dexSlice = createSlice({
     setOpenOrders(state, action) {
       state.openOrders = action.payload
     },
-    setHistoryOrders(state, action) {
-      state.historyOrders = action.payload
+    setFills(state, action) {
+      state.fills = action.payload
     }
   }
 })
@@ -37,7 +37,7 @@ const {
   setPairs,
   setActivePairIndex,
   setOpenOrders,
-  setHistoryOrders
+  setFills
 } = dexSlice.actions
 
 export const fetchPairs = () => async dispatch => {
@@ -57,9 +57,22 @@ export const fetchOpenOrders = (
   dispatch(setOpenOrders(result))
 }
 
+export const fetchFills = (
+  pairId,
+  page = 0,
+  pageSize = 10
+) => async dispatch => {
+  const { result } = await api.fetch(`/dex/fills/${pairId}`, {
+    page,
+    pageSize
+  })
+
+  dispatch(setFills(result))
+}
+
 export const pairsSelector = state => state.dex.pairs
 export const activePairSelector = state => state.dex.activePair
 export const openOrdersSelector = state => state.dex.openOrders
-export const historyOrdersSelector = state => state.dex.historyOrders
+export const fillsSelector = state => state.dex.fills
 
 export default dexSlice.reducer

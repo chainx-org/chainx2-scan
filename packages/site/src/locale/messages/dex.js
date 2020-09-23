@@ -38,5 +38,29 @@ export default {
   dex_fill_percent: {
     zh: '已成交数量/成交率',
     en: 'Filled/Percent'
+  },
+  dex_price: {
+    zh: '价格',
+    en: 'Price'
+  },
+  dex_fill_amount: {
+    zh: '成交数量',
+    en: 'Fill Amount'
+  },
+  dex_maker_account: {
+    zh: 'Maker账户',
+    en: 'Maker Account'
+  },
+  dex_taker_account: {
+    zh: 'Taker账户',
+    en: 'Taker Account'
+  },
+  dex_maker_order_id: {
+    zh: 'Maker委托编号',
+    en: 'Maker ID'
+  },
+  dex_taker_order_id: {
+    zh: 'Taker委托编号',
+    en: 'Taker ID'
   }
 }

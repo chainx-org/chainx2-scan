@@ -62,5 +62,9 @@ export default {
   common_status: {
     zh: '状态',
     en: 'Status'
+  },
+  common_time: {
+    zh: '时间',
+    en: 'Time'
   }
 }

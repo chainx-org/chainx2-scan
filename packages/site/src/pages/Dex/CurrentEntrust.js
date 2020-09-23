@@ -26,7 +26,7 @@ export default function CurrentEntrust() {
 
   useEffect(() => {
     if (typeof active !== 'undefined' && active !== null) {
-      dispatch(fetchOpenOrders(active.pairId))
+      dispatch(fetchOpenOrders(active.pairId, page - 1, pageSize))
     }
   }, [active, dispatch])
 
