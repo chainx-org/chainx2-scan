@@ -39,7 +39,7 @@ async function handleOrders(event, indexer) {
   const [order] = json
 
   const col = await getOrdersCollection()
-  col.insert({
+  await col.insertOne({
     blockHeight,
     blockHash,
     blockTime,
