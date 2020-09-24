@@ -1,4 +1,5 @@
 // 删除>=给定区块高度的数据
+const { constructDepth } = require('../dex/depth')
 const { getAccountsCollection } = require('../mongoClient')
 const { getPairsCollection } = require('../mongoClient')
 const { getOrdersCollection } = require('../mongoClient')
@@ -13,11 +14,31 @@ const { getNativeAssetCollection } = require('../mongoClient')
 async function rollbackEvents(blockHeight) {
   const eventCol = await getEventCollection()
   await eventCol.deleteMany({ 'indexer.blockHeight': { $gte: blockHeight } })
+}
 
-  // TODO: handle rollback business logic
+async function hasOrderEvents(blockHeight) {
+  const eventCol = await getEventCollection()
+
+  const ordersEventCount = await eventCol.count({
+    'indexer.blockHeight': { $gte: blockHeight },
+    section: 'xSpot',
+    method: {
+      $in: [
+        'NewOrder',
+        'MakerOrderUpdated',
+        'TakerOrderUpdated',
+        'OrderExecuted',
+        'CanceledOrderUpdated'
+      ]
+    }
+  })
+
+  return ordersEventCount > 0
 }
 
 async function deleteDataFrom(blockHeight) {
+  const hasOrders = await hasOrderEvents()
+
   const blockCol = await getBlockCollection()
   await blockCol.deleteMany({ 'header.number': { $gte: blockHeight } })
 
@@ -48,6 +69,10 @@ async function deleteDataFrom(blockHeight) {
 
   const pairsCol = await getPairsCollection()
   await pairsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
+
+  if (hasOrders) {
+    await constructDepth()
+  }
 }
 
 module.exports = {

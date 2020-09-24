@@ -19,6 +19,7 @@ const nativeAssetCollectionName = 'nativeAsset'
 const foreignAssetCollectionName = 'foreignAsset'
 const pairsCollectionName = 'pairs'
 const dealsCollectionName = 'deals'
+const depthCollectionName = 'depth'
 
 const mainScanName = 'main-scan-height'
 
@@ -32,7 +33,6 @@ let validatorsCol = null
 let accountsCol = null
 let transferCol = null
 let voteCol = null
-let orderCol = null
 let db = null
 let chainCol = null
 let ordersCol = null
@@ -40,6 +40,7 @@ let nativeAssetCol = null
 let foreignAssetCol = null
 let pairsCol = null
 let dealsCol = null
+let depthCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url, {
@@ -63,6 +64,7 @@ async function initDb() {
   foreignAssetCol = db.collection(foreignAssetCollectionName)
   pairsCol = db.collection(pairsCollectionName)
   dealsCol = db.collection(dealsCollectionName)
+  depthCol = db.collection(depthCollectionName)
 
   await _createIndexes()
 }
@@ -87,6 +89,11 @@ async function tryInit(col) {
   }
 }
 
+async function getDepthCollection() {
+  await tryInit(depthCol)
+  return depthCol
+}
+
 async function getForeignAssetCollection() {
   await tryInit(foreignAssetCol)
   return foreignAssetCol
@@ -105,11 +112,6 @@ async function getAccountsCollection() {
 async function getTransferColCollection() {
   await tryInit(transferCol)
   return transferCol
-}
-
-async function getOrderColCollection() {
-  await tryInit(orderCol)
-  return orderCol
 }
 
 async function getVoteCollection() {
@@ -207,5 +209,6 @@ module.exports = {
   getNativeAssetCollection,
   getForeignAssetCollection,
   getPairsCollection,
-  getDealsCollection
+  getDealsCollection,
+  getDepthCollection
 }

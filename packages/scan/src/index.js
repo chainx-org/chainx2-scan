@@ -1,3 +1,4 @@
+const { updateDepthByEvents } = require('./dex/depth')
 const { deleteDataFrom } = require('./rollback')
 const { isExtrinsicSuccess } = require('./events/utils')
 const { u8aToHex } = require('@polkadot/util')
@@ -157,8 +158,8 @@ async function handleBlock(block, author) {
 
   const api = await getApi()
   const allEvents = await api.query.system.events.at(hash)
-  // 从区块Hash中获取全部Event
   await handleEvents(allEvents, blockIndexer, block.extrinsics)
+  await updateDepthByEvents(allEvents)
 
   const blockCol = await getBlockCollection()
   const result = await blockCol.insertOne({
