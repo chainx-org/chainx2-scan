@@ -53,7 +53,7 @@ class HandicapController {
     ])
 
     const asks = orders
-      .filter(item => item.props.side == 'Sell')
+      .filter(item => item.props.side === 'Sell')
       .map(item => {
         const {
           props: { pairId, side, price, amount }
@@ -62,7 +62,7 @@ class HandicapController {
       })
 
     const bids = orders
-      .filter(item => item.props.side == 'Buy')
+      .filter(item => item.props.side === 'Buy')
       .map(item => {
         const {
           props: { pairId, side, price, amount }
