@@ -167,50 +167,6 @@ async function getDealsCollection() {
   return dealsCol
 }
 
-// 删除>=给定区块高度的数据
-async function deleteDataFrom(blockHeight) {
-  if (!blockCol || !extrinsicCol) {
-    console.error(`First init db before delete data >= ${blockHeight}`)
-    process.exit(1)
-  }
-
-  const {
-    result: { ok: deleteBlockOk }
-  } = await blockCol.deleteMany({ 'header.number': { $gte: blockHeight } })
-  const {
-    result: { ok: deleteExtrinsicOk }
-  } = await extrinsicCol.deleteMany({
-    'indexer.blockHeight': { $gte: blockHeight }
-  })
-  const {
-    result: { ok: deleteEventOk }
-  } = await eventCol.deleteMany({
-    'indexer.blockHeight': { $gte: blockHeight }
-  })
-  const {
-    result: { ok: deleteAssetsOk }
-  } = await assetsCol.deleteMany({ queryHeight: { $gte: blockHeight } })
-  const {
-    result: { ok: deleteAccountsOk }
-  } = await accountsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
-  await transferCol.deleteMany({ 'indexer.blockHeight': { $gte: blockHeight } })
-  await nativeAssetCol.deleteMany({ blockHeight: { $gte: blockHeight } })
-  await dealsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
-  await ordersCol.deleteMany({ blockHeight: { $gte: blockHeight } })
-  await pairsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
-
-  if (
-    deleteBlockOk !== 1 ||
-    deleteExtrinsicOk !== 1 ||
-    deleteEventOk !== 1 ||
-    deleteAssetsOk !== 1 ||
-    deleteAccountsOk !== 1
-  ) {
-    console.error(`Fail to delete data >= ${blockHeight}`)
-    process.exit(1)
-  }
-}
-
 // 获取首个扫描区块的高度
 async function getFirstScanHeight() {
   const statusCol = await getStatusCollection()
@@ -245,7 +201,6 @@ module.exports = {
   getFirstScanHeight,
   getTransferColCollection,
   updateScanHeight,
-  deleteDataFrom,
   getVoteCollection,
   getChainCollection,
   getOrdersCollection,

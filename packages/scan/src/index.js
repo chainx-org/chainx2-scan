@@ -1,3 +1,4 @@
+const { deleteDataFrom } = require('./rollback')
 const { isExtrinsicSuccess } = require('./events/utils')
 const { u8aToHex } = require('@polkadot/util')
 const { sleep, logger } = require('./util')
@@ -10,8 +11,7 @@ const {
   getBlockCollection,
   getEventCollection,
   getFirstScanHeight,
-  updateScanHeight,
-  deleteDataFrom
+  updateScanHeight
 } = require('./mongoClient')
 const { getApi, disconnect } = require('./api')
 const {
