@@ -62,5 +62,13 @@ export default {
   dex_taker_order_id: {
     zh: 'Taker委托编号',
     en: 'Taker ID'
+  },
+  dex_depth_orders: {
+    zh: '挂单列表',
+    en: 'Orders'
+  },
+  dex_acc_amount: {
+    zh: 'Sum',
+    en: '累计深度'
   }
 }

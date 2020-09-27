@@ -66,5 +66,13 @@ export default {
   common_time: {
     zh: '时间',
     en: 'Time'
+  },
+  common_price: {
+    zh: '价格',
+    en: 'price'
+  },
+  common_amount: {
+    zh: '数量',
+    en: 'Amount'
   }
 }

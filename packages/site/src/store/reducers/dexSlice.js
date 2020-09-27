@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import api from '@src/services/api'
 
 const emptyPageInfo = {
@@ -14,7 +14,11 @@ const dexSlice = createSlice({
     pairs: [],
     activePair: null,
     openOrders: emptyPageInfo,
-    fills: emptyPageInfo
+    fills: emptyPageInfo,
+    depth: {
+      asks: [],
+      bids: []
+    }
   },
   reducers: {
     setPairs(state, action) {
@@ -29,11 +33,14 @@ const dexSlice = createSlice({
     },
     setFills(state, action) {
       state.fills = action.payload
+    },
+    setDepth(state, action) {
+      state.depth = action.payload
     }
   }
 })
 
-const { setPairs, setOpenOrders, setFills } = dexSlice.actions
+const { setPairs, setOpenOrders, setFills, setDepth } = dexSlice.actions
 
 export const fetchPairs = () => async dispatch => {
   const { result: pairs } = await api.fetch('/dex/pairs')
@@ -65,9 +72,42 @@ export const fetchFills = (
   dispatch(setFills(result))
 }
 
+export const fetchDepth = (pairId, cnt = 6) => async dispatch => {
+  const { result } = await api.fetch(`/dex/depth/${pairId}`, { cnt })
+
+  dispatch(setDepth(result))
+}
+
 export const pairsSelector = state => state.dex.pairs
 export const activePairSelector = state => state.dex.activePair
 export const openOrdersSelector = state => state.dex.openOrders
 export const fillsSelector = state => state.dex.fills
+export const depthSelector = state => state.dex.depth
+export const normalizedDepthSelector = createSelector(
+  depthSelector,
+  ({ asks, bids }) => {
+    let total = 0
+    const nAsks = asks
+      .reverse()
+      .map(ask => {
+        total += ask.amount
+
+        return { ...ask, total }
+      })
+      .reverse()
+
+    total = 0
+    const nBids = bids.map(bid => {
+      total += bid.amount
+
+      return { ...bid, total }
+    })
+
+    return {
+      asks: nAsks,
+      bids: nBids
+    }
+  }
+)
 
 export default dexSlice.reducer

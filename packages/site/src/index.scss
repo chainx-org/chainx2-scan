@@ -45,6 +45,16 @@ $panel-heading-weight: $weight-medium;
 $panel-heading-size: 16px;
 $panel-heading-padding: 1em 1.25em;
 
+.panel-heading {
+  border: 1px solid #dbdbdb;;
+}
+
+.panel-block {
+  border-bottom: 1px solid #dbdbdb;
+  border-left: 1px solid #dbdbdb;
+  border-right: 1px solid #dbdbdb;
+}
+
 // table
 
 $table-cell-border: none;

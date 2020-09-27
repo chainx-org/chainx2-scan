@@ -6,6 +6,7 @@ import $t from '@src/locale'
 import classnames from 'classnames'
 import CurrentEntrust from '@src/pages/Dex/CurrentEntrust'
 import HistoryEntrust from '@src/pages/Dex/HistoryEntrust'
+import PendingOrders from '@src/pages/Dex/PendingOrders'
 
 const { useState } = require('react')
 
@@ -23,6 +24,9 @@ export default function() {
       <div className="columns">
         <div className="column">
           <PairList />
+        </div>
+        <div className="column">
+          <PendingOrders />
         </div>
       </div>
 
