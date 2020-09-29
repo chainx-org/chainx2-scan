@@ -11,6 +11,7 @@ import AccountLink from '../../../components/AccountLink'
 import TransferList from '../Detail/TransferList'
 import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
+import OrderList from './OrderList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
@@ -103,12 +104,20 @@ export default function() {
             >
               <a>投票列表</a>
             </li>
+
+            <li
+              onClick={() => setActiveKey('order')}
+              className={classnames({ 'is-active': activeKey === 'order' })}
+            >
+              <a>当前委托列表</a>
+            </li>
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
         {activeKey === 'transfer' && <TransferList address={address} />}
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}
+        {activeKey === 'order' && <OrderList address={address} />}
       </div>
     </div>
   )
