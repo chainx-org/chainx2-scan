@@ -20,7 +20,7 @@ export default function CurrentEntrust() {
   const active = useSelector(activePairSelector)
   const { pipDecimals = 0, tickDecimals = 0 } = active || {}
   const openOrders = useSelector(openOrdersSelector)
-  const { items: orders, total } = openOrders
+  const { items: orders, total } = openOrders || {}
 
   const dispatch = useDispatch()
 

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchOpenOrders,
-  openOrdersSelector
+  openOrdersSelector,
+  fetchPairs,
+  pairsSelector
 } from '@src/store/reducers/accountSlice'
 import Table from '@components/Table'
 import AddressLink from '@components/AddressLink'
@@ -15,16 +17,19 @@ import OrderStatus from '@components/OrderStatus'
 export default function OrderList({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const active = null
-  const { pipDecimals = 0, tickDecimals = 0 } = active || {}
-  const { items: open_orders, total } = useSelector(openOrdersSelector)
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchOpenOrders(address, setLoading))
-  }, [address, dispatch])
+    dispatch(fetchPairs())
+  }, [dispatch])
+  const pairs = useSelector(pairsSelector)
+
+  useEffect(() => {
+    dispatch(fetchOpenOrders(address, setLoading, page - 1, pageSize))
+  }, [address, dispatch, setLoading, page, pageSize])
+  const { items: openOrders, total } = useSelector(openOrdersSelector) || {}
 
   return (
     <Table
@@ -33,8 +38,12 @@ export default function OrderList({ address }) {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
-      dataSource={(open_orders || []).map((data, idx) => {
+      dataSource={(openOrders || []).map((data, idx) => {
         const hasFill = data.alreadyFilled
+        const currentPair = pairs.find(
+          item => item.pairId === data.props.pairId
+        )
+        const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
 
         return {
           accountid: (

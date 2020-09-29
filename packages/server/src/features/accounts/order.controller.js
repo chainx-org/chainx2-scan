@@ -15,22 +15,52 @@ class OrderController {
       return
     }
 
+    const col = await getOrdersCol()
+
     const { address } = ctx.params
 
     const query = {
-      'props.submitter': address
-      // status: { $ne: 'Canceled' }
+      'props.submitter': address,
+      status: { $ne: 'Canceled' }
     }
 
-    const col = await getOrdersCol()
-    const total = await col.countDocuments(query)
+    console.log('col', col)
 
-    const open_orders = await col
-      .find(query)
-      .sort({ 'indexer.blockHeight': -1 })
-      .skip(page * pageSize)
-      .limit(pageSize)
-      .toArray()
+    const [{ count: total }] = await aggregate(col, [
+      { $sort: { blockHeight: -1 } },
+      {
+        $group: {
+          _id: '$orderId',
+          props: { $first: '$props' },
+          status: { $first: '$status' }
+        }
+      },
+      { $match: query },
+      {
+        $count: 'count'
+      }
+    ])
+
+    const open_orders = await aggregate(col, [
+      { $sort: { blockHeight: -1 } },
+      {
+        $group: {
+          _id: '$orderId',
+          blockHeight: { $first: '$blockHeight' },
+          blockHash: { $first: '$blockHash' },
+          props: { $first: '$props' },
+          status: { $first: '$status' },
+          remaining: { $first: '$remaining' },
+          executedIndices: { $first: '$executedIndices' },
+          alreadyFilled: { $first: '$alreadyFilled' },
+          lastUpdateAt: { $first: '$lastUpdateAt' }
+        }
+      },
+      { $match: query },
+      { $sort: { lastUpdateAt: -1 } },
+      { $skip: page * pageSize },
+      { $limit: pageSize }
+    ])
 
     ctx.body = {
       items: open_orders,
