@@ -24,9 +24,9 @@ class OrderController {
       status: { $ne: 'Canceled' }
     }
 
-    console.log('col', col)
+    // console.log('col', col)
 
-    const [{ count: total }] = await aggregate(col, [
+    const result = await aggregate(col, [
       { $sort: { blockHeight: -1 } },
       {
         $group: {
@@ -40,6 +40,8 @@ class OrderController {
         $count: 'count'
       }
     ])
+
+    const total = result && result.length > 0 ? result[0].count : 0
 
     const open_orders = await aggregate(col, [
       { $sort: { blockHeight: -1 } },
