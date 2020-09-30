@@ -38,5 +38,29 @@ export default {
   btc_recharge_address: {
     zh: 'btc充值地址',
     en: 'btc recharge address'
+  },
+  assets_list: {
+    zh: '资产列表',
+    en: 'Assets'
+  },
+  transfer_list: {
+    zh: '转账列表',
+    en: 'Transfers'
+  },
+  transaction_list: {
+    zh: '交易列表',
+    en: 'Transactions'
+  },
+  nomination_list: {
+    zh: '投票列表',
+    en: 'Nominations'
+  },
+  open_order_list: {
+    zh: '当前委托列表',
+    en: 'Open Orders'
+  },
+  closed_deal_list: {
+    zh: '历史委托列表',
+    en: 'Closed Deals'
   }
 }
