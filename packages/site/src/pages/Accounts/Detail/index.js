@@ -13,10 +13,10 @@ import TransferList from '../Detail/TransferList'
 import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
 import OrderList from './OrderList'
+import DealList from './DealList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
-import { fetchPairs, pairsSelector } from '@src/store/reducers/dexSlice'
 
 export default function() {
   const [activeKey, setActiveKey] = useState('assets')
@@ -26,15 +26,6 @@ export default function() {
 
   const { detail: account, loading } = useLoadDetail(api.fetchAccount, params)
   const pubKey = account?.address ? decodeAddress(account.address) : ''
-
-  /*
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchPairs())
-  }, [dispatch])
-  const pairs = useSelector(pairsSelector)
-  console.log('pairs', pairs)
-  */
 
   const breadcrumb = (
     <Breadcrumb
@@ -122,6 +113,13 @@ export default function() {
             >
               <a>当前委托列表</a>
             </li>
+
+            <li
+              onClick={() => setActiveKey('deal')}
+              className={classnames({ 'is-active': activeKey === 'deal' })}
+            >
+              <a>历史委托列表</a>
+            </li>
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
@@ -129,6 +127,7 @@ export default function() {
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}
         {activeKey === 'order' && <OrderList address={address} />}
+        {activeKey === 'deal' && <DealList address={address} />}
       </div>
     </div>
   )

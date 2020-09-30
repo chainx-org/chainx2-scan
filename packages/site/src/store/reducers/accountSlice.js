@@ -19,6 +19,12 @@ const accountSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    deals: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -36,6 +42,9 @@ const accountSlice = createSlice({
     },
     setPairs(state, action) {
       state.pairs = action.payload
+    },
+    setDeals(state, action) {
+      state.deals = action.payload
     }
   }
 })
@@ -45,7 +54,8 @@ export const {
   setVotes,
   setExtrinsics,
   setOpenOrders,
-  setPairs
+  setPairs,
+  setDeals
 } = accountSlice.actions
 
 export const fetchTransfers = (
@@ -104,13 +114,15 @@ export const fetchExtrinsics = (
 
 export const fetchOpenOrders = (
   address,
-  setLoading = nonFunc
+  setLoading = nonFunc,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
-    const { result: openOrders } = await api.fetch(
-      `/accounts/${address}/open_orders`
-    )
+    const {
+      result: openOrders
+    } = await api.fetch(`/accounts/${address}/open_orders`, { page, pageSize })
     console.log('openOrders', openOrders)
 
     dispatch(setOpenOrders(openOrders))
@@ -124,10 +136,31 @@ export const fetchPairs = () => async dispatch => {
   dispatch(setPairs(pairs))
 }
 
+export const fetchDeals = (
+  address,
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: deals } = await api.fetch(`/accounts/${address}/deals`, {
+      page,
+      pageSize
+    })
+    console.log('deals', deals)
+
+    dispatch(setDeals(deals))
+  } finally {
+    setLoading(false)
+  }
+}
+
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
 export const extrinsicsSelector = state => state.accounts.extrinsics
 export const openOrdersSelector = state => state.accounts.openOrders
 export const pairsSelector = state => state.accounts.pairs
+export const dealsSelector = state => state.accounts.deals
 
 export default accountSlice.reducer

@@ -28,7 +28,7 @@ export default function OrderList({ address }) {
 
   useEffect(() => {
     dispatch(fetchOpenOrders(address, setLoading, page - 1, pageSize))
-  }, [address, dispatch, setLoading, page, pageSize])
+  }, [address, dispatch, page, pageSize])
   const { items: openOrders, total } = useSelector(openOrdersSelector) || {}
 
   return (
