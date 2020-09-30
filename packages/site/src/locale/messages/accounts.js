@@ -3,6 +3,10 @@ export default {
     zh: '账户列表',
     en: 'Accounts'
   },
+  account_detail: {
+    zh: '账户详情',
+    en: 'Account Detail'
+  },
   address_item: {
     zh: '账户地址',
     en: 'address'

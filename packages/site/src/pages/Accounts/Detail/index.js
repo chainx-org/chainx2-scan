@@ -30,8 +30,8 @@ export default function() {
   const breadcrumb = (
     <Breadcrumb
       dataSource={[
-        { to: '/accounts', label: $t('ex_list') },
-        { label: $t('ex_detail') }
+        { to: '/accounts', label: $t('accounts_list') },
+        { label: $t('account_detail') }
       ]}
     />
   )
