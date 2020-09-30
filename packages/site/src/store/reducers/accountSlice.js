@@ -104,7 +104,6 @@ export const fetchExtrinsics = (
     const { result: extrinsics } = await api.fetch(
       `/accounts/${address}/extrinsics`
     )
-    console.log('extrinsics', extrinsics)
 
     dispatch(setExtrinsics(extrinsics))
   } finally {
@@ -123,7 +122,6 @@ export const fetchOpenOrders = (
     const {
       result: openOrders
     } = await api.fetch(`/accounts/${address}/open_orders`, { page, pageSize })
-    console.log('openOrders', openOrders)
 
     dispatch(setOpenOrders(openOrders))
   } finally {
@@ -148,7 +146,6 @@ export const fetchDeals = (
       page,
       pageSize
     })
-    console.log('deals', deals)
 
     dispatch(setDeals(deals))
   } finally {
