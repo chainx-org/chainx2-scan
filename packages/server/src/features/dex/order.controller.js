@@ -76,7 +76,7 @@ class OrderController {
 
     const col = await getOrdersCol()
 
-    const [{ count: total }] = await aggregate(col, [
+    const result = await aggregate(col, [
       { $sort: { blockHeight: -1 } },
       {
         $group: {
@@ -90,6 +90,8 @@ class OrderController {
         $count: 'count'
       }
     ])
+
+    const total = result && result.length > 0 ? result[0].count : 0
 
     const orders = await aggregate(col, [
       { $sort: { blockHeight: -1 } },

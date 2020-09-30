@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLoadDetail } from '../../../utils/hooks'
 import api from '../../../services/api'
 import Breadcrumb from '../../../components/Breadcrumb'
@@ -11,9 +12,11 @@ import AccountLink from '../../../components/AccountLink'
 import TransferList from '../Detail/TransferList'
 import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
+import OrderList from './OrderList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
+import { fetchPairs, pairsSelector } from '@src/store/reducers/dexSlice'
 
 export default function() {
   const [activeKey, setActiveKey] = useState('assets')
@@ -23,6 +26,15 @@ export default function() {
 
   const { detail: account, loading } = useLoadDetail(api.fetchAccount, params)
   const pubKey = account?.address ? decodeAddress(account.address) : ''
+
+  /*
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchPairs())
+  }, [dispatch])
+  const pairs = useSelector(pairsSelector)
+  console.log('pairs', pairs)
+  */
 
   const breadcrumb = (
     <Breadcrumb
@@ -103,12 +115,20 @@ export default function() {
             >
               <a>投票列表</a>
             </li>
+
+            <li
+              onClick={() => setActiveKey('order')}
+              className={classnames({ 'is-active': activeKey === 'order' })}
+            >
+              <a>当前委托列表</a>
+            </li>
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
         {activeKey === 'transfer' && <TransferList address={address} />}
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}
+        {activeKey === 'order' && <OrderList address={address} />}
       </div>
     </div>
   )

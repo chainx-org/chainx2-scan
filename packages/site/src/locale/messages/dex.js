@@ -16,8 +16,8 @@ export default {
     en: 'Trade History'
   },
   dex_open_order_account: {
-    zh: '历史成交列表',
-    en: 'Trade History'
+    zh: '委托账户',
+    en: ' Open Order Account'
   },
   dex_order_number: {
     zh: '委托编号',

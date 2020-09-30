@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  activePairSelector,
   fetchOpenOrders,
-  openOrdersSelector
-} from '@src/store/reducers/dexSlice'
+  openOrdersSelector,
+  fetchPairs,
+  pairsSelector
+} from '@src/store/reducers/accountSlice'
 import Table from '@components/Table'
 import AddressLink from '@components/AddressLink'
 import $t from '@src/locale'
@@ -13,22 +14,22 @@ import Amount from '@components/Amount'
 import HasFill from '@components/HasFill'
 import OrderStatus from '@components/OrderStatus'
 
-export default function CurrentEntrust() {
+export default function OrderList({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-
-  const active = useSelector(activePairSelector)
-  const { pipDecimals = 0, tickDecimals = 0 } = active || {}
-  const openOrders = useSelector(openOrdersSelector)
-  const { items: orders, total } = openOrders || {}
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (typeof active !== 'undefined' && active !== null) {
-      dispatch(fetchOpenOrders(active.pairId, page - 1, pageSize))
-    }
-  }, [active, dispatch, page, pageSize])
+    dispatch(fetchPairs())
+  }, [dispatch])
+  const pairs = useSelector(pairsSelector)
+
+  useEffect(() => {
+    dispatch(fetchOpenOrders(address, setLoading, page - 1, pageSize))
+  }, [address, dispatch, setLoading, page, pageSize])
+  const { items: openOrders, total } = useSelector(openOrdersSelector) || {}
 
   return (
     <Table
@@ -37,8 +38,12 @@ export default function CurrentEntrust() {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
-      dataSource={(orders || []).map((data, idx) => {
+      dataSource={(openOrders || []).map((data, idx) => {
         const hasFill = data.alreadyFilled
+        const currentPair = pairs.find(
+          item => item.pairId === data.props.pairId
+        )
+        const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
 
         return {
           accountid: (
