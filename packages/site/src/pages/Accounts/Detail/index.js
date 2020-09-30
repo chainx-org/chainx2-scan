@@ -82,13 +82,13 @@ export default function() {
               onClick={() => setActiveKey('assets')}
               className={classnames({ 'is-active': activeKey === 'assets' })}
             >
-              <a>资产列表</a>
+              <a>{$t('assets_list')}</a>
             </li>
             <li
               onClick={() => setActiveKey('transfer')}
               className={classnames({ 'is-active': activeKey === 'transfer' })}
             >
-              <a>转账列表</a>
+              <a>{$t('transfer_list')}</a>
             </li>
 
             <li
@@ -97,28 +97,28 @@ export default function() {
                 'is-active': activeKey === 'transaction'
               })}
             >
-              <a>交易列表</a>
+              <a>{$t('transaction_list')}</a>
             </li>
 
             <li
               onClick={() => setActiveKey('vote')}
               className={classnames({ 'is-active': activeKey === 'vote' })}
             >
-              <a>投票列表</a>
+              <a>{$t('nomination_list')}</a>
             </li>
 
             <li
               onClick={() => setActiveKey('order')}
               className={classnames({ 'is-active': activeKey === 'order' })}
             >
-              <a>当前委托列表</a>
+              <a>{$t('open_order_list')}</a>
             </li>
 
             <li
               onClick={() => setActiveKey('deal')}
               className={classnames({ 'is-active': activeKey === 'deal' })}
             >
-              <a>历史委托列表</a>
+              <a>{$t('closed_deal_list')}</a>
             </li>
           </ul>
         </div>

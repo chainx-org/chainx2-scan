@@ -16,7 +16,7 @@ import OrderStatus from '@components/OrderStatus'
 
 export default function OrderList({ address }) {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
+  const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
