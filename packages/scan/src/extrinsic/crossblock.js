@@ -22,12 +22,14 @@ async function extractCrossBlock(events, hash, indexer, signer) {
 
       const chainxTime = indexer.blockTime
       const chainxHash = indexer.blockHash
+      const chainxHeight = indexer.blockHeight
       const chainxExtrinsicHash = hash
 
       const doc = {
         btcHeight,
         btcHash,
         btcHeaderBytes,
+        chainxHeight,
         chainxHash,
         chainxExtrinsicHash,
         signer,
