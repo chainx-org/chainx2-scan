@@ -10,6 +10,7 @@ const { getEventCollection } = require('../mongoClient')
 const { getExtrinsicCollection } = require('../mongoClient')
 const { getBlockCollection } = require('../mongoClient')
 const { getNativeAssetCollection } = require('../mongoClient')
+const { getCrossBlockCollection } = require('../mongoClient')
 
 async function rollbackEvents(blockHeight) {
   const eventCol = await getEventCollection()
@@ -69,6 +70,9 @@ async function deleteDataFrom(blockHeight) {
 
   const pairsCol = await getPairsCollection()
   await pairsCol.deleteMany({ blockHeight: { $gte: blockHeight } })
+
+  const crossBlockCol = await getCrossBlockCollection()
+  await crossBlockCol.deleteMany({ chainxHeight: { $gte: blockHeight } })
 
   if (hasOrders) {
     await constructDepth()
