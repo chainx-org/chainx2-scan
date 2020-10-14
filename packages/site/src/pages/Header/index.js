@@ -10,6 +10,9 @@ export default function() {
   const isMatchBlocks = ['/extrinsics', '/events', 'blocks', '/accounts'].some(
     path => !!matchPath(location.pathname, { path })
   )
+  const isMatchCrossBlocks = ['/crossblocks'].some(
+    path => !!matchPath(location.pathname, { path })
+  )
 
   return (
     <nav className="navbar" role="navigation">
@@ -38,6 +41,15 @@ export default function() {
               to="/blocks"
             >
               {$t('common_blockchain')}
+            </NavLink>
+            <NavLink
+              className={classnames('navbar-item is-tab', {
+                'is-active': isMatchCrossBlocks
+              })}
+              activeClassName="is-active"
+              to="/crossblocks"
+            >
+              {$t('cross_block')}
             </NavLink>
             <NavLink
               className="navbar-item is-tab"
