@@ -2,8 +2,14 @@ const { extractUserTransfer } = require('../account')
 const ignoreSectionNames = ['timestsamp']
 const { extractVoteInfo, extractOrder } = require('../account')
 const { isTransferExtrinsic } = require('./util')
+const { extractCrossBlock } = require('./crossblock')
 
-async function extractExtrinsicBusinessData(extrinsic, indexer, events) {
+async function extractExtrinsicBusinessData(
+  extrinsic,
+  indexer,
+  events,
+  isSuccess
+) {
   const hash = extrinsic.hash.toHex()
   const section = extrinsic.method.sectionName.toLowerCase()
   if (ignoreSectionNames.includes(section)) {
@@ -26,6 +32,14 @@ async function extractExtrinsicBusinessData(extrinsic, indexer, events) {
   } else if (section === 'xSpot') {
     // 更新委托订单
     await extractOrder(extrinsic, hash, indexer, name, signer, args)
+    // } else if (section === 'xGatewayBitcoin' && methodName === 'pushHeader') {
+  } else if (
+    section === 'xgatewaybitcoin' &&
+    methodName === 'pushheader' &&
+    isSuccess === true
+  ) {
+    // 更新Bitcoin转接桥区块列表
+    await extractCrossBlock(events, hash, indexer, signer)
   }
 }
 
