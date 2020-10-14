@@ -5,6 +5,7 @@ import latestExtrinsicsReducer from './latestExtrinsicSlice'
 import accountsReducer from './accountSlice'
 import assetReducer from './assetSlice'
 import dexReducer from './dexSlice'
+import crossBlocksReducer from './crossBlocksSlice'
 
 export default combineReducers({
   settings: settingsReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   latestExtrinsics: latestExtrinsicsReducer,
   accounts: accountsReducer,
   assets: assetReducer,
-  dex: dexReducer
+  dex: dexReducer,
+  crossblocks: crossBlocksReducer
 })
