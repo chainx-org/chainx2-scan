@@ -3,6 +3,7 @@ const ignoreSectionNames = ['timestsamp']
 const { extractVoteInfo, extractOrder } = require('../account')
 const { isTransferExtrinsic } = require('./util')
 const { extractCrossBlock } = require('./crossblock')
+const { extractCrossTransaction } = require('./crosstransaction')
 
 async function extractExtrinsicBusinessData(
   extrinsic,
@@ -38,8 +39,15 @@ async function extractExtrinsicBusinessData(
     methodName === 'pushheader' &&
     isSuccess === true
   ) {
-    // 更新Bitcoin转接桥区块列表
+    // 更新Bitcoin转接桥- 区块列表
     await extractCrossBlock(events, hash, indexer, signer)
+  } else if (
+    section === 'xgatewaybitcoin' &&
+    methodName === 'pushtransaction' &&
+    isSuccess === true
+  ) {
+    // 更新Bitcoin转接桥- 区块列表
+    await extractCrossTransaction(events, hash, indexer, signer)
   }
 }
 

@@ -13,8 +13,8 @@ export default function CrossChainNav(props) {
             {$t('cross_block_list')}
           </NavLink>
         </li>
-        <li className={classnames({ 'is-active': activeKey === 'crosstxs' })}>
-          <NavLink to="/crossblocks/bitcoin/crosstxs">
+        <li className={classnames({ 'is-active': activeKey === 'crosstx' })}>
+          <NavLink to="/crossblocks/bitcoin/crosstx">
             {$t('cross_tx_list')}
           </NavLink>
         </li>

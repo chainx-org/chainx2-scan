@@ -74,5 +74,37 @@ export default {
   chainx_relay_transaction_time: {
     zh: 'Chainx中继时间',
     en: 'ChainX Relay Transaction Time'
+  },
+  cross_btc_tx_hash: {
+    zh: 'Bitcoin交易哈希',
+    en: 'Bitcoin Transaction Hash'
+  },
+  tx_type: {
+    zh: '交易类型',
+    en: 'Transaction Type'
+  },
+  tx_balance: {
+    zh: '金额',
+    en: 'Balance'
+  },
+  withdrawal: {
+    zh: '提现',
+    en: 'Withdrawal'
+  },
+  deposit: {
+    zh: '充值',
+    en: 'Deposit'
+  },
+  hot_and_cold_swap: {
+    zh: '热冷转换',
+    en: 'Hot and Cold Swap'
+  },
+  trustee_transition: {
+    zh: '信托转移',
+    en: 'Trustee Transition'
+  },
+  irrelevance: {
+    zh: '无关交易',
+    en: 'Irrelevance'
   }
 }

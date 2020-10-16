@@ -8,6 +8,7 @@ import $t from '../../locale'
 
 import CrossChainNav from '../../components/CrossChainNav'
 import CrossBlockList from './Bitcoin/CrossBlockList'
+import CrossBtcTx from './Bitcoin/CrossBtcTx'
 
 // import DepositsMine from "./DepositsMine";
 
@@ -77,7 +78,7 @@ export default function CrossBlocks(props) {
                     {(!list || list === 'blocks') && (
                       <CrossBlockList {...props} />
                     )}
-                    {list === 'crosstxs' && <CrossBlockList {...props} />}
+                    {list === 'crosstx' && <CrossBtcTx {...props} />}
                     {list === 'crossbind' && <CrossBlockList {...props} />}
                     {list === 'crosshost' && <CrossBlockList {...props} />}
                     {list === 'deposits' && <CrossBlockList {...props} />}
