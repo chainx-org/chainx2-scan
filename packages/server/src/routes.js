@@ -7,6 +7,7 @@ const featureRouters = [
   require('./features/votes/routes'),
   require('./features/assets/routes'),
   require('./features/dex/routes'),
+  require('./features/democracy/routes'),
   require('./features/crossblocks/routes')
 ]
 

@@ -11,7 +11,8 @@ const cols = {
   accounts: 'accounts',
   validators: 'validators',
   vote: 'vote',
-  orders: 'orders'
+  orders: 'orders',
+  democracy: 'democracy'
 }
 
 const transferCollectionName = 'transfer'
@@ -25,6 +26,7 @@ let transferCol = null
 let validatorsCol = null
 let voteCol = null
 let ordersCol = null
+let democracyCol = null
 let db = null
 
 async function initDb() {
@@ -43,6 +45,7 @@ async function initDb() {
   validatorsCol = db.collection(cols.validators)
   voteCol = db.collection(cols.vote)
   ordersCol = db.collection(cols.orders)
+  democracyCol = db.collection(cols.democracy)
 
   return db
 }
@@ -106,6 +109,11 @@ async function getOrdersCollection() {
   return ordersCol
 }
 
+async function getDemocracyCollection() {
+  await tryInit(democracyCol)
+  return democracyCol
+}
+
 module.exports = {
   initDb,
   getBlockCollection,
@@ -117,5 +125,6 @@ module.exports = {
   getValidatorsCollection,
   getVoteCollection,
   getOrdersCollection,
+  getDemocracyCollection,
   getDb
 }
