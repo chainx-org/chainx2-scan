@@ -6,7 +6,8 @@ const featureRouters = [
   require('./features/nomination/router'),
   require('./features/votes/routes'),
   require('./features/assets/routes'),
-  require('./features/dex/routes')
+  require('./features/dex/routes'),
+  require('./features/democracy/routes')
 ]
 
 module.exports = app => {
