@@ -45,7 +45,8 @@ class BlockController {
       ...democracyData
     })
     ctx.body = {
-      msg: 'submit  democracy success',
+      msg: 'submit democracy success',
+      result: 'success',
       data: {
         ...democracyData
       }
