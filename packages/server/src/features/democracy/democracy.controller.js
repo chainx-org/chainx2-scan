@@ -44,7 +44,7 @@ class BlockController {
     await col.insertOne({
       ...democracyData
     })
-    ctx.boy = {
+    ctx.body = {
       msg: 'submit  democracy success',
       data: {
         ...democracyData
