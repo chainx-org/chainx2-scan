@@ -1,5 +1,6 @@
 import common from './common'
 import block from './block'
+import crossBlock from './crossBlock'
 import extrinsic from './extrinsic'
 import txAction from './txAction'
 import event from './event'
@@ -11,6 +12,7 @@ import dex from './dex'
 export default {
   ...common,
   ...block,
+  ...crossBlock,
   ...extrinsic,
   ...txAction,
   ...event,

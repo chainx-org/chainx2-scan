@@ -4,6 +4,7 @@ const transferController = require('./transfer.controller')
 const transactionController = require('./transaction.controller')
 const nominationController = require('./nomination.controller')
 const orderController = require('./order.controller')
+const dealController = require('./deal.controller')
 
 const router = new Router()
 router.get('/accounts', blockController.getAccounts)
@@ -23,6 +24,7 @@ router.get(
   '/accounts/:address/open_orders',
   orderController.getAccountOpenOrders
 )
+router.get('/accounts/:address/deals', dealController.getDeals)
 
 router.get('/transaction', transactionController.getTransaction)
 router.get('/transfer', transferController.getTransfer)

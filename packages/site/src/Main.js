@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import Blocks from './pages/Blocks'
+import CrossBlocks from './pages/CrossBlocks'
 import Extrinsincs from './pages/Extrinsics'
 import Events from './pages/Events'
 import Accounts from './pages/Accounts'
@@ -17,6 +18,7 @@ export default function Main() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/blocks" component={Blocks} />
+          <Route path="/crossblocks" component={CrossBlocks} />
           <Route path="/extrinsics" component={Extrinsincs} />
           <Route path="/events" component={Events} />
           <Route path="/accounts" component={Accounts} />

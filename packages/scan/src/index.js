@@ -209,8 +209,8 @@ async function handleExtrinsic(extrinsic, indexer, events) {
     signer = ''
   }
 
-  await extractExtrinsicBusinessData(extrinsic, indexer, events)
   const isSuccess = isExtrinsicSuccess(events)
+  await extractExtrinsicBusinessData(extrinsic, indexer, events, isSuccess)
 
   const version = extrinsic.version
   const data = u8aToHex(extrinsic.data) // 原始数据

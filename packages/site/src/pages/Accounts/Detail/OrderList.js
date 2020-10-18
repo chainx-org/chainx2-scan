@@ -16,7 +16,7 @@ import OrderStatus from '@components/OrderStatus'
 
 export default function OrderList({ address }) {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
+  const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
@@ -28,7 +28,7 @@ export default function OrderList({ address }) {
 
   useEffect(() => {
     dispatch(fetchOpenOrders(address, setLoading, page - 1, pageSize))
-  }, [address, dispatch, setLoading, page, pageSize])
+  }, [address, dispatch, page, pageSize])
   const { items: openOrders, total } = useSelector(openOrdersSelector) || {}
 
   return (

@@ -1200,6 +1200,17 @@
     bs58 "^4.0.1"
     tweetnacl "^1.0.0"
 
+"@chainx-v2/account@0.0.39", "@chainx-v2/account@^0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@chainx-v2/account/-/account-0.0.39.tgz#0413f39f3735618c51bf4fb92aa8f3240c72cd72"
+  integrity sha512-jaqqzWEkazQGvqypa0DSF/eVQ7ImAgmEzlBzQB3aDartj0wjCSNAlu8yiO4lQK5UuNhbfLkO1ws3jNdSQdSRgg==
+  dependencies:
+    "@polkadot/keyring" "^3.4.1"
+    "@types/node" "^14.0.23"
+    bip32 "^1.0.2"
+    bs58 "^4.0.1"
+    tweetnacl "^1.0.0"
+
 "@chainx-v2/account@^0.0.36":
   version "0.0.36"
   resolved "https://registry.yarnpkg.com/@chainx-v2/account/-/account-0.0.36.tgz#6444963a25980c2654b9621ab59a953c8d1990f3"
@@ -1220,6 +1231,17 @@
     "@chainx-v2/account" "0.0.27"
     "@polkadot/api" "1.33.1"
     "@polkadot/keyring" "^3.4.1"
+    bn.js "^5.1.3"
+    eventemitter3 "^4.0.7"
+    rxjs "^6.6.3"
+
+"@chainx-v2/api@^0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@chainx-v2/api/-/api-0.0.39.tgz#5f2a9bae2f7f4bf85ab25f98989ffd7d477e11e0"
+  integrity sha512-w2K3hJcbmh64Kearb1TWB/9YKJXY92e7WYqFRxMNbSK3yRPiKNQbI6ebZY135lmZ0CqySG/NmLIe4HiW7wAVCg==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chainx-v2/account" "0.0.39"
     bn.js "^5.1.3"
     eventemitter3 "^4.0.7"
     rxjs "^6.6.3"

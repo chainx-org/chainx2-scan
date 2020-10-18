@@ -13,10 +13,10 @@ import TransferList from '../Detail/TransferList'
 import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
 import OrderList from './OrderList'
+import DealList from './DealList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
-import { fetchPairs, pairsSelector } from '@src/store/reducers/dexSlice'
 
 export default function() {
   const [activeKey, setActiveKey] = useState('assets')
@@ -27,20 +27,11 @@ export default function() {
   const { detail: account, loading } = useLoadDetail(api.fetchAccount, params)
   const pubKey = account?.address ? decodeAddress(account.address) : ''
 
-  /*
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchPairs())
-  }, [dispatch])
-  const pairs = useSelector(pairsSelector)
-  console.log('pairs', pairs)
-  */
-
   const breadcrumb = (
     <Breadcrumb
       dataSource={[
-        { to: '/accounts', label: $t('ex_list') },
-        { label: $t('ex_detail') }
+        { to: '/accounts', label: $t('accounts_list') },
+        { label: $t('account_detail') }
       ]}
     />
   )
@@ -91,13 +82,13 @@ export default function() {
               onClick={() => setActiveKey('assets')}
               className={classnames({ 'is-active': activeKey === 'assets' })}
             >
-              <a>资产列表</a>
+              <a>{$t('assets_list')}</a>
             </li>
             <li
               onClick={() => setActiveKey('transfer')}
               className={classnames({ 'is-active': activeKey === 'transfer' })}
             >
-              <a>转账列表</a>
+              <a>{$t('transfer_list')}</a>
             </li>
 
             <li
@@ -106,21 +97,28 @@ export default function() {
                 'is-active': activeKey === 'transaction'
               })}
             >
-              <a>交易列表</a>
+              <a>{$t('transaction_list')}</a>
             </li>
 
             <li
               onClick={() => setActiveKey('vote')}
               className={classnames({ 'is-active': activeKey === 'vote' })}
             >
-              <a>投票列表</a>
+              <a>{$t('nomination_list')}</a>
             </li>
 
             <li
               onClick={() => setActiveKey('order')}
               className={classnames({ 'is-active': activeKey === 'order' })}
             >
-              <a>当前委托列表</a>
+              <a>{$t('open_order_list')}</a>
+            </li>
+
+            <li
+              onClick={() => setActiveKey('deal')}
+              className={classnames({ 'is-active': activeKey === 'deal' })}
+            >
+              <a>{$t('closed_deal_list')}</a>
             </li>
           </ul>
         </div>
@@ -129,6 +127,7 @@ export default function() {
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}
         {activeKey === 'order' && <OrderList address={address} />}
+        {activeKey === 'deal' && <DealList address={address} />}
       </div>
     </div>
   )

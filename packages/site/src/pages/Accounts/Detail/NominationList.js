@@ -18,7 +18,6 @@ export default function AccountNomination({ address }) {
   }, [address, dispatch])
 
   const votes = useSelector(accountVotesSelector)
-  console.log('votes', votes)
 
   return (
     <Table

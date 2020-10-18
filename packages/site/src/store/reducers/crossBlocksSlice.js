@@ -2,19 +2,19 @@ import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import { nonFunc } from '@src/utils'
 
-const accountSlice = createSlice({
-  name: 'settings',
+const crossBlocksSlice = createSlice({
+  name: 'crossblocks',
   initialState: {
     transfers: [],
     votes: [],
     pairs: [],
-    extrinsics: {
+    crossblocks: {
       items: [],
       page: 0,
       pageSize: 10,
       total: 0
     },
-    openOrders: {
+    crosstransactions: {
       items: [],
       page: 0,
       pageSize: 10,
@@ -28,9 +28,13 @@ const accountSlice = createSlice({
     }
   },
   reducers: {
-    setTransfers(state, action) {
-      state.transfers = action.payload
+    setCrossBlocks(state, action) {
+      state.crossblocks = action.payload
     },
+    setCrossTransactions(state, action) {
+      state.crosstransactions = action.payload
+    }
+    /*
     setVotes(state, action) {
       state.votes = action.payload
     },
@@ -46,18 +50,23 @@ const accountSlice = createSlice({
     setDeals(state, action) {
       state.deals = action.payload
     }
+    */
   }
 })
 
 export const {
-  setTransfers,
+  setCrossBlocks,
+  setCrossTransactions
+  /*
   setVotes,
   setExtrinsics,
   setOpenOrders,
   setPairs,
   setDeals
-} = accountSlice.actions
+  */
+} = crossBlocksSlice.actions
 
+/*
 export const fetchTransfers = (
   address,
   params,
@@ -152,12 +161,60 @@ export const fetchDeals = (
     setLoading(false)
   }
 }
+*/
 
+export const fetchCrossBlocks = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: crossblocks } = await api.fetch(
+      `/crossblocks/bitcoin/blocks`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setCrossBlocks(crossblocks))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchCrossTransactions = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: crosstransactions } = await api.fetch(
+      `/crossblocks/bitcoin/crosstx`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setCrossTransactions(crosstransactions))
+  } finally {
+    setLoading(false)
+  }
+}
+
+/*
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
 export const extrinsicsSelector = state => state.accounts.extrinsics
 export const openOrdersSelector = state => state.accounts.openOrders
 export const pairsSelector = state => state.accounts.pairs
 export const dealsSelector = state => state.accounts.deals
+*/
+export const crossBlocksSelector = state => state.crossblocks.crossblocks
+export const crossTransactionsSelector = state =>
+  state.crossblocks.crosstransactions
 
-export default accountSlice.reducer
+export default crossBlocksSlice.reducer
