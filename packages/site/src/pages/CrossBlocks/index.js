@@ -10,6 +10,8 @@ import CrossChainNav from '../../components/CrossChainNav'
 import CrossBlockList from './Bitcoin/CrossBlockList'
 import CrossBtcTx from './Bitcoin/CrossBtcTx'
 import CrossDeposits from './Bitcoin/CrossDeposits'
+import CrossWithdrawals from './Bitcoin/CrossWithdrawals'
+import CrossHost from './Bitcoin/CrossHost'
 
 // import DepositsMine from "./DepositsMine";
 
@@ -80,10 +82,12 @@ export default function CrossBlocks(props) {
                       <CrossBlockList {...props} />
                     )}
                     {list === 'crosstx' && <CrossBtcTx {...props} />}
+                    {/*
                     {list === 'crossbind' && <CrossBlockList {...props} />}
-                    {list === 'crosshost' && <CrossBlockList {...props} />}
+                    */}
                     {list === 'deposits' && <CrossDeposits {...props} />}
-                    {list === 'withdrawals' && <CrossBlockList {...props} />}
+                    {list === 'withdrawals' && <CrossWithdrawals {...props} />}
+                    {list === 'crosshost' && <CrossHost {...props} />}
                     {list === 'claim' && <CrossBlockList {...props} />}
                   </div>
                 )}
