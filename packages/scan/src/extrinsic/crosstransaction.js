@@ -5,7 +5,7 @@ async function extractCrossTransaction(events, hash, indexer, signer) {
   const col = await getCrossTransactionCollection()
   const api = await getApi()
 
-  let [crossBtcHash, btcBalance] = [null, null]
+  let [crossBtcTxHash, btcBalance, txData] = [null, null, null]
 
   for (let i = 0; i < events.length; i++) {
     const { event } = events[i]
@@ -14,6 +14,7 @@ async function extractCrossTransaction(events, hash, indexer, signer) {
       crossBtcTxHash = event.data[0].toHex()
       // chainxAccount = event.data[1]
       btcBalance = event.data[2].toNumber()
+      txData = event.data.toJSON()
     }
   }
 
@@ -47,7 +48,8 @@ async function extractCrossTransaction(events, hash, indexer, signer) {
         chainxExtrinsicHash,
         chainxHash,
         signer,
-        chainxTime
+        chainxTime,
+        txData
       }
       // console.log('cross Transaction info', doc)
 
