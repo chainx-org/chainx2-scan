@@ -25,6 +25,18 @@ const crossBlocksSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    crosswithdrawals: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
+    crosstrustees: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -36,6 +48,12 @@ const crossBlocksSlice = createSlice({
     },
     setCrossDeposits(state, action) {
       state.crossdeposits = action.payload
+    },
+    setCrossWithdrawals(state, action) {
+      state.crosswithdrawals = action.payload
+    },
+    setCrossTrustees(state, action) {
+      state.crosstrustees = action.payload
     }
     /*
     setVotes(state, action) {
@@ -60,7 +78,9 @@ const crossBlocksSlice = createSlice({
 export const {
   setCrossBlocks,
   setCrossTransactions,
-  setCrossDeposits
+  setCrossDeposits,
+  setCrossWithdrawals,
+  setCrossTrustees
   /*
   setVotes,
   setExtrinsics,
@@ -230,6 +250,48 @@ export const fetchCrossDeposits = (
   }
 }
 
+export const fetchCrossWithdrawals = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: crosswithdrawals } = await api.fetch(
+      `/crossblocks/bitcoin/withdrawals`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setCrossWithdrawals(crosswithdrawals))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchCrossTrustees = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: crosstrustees } = await api.fetch(
+      `/crossblocks/bitcoin/trustees`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setCrossTrustees(crosstrustees))
+  } finally {
+    setLoading(false)
+  }
+}
+
 /*
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
@@ -242,5 +304,8 @@ export const crossBlocksSelector = state => state.crossblocks.crossblocks
 export const crossTransactionsSelector = state =>
   state.crossblocks.crosstransactions
 export const crossDepositsSelector = state => state.crossblocks.crossdeposits
+export const crossWithdrawalsSelector = state =>
+  state.crossblocks.crosswithdrawals
+export const crossTrusteesSelector = state => state.crossblocks.crosstrustees
 
 export default crossBlocksSlice.reducer
