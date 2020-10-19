@@ -106,5 +106,21 @@ export default {
   irrelevance: {
     zh: '无关交易',
     en: 'Irrelevance'
+  },
+  chainx_ex_hash: {
+    zh: 'ChainX交易哈希',
+    en: 'ChainX Transaction Hash'
+  },
+  chainx_deposit_time: {
+    zh: '充值时间',
+    en: 'Deposit Time'
+  },
+  chainx_deposit_account_id: {
+    zh: 'ChainX发放地址',
+    en: 'ChainX Deposit Address'
+  },
+  cross_deposit_asset: {
+    zh: '资产',
+    en: 'Asset'
   }
 }
