@@ -115,12 +115,48 @@ export default {
     zh: '充值时间',
     en: 'Deposit Time'
   },
+  cross_deposit_asset: {
+    zh: '资产',
+    en: 'Asset'
+  },
   chainx_deposit_account_id: {
     zh: 'ChainX发放地址',
     en: 'ChainX Deposit Address'
   },
-  cross_deposit_asset: {
+  chainx_withdraw_account_id: {
+    zh: 'ChainX申请地址',
+    en: 'ChainX Withdraw Address'
+  },
+  chainx_withdraw_time: {
+    zh: '提现时间',
+    en: 'Withdraw Time'
+  },
+  cross_withdraw_asset: {
     zh: '资产',
     en: 'Asset'
+  },
+  withdraw_state: {
+    zh: '状态',
+    en: 'State'
+  },
+  btc_withdraw_address: {
+    zh: '提现地址',
+    en: 'Withdraw Address'
+  },
+  session_number: {
+    zh: '届数',
+    en: 'Session'
+  },
+  trustee: {
+    zh: '信托节点',
+    en: 'Trustee'
+  },
+  hot_address: {
+    zh: '热地址',
+    en: 'Hot Address'
+  },
+  cold_address: {
+    zh: '冷地址',
+    en: 'Cold Address'
   }
 }
