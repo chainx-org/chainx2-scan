@@ -7,5 +7,9 @@ router.get(
   '/crossblocks/bitcoin/crosstx',
   crossBlocksController.getCrossTransactions
 )
+router.get(
+  '/crossblocks/bitcoin/deposits',
+  crossBlocksController.getCrossDeposits
+)
 
 module.exports = router

@@ -20,7 +20,7 @@ const crossBlocksSlice = createSlice({
       pageSize: 10,
       total: 0
     },
-    deals: {
+    crossdeposits: {
       items: [],
       page: 0,
       pageSize: 10,
@@ -33,6 +33,9 @@ const crossBlocksSlice = createSlice({
     },
     setCrossTransactions(state, action) {
       state.crosstransactions = action.payload
+    },
+    setCrossDeposits(state, action) {
+      state.crossdeposits = action.payload
     }
     /*
     setVotes(state, action) {
@@ -56,7 +59,8 @@ const crossBlocksSlice = createSlice({
 
 export const {
   setCrossBlocks,
-  setCrossTransactions
+  setCrossTransactions,
+  setCrossDeposits
   /*
   setVotes,
   setExtrinsics,
@@ -205,6 +209,27 @@ export const fetchCrossTransactions = (
   }
 }
 
+export const fetchCrossDeposits = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: crossdeposits } = await api.fetch(
+      `/crossblocks/bitcoin/deposits`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setCrossDeposits(crossdeposits))
+  } finally {
+    setLoading(false)
+  }
+}
+
 /*
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
@@ -216,5 +241,6 @@ export const dealsSelector = state => state.accounts.deals
 export const crossBlocksSelector = state => state.crossblocks.crossblocks
 export const crossTransactionsSelector = state =>
   state.crossblocks.crosstransactions
+export const crossDepositsSelector = state => state.crossblocks.crossdeposits
 
 export default crossBlocksSlice.reducer
