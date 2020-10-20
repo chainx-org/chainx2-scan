@@ -42,8 +42,8 @@ export default function CrossChainNav(props) {
             {$t('cross_host_list')}
           </NavLink>
         </li>
-        <li className={classnames({ 'is-active': activeKey === 'claim' })}>
-          <NavLink to="/crossblocks/bitcoin/claim">
+        <li className={classnames({ 'is-active': activeKey === 'unclaim' })}>
+          <NavLink to="/crossblocks/bitcoin/unclaim">
             {$t('cross_claim_list')}
           </NavLink>
         </li>
