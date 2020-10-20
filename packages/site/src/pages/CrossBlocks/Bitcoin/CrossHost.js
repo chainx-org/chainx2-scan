@@ -18,7 +18,7 @@ import Hash from '@components/Hash'
 
 import swapEndian from '../../../utils/swapEndian'
 
-export default function CrossBtcTx({ address }) {
+export default function CrossHost({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
