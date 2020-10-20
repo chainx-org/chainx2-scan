@@ -14,22 +14,7 @@ import CrossWithdrawals from './Bitcoin/CrossWithdrawals'
 import CrossHost from './Bitcoin/CrossHost'
 import CrossUnclaim from './Bitcoin/CrossUnclaim'
 
-// import DepositsMine from "./DepositsMine";
-
-/*
-import CrossTxs from "./CrossTxs";
-import CrossBind from "./CrossBind";
-import CrossHost from "./CrossHost";
-import CrossDeposits from "./CrossDeposits";
-import CrossWithdrawals from "./CrossWithdrawals";
-import CrossClaim from "./CrossClaim";
-*/
-
-/*
-import BlockDetail from './Detail'
-import BlockChainNav from '../../components/BlockChainNav'
-import BlocksList from './List'
-*/
+import DepositMine from './DepositMine'
 
 export default function CrossBlocks(props) {
   const activeKey = props.location.pathname
@@ -64,7 +49,7 @@ export default function CrossBlocks(props) {
       <Switch>
         <Route
           path="/crossblocks/depositMine"
-          render={props => <CrossBlockList {...props} />}
+          render={props => <DepositMine {...props} />}
         />
         <Route
           path="/crossblocks/:bitcoin?/:list?"
