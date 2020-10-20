@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchCrossTrustees,
-  crossTrusteesSelector
+  fetchCrossUnclaim,
+  crossUnclaimSelector
 } from '@src/store/reducers/crossBlocksSlice'
 import Table from '@components/Table'
 import Amount from '@components/Amount'
@@ -18,7 +18,7 @@ import Hash from '@components/Hash'
 
 import swapEndian from '../../../utils/swapEndian'
 
-export default function CrossHost({ address }) {
+export default function CrossUnclaim() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
@@ -26,10 +26,10 @@ export default function CrossHost({ address }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCrossTrustees(setLoading, page - 1, pageSize))
+    dispatch(fetchCrossUnclaim(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
 
-  const { items = [], total } = useSelector(crossTrusteesSelector) || {}
+  const { items = [], total } = useSelector(crossUnclaimSelector) || {}
 
   return (
     <Table
@@ -51,7 +51,7 @@ export default function CrossHost({ address }) {
               render={() => {
                 return (
                   <Hash
-                    style={{ width: 138 }}
+                    // style={{ width: 138 }}
                     className="text-truncate"
                     value={btcHashForExplorer}
                   />
@@ -75,7 +75,12 @@ export default function CrossHost({ address }) {
             />
           ),
           tx_balance: (
-            <Amount value={item.balance} precision={8} symbol={'BTC'} />
+            <Amount
+              value={item.balance}
+              precision={8}
+              symbol={'BTC'}
+              hideSymbol
+            />
           ),
           chainx_ex_hash: (
             <TxLink
@@ -91,28 +96,21 @@ export default function CrossHost({ address }) {
               value={item.txData[1]}
             />
           ),
-          asset_type: 'BTC',
-          chainx_time: <DateShow value={item.chainxTime} />,
-          session_number: '1',
-          trustees: 'MathWallet'
+          asset_type: 'BTC'
         }
       })}
       columns={[
         {
-          title: $t('session_number'),
-          dataIndex: 'session_number'
+          title: $t('cross_btc_tx_hash'),
+          dataIndex: 'btc_tx_hash'
         },
         {
-          title: $t('trustee'),
-          dataIndex: 'trustees'
-        },
-        {
-          title: $t('hot_address'),
+          title: $t('cross_btc_address'),
           dataIndex: 'btc_hash'
         },
         {
-          title: $t('cold_address'),
-          dataIndex: 'btc_hash'
+          title: $t('tx_balance'),
+          dataIndex: 'tx_balance'
         }
       ]}
     />

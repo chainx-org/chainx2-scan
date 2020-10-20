@@ -158,5 +158,9 @@ export default {
   cold_address: {
     zh: '冷地址',
     en: 'Cold Address'
+  },
+  cross_btc_address: {
+    zh: 'Bitcoin来源地址',
+    en: 'Bitcoin Source Address'
   }
 }

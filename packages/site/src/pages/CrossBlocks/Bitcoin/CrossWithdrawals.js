@@ -18,7 +18,7 @@ import Hash from '@components/Hash'
 
 import swapEndian from '../../../utils/swapEndian'
 
-export default function CrossBtcTx({ address }) {
+export default function CrossWithdrawals({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
@@ -75,7 +75,12 @@ export default function CrossBtcTx({ address }) {
             />
           ),
           tx_balance: (
-            <Amount value={item.balance} precision={8} symbol={'BTC'} />
+            <Amount
+              value={item.balance}
+              precision={8}
+              symbol={'BTC'}
+              hideSymbol
+            />
           ),
           chainx_ex_hash: (
             <TxLink

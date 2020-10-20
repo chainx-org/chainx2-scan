@@ -19,5 +19,9 @@ router.get(
   '/crossblocks/bitcoin/trustees',
   crossBlocksController.getCrossTrustees
 )
+router.get(
+  '/crossblocks/bitcoin/unclaim',
+  crossBlocksController.getCrossUnclaim
+)
 
 module.exports = router
