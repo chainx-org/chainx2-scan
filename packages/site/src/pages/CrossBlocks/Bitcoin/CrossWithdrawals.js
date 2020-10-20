@@ -75,7 +75,12 @@ export default function CrossWithdrawals({ address }) {
             />
           ),
           tx_balance: (
-            <Amount value={item.balance} precision={8} symbol={'BTC'} />
+            <Amount
+              value={item.balance}
+              precision={8}
+              symbol={'BTC'}
+              hideSymbol
+            />
           ),
           chainx_ex_hash: (
             <TxLink

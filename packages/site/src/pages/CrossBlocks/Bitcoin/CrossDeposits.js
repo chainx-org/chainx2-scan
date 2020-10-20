@@ -77,7 +77,12 @@ export default function CrossDeposits({ address }) {
           tx_type: <TxType value={item.txType} />,
 
           tx_balance: (
-            <Amount value={item.balance} precision={8} symbol={'BTC'} />
+            <Amount
+              value={item.balance}
+              precision={8}
+              symbol={'BTC'}
+              hideSymbol
+            />
           ),
           chainx_ex_hash: (
             <TxLink
