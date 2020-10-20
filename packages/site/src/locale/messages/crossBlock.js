@@ -162,5 +162,37 @@ export default {
   cross_btc_address: {
     zh: 'Bitcoin来源地址',
     en: 'Bitcoin Source Address'
+  },
+  asset_type: {
+    zh: '资产类型',
+    en: 'Asset Type'
+  },
+  chain_total_balance: {
+    zh: '全链总资产',
+    en: 'Total Balance'
+  },
+  mining_power: {
+    zh: '挖矿算力(PCX)',
+    en: 'Mining Power(PCX)'
+  },
+  equivalent_nominations: {
+    zh: '折合投票数(PCX)',
+    en: 'Equivalent Nominations(PCX)'
+  },
+  equivalent_nominations: {
+    zh: '折合投票数(PCX)',
+    en: 'Equivalent Nominations(PCX)'
+  },
+  jackpot_balance: {
+    zh: '奖池金额(PCX)',
+    en: 'Jackpot Balance(PCX)'
+  },
+  jackpot_last_update: {
+    zh: '奖池更新高度(PCX)',
+    en: 'Jackpot Last Update Height(PCX)'
+  },
+  total_weight: {
+    zh: '历史总票龄',
+    en: 'Total Weight'
   }
 }
