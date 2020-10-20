@@ -37,6 +37,12 @@ const crossBlocksSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    crossunclaim: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -54,6 +60,9 @@ const crossBlocksSlice = createSlice({
     },
     setCrossTrustees(state, action) {
       state.crosstrustees = action.payload
+    },
+    setCrossUnclaim(state, action) {
+      state.crossunclaim = action.payload
     }
     /*
     setVotes(state, action) {
@@ -80,7 +89,8 @@ export const {
   setCrossTransactions,
   setCrossDeposits,
   setCrossWithdrawals,
-  setCrossTrustees
+  setCrossTrustees,
+  setCrossUnclaim
   /*
   setVotes,
   setExtrinsics,
@@ -292,6 +302,27 @@ export const fetchCrossTrustees = (
   }
 }
 
+export const fetchCrossUnclaim = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: crossunclaim } = await api.fetch(
+      `/crossblocks/bitcoin/unclaim`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setCrossUnclaim(crossunclaim))
+  } finally {
+    setLoading(false)
+  }
+}
+
 /*
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
@@ -307,5 +338,6 @@ export const crossDepositsSelector = state => state.crossblocks.crossdeposits
 export const crossWithdrawalsSelector = state =>
   state.crossblocks.crosswithdrawals
 export const crossTrusteesSelector = state => state.crossblocks.crosstrustees
+export const crossUnclaimSelector = state => state.crossblocks.crossunclaim
 
 export default crossBlocksSlice.reducer
