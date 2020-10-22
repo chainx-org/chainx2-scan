@@ -13,6 +13,9 @@ export default function() {
   const isMatchCrossBlocks = ['/crossblocks'].some(
     path => !!matchPath(location.pathname, { path })
   )
+  const isMatchValidators = ['/validators'].some(
+    path => !!matchPath(location.pathname, { path })
+  )
 
   return (
     <nav className="navbar" role="navigation">
@@ -41,6 +44,15 @@ export default function() {
               to="/blocks"
             >
               {$t('common_blockchain')}
+            </NavLink>
+            <NavLink
+              className={classnames('navbar-item is-tab', {
+                'is-active': isMatchValidators
+              })}
+              activeClassName="is-active"
+              to="/validators"
+            >
+              {$t('validators')}
             </NavLink>
             <NavLink
               className={classnames('navbar-item is-tab', {
