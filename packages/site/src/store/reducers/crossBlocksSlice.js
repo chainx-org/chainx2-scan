@@ -43,6 +43,12 @@ const crossBlocksSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    depositmine: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -63,6 +69,9 @@ const crossBlocksSlice = createSlice({
     },
     setCrossUnclaim(state, action) {
       state.crossunclaim = action.payload
+    },
+    setDepositMine(state, action) {
+      state.depositmine = action.payload
     }
     /*
     setVotes(state, action) {
@@ -90,7 +99,8 @@ export const {
   setCrossDeposits,
   setCrossWithdrawals,
   setCrossTrustees,
-  setCrossUnclaim
+  setCrossUnclaim,
+  setDepositMine
   /*
   setVotes,
   setExtrinsics,
@@ -323,6 +333,27 @@ export const fetchCrossUnclaim = (
   }
 }
 
+export const fetchDepositMine = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: depositmine } = await api.fetch(
+      `/crossblocks/deposit_mine`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setDepositMine(depositmine))
+  } finally {
+    setLoading(false)
+  }
+}
+
 /*
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
@@ -339,5 +370,6 @@ export const crossWithdrawalsSelector = state =>
   state.crossblocks.crosswithdrawals
 export const crossTrusteesSelector = state => state.crossblocks.crosstrustees
 export const crossUnclaimSelector = state => state.crossblocks.crossunclaim
+export const crossDepositMineSelector = state => state.crossblocks.depositmine
 
 export default crossBlocksSlice.reducer

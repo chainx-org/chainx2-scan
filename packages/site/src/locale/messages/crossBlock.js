@@ -159,6 +159,14 @@ export default {
     zh: '冷地址',
     en: 'Cold Address'
   },
+  hot_btc_pubkey: {
+    zh: '热公钥',
+    en: 'Hot Public Key'
+  },
+  cold_btc_pubkey: {
+    zh: '冷公钥',
+    en: 'Cold Public Key'
+  },
   cross_btc_address: {
     zh: 'Bitcoin来源地址',
     en: 'Bitcoin Source Address'
@@ -179,17 +187,17 @@ export default {
     zh: '折合投票数(PCX)',
     en: 'Equivalent Nominations(PCX)'
   },
-  equivalent_nominations: {
-    zh: '折合投票数(PCX)',
-    en: 'Equivalent Nominations(PCX)'
+  reward_pot_address: {
+    zh: '奖池地址(PCX)',
+    en: 'Reward Pot Address(PCX)'
   },
-  jackpot_balance: {
+  reward_pot_balance: {
     zh: '奖池金额(PCX)',
-    en: 'Jackpot Balance(PCX)'
+    en: 'Reward Pot Balance(PCX)'
   },
-  jackpot_last_update: {
+  reward_pot_last_update: {
     zh: '奖池更新高度(PCX)',
-    en: 'Jackpot Last Update Height(PCX)'
+    en: 'Reward Pot Last Update Height(PCX)'
   },
   total_weight: {
     zh: '历史总票龄',

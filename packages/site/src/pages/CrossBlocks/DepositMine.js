@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchCrossBlocks,
-  crossBlocksSelector
+  fetchDepositMine,
+  crossDepositMineSelector
 } from '@src/store/reducers/crossBlocksSlice'
 import Table from '@components/Table'
 import Amount from '@components/Amount'
-import TokenName from '@components/TokenName'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
-import TxLink from '@components/TxLink'
-import BlockLink from '@components/BlockLink'
-import DateShow from '@components/DateShow'
-import ExternalLink from '@components/ExternalLink'
-import NumberFormat from '@components/NumberFormat'
-import Hash from '@components/Hash'
-
-import swapEndian from '../../utils/swapEndian'
 
 export default function DepositMine({ address }) {
   const [page, setPage] = useState(1)
@@ -26,10 +17,10 @@ export default function DepositMine({ address }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
+    dispatch(fetchDepositMine(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
 
-  const { items = [], total } = useSelector(crossBlocksSelector) || {}
+  const { items = [], total } = useSelector(crossDepositMineSelector) || {}
 
   return (
     <div className="box">
@@ -39,22 +30,14 @@ export default function DepositMine({ address }) {
           setPageSize(size)
         }}
         pagination={false}
-        dataSource={items.slice(0, 1).map(item => {
-          // const currentPair = pairs.find(item => item.pairId === fill.pairId)
-          // const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
-          const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
-          const token_name = 'BTC'
-          const chain_total_balance = 38040535172
-          const mining_power = 40000000000
-          const equivalent_nominations = 15216214068800
-          const jackpot_balance = 345395934785
-          const jackpot_last_update = 20714785
-          const total_weight = 23948680515905810
+        dataSource={items.map(item => {
+          const token_name = ['BTC', 'PCX']
           return {
             key: item._id,
-            id: item.btcHash,
-            asset_type: 'Interchain BTC(X-BTC)',
+            // asset_type: 'Interchain BTC(X-BTC)',
             // asset_type: <TokenName value={token_name} id={1}/>,
+            asset_type: token_name[item.assetId - 1],
+            /*
             chain_total_balance: (
               <Amount
                 value={chain_total_balance}
@@ -63,35 +46,43 @@ export default function DepositMine({ address }) {
                 hideSymbol
               />
             ),
+            */
             mining_power: (
               <Amount
-                value={mining_power}
-                precision={8}
-                symbol={'BTC'}
+                value={item.miningPower}
+                precision={0}
+                symbol={'PCX'}
                 hideSymbol
               />
             ),
-            equivalent_nominations: (
+            reward_pot_address: (
+              <AddressLink
+                // style={{ width: 138 }}
+                // className="text-truncate"
+                value={item.rewardPot}
+              />
+            ),
+            reward_pot_balance: (
               <Amount
-                value={equivalent_nominations}
+                value={item.rewardPotBalance}
                 precision={8}
-                symbol={'BTC'}
+                symbol={'PCX'}
                 hideSymbol
               />
             ),
-            jackpot_balance: (
+            reward_pot_last_update: (
               <Amount
-                value={jackpot_balance}
-                precision={8}
-                symbol={'BTC'}
+                value={item.lastTotalMiningWeightUpdate}
+                precision={0}
                 hideSymbol
               />
-            ),
-            jackpot_last_update: (
-              <Amount value={jackpot_last_update} precision={0} hideSymbol />
             ),
             total_weight: (
-              <Amount value={total_weight} precision={8} hideSymbol />
+              <Amount
+                value={item.lastTotalMiningWeight}
+                precision={8}
+                hideSymbol
+              />
             )
           }
         })}
@@ -100,25 +91,33 @@ export default function DepositMine({ address }) {
             title: $t('asset_type'),
             dataIndex: 'asset_type'
           },
+          /*
           {
             title: $t('chain_total_balance'),
             dataIndex: 'chain_total_balance'
           },
+          */
           {
             title: $t('mining_power'),
             dataIndex: 'mining_power'
           },
           {
+            title: $t('reward_pot_address'),
+            dataIndex: 'reward_pot_address'
+          },
+          /*
+          {
             title: $t('equivalent_nominations'),
             dataIndex: 'equivalent_nominations'
           },
+          */
           {
-            title: $t('jackpot_balance'),
-            dataIndex: 'jackpot_balance'
+            title: $t('reward_pot_balance'),
+            dataIndex: 'reward_pot_balance'
           },
           {
-            title: $t('jackpot_last_update'),
-            dataIndex: 'jackpot_last_update'
+            title: $t('reward_pot_last_update'),
+            dataIndex: 'reward_pot_last_update'
           },
           {
             title: $t('total_weight'),

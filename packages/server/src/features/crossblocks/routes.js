@@ -23,5 +23,6 @@ router.get(
   '/crossblocks/bitcoin/unclaim',
   crossBlocksController.getCrossUnclaim
 )
+router.get('/crossblocks/deposit_mine', crossBlocksController.getDepositMine)
 
 module.exports = router

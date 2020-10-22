@@ -8,6 +8,7 @@ import Table from '@components/Table'
 import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
+import CommonLink from '@components/CommonLink'
 import TxLink from '@components/TxLink'
 import TxType from '@components/TxType'
 import BlockLink from '@components/BlockLink'
@@ -39,11 +40,11 @@ export default function CrossHost({ address }) {
       }}
       pagination={{ current: page, pageSize, total }}
       dataSource={items.map(item => {
-        const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
-        const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
+        // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
+        // const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
         return {
           key: item._id,
-          id: item.btcHash,
+          /*
           btc_hash: (
             <ExternalLink
               type="btcTestnetHash"
@@ -74,6 +75,34 @@ export default function CrossHost({ address }) {
               }}
             />
           ),
+          */
+          threshold: item.threshold,
+          name: item.name,
+          chainx_address: (
+            <AddressLink
+              // style={{ width: 138 }}
+              // className="text-truncate"
+              value={item.address}
+            />
+          ),
+          hot_btc_pubkey: (
+            <CommonLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.hotPubkey}
+              link={'#'}
+            />
+          ),
+          cold_btc_pubkey: (
+            <CommonLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.coldPubkey}
+              link={'#'}
+            />
+          )
+          // hot_address: item.hotPubkey,
+          /*
           tx_balance: (
             <Amount value={item.balance} precision={8} symbol={'BTC'} />
           ),
@@ -84,35 +113,36 @@ export default function CrossHost({ address }) {
               value={item.chainxExtrinsicHash}
             />
           ),
-          chainx_account_id: (
+          chainx_address: (
             <AddressLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.txData[1]}
+              value={item.address}
             />
           ),
           asset_type: 'BTC',
           chainx_time: <DateShow value={item.chainxTime} />,
           session_number: '1',
           trustees: 'MathWallet'
+          */
         }
       })}
       columns={[
         {
           title: $t('session_number'),
-          dataIndex: 'session_number'
+          dataIndex: 'threshold'
         },
         {
           title: $t('trustee'),
-          dataIndex: 'trustees'
+          dataIndex: 'chainx_address'
         },
         {
-          title: $t('hot_address'),
-          dataIndex: 'btc_hash'
+          title: $t('hot_btc_pubkey'),
+          dataIndex: 'hot_btc_pubkey'
         },
         {
-          title: $t('cold_address'),
-          dataIndex: 'btc_hash'
+          title: $t('cold_btc_pubkey'),
+          dataIndex: 'cold_btc_pubkey'
         }
       ]}
     />

@@ -122,14 +122,14 @@ class crossBlocksController {
     }
 
     const db = await getDb()
-    const col = await db.collection('crossTransaction')
+    const col = await db.collection('trustees')
 
-    const query = { txType: 'Deposit' }
+    const query = {}
 
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ btcHeight: -1 })
+      .sort({ threshold: -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
@@ -158,6 +158,34 @@ class crossBlocksController {
     const items = await col
       .find(query)
       .sort({ btcHeight: -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      total
+    }
+  }
+
+  async getDepositMine(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const db = await getDb()
+    const col = await db.collection('depositMine')
+
+    const query = {}
+
+    const total = await col.countDocuments(query)
+    const items = await col
+      .find(query)
+      .sort({ assetId: -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
