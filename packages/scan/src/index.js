@@ -34,18 +34,32 @@ const {
 
 const { extractEventBusinessData } = require('./events')
 
+const { updateTrusteeList, updateDepositMineInfo } = require('./updateData')
+
 let preBlockHash = null
 
 async function main() {
   // 更新区块高度
   await updateHeight()
   // 初始化sdk
-  const api = await getApi()
+  let api
+  let apiLoop = true
+  while (apiLoop) {
+    try {
+      api = await getApi()
+      apiLoop = false
+    } catch (e) {
+      logger.info('get API failed: ', e.message)
+      await sleep(1000)
+      continue
+    }
+  }
   await updateChainProperties()
   // 监听并更新validators
   await listenAndUpdateValidators()
   // 获取首个扫描区块高度
   let scanHeight = await getFirstScanHeight()
+  console.log('scanHeight', scanHeight)
   await deleteDataFrom(scanHeight)
   await init(scanHeight)
 
@@ -53,6 +67,7 @@ async function main() {
     const chainHeight = getLatestHeight()
     if (scanHeight > chainHeight) {
       // 如果要检索的高度大于现在的最大高度，那么等一等
+      console.log('scanHeigth > chainHeight')
       await sleep(1000)
       continue
     }
@@ -60,24 +75,37 @@ async function main() {
     let blockHash
     try {
       blockHash = await api.rpc.chain.getBlockHash(scanHeight)
+      console.log('try blockhash end')
     } catch (e) {
       console.log(e.message)
+      console.log('try blochash failed')
       await sleep(1000)
       continue
     }
 
     if (!blockHash) {
       // 正常情况下这种情况不应该出现，上边已经判断过`scanHeight > chainHeight`
+      console.log('blockhash null')
       await sleep(1000)
       continue
     }
 
-    const block = await api.rpc.chain.getBlock(blockHash)
+    let block
+    try {
+      block = await api.rpc.chain.getBlock(blockHash)
+      console.log('try get block end')
+    } catch (e) {
+      logger.info('get block failed: ', e.message)
+      await sleep(1000)
+      continue
+    }
+
     if (
       preBlockHash &&
       block.block.header.parentHash.toString('hex') !== preBlockHash
     ) {
       // 出现分叉，当前块的parentHash不等于数据库中的上一个块的hash
+      console.log('fork happened')
       const nonForkHeight = await findNonForkHeight(scanHeight)
       await updateScanHeight(nonForkHeight)
       scanHeight = nonForkHeight + 1
@@ -95,6 +123,8 @@ async function main() {
 
     await updateAssetsInfo(scanHeight)
     await updateScanHeight(scanHeight++)
+    await updateTrusteeList(blockHash)
+    await updateDepositMineInfo(blockHash)
   }
 }
 
@@ -108,10 +138,11 @@ async function handleEvents(events, indexer, extrinsics) {
   for (let sort = 0; sort < events.length; sort++) {
     const { event, phase, topics } = events[sort]
     const phaseType = phase.type
-    let [phaseValue, extrinsicHash] = [null, null]
+    let [phaseValue, extrinsicHash, eventExtrinsic] = [null, null, null]
     if (!phase.isNull) {
       phaseValue = phase.isNull ? null : phase.value.toNumber()
       extrinsicHash = extrinsics[phaseValue].hash.toHex()
+      eventExtrinsic = extrinsics[phaseValue]
     }
 
     const index = parseInt(event.index)
@@ -120,7 +151,7 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    await extractEventBusinessData(event, indexer)
+    await extractEventBusinessData(event, indexer, eventExtrinsic)
 
     bulk.insert({
       indexer,
