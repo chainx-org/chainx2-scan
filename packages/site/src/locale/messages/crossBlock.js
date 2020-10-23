@@ -175,8 +175,8 @@ export default {
     zh: '资产类型',
     en: 'Asset Type'
   },
-  chain_total_balance: {
-    zh: '全链总资产',
+  btc_total_balance: {
+    zh: '全链总余额',
     en: 'Total Balance'
   },
   mining_power: {
