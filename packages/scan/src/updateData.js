@@ -44,10 +44,16 @@ async function updateDepositMineInfo(blockHash) {
   const json = depositMineInfo.toJSON()
   for (let i = 0; i < json.length; i++) {
     const assetId = json[i].assetId
+    const miningPower = json[i].miningPower
     const existEntry = await col.find({ assetId: assetId }).count()
     if (existEntry < 1) {
+      const allAssetsInfo = await api.rpc.xassets.getAssets(blockHash)
+      const assetInfo = allAssetsInfo.toJSON()[assetId]
+      const equivalent_nominations = miningPower * assetInfo.balance.Usable
       const doc = {
-        ...json[i]
+        ...json[i],
+        ...assetInfo,
+        equivalent_nominations
       }
       await col.insertOne(doc)
     }
