@@ -37,16 +37,14 @@ export default function DepositMine({ address }) {
             // asset_type: 'Interchain BTC(X-BTC)',
             // asset_type: <TokenName value={token_name} id={1}/>,
             asset_type: token_name[item.assetId - 1],
-            /*
-            chain_total_balance: (
+            btc_total_balance: (
               <Amount
-                value={chain_total_balance}
+                value={item.balance.Usable}
                 precision={8}
                 symbol={'BTC'}
                 hideSymbol
               />
             ),
-            */
             mining_power: (
               <Amount
                 value={item.miningPower}
@@ -55,10 +53,17 @@ export default function DepositMine({ address }) {
                 hideSymbol
               />
             ),
+            equivalent_nominations: (
+              <Amount
+                value={item.equivalent_nominations}
+                precision={8}
+                hideSymbol
+              />
+            ),
             reward_pot_address: (
               <AddressLink
-                // style={{ width: 138 }}
-                // className="text-truncate"
+                style={{ width: 138 }}
+                className="text-truncate"
                 value={item.rewardPot}
               />
             ),
@@ -91,12 +96,10 @@ export default function DepositMine({ address }) {
             title: $t('asset_type'),
             dataIndex: 'asset_type'
           },
-          /*
           {
-            title: $t('chain_total_balance'),
-            dataIndex: 'chain_total_balance'
+            title: $t('btc_total_balance'),
+            dataIndex: 'btc_total_balance'
           },
-          */
           {
             title: $t('mining_power'),
             dataIndex: 'mining_power'
@@ -105,12 +108,10 @@ export default function DepositMine({ address }) {
             title: $t('reward_pot_address'),
             dataIndex: 'reward_pot_address'
           },
-          /*
           {
             title: $t('equivalent_nominations'),
             dataIndex: 'equivalent_nominations'
           },
-          */
           {
             title: $t('reward_pot_balance'),
             dataIndex: 'reward_pot_balance'
