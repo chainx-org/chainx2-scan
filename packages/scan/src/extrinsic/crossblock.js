@@ -7,7 +7,7 @@ async function extractCrossBlock(events, hash, indexer, signer) {
 
   for (let i = 0; i < events.length; i++) {
     const { event } = events[i]
-    if (event.method === 'InsertHeader') {
+    if (event.method === 'HeaderInserted') {
       const btcHash = event.data[0].toHex()
       const btcHeaderInfo = await api.query.xGatewayBitcoin.headers(btcHash)
       const json = btcHeaderInfo.toJSON()
