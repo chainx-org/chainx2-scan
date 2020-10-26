@@ -14,5 +14,21 @@ export default {
   missed_block_stats: {
     zh: '漏块统计',
     en: 'Missed Block Stats'
+  },
+  self_bonded: {
+    zh: '自抵押数(PCX)',
+    en: 'Self Bonded'
+  },
+  registered_block_height: {
+    zh: '注册高度',
+    en: 'Registered Block Height'
+  },
+  total_nominations: {
+    zh: '总得票数(PCX)',
+    en: 'Total Nominations(PCX)'
+  },
+  total_nomination_last_update: {
+    zh: '得票数更新高度',
+    en: 'Total Nominations Last Update'
   }
 }

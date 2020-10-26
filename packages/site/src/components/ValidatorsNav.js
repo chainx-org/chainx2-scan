@@ -14,13 +14,6 @@ export default function ValidatorsNav(props) {
         <li className={classnames({ 'is-active': activeKey === 'unsettled' })}>
           <NavLink to="/validators/unsettled">{$t('standby_node')}</NavLink>
         </li>
-        {/*
-        <li className={classnames({ 'is-active': activeKey === 'crossbind' })}>
-          <NavLink to="/crossblocks/bitcoin/crossbind">
-            {$t('cross_bind_address_list')}
-          </NavLink>
-        </li>
-	*/}
         <li
           className={classnames({ 'is-active': activeKey === 'btc_trustees' })}
         >
