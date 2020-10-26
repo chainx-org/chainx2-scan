@@ -36,7 +36,7 @@ export default function DepositMine({ address }) {
             key: item._id,
             // asset_type: 'Interchain BTC(X-BTC)',
             // asset_type: <TokenName value={token_name} id={1}/>,
-            asset_type: token_name[item.assetId - 1],
+            asset_type: item.info.tokenName,
             btc_total_balance: (
               <Amount
                 value={item.balance.Usable}
