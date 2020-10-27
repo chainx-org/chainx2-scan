@@ -4,15 +4,6 @@ const validatorsController = require('./validator.controller')
 const router = new Router()
 router.get('/validators', validatorsController.getValidators)
 router.get('/unsettled', validatorsController.getUnsettledNodes)
-/*
-router.get(
-  '/crossblocks/bitcoin/trustees',
-  crossBlocksController.getCrossTrustees
-)
-router.get(
-  '/crossblocks/bitcoin/unclaim',
-  crossBlocksController.getCrossUnclaim
-)
-*/
+router.get('/trustees', validatorsController.getTrusteeNodes)
 
 module.exports = router

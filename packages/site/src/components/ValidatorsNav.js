@@ -19,9 +19,11 @@ export default function ValidatorsNav(props) {
         >
           <NavLink to="/validators/btc_trustees">{$t('btc_trustees')}</NavLink>
         </li>
+        {/*
         <li className={classnames({ 'is-active': activeKey === 'missed' })}>
           <NavLink to="/validators/missed">{$t('missed_block_stats')}</NavLink>
         </li>
+        */}
       </ul>
     </div>
   )
