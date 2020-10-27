@@ -4,8 +4,8 @@ import chainxLogo from '../../assets/chainxLogo.png'
 import $t from '../../locale'
 import classnames from 'classnames'
 import { matchPath } from 'react-router'
-
-export default function() {
+import InputSearch from '../../components/InputSearch'
+export default function(props) {
   const location = useLocation()
   const isMatchBlocks = ['/extrinsics', '/events', 'blocks', '/accounts'].some(
     path => !!matchPath(location.pathname, { path })
@@ -13,7 +13,6 @@ export default function() {
   const isMatchCrossBlocks = ['/crossblocks'].some(
     path => !!matchPath(location.pathname, { path })
   )
-
   return (
     <nav className="navbar" role="navigation">
       <div className="container">
@@ -58,6 +57,9 @@ export default function() {
             >
               {$t('dex_section')}
             </NavLink>
+          </div>
+          <div className="navbar-end">
+            <InputSearch {...props} />
           </div>
         </div>
       </div>

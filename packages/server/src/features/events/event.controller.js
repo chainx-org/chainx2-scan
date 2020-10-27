@@ -9,7 +9,6 @@ const { ObjectID } = require('mongodb')
 class EventController {
   async getEvents(ctx) {
     const { page, pageSize } = extractPage(ctx)
-    console.log(ctx)
     if (pageSize === 0) {
       ctx.status = 400
       return
@@ -36,15 +35,11 @@ class EventController {
       ctx.status = 400
       return
     }
-
     const { block } = ctx.query
     let query = {}
-    if (isHash(block)) {
-      query = { 'indexer.blockHash': block }
-    } else if (isNum(block)) {
+    if (block) {
       query = { 'indexer.blockHeight': parseInt(block) }
     }
-
     const col = await getEventCollection()
     const total = await col.countDocuments(query)
     const extrinsics = await col
