@@ -5,6 +5,7 @@ import BlockDetail from './Detail'
 import BlocksList from './List'
 import ValidatorNodesList from './validatorNodes'
 import UnsettledNodesList from './unsettledNodes'
+import TrusteeNodesList from './trusteeNodes'
 import ValidatorsNav from '../../components/ValidatorsNav'
 
 export default function Validators() {
@@ -26,7 +27,7 @@ export default function Validators() {
                   <ValidatorNodesList {...props} />
                 )}
                 {list === 'unsettled' && <UnsettledNodesList {...props} />}
-                {list === 'btc_trustees' && <BlocksList {...props} />}
+                {list === 'btc_trustees' && <TrusteeNodesList {...props} />}
                 {list === 'missed' && <BlocksList {...props} />}
               </div>
             </>
