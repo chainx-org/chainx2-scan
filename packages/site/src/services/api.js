@@ -200,19 +200,26 @@ class Api {
       const { result: blockResult, error: blockError } = await this.fetch(
         `/blocks/${hexAddPrefix(input)}`
       )
+
       if (blockResult && !blockError) {
         return {
           result: `/blocks/${hexAddPrefix(input)}`
         }
       }
-
       const { result: accountResult, error: accountError } = await this.fetch(
         `/account/${hexAddPrefix(input)}/detail`
       )
-
       if (accountResult && !accountError) {
         return {
           result: `/accounts/${hexAddPrefix(input)}`
+        }
+      }
+      const { result: blockHash, error: blockHashError } = await this.fetch(
+        `/extrinsics/${hexAddPrefix(input)}`
+      )
+      if (blockHash && !blockHashError) {
+        return {
+          result: `/extrinsics/${hexAddPrefix(input)}/detail`
         }
       }
 
