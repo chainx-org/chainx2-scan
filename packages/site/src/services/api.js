@@ -198,7 +198,7 @@ class Api {
         }
       }
       const { result: blockResult, error: blockError } = await this.fetch(
-        `/block/${hexAddPrefix(input)}`
+        `/blocks/${hexAddPrefix(input)}`
       )
       if (blockResult && !blockError) {
         return {

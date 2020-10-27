@@ -1,22 +1,22 @@
 import React, { useState, useCallback } from 'react'
-import { injectIntl } from 'react-intl'
-
 import api from '../services/api'
-
 export default function InputSearch(props) {
   const { history } = props
 
   const [str, setStr] = useState('')
 
-  const search = useCallback(async str => {
-    const result = await api.search(str)
-    if (result.error) {
-      alert(result.error.message)
-    } else {
-      history.push(result.result)
-      setStr('')
-    }
-  })
+  const search = useCallback(
+    async str => {
+      const result = await api.search(str)
+      if (result.error) {
+        alert(result.error.message)
+      } else {
+        history.push(result.result)
+        setStr('')
+      }
+    },
+    [api]
+  )
   return (
     <span className="navbar-search">
       <input
@@ -30,7 +30,7 @@ export default function InputSearch(props) {
         style={{ width: 350, paddingRight: 50 }}
         className="input is-rounded"
         type="text"
-        placeholder={`22`}
+        placeholder={`搜索区块高度/哈希/账户地址`}
       />
       <i className="iconfont icon-search search" />
     </span>

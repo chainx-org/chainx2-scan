@@ -1,12 +1,12 @@
 import React from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, withRouter } from 'react-router-dom'
 import chainxLogo from '../../assets/chainxLogo.png'
 import $t from '../../locale'
 import classnames from 'classnames'
 import { matchPath } from 'react-router'
 import InputSearch from '../../components/InputSearch'
-export default function(props) {
-  const location = useLocation()
+export default withRouter(function(props) {
+  const { location } = props
   const isMatchBlocks = ['/extrinsics', '/events', 'blocks', '/accounts'].some(
     path => !!matchPath(location.pathname, { path })
   )
@@ -65,4 +65,4 @@ export default function(props) {
       </div>
     </nav>
   )
-}
+})
