@@ -1,38 +1,61 @@
+const { isNum } = require('../../utils')
+const { isHash } = require('../../utils')
+const { getExtrinsicCollection } = require('../../services/mongo')
 const { isEventId, extractEvent } = require('./utils')
 const { isMongoId } = require('../../utils')
 const { extractPage } = require('../../utils')
 const { getEventCollection } = require('../../services/mongo')
 const { ObjectID } = require('mongodb')
-
 class EventController {
   async getEvents(ctx) {
     const { page, pageSize } = extractPage(ctx)
-    if (pageSize === 0 || page < 0) {
+    console.log(ctx)
+    if (pageSize === 0) {
       ctx.status = 400
       return
     }
-
-    const { extrinsic_hash: extrinsicHash } = ctx.query
-    const queryExtrinsic = !!extrinsicHash
-    const query = queryExtrinsic ? { extrinsicHash } : {}
-
     const col = await getEventCollection()
-    let total
-    if (queryExtrinsic) {
-      total = await col.countDocuments(query)
-    } else {
-      total = await col.estimatedDocumentCount()
-    }
-
-    const events = await col
-      .find(query)
-      .sort({ 'indexer.blockHeight': -1, sort: -1 })
+    const total = await col.estimatedDocumentCount()
+    const blocks = await col
+      .find({})
+      .sort({ 'header.number': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
 
     ctx.body = {
-      items: events,
+      items: blocks,
+      page,
+      pageSize,
+      total
+    }
+  }
+  async getBlockEvents(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const { block } = ctx.query
+    let query = {}
+    if (isHash(block)) {
+      query = { 'indexer.blockHash': block }
+    } else if (isNum(block)) {
+      query = { 'indexer.blockHeight': parseInt(block) }
+    }
+
+    const col = await getEventCollection()
+    const total = await col.countDocuments(query)
+    const extrinsics = await col
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items: extrinsics,
       page,
       pageSize,
       total

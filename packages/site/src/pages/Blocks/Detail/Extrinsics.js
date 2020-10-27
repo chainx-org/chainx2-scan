@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import classnames from 'classnames'
 import $t from '../../../locale'
 import ExtrinsicList from '../../Extrinsics/List'
-
+import Events from '../Detail/Events'
 export default function({ blockHeight }) {
   const [activeKey, setActiveKey] = useState('extrinsics')
-
   return (
     <div className="box">
       <div className="tabs">
@@ -16,9 +15,18 @@ export default function({ blockHeight }) {
           >
             <a>{$t('ex_list')}</a>
           </li>
+          <li
+            onClick={() => setActiveKey('events')}
+            className={classnames({ 'is-active': activeKey === 'events' })}
+          >
+            <a>{$t('event_list')}</a>
+          </li>
         </ul>
       </div>
-      {blockHeight && <ExtrinsicList blockHeight={blockHeight} />}
+      {activeKey === 'extrinsics' && (
+        <ExtrinsicList blockHeight={blockHeight} />
+      )}
+      {activeKey === 'events' && <Events blockHeight={blockHeight} />}
     </div>
   )
 }
