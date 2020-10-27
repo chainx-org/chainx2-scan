@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router'
 import BlockDetail from './Detail'
 import BlocksList from './List'
 import ValidatorNodesList from './validatorNodes'
+import UnsettledNodesList from './unsettledNodes'
 import ValidatorsNav from '../../components/ValidatorsNav'
 
 export default function Validators() {
@@ -24,7 +25,7 @@ export default function Validators() {
                 {(!list || list === 'validators') && (
                   <ValidatorNodesList {...props} />
                 )}
-                {list === 'unsettled' && <BlocksList {...props} />}
+                {list === 'unsettled' && <UnsettledNodesList {...props} />}
                 {list === 'btc_trustees' && <BlocksList {...props} />}
                 {list === 'missed' && <BlocksList {...props} />}
               </div>
