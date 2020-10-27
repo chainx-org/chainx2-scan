@@ -45,6 +45,31 @@ class BlockController {
     const col = await getBlockCollection()
     ctx.body = await col.findOne(query)
   }
+
+  async getBlockEvents(ctx) {
+    const { page, pageSize, block } = extractPage(ctx)
+    console.log(block)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const col = await getBlockCollection()
+    const total = await col.estimatedDocumentCount()
+    const blocks = await col
+      .find({})
+      .sort({ 'header.number': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items: blocks,
+      page,
+      pageSize,
+      total
+    }
+  }
 }
 
 module.exports = new BlockController()

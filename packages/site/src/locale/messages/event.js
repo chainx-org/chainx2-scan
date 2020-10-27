@@ -11,6 +11,10 @@ export default {
     zh: 'Index',
     en: 'Index'
   },
+  event_number: {
+    zh: '事件序号',
+    en: 'Event Number'
+  },
   event_extrinsic: {
     zh: '相关交易',
     en: 'Referenced Extrinsic'
@@ -18,5 +22,21 @@ export default {
   event_method: {
     zh: '事件名称',
     en: 'Event'
+  },
+  stage: {
+    zh: '阶段',
+    en: 'Stage'
+  },
+  kind: {
+    zh: '类别',
+    en: 'Kind'
+  },
+  ApplyExtrinsic: {
+    zh: '交易执行',
+    en: 'ApplyExtrinsic'
+  },
+  Finalization: {
+    zh: '交易完成',
+    en: 'Finalization'
   }
 }
