@@ -13,7 +13,8 @@ import TransferList from '../Detail/TransferList'
 import TransActionList from '../Detail/TransactionList'
 import NominationList from './NominationList'
 import OrderList from './OrderList'
-import DealList from './DealList'
+import CashList from './CashList'
+import ChargeList from './ChargeList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
@@ -120,6 +121,18 @@ export default function() {
             >
               <a>{$t('closed_deal_list')}</a>
             </li>
+            <li
+              onClick={() => setActiveKey('charge')}
+              className={classnames({ 'is-active': activeKey === 'charge' })}
+            >
+              <a>{$t('deposit_list')}</a>
+            </li>
+            <li
+              onClick={() => setActiveKey('cash')}
+              className={classnames({ 'is-active': activeKey === 'cash' })}
+            >
+              <a>{$t('withdrawal_list')}</a>
+            </li>
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
@@ -127,7 +140,8 @@ export default function() {
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}
         {activeKey === 'order' && <OrderList address={address} />}
-        {activeKey === 'deal' && <DealList address={address} />}
+        {activeKey === 'charge' && <ChargeList address={address} />}
+        {activeKey === 'cash' && <CashList address={address} />}
       </div>
     </div>
   )
