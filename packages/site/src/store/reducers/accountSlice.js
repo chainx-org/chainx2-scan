@@ -45,6 +45,12 @@ const accountSlice = createSlice({
     },
     setDeals(state, action) {
       state.deals = action.payload
+    },
+    setCharges(state, action) {
+      state.charges = action.payload
+    },
+    setCashList(state, action) {
+      state.cash = action.payload
     }
   }
 })
@@ -55,7 +61,9 @@ export const {
   setExtrinsics,
   setOpenOrders,
   setPairs,
-  setDeals
+  setDeals,
+  setCharges,
+  setCashList
 } = accountSlice.actions
 
 export const fetchTransfers = (
@@ -70,6 +78,40 @@ export const fetchTransfers = (
       params
     )
     dispatch(setTransfers(transfers))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchCharges = (
+  address,
+  params,
+  setLoading = nonFunc
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: charges } = await api.fetch(
+      `/accounts/${address}/charges`,
+      params
+    )
+    dispatch(setCharges(charges))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchCashList = (
+  address,
+  params,
+  setLoading = nonFunc
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: cashList } = await api.fetch(
+      `/accounts/${address}/cashList`,
+      params
+    )
+    dispatch(setCashList(cashList))
   } finally {
     setLoading(false)
   }

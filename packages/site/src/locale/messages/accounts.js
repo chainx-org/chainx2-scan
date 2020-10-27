@@ -62,5 +62,13 @@ export default {
   closed_deal_list: {
     zh: '历史委托列表',
     en: 'Closed Deals'
+  },
+  deposit_list: {
+    zh: '充值列表',
+    en: 'Deposit Deals'
+  },
+  withdrawal_list: {
+    zh: '提现列表',
+    en: 'Withdrawal Deals'
   }
 }

@@ -74,5 +74,9 @@ export default {
   common_amount: {
     zh: '数量',
     en: 'Amount'
+  },
+  common_memo: {
+    zh: '备注',
+    en: 'Memo'
   }
 }

@@ -111,6 +111,10 @@ export default {
     zh: 'ChainX交易哈希',
     en: 'ChainX Transaction Hash'
   },
+  chainx_apply_hash: {
+    zh: 'ChainX申请交易哈希',
+    en: 'ChainX Apply Transaction Hash'
+  },
   chainx_deposit_time: {
     zh: '充值时间',
     en: 'Deposit Time'
