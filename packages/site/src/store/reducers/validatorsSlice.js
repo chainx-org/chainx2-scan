@@ -16,6 +16,12 @@ const validatorsSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    trustees: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -24,11 +30,18 @@ const validatorsSlice = createSlice({
     },
     setUnsettledNodes(state, action) {
       state.unsettled = action.payload
+    },
+    setTrusteeNodes(state, action) {
+      state.trustees = action.payload
     }
   }
 })
 
-export const { setValidators, setUnsettledNodes } = validatorsSlice.actions
+export const {
+  setValidators,
+  setUnsettledNodes,
+  setTrusteeNodes
+} = validatorsSlice.actions
 
 export const fetchValidatorNodes = (
   setLoading = nonFunc,
@@ -66,7 +79,26 @@ export const fetchUnsettledNodes = (
   }
 }
 
+export const fetchTrusteeNodes = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: trustees } = await api.fetch(`/trustees`, {
+      page,
+      pageSize
+    })
+
+    dispatch(setTrusteeNodes(trustees))
+  } finally {
+    setLoading(false)
+  }
+}
+
 export const validatorNodesSelector = state => state.validators.validators
 export const unsettledNodesSelector = state => state.validators.unsettled
+export const trusteeNodesSelector = state => state.validators.trustees
 
 export default validatorsSlice.reducer
