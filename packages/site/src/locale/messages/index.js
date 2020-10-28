@@ -8,6 +8,7 @@ import accounts from './accounts'
 import nomination from './nomination'
 import assets from './assets'
 import dex from './dex'
+import validators from './validators'
 
 export default {
   ...common,
@@ -19,5 +20,6 @@ export default {
   ...accounts,
   ...nomination,
   ...assets,
-  ...dex
+  ...dex,
+  ...validators
 }
