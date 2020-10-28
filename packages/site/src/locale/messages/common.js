@@ -23,6 +23,10 @@ export default {
     zh: '首页',
     en: 'Home'
   },
+  common_wallet: {
+    zh: '钱包',
+    en: 'Wallet'
+  },
   common_blockchain: {
     zh: '区块链',
     en: 'Chain'
