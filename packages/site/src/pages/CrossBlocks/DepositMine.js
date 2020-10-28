@@ -25,6 +25,7 @@ export default function DepositMine({ address }) {
   return (
     <div className="box">
       <Table
+        loading={loading}
         onChange={({ current, pageSize: size }) => {
           setPage(current)
           setPageSize(size)

@@ -46,7 +46,7 @@ async function extractExtrinsicBusinessData(
     methodName === 'pushtransaction' &&
     isSuccess === true
   ) {
-    // 更新Bitcoin转接桥- 区块列表
+    // 更新Bitcoin转接桥- 交易列表
     await extractCrossTransaction(events, hash, indexer, signer)
   }
 }

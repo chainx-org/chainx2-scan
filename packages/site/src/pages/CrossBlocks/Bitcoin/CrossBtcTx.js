@@ -33,6 +33,7 @@ export default function CrossBtcTx({ address }) {
 
   return (
     <Table
+      loading={loading}
       onChange={({ current, pageSize: size }) => {
         setPage(current)
         setPageSize(size)

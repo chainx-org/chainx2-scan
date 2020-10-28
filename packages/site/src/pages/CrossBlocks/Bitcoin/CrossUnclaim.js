@@ -33,6 +33,7 @@ export default function CrossUnclaim() {
 
   return (
     <Table
+      loading={loading}
       onChange={({ current, pageSize: size }) => {
         setPage(current)
         setPageSize(size)
@@ -89,12 +90,14 @@ export default function CrossUnclaim() {
               value={item.chainxExtrinsicHash}
             />
           ),
-          chainx_account_id: (
+          chainx_account_id: item.txData ? (
             <AddressLink
               style={{ width: 138 }}
               className="text-truncate"
               value={item.txData[1]}
             />
+          ) : (
+            ''
           ),
           asset_type: 'BTC'
         }
