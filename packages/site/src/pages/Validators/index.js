@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 
-import BlockDetail from './Detail'
 import BlocksList from './List'
 import ValidatorNodesList from './validatorNodes'
 import UnsettledNodesList from './unsettledNodes'
