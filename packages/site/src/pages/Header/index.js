@@ -16,6 +16,7 @@ export default withRouter(function(props) {
   const isMatchValidators = ['/validators'].some(
     path => !!matchPath(location.pathname, { path })
   )
+
   return (
     <nav className="navbar" role="navigation">
       <div className="container">
