@@ -63,7 +63,7 @@ export default function() {
           key: item._id,
           reward_pot_address: (
             <AddressLink
-              style={{ width: 138 }}
+              style={{ width: 69 }}
               className="text-truncate"
               value={item.rewardPotAccount}
             />

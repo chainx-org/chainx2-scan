@@ -52,7 +52,7 @@ export default function() {
           number: <BlockLink value={item.selfBonded} />,
           registered_block_height: (
             <BlockLink
-              style={{ width: 138 }}
+              style={{ width: 69 }}
               className="text-truncate"
               value={item.registeredAt}
             />

@@ -63,7 +63,7 @@ export default function() {
           key: item._id,
           reward_pot_address: (
             <AddressLink
-              style={{ width: 138 }}
+              style={{ width: 69 }}
               className="text-truncate"
               value={item.rewardPotAccount}
             />
@@ -125,6 +125,10 @@ export default function() {
         {
           title: $t('reward_pot_balance'),
           dataIndex: 'reward_pot_balance'
+        },
+        {
+          title: $t('reward_pot_address'),
+          dataIndex: 'reward_pot_address'
         },
         {
           title: $t('total_weight_last_update'),
