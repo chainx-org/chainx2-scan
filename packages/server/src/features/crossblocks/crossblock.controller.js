@@ -116,7 +116,10 @@ class crossBlocksController {
 
     for (let i = 0; i < items.length; i++) {
       // const withdrawState = await api.query.xGatewayRecords.withdrawalStateOf(items[i].data[0])
-      const withdrawState = withdrawList.toJSON()[items[i].data[0]].state
+      const withdrawState =
+        withdrawList.length > 0
+          ? withdrawList.toJSON()[items[i].data[0]].state
+          : ''
       items[i].withdrawState = withdrawState
     }
 

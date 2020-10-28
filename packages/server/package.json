@@ -6,8 +6,8 @@
     "start": "node src/index.js"
   },
   "dependencies": {
-    "@chainx-v2/account": "^0.0.44",
-    "@chainx-v2/api": "^0.0.44",
+    "@chainx-v2/account": "^0.0.45",
+    "@chainx-v2/api": "^0.0.45",
     "@polkadot/api": "^2.4.1",
     "@koa/cors": "^3.1.0",
     "@polkadot/keyring": "^3.6.1",

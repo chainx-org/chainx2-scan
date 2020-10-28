@@ -11,8 +11,8 @@
     "start": "node src/index.js"
   },
   "dependencies": {
-    "@chainx-v2/account": "^0.0.44",
-    "@chainx-v2/api": "^0.0.44",
+    "@chainx-v2/account": "^0.0.45",
+    "@chainx-v2/api": "^0.0.45",
     "@polkadot/api": "^2.4.1",
     "@polkadot/util-crypto": "^3.6.1",
     "@polkadot/util": "^3.6.1",
