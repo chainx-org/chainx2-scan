@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 
-import BlocksList from './List'
 import ValidatorNodesList from './validatorNodes'
 import UnsettledNodesList from './unsettledNodes'
 import TrusteeNodesList from './trusteeNodes'
@@ -27,7 +26,6 @@ export default function Validators() {
                 )}
                 {list === 'unsettled' && <UnsettledNodesList {...props} />}
                 {list === 'btc_trustees' && <TrusteeNodesList {...props} />}
-                {list === 'missed' && <BlocksList {...props} />}
               </div>
             </>
           )
