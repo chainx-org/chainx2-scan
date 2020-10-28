@@ -10,7 +10,7 @@ async function extractCrossTransaction(events, hash, indexer, signer) {
   for (let i = 0; i < events.length; i++) {
     const { event } = events[i]
     // Get tansaction balance from the events at the extrinsic
-    if (event.method === 'DepositToken' || event.method === 'WithdrawToken') {
+    if (event.method === 'Deposited' || event.method === 'Withdrawn') {
       crossBtcTxHash = event.data[0].toHex()
       // chainxAccount = event.data[1]
       btcBalance = event.data[2].toNumber()
@@ -20,7 +20,7 @@ async function extractCrossTransaction(events, hash, indexer, signer) {
 
   for (let i = 0; i < events.length; i++) {
     const { event } = events[i]
-    if (event.method === 'ProcessTx') {
+    if (event.method === 'TxProcessed') {
       const col = await getCrossTransactionCollection()
 
       const btcTxHash = event.data[0].toHex()

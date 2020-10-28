@@ -13,6 +13,9 @@ export default withRouter(function(props) {
   const isMatchCrossBlocks = ['/crossblocks'].some(
     path => !!matchPath(location.pathname, { path })
   )
+  const isMatchValidators = ['/validators'].some(
+    path => !!matchPath(location.pathname, { path })
+  )
   return (
     <nav className="navbar" role="navigation">
       <div className="container">
@@ -40,6 +43,15 @@ export default withRouter(function(props) {
               to="/blocks"
             >
               {$t('common_blockchain')}
+            </NavLink>
+            <NavLink
+              className={classnames('navbar-item is-tab', {
+                'is-active': isMatchValidators
+              })}
+              activeClassName="is-active"
+              to="/validators"
+            >
+              {$t('validators')}
             </NavLink>
             <NavLink
               className={classnames('navbar-item is-tab', {

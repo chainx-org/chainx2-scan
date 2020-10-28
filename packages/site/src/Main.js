@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import Blocks from './pages/Blocks'
+import Validators from './pages/Validators'
 import CrossBlocks from './pages/CrossBlocks'
 import Extrinsincs from './pages/Extrinsics'
 import Events from './pages/Events'
@@ -18,6 +19,7 @@ export default function Main() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/blocks" component={Blocks} />
+          <Route path="/validators" component={Validators} />
           <Route path="/crossblocks" component={CrossBlocks} />
           <Route path="/extrinsics" component={Extrinsincs} />
           <Route path="/events" component={Events} />
