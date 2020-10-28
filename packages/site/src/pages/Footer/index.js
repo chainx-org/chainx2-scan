@@ -5,6 +5,7 @@ import classnames from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import { useRedux } from '../../shared'
 import { ReactComponent as Up } from '../../assets/open.svg'
+import { IntlProvider } from 'react-intl'
 
 export const LangChanger = function() {
   const languages = ['中文', 'English']
@@ -66,70 +67,72 @@ export const LangChanger = function() {
 
 export default function Footer() {
   return (
-    <div className="page-footer">
-      <div className="container">
-        <ul className="footer-start">
-          <li>
-            <a
-              href="https://chainx.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ChainX
-              <FormattedMessage id="HOME" />
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://wallet.chainx.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FormattedMessage id="WALLET" />
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://twitter.com/chainx_org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Twitter
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/chainx-org/ChainX"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://t.me/chainx_org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Telegram
-            </a>
-          </li>
-          <li className="chainx-code-wrapper">
-            WeChat
-            <div className="chainx-code">
-              <img src={weixin} alt="" />
-            </div>
-          </li>
-          <li>
-            <a href="mailto:hi@chainx.org">hi@chainx.org</a>
-          </li>
-        </ul>
-        <div className="footer-end">
-          <LangChanger />
-          Copyright © 2020 ChainX
+    <IntlProvider locale="en">
+      <div className="page-footer">
+        <div className="container">
+          <ul className="footer-start">
+            <li>
+              <a
+                href="https://chainx.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ChainX
+                <FormattedMessage id="HOME" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://wallet.chainx.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FormattedMessage id="WALLET" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://twitter.com/chainx_org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/chainx-org/ChainX"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://t.me/chainx_org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Telegram
+              </a>
+            </li>
+            <li className="chainx-code-wrapper">
+              WeChat
+              <div className="chainx-code">
+                <img src={weixin} alt="" />
+              </div>
+            </li>
+            <li>
+              <a href="mailto:hi@chainx.org">hi@chainx.org</a>
+            </li>
+          </ul>
+          <div className="footer-end">
+            <LangChanger />
+            Copyright © 2019 ChainX
+          </div>
         </div>
       </div>
-    </div>
+    </IntlProvider>
   )
 }
