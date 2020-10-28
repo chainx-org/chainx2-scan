@@ -7,7 +7,7 @@ import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
 import TxAction from '../../../components/TxAction'
 import { useLoad } from '../../../utils/hooks'
-
+import arrayObjectDeDuplication from '../../../utils/arrayObjectDeDuplication'
 export default function({ blockHeight }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
@@ -21,7 +21,10 @@ export default function({ blockHeight }) {
     api.fetchBlockEvents,
     params
   )
-
+  let list = arrayObjectDeDuplication(extrinsics, 'extrinsicHash')
+  const renderList = list.sort(function(a, b) {
+    return a.phase.value - b.phase.value
+  })
   return (
     <Table
       loading={loading}
@@ -40,9 +43,9 @@ export default function({ blockHeight }) {
           </div>
         )
       }}
-      dataSource={extrinsics.map(item => {
+      dataSource={renderList.map(item => {
         return {
-          key: item.extrinsicHash,
+          key: item._id,
           extrinsicHash: (
             <TxLink
               style={{ width: 136 }}
@@ -54,7 +57,7 @@ export default function({ blockHeight }) {
           blockTime: <DateShow value={item.indexer.blockTime} />,
           action: <TxAction module={item.section} call={item.name} />,
           number: item.phase.value,
-          method: $t(item.method),
+          method: $t(item.method) || item.method,
           type: $t(item.phase.type),
           args: item.meta.args,
           data: item.data
