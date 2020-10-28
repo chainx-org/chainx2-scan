@@ -1,4 +1,5 @@
 const { getDb } = require('../../services/mongo')
+const { getApi } = require('../../api')
 const { extractPage } = require('../../utils')
 
 class crossBlocksController {
@@ -66,14 +67,16 @@ class crossBlocksController {
     }
 
     const db = await getDb()
-    const col = await db.collection('crossTransaction')
+    const col = await db.collection('event')
 
-    const query = { txType: 'Deposit' }
+    const query = {
+      $and: [{ section: 'xGatewayBitcoin' }, { method: 'Deposited' }]
+    }
 
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ btcHeight: -1 })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
@@ -94,17 +97,28 @@ class crossBlocksController {
     }
 
     const db = await getDb()
-    const col = await db.collection('crossTransaction')
+    const col = await db.collection('event')
 
-    const query = { txType: 'Deposit' }
+    const query = {
+      $and: [{ section: 'xGatewayRecords' }, { method: 'WithdrawalCreated' }]
+    }
 
     const total = await col.countDocuments(query)
-    const items = await col
+    let items = await col
       .find(query)
-      .sort({ btcHeight: -1 })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
+
+    const api = await getApi()
+    const withdrawList = await api.rpc.xgatewayrecords.withdrawalList()
+
+    for (let i = 0; i < items.length; i++) {
+      // const withdrawState = await api.query.xGatewayRecords.withdrawalStateOf(items[i].data[0])
+      const withdrawState = withdrawList.toJSON()[items[i].data[0]].state
+      items[i].withdrawState = withdrawState
+    }
 
     ctx.body = {
       items,
