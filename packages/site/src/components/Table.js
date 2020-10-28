@@ -20,7 +20,7 @@ export default function Table({ ..._props }) {
         showQuickJumper: true,
         itemRender: (current, type, originalElement) => {
           if (type === 'prev') {
-            return <a className="btn-border">{$t('COMMON_NEXT_PAGE')}</a>
+            return <a className="btn-border">{$t('COMMON_PRE_PAGE')}</a>
           }
           if (type === 'jump-prev') {
             return <span onClick={e => e.stopPropagation()}>...</span>
