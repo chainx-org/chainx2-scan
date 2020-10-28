@@ -469,6 +469,10 @@ a:focus {
         }
       }
     }
+    .navbar-end{
+      display: flex;
+      align-items: center;
+    }
     .navbar-search {
       position: relative;
       .search {

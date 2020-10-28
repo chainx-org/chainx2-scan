@@ -1,6 +1,10 @@
 import { from, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { makeCancelable } from '../utils'
+import hexAddPrefix from '@polkadot/util/hex/addPrefix'
+import hexStripPrefix from '@polkadot/util/hex/stripPrefix'
+
+import { decodeAddress } from '../shared'
 
 const paramsKeyConvert = (str = '') =>
   str.replace(/[A-Z]/g, ([s]) => `_${s.toLowerCase()}`)
@@ -157,6 +161,80 @@ class Api {
         return result
       })
     )
+  }
+  /**
+   * 搜索，返回一个对象
+   */
+  search = async (input = '') => {
+    input = input.trim()
+    if (input === '') {
+      return { result: `/blocks/您的输入为空` }
+    }
+    if (
+      isNaN(input) &&
+      /^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{48,}$/.test(
+        input
+      )
+    ) {
+      try {
+        const address = decodeAddress(input)
+        return {
+          result: `/accounts/${address}`
+        }
+      } catch {}
+    }
+    if (!isNaN(input) && /^\d*$/.test(input)) {
+      return {
+        result: `/blocks/${input}`
+      }
+    }
+    try {
+      const { result: txResult, error: txError } = await this.fetch(
+        `/tx/${hexStripPrefix(input)}`
+      )
+      if (txResult && !txError) {
+        return {
+          result: `/txs/${hexAddPrefix(input)}`
+        }
+      }
+      const { result: blockResult, error: blockError } = await this.fetch(
+        `/blocks/${hexAddPrefix(input)}`
+      )
+
+      if (blockResult && !blockError) {
+        return {
+          result: `/blocks/${hexAddPrefix(input)}`
+        }
+      }
+      const { result: accountResult, error: accountError } = await this.fetch(
+        `/account/${hexAddPrefix(input)}/detail`
+      )
+      if (accountResult && !accountError) {
+        return {
+          result: `/accounts/${hexAddPrefix(input)}`
+        }
+      }
+      const { result: blockHash, error: blockHashError } = await this.fetch(
+        `/extrinsics/${hexAddPrefix(input)}`
+      )
+      if (blockHash && !blockHashError) {
+        return {
+          result: `/extrinsics/${hexAddPrefix(input)}/detail`
+        }
+      }
+
+      return {
+        error: {
+          message: '找不到对应的交易、区块或账号'
+        }
+      }
+    } catch (e) {
+      return {
+        error: {
+          message: '无效的值'
+        }
+      }
+    }
   }
 }
 
