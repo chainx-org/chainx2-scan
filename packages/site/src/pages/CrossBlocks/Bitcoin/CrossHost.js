@@ -34,6 +34,7 @@ export default function CrossHost({ address }) {
 
   return (
     <Table
+      loading={loading}
       onChange={({ current, pageSize: size }) => {
         setPage(current)
         setPageSize(size)

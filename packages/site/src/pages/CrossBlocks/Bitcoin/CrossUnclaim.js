@@ -33,6 +33,7 @@ export default function CrossUnclaim() {
 
   return (
     <Table
+      loading={loading}
       onChange={({ current, pageSize: size }) => {
         setPage(current)
         setPageSize(size)

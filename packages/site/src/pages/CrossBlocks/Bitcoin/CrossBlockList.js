@@ -32,6 +32,7 @@ export default function CrossBlocksList({ address }) {
 
   return (
     <Table
+      loading={loading}
       onChange={({ current, pageSize: size }) => {
         setPage(current)
         setPageSize(size)
