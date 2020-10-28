@@ -35,6 +35,10 @@ export default {
     zh: '提现列表',
     en: 'Withdraw'
   },
+  withdrawal_id: {
+    zh: '提现ID',
+    en: 'Withdrawal ID'
+  },
   cross_host_list: {
     zh: '托管地址列表',
     en: 'Host'
@@ -131,9 +135,9 @@ export default {
     zh: 'ChainX申请地址',
     en: 'ChainX Withdraw Address'
   },
-  chainx_withdraw_time: {
-    zh: '提现时间',
-    en: 'Withdraw Time'
+  chainx_withdraw_created_time: {
+    zh: '提现发起时间',
+    en: 'Withdraw Created Time'
   },
   cross_withdraw_asset: {
     zh: '资产',

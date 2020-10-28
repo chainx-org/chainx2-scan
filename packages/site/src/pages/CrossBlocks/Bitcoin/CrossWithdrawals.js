@@ -33,17 +33,20 @@ export default function CrossWithdrawals({ address }) {
 
   return (
     <Table
+      loading={loading}
       onChange={({ current, pageSize: size }) => {
         setPage(current)
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
       dataSource={items.map(item => {
-        const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
-        const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
+        // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
+        // const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
         return {
           key: item._id,
-          id: item.btcHash,
+          // id: item.btcHash,
+          withdrawal_id: item.data[0],
+          /*
           btc_hash: (
             <ExternalLink
               type="btcTestnetHash"
@@ -59,6 +62,8 @@ export default function CrossWithdrawals({ address }) {
               }}
             />
           ),
+          */
+          /*
           btc_tx_hash: (
             <ExternalLink
               type="btcTestnetTxid"
@@ -74,9 +79,13 @@ export default function CrossWithdrawals({ address }) {
               }}
             />
           ),
+          */
+          btc_withdraw_address: (
+            <ExternalLink type="btcTestnetAddress" value={item.data[1].addr} />
+          ),
           tx_balance: (
             <Amount
-              value={item.balance}
+              value={item.data[1].balance}
               precision={8}
               symbol={'BTC'}
               hideSymbol
@@ -86,21 +95,28 @@ export default function CrossWithdrawals({ address }) {
             <TxLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.chainxExtrinsicHash}
+              value={item.extrinsicHash}
             />
           ),
-          chainx_account_id: (
+          chainx_account_id: item.data ? (
             <AddressLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.txData[1]}
+              value={item.data[1].applicant}
             />
+          ) : (
+            ''
           ),
           asset_type: 'BTC',
-          chainx_time: <DateShow value={item.chainxTime} />
+          chainx_time: <DateShow value={item.indexer.blockTime} />,
+          state: item.withdrawState
         }
       })}
       columns={[
+        {
+          title: $t('withdrawal_id'),
+          dataIndex: 'withdrawal_id'
+        },
         {
           title: $t('chainx_ex_hash'),
           dataIndex: 'chainx_ex_hash'
@@ -109,16 +125,18 @@ export default function CrossWithdrawals({ address }) {
           title: $t('chainx_withdraw_account_id'),
           dataIndex: 'chainx_account_id'
         },
+        /*
         {
           title: $t('cross_btc_tx_hash'),
           dataIndex: 'btc_tx_hash'
         },
+        */
         {
           title: $t('btc_withdraw_address'),
-          dataIndex: 'btc_hash'
+          dataIndex: 'btc_withdraw_address'
         },
         {
-          title: $t('chainx_withdraw_time'),
+          title: $t('chainx_withdraw_created_time'),
           dataIndex: 'chainx_time'
         },
         {

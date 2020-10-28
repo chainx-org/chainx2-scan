@@ -39,10 +39,11 @@ export default function CrossDeposits({ address }) {
       }}
       pagination={{ current: page, pageSize, total }}
       dataSource={items.map(item => {
-        const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
-        const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
+        // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
+        const btcTxHashForExplorer = swapEndian(item.data[0].slice(2))
         return {
           key: item._id,
+          /*
           id: item.btcHash,
           btc_hash: (
             <ExternalLink
@@ -59,6 +60,7 @@ export default function CrossDeposits({ address }) {
               }}
             />
           ),
+          */
           btc_tx_hash: (
             <ExternalLink
               type="btcTestnetTxid"
@@ -74,11 +76,11 @@ export default function CrossDeposits({ address }) {
               }}
             />
           ),
-          tx_type: <TxType value={item.txType} />,
+          // tx_type: <TxType value={item.txType} />,
 
           tx_balance: (
             <Amount
-              value={item.balance}
+              value={item.data[2]}
               precision={8}
               symbol={'BTC'}
               hideSymbol
@@ -88,25 +90,29 @@ export default function CrossDeposits({ address }) {
             <TxLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.chainxExtrinsicHash}
+              value={item.extrinsicHash}
             />
           ),
-          chainx_account_id: (
+          chainx_account_id: item.data ? (
             <AddressLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.txData[1]}
+              value={item.data[1]}
             />
+          ) : (
+            ''
           ),
           asset_type: 'BTC',
-          chainx_time: <DateShow value={item.chainxTime} />
+          chainx_time: <DateShow value={item.indexer.blockTime} />
         }
       })}
       columns={[
+        /*
         {
           title: $t('cross_block_hash'),
           dataIndex: 'btc_hash'
         },
+        */
         {
           title: $t('cross_btc_tx_hash'),
           dataIndex: 'btc_tx_hash'
