@@ -54,7 +54,7 @@ export default function() {
           number: <BlockLink value={item.selfBonded} />,
           registered_block_height: (
             <BlockLink
-              style={{ width: 138 }}
+              style={{ width: 69 }}
               className="text-truncate"
               value={item.registeredAt}
             />
@@ -85,22 +85,30 @@ export default function() {
               hideSymbol
             />
           ),
-          nominations_last_update: (
+          weight_last_update: (
             <BlockLink
-              style={{ width: 138 }}
+              style={{ width: 69 }}
               className="text-truncate"
               value={item.lastTotalVoteWeightUpdate}
             />
           ),
           total_weight: (
             <Amount value={item.lastTotalVoteWeight} precision={8} hideSymbol />
-          )
+          ),
+          total_nomination: (
+            <Amount value={item.totalNomination} precision={8} hideSymbol />
+          ),
+          referral_id: item.referralId
         }
       })}
       columns={[
         {
           title: $t('address_item'),
           dataIndex: 'account_address'
+        },
+        {
+          title: $t('referral_id'),
+          dataIndex: 'referral_id'
         },
         {
           title: $t('registered_block_height'),
@@ -112,19 +120,19 @@ export default function() {
         },
         {
           title: $t('total_nominations'),
-          dataIndex: 'total_weight'
+          dataIndex: 'total_nomination'
         },
         {
           title: $t('reward_pot_balance'),
           dataIndex: 'reward_pot_balance'
         },
         {
-          title: $t('reward_pot_address'),
-          dataIndex: 'reward_pot_address'
+          title: $t('total_weight_last_update'),
+          dataIndex: 'weight_last_update'
         },
         {
-          title: $t('total_nomination_last_update'),
-          dataIndex: 'nominations_last_update'
+          title: $t('total_vote_weight'),
+          dataIndex: 'total_weight'
         }
       ]}
     />

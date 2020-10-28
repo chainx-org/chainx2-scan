@@ -27,8 +27,16 @@ export default {
     zh: '总得票数(PCX)',
     en: 'Total Nominations(PCX)'
   },
-  total_nomination_last_update: {
-    zh: '得票数更新高度',
-    en: 'Total Nominations Last Update'
+  total_vote_weight: {
+    zh: '总票龄',
+    en: 'Total Weight'
+  },
+  referral_id: {
+    zh: '推荐人',
+    en: 'Referral ID'
+  },
+  total_weight_last_update: {
+    zh: '更新高度',
+    en: 'Total Last Update'
   }
 }
