@@ -4,6 +4,7 @@ import { Table } from '../../components'
 import $t from '../../locale'
 import DateShow from '../../components/DateShow'
 import BlockLink from '../../components/BlockLink'
+import AddressLink from '@components/AddressLink'
 import { useLoad } from '../../utils/hooks'
 
 export default function() {
@@ -34,6 +35,13 @@ export default function() {
               value={item.hash}
             />
           ),
+          author: (
+            <AddressLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.author}
+            />
+          ),
           timestamp: <DateShow value={item.blockTime} />,
           extrinsicNum: (item.extrinsics || []).length,
           key: item.hash
@@ -51,6 +59,10 @@ export default function() {
         {
           title: $t('block_time'),
           dataIndex: 'timestamp'
+        },
+        {
+          title: $t('block_author'),
+          dataIndex: 'author'
         },
         {
           title: $t('block_extrinsic_num'),

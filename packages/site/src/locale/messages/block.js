@@ -38,5 +38,9 @@ export default {
   block_latest_blocks: {
     zh: '最新区块',
     en: 'Latest Blocks'
+  },
+  block_author: {
+    zh: '验证人',
+    en: 'Author'
   }
 }
