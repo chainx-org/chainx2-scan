@@ -156,6 +156,9 @@ class Api {
   fetchBlockEvents = params => {
     return this.cancelableFetch('/blockEvents', params)
   }
+  fetchExtrinsicEvents = params => {
+    return this.cancelableFetch('/extrinsicEvents', params)
+  }
   fetchAccounts = params => {
     return this.cancelableFetch('/accounts', params)
   }

@@ -5,4 +5,5 @@ const router = new Router()
 router.get('/events', eventController.getEvents)
 router.get('/events/:id', eventController.getEvent)
 router.get('/blockEvents', eventController.getBlockEvents)
+router.get('/extrinsicEvents', eventController.getExtrinsicEvents)
 module.exports = router

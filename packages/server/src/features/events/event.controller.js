@@ -17,7 +17,7 @@ class EventController {
     const total = await col.estimatedDocumentCount()
     const blocks = await col
       .find({})
-      .sort({ 'header.number': -1 })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
@@ -29,6 +29,7 @@ class EventController {
       total
     }
   }
+
   async getBlockEvents(ctx) {
     const { page, pageSize } = extractPage(ctx)
     if (pageSize === 0) {
@@ -51,6 +52,34 @@ class EventController {
 
     ctx.body = {
       items: extrinsics,
+      page,
+      pageSize,
+      total
+    }
+  }
+
+  async getExtrinsicEvents(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+    const { extrinsic_hash } = ctx.query
+    let query = {}
+    if (extrinsic_hash) {
+      query = { extrinsicHash: extrinsic_hash }
+    }
+    const col = await getEventCollection()
+    const total = await col.countDocuments(query)
+    const events = await col
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items: events,
       page,
       pageSize,
       total

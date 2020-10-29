@@ -3,27 +3,28 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import Main from './Main'
 import Header from './pages/Header'
 import Footer from './pages/Footer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchForeignAssetsInfo,
   fetchNativeAssetInfo
 } from '@src/store/reducers/assetSlice'
+import { localeSelector } from '@src/store/reducers/settingsSlice'
 
 function App() {
   const dispatch = useDispatch()
+  const { locale } = useSelector(localeSelector) || {}
+
   useEffect(() => {
     dispatch(fetchNativeAssetInfo())
     dispatch(fetchForeignAssetsInfo())
-  }, [dispatch])
+  }, [dispatch, locale])
 
   return (
     <Router>
       <React.Fragment>
         <Header />
         <Main />
-        {/*
         <Footer />
-        */}
       </React.Fragment>
     </Router>
   )

@@ -5,7 +5,6 @@ import * as format from 'string-template'
 export default function $t(key, args) {
   const locale = store.getState().settings.locale
   const reversedLocale = locale === 'en' ? 'zh' : 'en'
-
   const value = messages[key]
   if (!value) {
     return ''

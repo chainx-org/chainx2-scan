@@ -8,8 +8,8 @@ export default {
     en: 'Next'
   },
   COMMON_TOTAL: {
-    zh: 'Total',
-    en: '共'
+    zh: '共',
+    en: 'Total'
   },
   COMMON_UNIT: {
     zh: '个',
@@ -22,6 +22,10 @@ export default {
   common_home: {
     zh: '首页',
     en: 'Home'
+  },
+  common_wallet: {
+    zh: '钱包',
+    en: 'Wallet'
   },
   common_blockchain: {
     zh: '区块链',

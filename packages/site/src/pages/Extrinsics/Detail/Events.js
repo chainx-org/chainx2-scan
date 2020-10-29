@@ -16,7 +16,10 @@ export default function({ extrinsicHash }) {
     [extrinsicHash, page, pageSize]
   )
 
-  const { items: events, loading, total } = useLoad(api.fetchEvents, params)
+  const { items: events, loading, total } = useLoad(
+    api.fetchExtrinsicEvents,
+    params
+  )
 
   return (
     <div className="box">
