@@ -8,8 +8,8 @@ export default {
     en: 'Next'
   },
   COMMON_TOTAL: {
-    zh: 'Total',
-    en: '共'
+    zh: '共',
+    en: 'Total'
   },
   COMMON_UNIT: {
     zh: '个',
