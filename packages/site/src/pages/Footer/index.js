@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from 'react'
-
 import weixin from '../../assets/weixin.jpg'
 import classnames from 'classnames'
-import { FormattedMessage } from 'react-intl'
 import { useRedux } from '../../shared'
 import { ReactComponent as Up } from '../../assets/open.svg'
 import { IntlProvider } from 'react-intl'
-
+import $t from '../../locale'
+import { store } from '../../index'
 export const LangChanger = function() {
   const languages = ['中文', 'English']
-  const [{ local }, setLocal] = useRedux('locale')
+  const [{ local }, setLocal] = useRedux('settings')
+  console.log(local)
+  const localezz = store.getState().settings.locale
+  console.log(localezz, 'zz')
 
   let activeLang = languages[0]
-
-  if (!!local) {
-    if (local === 'zh-CN') {
-      activeLang = '中文'
-    } else {
-      activeLang = 'English'
-    }
-  }
-
   const [language, setLanguage] = useState(activeLang)
   const [active, setActive] = useState(false)
 
   const handleChange = language => {
     setLanguage(language)
     if (language === '中文') {
-      localStorage.setItem('locale', 'zh-CN')
-      setLocal({ local: 'zh-CN' })
+      localStorage.setItem('locale', 'zh')
+      setLocal({ local: 'zh' })
     } else {
       localStorage.setItem('locale', 'en')
       setLocal({ local: 'en' })
@@ -67,7 +60,7 @@ export const LangChanger = function() {
 
 export default function Footer() {
   return (
-    <IntlProvider locale="en">
+    <IntlProvider>
       <div className="page-footer">
         <div className="container">
           <ul className="footer-start">
@@ -77,8 +70,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ChainX
-                <FormattedMessage id="HOME" />
+                ChainX{$t('common_home')}
               </a>
             </li>
             <li>
@@ -87,7 +79,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FormattedMessage id="WALLET" />
+                {$t('common_wallet')}
               </a>
             </li>
             <li>
@@ -129,7 +121,7 @@ export default function Footer() {
           </ul>
           <div className="footer-end">
             <LangChanger />
-            Copyright © 2019 ChainX
+            Copyright © 2020 ChainX
           </div>
         </div>
       </div>

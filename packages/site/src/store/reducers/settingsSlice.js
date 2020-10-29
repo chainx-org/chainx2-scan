@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    locale: 'zh'
+    locale: 'en'
   },
   reducers: {
     setLocale(state, action) {
