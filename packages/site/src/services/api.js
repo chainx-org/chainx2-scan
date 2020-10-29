@@ -60,7 +60,12 @@ class Api {
       })
     )
   }
-
+  /**
+   * 获取最新的链的状态
+   */
+  fetchChainStatus$ = () => {
+    return this.createObservable('CHAIN_STATUS', 'chainStatus')
+  }
   /**
    * 获取区块列表
    */
