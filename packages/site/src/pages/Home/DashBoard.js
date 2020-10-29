@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-
 import { FormattedMessage } from 'react-intl'
-
 import { useRedux } from '../../shared'
 import api from '../../services/api'
 import { Amount, NumberFormat, AntSpinner as Spinner } from '../../components'
 import PCX from '../../assets/tokens/pcx.png'
-// import Transaction from "./Transaction";
-import PowerPie from './PowerPie'
+import $t from '../../locale'
 
 export default function DashBoard() {
   const [{ data }, setState] = useRedux('dashBoard', { data: {} })
@@ -24,8 +21,7 @@ export default function DashBoard() {
     {
       label: (
         <div>
-          <FormattedMessage id="LATESTBLOCK" /> /{' '}
-          <FormattedMessage id="CONFIRMBLOCK" />
+          {$t('latest_block')} / {$t('finalized_block')}
         </div>
       ),
       data: (
@@ -39,8 +35,7 @@ export default function DashBoard() {
       label: (
         <>
           ChainX
-          <FormattedMessage id="TRANSACTIONCOUNT" /> /{' '}
-          <FormattedMessage id="ACCOUNTCOUNT" />
+          {$t('total_extrinsics')} / {$t('total_accounts')}
         </>
       ),
       data: (
@@ -53,8 +48,7 @@ export default function DashBoard() {
     {
       label: (
         <>
-          <FormattedMessage id="智能合约数" /> /{' '}
-          <FormattedMessage id="调用数" />
+          {$t('contracts_counts')} / {$t('call_counts')}
         </>
       ),
       data: (
@@ -69,8 +63,7 @@ export default function DashBoard() {
     {
       label: (
         <div>
-          <FormattedMessage id="VALIDATORS" /> /{' '}
-          <FormattedMessage id="VALIDATORVOTESESSION" />
+          {$t('validators_number')} / {$t('elections')}
         </div>
       ),
       data: (
@@ -85,8 +78,7 @@ export default function DashBoard() {
     {
       label: (
         <div>
-          <FormattedMessage id="RELEASECOUNT" /> /{' '}
-          <FormattedMessage id="ELECTIONRATE" />
+          {$t('total_issuance')} / {$t('turnout')}
         </div>
       ),
       data: (
@@ -100,15 +92,15 @@ export default function DashBoard() {
       )
     },
     {
-      label: <FormattedMessage id="MORTGAGECOUNT" />,
+      label: $t('intention_bonded'),
       data: <Amount value={data.selfvote_count} hideSymbol />
     },
     {
-      label: <FormattedMessage id="USERVOTECOUNT" />,
+      label: $t('use_vote'),
       data: <Amount value={data.votes} hideSymbol />
     },
     {
-      label: <FormattedMessage id="TRADEPRICE" />,
+      label: $t('price'),
       // 写死了精度 9
       data: (
         <Amount
@@ -123,8 +115,7 @@ export default function DashBoard() {
     {
       label: (
         <div>
-          <FormattedMessage id="BTCMINING" /> /{' '}
-          <FormattedMessage id="SDOTMINING" />
+          {$t('btc_mining')} / {$t('sdot_mining')}
         </div>
       ),
       data: (
@@ -154,7 +145,7 @@ export default function DashBoard() {
       <section className="panel" style={{ flex: 1, marginRight: 16 }}>
         <div className="panel-heading">
           <img src={PCX} alt="pcx" className="panel-heading-icon" />
-          <FormattedMessage id="CHAINSTATUS" />
+          {$t('chain_status')}
         </div>
         <div
           className="panel-block align-start"
@@ -182,12 +173,8 @@ export default function DashBoard() {
         </div>
       </section>
       <div className="panel" style={{ width: 417, marginBottom: '1.25rem' }}>
-        <div className="panel-heading">
-          <FormattedMessage id="POWER_DISTRIBUTION" />
-        </div>
-        <div className="panel-block align-start">
-          <PowerPie />
-        </div>
+        <div className="panel-heading">{$t('power_distributton')}</div>
+        <div className="panel-block align-start"></div>
       </div>
     </div>
   )
