@@ -2,6 +2,7 @@ import React from 'react'
 import BestBlocks from './BestBlocks'
 import BestExtrinsics from './BestExtrinsics'
 import DashBoard from './DashBoard'
+import BtcStatus from './BtcStatus'
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           <BestExtrinsics />
         </div>
       </div>
+      <BtcStatus />
     </section>
   )
 }
