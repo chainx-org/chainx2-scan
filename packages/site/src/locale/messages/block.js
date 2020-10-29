@@ -39,6 +39,10 @@ export default {
     zh: '最新区块',
     en: 'Latest Blocks'
   },
+  block_latest_height: {
+    zh: '最新块高',
+    en: 'Latest Block'
+  },
   latest_block: {
     zh: '最新高度',
     en: 'Latest Block'
