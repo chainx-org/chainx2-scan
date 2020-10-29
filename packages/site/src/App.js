@@ -24,9 +24,7 @@ function App() {
       <React.Fragment>
         <Header />
         <Main />
-        {/*
         <Footer />
-        */}
       </React.Fragment>
     </Router>
   )
