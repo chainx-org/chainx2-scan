@@ -38,5 +38,9 @@ export default {
   ex_params: {
     zh: '参数',
     en: 'Arguments'
+  },
+  total_extrinsics: {
+    zh: '交易总数',
+    en: 'Total Extrinsics'
   }
 }
