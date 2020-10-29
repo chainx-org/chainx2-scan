@@ -1,15 +1,26 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { latestBlocksSelector } from '../../store/reducers/latestBlockSlice'
+import React, { useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 import $t from '../../locale'
-import Spinner from '../../components/Spinner'
-import BlockLink from '../../components/BlockLink'
-import NumberFormat from '../../components/NumberFormat'
-import SeeAll from './SeeAll'
-import AddressLink from '@components/AddressLink'
+import {
+  BlockLink,
+  NumberFormat,
+  AntSpinner as Spinner,
+  ValidatorLink
+} from '../../components'
+import { useRedux } from '../../shared'
+import api from '../../services/api'
+import { ReactComponent as Right } from '../../assets/right.svg'
+import { FormattedMessage } from 'react-intl'
 
 export default function BestBlocks() {
-  const blocks = useSelector(latestBlocksSelector)
+  const [{ blocks }, setState] = useRedux('bestBlocks', { blocks: [] })
+
+  useEffect(() => {
+    const subscription = api
+      .fetchLatestBlocks$()
+      .subscribe(data => setState({ blocks: data }))
+    return () => subscription.unsubscribe()
+  }, [api])
 
   const loading = (
     <tr style={{ height: 222, background: '#fff' }}>
@@ -21,12 +32,7 @@ export default function BestBlocks() {
 
   return (
     <section className="panel">
-      <div
-        className="panel-heading"
-        style={{ borderBottom: '1px solid #dbdbdb' }}
-      >
-        {$t('block_latest_blocks')}
-      </div>
+      <div className="panel-heading">{$t('block_latest_blocks')}</div>
       <div className="panel-block">
         <table className="table is-striped is-fullwidth data-table">
           <thead>
@@ -38,26 +44,32 @@ export default function BestBlocks() {
           </thead>
           <tbody>
             {blocks && blocks.length
-              ? blocks.slice(0, 6).map(({ author, number, extrinsicsCnt }) => {
-                  return (
-                    <tr key={number}>
-                      <td>
-                        <BlockLink value={number} />
-                      </td>
-                      <td>
-                        <AddressLink short={true} value={author} />
-                      </td>
-                      <td className="has-text-right">
-                        <NumberFormat value={extrinsicsCnt} />
-                      </td>
-                    </tr>
-                  )
-                })
+              ? blocks.slice(0, 6).map(({ number, producer, extrinsics }) => (
+                  <tr key={number}>
+                    <td>
+                      <BlockLink value={number} />
+                    </td>
+                    <td>
+                      <ValidatorLink value={producer} />
+                    </td>
+                    <td className="has-text-right">
+                      <NumberFormat value={extrinsics} />
+                    </td>
+                  </tr>
+                ))
               : loading}
           </tbody>
         </table>
       </div>
-      <SeeAll link="/blocks" />
+      <div
+        className="panel-block panel-footer-link"
+        style={{ justifyContent: 'center' }}
+      >
+        <NavLink className="view-more" to="/blocks">
+          {$t('see_all')}
+          <Right className="right" />
+        </NavLink>
+      </div>
     </section>
   )
 }
