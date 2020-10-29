@@ -66,6 +66,21 @@ class Api {
   fetchChainStatus$ = () => {
     return this.createObservable('CHAIN_STATUS', 'chainStatus')
   }
+  createObservable = (name, eventName) => {
+    if (!this.socket) {
+      this.socket = new Socket()
+    }
+    return new Observable(observer => {
+      this.socket.connectHandler(name)
+      this.socket.socket.on(eventName, data => {
+        observer.next(data)
+      })
+      return () => {
+        this.socket.socket.removeListener(eventName)
+        this.socket.closeHandler(name)
+      }
+    })
+  }
   /**
    * 获取区块列表
    */
