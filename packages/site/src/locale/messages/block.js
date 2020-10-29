@@ -38,5 +38,49 @@ export default {
   block_latest_blocks: {
     zh: '最新区块',
     en: 'Latest Blocks'
+  },
+  latest_block: {
+    zh: '最新高度',
+    en: 'Latest Block'
+  },
+  finalized_block: {
+    zh: '确认高度',
+    en: 'Finalized Block'
+  },
+  power_distributton: {
+    zh: '挖矿收益比率',
+    en: 'Mining Distribution'
+  },
+  chain_status: {
+    zh: '链状态',
+    en: 'Chain Statistics'
+  },
+  sdot_mining: {
+    zh: 'SDOT 算力',
+    en: 'S-DOT Power'
+  },
+  btc_mining: {
+    zh: 'BTC算力',
+    en: 'BTC Power'
+  },
+  price: {
+    zh: '价格(PCX/BTC)',
+    en: 'Total Issuance(PCX) / Turnout'
+  },
+  use_vote: {
+    zh: '用户投票总数(PCX)',
+    en: 'Total Bonded(PCX)'
+  },
+  intention_bonded: {
+    zh: '节点抵押总数(PCX)',
+    en: 'Total Intention-Bonded(PCX)'
+  },
+  turnout: {
+    zh: '投票率',
+    en: 'Turnout'
+  },
+  total_issuance: {
+    zh: '发行总量(PCX)',
+    en: 'Total Issuance(PCX)'
   }
 }
