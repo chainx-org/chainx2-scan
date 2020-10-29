@@ -17,7 +17,7 @@ class EventController {
     const total = await col.estimatedDocumentCount()
     const blocks = await col
       .find({})
-      .sort({ 'header.number': -1 })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
