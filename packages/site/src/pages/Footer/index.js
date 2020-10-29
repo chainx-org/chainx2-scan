@@ -1,36 +1,23 @@
 import React, { useState, useEffect } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
 import weixin from '../../assets/weixin.jpg'
 import classnames from 'classnames'
-import { FormattedMessage } from 'react-intl'
-import { useRedux } from '../../shared'
 import { ReactComponent as Up } from '../../assets/open.svg'
+import $t from '../../locale'
+import { changeLocale, localeSelector } from '@src/store/reducers/settingsSlice'
 
 export const LangChanger = function() {
   const languages = ['中文', 'English']
-  const [{ local }, setLocal] = useRedux('locale')
-
-  let activeLang = languages[0]
-
-  if (!!local) {
-    if (local === 'zh-CN') {
-      activeLang = '中文'
-    } else {
-      activeLang = 'English'
-    }
-  }
-
-  const [language, setLanguage] = useState(activeLang)
+  let activeLanguageIndex = 0
   const [active, setActive] = useState(false)
 
+  const dispatch = useDispatch()
+
   const handleChange = language => {
-    setLanguage(language)
     if (language === '中文') {
-      localStorage.setItem('locale', 'zh-CN')
-      setLocal({ local: 'zh-CN' })
+      dispatch(changeLocale('zh'))
     } else {
-      localStorage.setItem('locale', 'en')
-      setLocal({ local: 'en' })
+      dispatch(changeLocale('en'))
     }
     setActive(false)
   }
@@ -38,6 +25,8 @@ export const LangChanger = function() {
   const setNagtive = e => {
     if (e.toElement.className !== 'show-lang') setActive(false)
   }
+
+  activeLanguageIndex = useSelector(localeSelector) === 'zh' ? 0 : 1
 
   useEffect(() => {
     document.body.addEventListener('click', setNagtive)
@@ -47,7 +36,8 @@ export const LangChanger = function() {
   return (
     <div className="lang-selector">
       <div className="show-lang" onClick={() => setActive(!active)}>
-        {language} <Up className={classnames('select-arrow', { active })} />
+        {languages[activeLanguageIndex]}{' '}
+        <Up className={classnames('select-arrow', { active })} />
       </div>
       <ul className={classnames('selector', { active })}>
         {languages.map(item => (
@@ -75,8 +65,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              ChainX
-              <FormattedMessage id="HOME" />
+              ChainX{$t('common_home')}
             </a>
           </li>
           <li>
@@ -85,7 +74,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FormattedMessage id="WALLET" />
+              {$t('common_wallet')}
             </a>
           </li>
           <li>
