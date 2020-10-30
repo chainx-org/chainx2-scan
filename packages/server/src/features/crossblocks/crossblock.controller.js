@@ -167,9 +167,11 @@ class crossBlocksController {
     }
 
     const db = await getDb()
-    const col = await db.collection('crossTransaction')
+    const col = await db.collection('event')
 
-    const query = { txType: 'Deposit' }
+    const query = {
+      $and: [{ section: 'xGatewayBitcoin' }, { method: 'UnclaimedDeposit' }]
+    }
 
     const total = await col.countDocuments(query)
     const items = await col
