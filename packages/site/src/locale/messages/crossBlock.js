@@ -49,7 +49,7 @@ export default {
   },
   cross_block_height: {
     zh: 'Bitcoin区块高度',
-    en: 'Bitcoin Block Height'
+    en: 'Bitcoin Height'
   },
   cross_block_hash: {
     zh: 'Bitcoin区块哈希',
@@ -69,15 +69,15 @@ export default {
   },
   chainx_relay_transaction_hash: {
     zh: 'Chainx中继交易哈希',
-    en: 'ChainX Relay Transaction Hash'
+    en: 'ChainX Relay TX Hash'
   },
   chainx_relay_transactioner: {
     zh: 'Chainx中继人',
-    en: 'ChainX Relay Transactioner'
+    en: 'ChainX Relayer'
   },
   chainx_relay_transaction_time: {
     zh: 'Chainx中继时间',
-    en: 'ChainX Relay Transaction Time'
+    en: 'ChainX Relay Time'
   },
   cross_btc_tx_hash: {
     zh: 'Bitcoin交易哈希',

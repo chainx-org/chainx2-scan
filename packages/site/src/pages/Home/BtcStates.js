@@ -127,9 +127,7 @@ export default function BtcStates() {
                 <th>{$t('cross_block_hash')}</th>
                 <th>{$t('chainx_relay_transaction_hash')}</th>
                 <th>{$t('chainx_relay_transactioner')}</th>
-                <th className="has-text-right">
-                  {$t('chainx_relay_transaction_time')}
-                </th>
+                <th>{$t('chainx_relay_transaction_time')}</th>
               </tr>
             </thead>
             <tbody>
@@ -164,7 +162,7 @@ export default function BtcStates() {
                                 render={() => {
                                   return (
                                     <Hash
-                                      style={{ width: 138 }}
+                                      style={{ width: 136 }}
                                       className="text-truncate"
                                       value={btcHash}
                                     />
@@ -174,14 +172,14 @@ export default function BtcStates() {
                             </td>
                             <td>
                               <TxLink
-                                style={{ width: 138 }}
+                                style={{ width: 136 }}
                                 className="text-truncate"
                                 value={chainxExtrinsicHash}
                               />
                             </td>
                             <td>
                               <AddressLink
-                                style={{ width: 138 }}
+                                style={{ width: 136 }}
                                 className="text-truncate"
                                 value={signer}
                               />
