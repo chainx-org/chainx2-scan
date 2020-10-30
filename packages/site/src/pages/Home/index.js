@@ -2,8 +2,7 @@ import React from 'react'
 import BestBlocks from './BestBlocks'
 import BestExtrinsics from './BestExtrinsics'
 import DashBoard from './DashBoard'
-import BtcStatus from './BtcStatus'
-import TransitBridge from './TransitBridge'
+import BtcStates from './BtcStates'
 export default function Home() {
   return (
     <section className="blockTransaction">
@@ -18,10 +17,7 @@ export default function Home() {
       </div>
       <div className="columns">
         <div className="column">
-          <BtcStatus />
-        </div>
-        <div className="column">
-          <TransitBridge />
+          <BtcStates />
         </div>
       </div>
     </section>
