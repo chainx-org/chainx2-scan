@@ -210,5 +210,41 @@ export default {
   total_weight: {
     zh: '历史总票龄',
     en: 'Total Weight'
+  },
+  multisig_hot: {
+    zh: '多签热地址余额(BTC)',
+    en: 'MultiSig Hot Balance(BTC)'
+  },
+  multisig_cold: {
+    zh: '多签冷地址余额(BTC)',
+    en: 'MultiSig Hot Balance(BTC)'
+  },
+  lock_balance: {
+    zh: '锁仓金额(BTC)',
+    en: 'Lock Balance'
+  },
+  deposit_txs: {
+    zh: '充值交易数',
+    en: 'Deposit Txs'
+  },
+  lock_txs: {
+    zh: '锁仓交易数',
+    en: 'Lock Txs'
+  },
+  withdrawal_txs: {
+    zh: '提现交易数',
+    en: 'Withdrawal Txs'
+  },
+  deposit_bindeds: {
+    zh: '跨链充值地址数',
+    en: 'Deposit Binded Addresses'
+  },
+  lock_address: {
+    zh: '跨链锁仓地址数',
+    en: 'Lock Addresses'
+  },
+  bridge_newblocks: {
+    zh: '转接桥最新区块',
+    en: 'Bitcoin Bridge New Blocks'
   }
 }
