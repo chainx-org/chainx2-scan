@@ -49,6 +49,12 @@ const crossBlocksSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    deposited: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -72,6 +78,9 @@ const crossBlocksSlice = createSlice({
     },
     setDepositMine(state, action) {
       state.depositmine = action.payload
+    },
+    setBitcoinbridgeDeposited(state, action) {
+      state.deposited = action.payload
     }
     /*
     setVotes(state, action) {
@@ -100,7 +109,8 @@ export const {
   setCrossWithdrawals,
   setCrossTrustees,
   setCrossUnclaim,
-  setDepositMine
+  setDepositMine,
+  setBitcoinbridgeDeposited
   /*
   setVotes,
   setExtrinsics,
@@ -206,6 +216,26 @@ export const fetchDeals = (
   }
 }
 */
+// 获取比特币转接桥充值
+export const fetchBitCoinTransitbridgeDeposited = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: bitcoinbridgeDeposited } = await api.fetch(
+      '/home/bitcoinbridge',
+      {
+        page,
+        pageSize
+      }
+    )
+    dispatch(setBitcoinbridgeDeposited(bitcoinbridgeDeposited))
+  } finally {
+    setLoading(false)
+  }
+}
 
 export const fetchCrossBlocks = (
   setLoading = nonFunc,
@@ -365,6 +395,8 @@ export const dealsSelector = state => state.accounts.deals
 export const crossBlocksSelector = state => state.crossblocks.crossblocks
 export const crossTransactionsSelector = state =>
   state.crossblocks.crosstransactions
+export const crossTransactionsDepositedSelector = state =>
+  state.crossblocks.deposited
 export const crossDepositsSelector = state => state.crossblocks.crossdeposits
 export const crossWithdrawalsSelector = state =>
   state.crossblocks.crosswithdrawals
