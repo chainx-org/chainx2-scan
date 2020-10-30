@@ -3,7 +3,7 @@ import BestBlocks from './BestBlocks'
 import BestExtrinsics from './BestExtrinsics'
 import DashBoard from './DashBoard'
 import BtcStatus from './BtcStatus'
-
+import TransitBridge from './TransitBridge'
 export default function Home() {
   return (
     <section className="blockTransaction">
@@ -16,7 +16,14 @@ export default function Home() {
           <BestExtrinsics />
         </div>
       </div>
-      <BtcStatus />
+      <div className="columns">
+        <div className="column">
+          <BtcStatus />
+        </div>
+        <div className="column">
+          <TransitBridge />
+        </div>
+      </div>
     </section>
   )
 }
