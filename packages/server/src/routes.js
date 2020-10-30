@@ -9,7 +9,8 @@ const featureRouters = [
   require('./features/dex/routes'),
   require('./features/democracy/routes'),
   require('./features/crossblocks/routes'),
-  require('./features/validators/routes')
+  require('./features/validators/routes'),
+  require('./features/homepage/router')
 ]
 
 module.exports = app => {
