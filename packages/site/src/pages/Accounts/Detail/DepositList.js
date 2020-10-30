@@ -5,8 +5,8 @@ import DateShow from '../../../components/DateShow'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
 import {
-  extrinsicsSelector,
-  fetchCharges
+  depositsSelector,
+  fetchDeposits
 } from '@src/store/reducers/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Fail from '@components/Fail'
@@ -19,10 +19,10 @@ export default function({ address }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCharges(address, setLoading))
-  }, [address, dispatch])
+    dispatch(fetchDeposits(address, setLoading, page - 1, pageSize))
+  }, [address, dispatch, page, pageSize])
 
-  const { items: extrinsics, total } = useSelector(extrinsicsSelector)
+  const { items, total } = useSelector(depositsSelector)
 
   return (
     <Table
@@ -41,7 +41,7 @@ export default function({ address }) {
           </div>
         )
       }}
-      dataSource={(extrinsics || []).map(item => {
+      dataSource={(items || []).map(item => {
         return {
           key: item.hash,
           hash: (

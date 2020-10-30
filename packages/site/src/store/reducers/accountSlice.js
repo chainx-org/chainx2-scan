@@ -103,40 +103,6 @@ export const fetchTransfers = (
   }
 }
 
-export const fetchCharges = (
-  address,
-  params,
-  setLoading = nonFunc
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: charges } = await api.fetch(
-      `/accounts/${address}/charges`,
-      params
-    )
-    dispatch(setCharges(charges))
-  } finally {
-    setLoading(false)
-  }
-}
-
-export const fetchCashList = (
-  address,
-  params,
-  setLoading = nonFunc
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: cashList } = await api.fetch(
-      `/accounts/${address}/cashList`,
-      params
-    )
-    dispatch(setCashList(cashList))
-  } finally {
-    setLoading(false)
-  }
-}
-
 export const fetchVotes = (address, setLoading = nonFunc) => async dispatch => {
   setLoading(true)
   try {
