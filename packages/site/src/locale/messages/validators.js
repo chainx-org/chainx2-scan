@@ -32,8 +32,8 @@ export default {
     en: 'Total Weight'
   },
   referral_id: {
-    zh: '推荐人',
-    en: 'Referral ID'
+    zh: '别名',
+    en: 'Nikename'
   },
   total_weight_last_update: {
     zh: '更新高度',
