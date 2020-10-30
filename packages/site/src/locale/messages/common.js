@@ -86,5 +86,9 @@ export default {
   see_all: {
     zh: '查看全部',
     en: 'see All'
+  },
+  search: {
+    zh: '搜索',
+    en: 'search'
   }
 }
