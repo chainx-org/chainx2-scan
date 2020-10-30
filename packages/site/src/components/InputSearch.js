@@ -43,7 +43,12 @@ export default function InputSearch(props) {
           $t('address_item')
         }
       />
-      <i className="iconfont icon-search search" />
+      <i
+        className="iconfont icon-search search"
+        onClick={() => {
+          search(str)
+        }}
+      />
     </span>
   )
 }
