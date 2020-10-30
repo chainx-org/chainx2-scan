@@ -15,6 +15,8 @@ import $t from '../../locale'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   crossBlocksSelector,
+  crossTransactionsDepositedSelector,
+  fetchBitCoinTransitbridgeDeposited,
   fetchCrossBlocks
 } from '../../store/reducers/crossBlocksSlice'
 import { latestExtrinsicsSelector } from '../../store/reducers/latestExtrinsicSlice'
@@ -28,12 +30,16 @@ export default function BtcStates() {
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
-
+  useEffect(() => {
+    dispatch(fetchBitCoinTransitbridgeDeposited(setLoading, page - 1, pageSize))
+  }, [dispatch, page, pageSize])
+  const { deposited = [], total } = useSelector(
+    crossTransactionsDepositedSelector
+  )
   useEffect(() => {
     dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
-
-  const { items = [], total } = useSelector(crossBlocksSelector) || {}
+  const { items = [] } = useSelector(crossBlocksSelector) || {}
   const extrinsics = useSelector(latestExtrinsicsSelector)
   const [status, setList] = useState({})
 
@@ -90,11 +96,7 @@ export default function BtcStates() {
                 <div className="btc_title">{$t('deposit_txs')}</div>
                 <div className="btc_content">
                   <NavLink to="/crossblocks/bitcoin/locklist">
-                    <Amount
-                      value={status.lockup_balance}
-                      symbol="BTC"
-                      hideSymbol
-                    />
+                    <Amount value={total} symbol="BTC" hideSymbol />
                   </NavLink>
                 </div>
               </div>
