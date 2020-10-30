@@ -28,7 +28,7 @@ export default function InputSearch(props) {
             search(str)
           }
         }}
-        style={{ width: 350, paddingRight: 50 }}
+        style={{ width: 430, paddingRight: 50 }}
         className="input is-rounded"
         type="text"
         placeholder={
@@ -36,7 +36,7 @@ export default function InputSearch(props) {
           '/' +
           $t('block_height') +
           '/' +
-          $t('block_hash') +
+          $t('hash') +
           '/' +
           $t('ex_hash') +
           '/' +
