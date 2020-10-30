@@ -11,6 +11,10 @@ export default {
     zh: '交易哈希',
     en: 'Extrinsic Hash'
   },
+  hash: {
+    zh: '哈希',
+    en: 'Hash'
+  },
   ex_action: {
     zh: '操作',
     en: 'Action'
