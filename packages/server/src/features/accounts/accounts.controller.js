@@ -3,6 +3,7 @@ const { encodeAddress } = require('./utils')
 const { getNativeAsset } = require('./utils')
 const { safeAdd } = require('../../utils')
 const { getDb } = require('../../services/mongo')
+const { getApi } = require('../../api')
 const { extractPage } = require('../../utils')
 
 const { Account } = require('@chainx-v2/account')
@@ -16,8 +17,50 @@ class AccountsController {
     }
 
     const db = await getDb()
+    const col = await db.collection('accounts')
+
+    const query = {}
+
+    const total = await col.estimatedDocumentCount(query)
+
+    let items = await col
+      .find(query)
+      .sort({ blockHeight: -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    const api = await getApi()
+    let addressArray = []
+    for (let i = 0; i < items.length; i++) {
+      const addr = items[i].address
+      addressArray.push(addr)
+    }
+    const allAccountInfo = await api.query.system.account.multi(addressArray)
+    // console.log('all account info', allAccountInfo)
+
+    /*
+    for (let i = 0; i < items.length; i++) {
+      const addr = items[i].address
+      const accountInfo = await api.query.system.account(addr)
+      const json = accountInfo.toJSON()
+      items[i].data = json.data
+    }
+    */
+
+    for (let i = 0; i < items.length; i++) {
+      items[i].data = allAccountInfo[i].data
+    }
+
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      total
+    }
+    /*
     const col = await db.collection('nativeAsset')
-    const total = await col.estimatedDocumentCount()
+    // const total = await col.estimatedDocumentCount()
     const accounts = await new Promise((resolve, reject) => {
       col.aggregate(
         [
@@ -54,6 +97,8 @@ class AccountsController {
       )
     })
 
+    const total = accounts.length
+
     ctx.body = {
       items: accounts.map(a => ({
         address: a._id,
@@ -64,6 +109,7 @@ class AccountsController {
       pageSize,
       total
     }
+    */
   }
 
   async getAccount(ctx) {

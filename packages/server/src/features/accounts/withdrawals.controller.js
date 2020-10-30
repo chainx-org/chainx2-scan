@@ -1,8 +1,8 @@
 const { getDb } = require('../../services/mongo')
 const { extractPage } = require('../../utils')
 
-class ChargeController {
-  async getCharge(ctx) {
+class WithdrawalsController {
+  async getWithdrawals(ctx) {
     const { page, pageSize } = extractPage(ctx)
     if (pageSize === 0) {
       ctx.status = 400
@@ -12,9 +12,15 @@ class ChargeController {
     const { address } = ctx.params
 
     const db = await getDb()
-    const col = await db.collection('block')
+    const col = await db.collection('event')
 
-    const query = { $or: [{ maker: address }, { taker: address }] }
+    const query = {
+      $and: [
+        { section: 'xGatewayRecords' },
+        { method: 'WithdrawalCreated' },
+        { 'data[1].applicant': address }
+      ]
+    }
 
     const total = await col.countDocuments(query)
     const items = await col
@@ -33,4 +39,4 @@ class ChargeController {
   }
 }
 
-module.exports = new ChargeController()
+module.exports = new WithdrawalsController()

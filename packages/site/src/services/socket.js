@@ -3,9 +3,8 @@ import { store } from '../index'
 import { setLatestBlocks } from '../store/reducers/latestBlockSlice'
 import { setLatestExtrinsics } from '../store/reducers/latestExtrinsicSlice'
 
-
-
-const socket = io(process.env.REACT_APP_SERVER)
+// const socket = io(process.env.REACT_APP_SERVER)
+const socket = io('http://localhost:3213')
 socket.connect()
 socket.on('connect', () => {
   socket.emit('subscribe', 'LATEST_BLOCKS_ROOM')

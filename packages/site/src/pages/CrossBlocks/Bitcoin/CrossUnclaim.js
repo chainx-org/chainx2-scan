@@ -40,21 +40,20 @@ export default function CrossUnclaim() {
       }}
       pagination={{ current: page, pageSize, total }}
       dataSource={items.map(item => {
-        const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
-        const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
+        // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
+        const btcTxHashForExplorer = swapEndian(item.data[0].slice(2))
         return {
           key: item._id,
-          id: item.btcHash,
-          btc_hash: (
+          btc_address: (
             <ExternalLink
-              type="btcTestnetHash"
-              value={btcHashForExplorer}
+              type="btcTestnetAddress"
+              value={item.data[1]}
               render={() => {
                 return (
                   <Hash
                     // style={{ width: 138 }}
                     className="text-truncate"
-                    value={btcHashForExplorer}
+                    value={item.data[1]}
                   />
                 )
               }}
@@ -67,14 +66,15 @@ export default function CrossUnclaim() {
               render={() => {
                 return (
                   <Hash
-                    style={{ width: 138 }}
+                    // style={{ width: 138 }}
                     className="text-truncate"
                     value={btcTxHashForExplorer}
                   />
                 )
               }}
             />
-          ),
+          )
+          /*
           tx_balance: (
             <Amount
               value={item.balance}
@@ -83,23 +83,7 @@ export default function CrossUnclaim() {
               hideSymbol
             />
           ),
-          chainx_ex_hash: (
-            <TxLink
-              style={{ width: 138 }}
-              className="text-truncate"
-              value={item.chainxExtrinsicHash}
-            />
-          ),
-          chainx_account_id: item.txData ? (
-            <AddressLink
-              style={{ width: 138 }}
-              className="text-truncate"
-              value={item.txData[1]}
-            />
-          ) : (
-            ''
-          ),
-          asset_type: 'BTC'
+          */
         }
       })}
       columns={[
@@ -109,12 +93,14 @@ export default function CrossUnclaim() {
         },
         {
           title: $t('cross_btc_address'),
-          dataIndex: 'btc_hash'
-        },
+          dataIndex: 'btc_address'
+        }
+        /*
         {
           title: $t('tx_balance'),
           dataIndex: 'tx_balance'
         }
+        */
       ]}
     />
   )

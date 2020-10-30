@@ -86,5 +86,9 @@ export default {
   total_issuance: {
     zh: '发行总量(PCX)',
     en: 'Total Issuance(PCX)'
+  },
+  block_author: {
+    zh: '验证人',
+    en: 'Author'
   }
 }

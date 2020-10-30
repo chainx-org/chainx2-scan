@@ -25,6 +25,18 @@ const accountSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    deposits: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
+    withdrawals: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -51,6 +63,12 @@ const accountSlice = createSlice({
     },
     setCashList(state, action) {
       state.cash = action.payload
+    },
+    setDeposits(state, action) {
+      state.deposits = action.payload
+    },
+    setWithdrawals(state, action) {
+      state.withdrawals = action.payload
     }
   }
 })
@@ -63,7 +81,9 @@ export const {
   setPairs,
   setDeals,
   setCharges,
-  setCashList
+  setCashList,
+  setDeposits,
+  setWithdrawals
 } = accountSlice.actions
 
 export const fetchTransfers = (
@@ -78,40 +98,6 @@ export const fetchTransfers = (
       params
     )
     dispatch(setTransfers(transfers))
-  } finally {
-    setLoading(false)
-  }
-}
-
-export const fetchCharges = (
-  address,
-  params,
-  setLoading = nonFunc
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: charges } = await api.fetch(
-      `/accounts/${address}/charges`,
-      params
-    )
-    dispatch(setCharges(charges))
-  } finally {
-    setLoading(false)
-  }
-}
-
-export const fetchCashList = (
-  address,
-  params,
-  setLoading = nonFunc
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: cashList } = await api.fetch(
-      `/accounts/${address}/cashList`,
-      params
-    )
-    dispatch(setCashList(cashList))
   } finally {
     setLoading(false)
   }
@@ -195,11 +181,57 @@ export const fetchDeals = (
   }
 }
 
+export const fetchDeposits = (
+  address,
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: deposits } = await api.fetch(
+      `/accounts/${address}/deposits`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setDeals(deposits))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchWithdrawals = (
+  address,
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: withdrawals } = await api.fetch(
+      `/accounts/${address}/withdrawals`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setDeals(withdrawals))
+  } finally {
+    setLoading(false)
+  }
+}
+
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
 export const extrinsicsSelector = state => state.accounts.extrinsics
 export const openOrdersSelector = state => state.accounts.openOrders
 export const pairsSelector = state => state.accounts.pairs
 export const dealsSelector = state => state.accounts.deals
+export const depositsSelector = state => state.accounts.deposits
+export const withdrawalsSelector = state => state.accounts.withdrawals
 
 export default accountSlice.reducer

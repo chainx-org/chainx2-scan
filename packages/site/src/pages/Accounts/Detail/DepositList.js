@@ -5,8 +5,8 @@ import DateShow from '../../../components/DateShow'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
 import {
-  extrinsicsSelector,
-  fetchCashList
+  depositsSelector,
+  fetchDeposits
 } from '@src/store/reducers/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Fail from '@components/Fail'
@@ -19,10 +19,10 @@ export default function({ address }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCashList(address, setLoading))
-  }, [address, dispatch])
+    dispatch(fetchDeposits(address, setLoading, page - 1, pageSize))
+  }, [address, dispatch, page, pageSize])
 
-  const { items: cash, total } = useSelector(extrinsicsSelector)
+  const { items, total } = useSelector(depositsSelector)
 
   return (
     <Table
@@ -41,7 +41,7 @@ export default function({ address }) {
           </div>
         )
       }}
-      dataSource={(cash || []).map(item => {
+      dataSource={(items || []).map(item => {
         return {
           key: item.hash,
           hash: (
@@ -61,16 +61,12 @@ export default function({ address }) {
       })}
       columns={[
         {
-          title: $t('chainx_apply_hash'),
+          title: $t('cross_btc_tx_hash'),
           dataIndex: 'blockHeight'
         },
         {
-          title: $t('cross_btc_tx_hash'),
+          title: $t('cross_btc_address'),
           dataIndex: 'blockTime'
-        },
-        {
-          title: $t('btc_withdraw_address'),
-          dataIndex: 'hash'
         },
         {
           title: $t('ASSETNAME'),
@@ -78,14 +74,6 @@ export default function({ address }) {
         },
         {
           title: $t('tx_balance'),
-          dataIndex: 'operation'
-        },
-        {
-          title: $t('withdraw_state'),
-          dataIndex: 'operation'
-        },
-        {
-          title: $t('common_memo'),
           dataIndex: 'operation'
         }
       ]}
