@@ -16,7 +16,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   crossBlocksSelector,
   crossTransactionsDepositedSelector,
+  crossTransactionsWithdrawl,
+  crossTransactionsWithdrawlSelector,
   fetchBitCoinTransitbridgeDeposited,
+  fetchBitCoinTransitbridgeWithdrawl,
   fetchCrossBlocks
 } from '../../store/reducers/crossBlocksSlice'
 import { latestExtrinsicsSelector } from '../../store/reducers/latestExtrinsicSlice'
@@ -30,12 +33,17 @@ export default function BtcStates() {
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(fetchBitCoinTransitbridgeDeposited(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
-  const { deposited = [], total } = useSelector(
-    crossTransactionsDepositedSelector
-  )
+  const { total } = useSelector(crossTransactionsDepositedSelector)
+
+  useEffect(() => {
+    dispatch(fetchBitCoinTransitbridgeWithdrawl(setLoading, page - 1, pageSize))
+  }, [dispatch, page, pageSize])
+  const { sum } = useSelector(crossTransactionsWithdrawlSelector)
+
   useEffect(() => {
     dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
@@ -95,17 +103,13 @@ export default function BtcStates() {
               <div className="btc_status">
                 <div className="btc_title">{$t('deposit_txs')}</div>
                 <div className="btc_content">
-                  <NavLink to="/crossblocks/bitcoin/locklist">
-                    <Amount value={total} symbol="BTC" hideSymbol />
-                  </NavLink>
+                  <NavLink to="/crossblocks/bitcoin/deposits">{total}</NavLink>
                 </div>
               </div>
               <div className="btc_status">
                 <div className="btc_title">{$t('withdrawal_txs')}</div>
                 <div className="btc_content">
-                  <NavLink to="/crossblocks/bitcoin/deposits">
-                    {status.deposit_count}
-                  </NavLink>
+                  <NavLink to="/crossblocks/bitcoin/withdrawals">{sum}</NavLink>
                 </div>
               </div>
             </div>
