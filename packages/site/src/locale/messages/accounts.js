@@ -70,5 +70,17 @@ export default {
   withdrawal_list: {
     zh: '提现列表',
     en: 'Withdrawal Deals'
+  },
+  total_accounts: {
+    zh: '账户总数',
+    en: 'Total Accounts'
+  },
+  contracts_counts: {
+    zh: '智能合约数',
+    en: 'Contracts Count'
+  },
+  call_counts: {
+    zh: '调用数',
+    en: 'Call Count'
   }
 }

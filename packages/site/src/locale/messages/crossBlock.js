@@ -49,7 +49,7 @@ export default {
   },
   cross_block_height: {
     zh: 'Bitcoin区块高度',
-    en: 'Bitcoin Block Height'
+    en: 'Bitcoin Height'
   },
   cross_block_hash: {
     zh: 'Bitcoin区块哈希',
@@ -69,15 +69,15 @@ export default {
   },
   chainx_relay_transaction_hash: {
     zh: 'Chainx中继交易哈希',
-    en: 'ChainX Relay Transaction Hash'
+    en: 'ChainX Relay TX Hash'
   },
   chainx_relay_transactioner: {
     zh: 'Chainx中继人',
-    en: 'ChainX Relay Transactioner'
+    en: 'ChainX Relayer'
   },
   chainx_relay_transaction_time: {
     zh: 'Chainx中继时间',
-    en: 'ChainX Relay Transaction Time'
+    en: 'ChainX Relay Time'
   },
   cross_btc_tx_hash: {
     zh: 'Bitcoin交易哈希',
@@ -210,5 +210,41 @@ export default {
   total_weight: {
     zh: '历史总票龄',
     en: 'Total Weight'
+  },
+  multisig_hot: {
+    zh: '多签热地址余额(BTC)',
+    en: 'MultiSig Hot Balance(BTC)'
+  },
+  multisig_cold: {
+    zh: '多签冷地址余额(BTC)',
+    en: 'MultiSig Hot Balance(BTC)'
+  },
+  lock_balance: {
+    zh: '锁仓金额(BTC)',
+    en: 'Lock Balance'
+  },
+  deposit_txs: {
+    zh: '充值交易数',
+    en: 'Deposit Txs'
+  },
+  lock_txs: {
+    zh: '锁仓交易数',
+    en: 'Lock Txs'
+  },
+  withdrawal_txs: {
+    zh: '提现交易数',
+    en: 'Withdrawal Txs'
+  },
+  deposit_bindeds: {
+    zh: '跨链充值地址数',
+    en: 'Deposit Binded Addresses'
+  },
+  lock_address: {
+    zh: '跨链锁仓地址数',
+    en: 'Lock Addresses'
+  },
+  bridge_newblocks: {
+    zh: '转接桥最新区块',
+    en: 'Bitcoin Bridge New Blocks'
   }
 }

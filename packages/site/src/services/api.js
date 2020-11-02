@@ -1,13 +1,59 @@
-import { from, throwError } from 'rxjs'
+import { from, throwError, Observable } from 'rxjs'
+import io from 'socket.io-client'
 import { catchError, map } from 'rxjs/operators'
 import { makeCancelable } from '../utils'
 import hexAddPrefix from '@polkadot/util/hex/addPrefix'
 import hexStripPrefix from '@polkadot/util/hex/stripPrefix'
-
+import { getDefaultApi } from './utils'
 import { decodeAddress } from '../shared'
 
 const paramsKeyConvert = (str = '') =>
   str.replace(/[A-Z]/g, ([s]) => `_${s.toLowerCase()}`)
+class Socket {
+  socket = null
+  subscribeNames = []
+  eventNames = []
+  handler = {}
+
+  constructor() {
+    this.socket = io(getDefaultApi())
+    this.socket.connect()
+    this.socket.on('connect', data => this.connectHandler())
+    this.socket.on('connect_error', data => this.reconnect(data))
+    this.socket.on('disconnect', data => this.reconnect(data))
+    this.socket.on('error', data => this.reconnect(data))
+  }
+
+  connectHandler(subscribeName = '') {
+    if (!subscribeName) {
+      for (let _name of this.subscribeNames) {
+        this.socket.emit('subscribe', _name)
+      }
+    } else {
+      if (!(subscribeName in this.subscribeNames)) {
+        this.subscribeNames.push(subscribeName)
+      }
+      this.socket.emit('subscribe', subscribeName)
+    }
+  }
+
+  closeHandler(subscribeName = '') {
+    if (!subscribeName) {
+      for (let _name of this.subscribeNames) {
+        this.socket.emit('unsubscribe', _name)
+      }
+    } else {
+      this.socket.emit('unsubscribe', subscribeName)
+    }
+  }
+
+  reconnect(e) {
+    this.socket.close()
+    setTimeout(() => {
+      this.socket.connect()
+    }, 3000)
+  }
+}
 
 class Api {
   endpoint = null
@@ -60,7 +106,27 @@ class Api {
       })
     )
   }
-
+  /**
+   * 获取最新的链的状态
+   */
+  fetchChainStatus$ = () => {
+    return this.createObservable('CHAIN_STATUS', 'chainStatus')
+  }
+  createObservable = (name, eventName) => {
+    if (!this.socket) {
+      this.socket = new Socket()
+    }
+    return new Observable(observer => {
+      this.socket.connectHandler(name)
+      this.socket.socket.on(eventName, data => {
+        observer.next(data)
+      })
+      return () => {
+        this.socket.socket.removeListener(eventName)
+        this.socket.closeHandler(name)
+      }
+    })
+  }
   /**
    * 获取区块列表
    */

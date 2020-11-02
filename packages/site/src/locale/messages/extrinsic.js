@@ -11,6 +11,10 @@ export default {
     zh: '交易哈希',
     en: 'Extrinsic Hash'
   },
+  hash: {
+    zh: '哈希',
+    en: 'Hash'
+  },
   ex_action: {
     zh: '操作',
     en: 'Action'
@@ -38,5 +42,9 @@ export default {
   ex_params: {
     zh: '参数',
     en: 'Arguments'
+  },
+  total_extrinsics: {
+    zh: '交易总数',
+    en: 'Total Extrinsics'
   }
 }

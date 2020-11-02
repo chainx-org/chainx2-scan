@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import api from '../services/api'
+import $t from '../locale'
 export default function InputSearch(props) {
   const { history } = props
 
@@ -27,12 +28,27 @@ export default function InputSearch(props) {
             search(str)
           }
         }}
-        style={{ width: 350, paddingRight: 50 }}
+        style={{ width: 430, paddingRight: 50 }}
         className="input is-rounded"
         type="text"
-        placeholder={`搜索区块高度/哈希/交易哈希/账户地址`}
+        placeholder={
+          $t('search') +
+          '/' +
+          $t('block_height') +
+          '/' +
+          $t('hash') +
+          '/' +
+          $t('ex_hash') +
+          '/' +
+          $t('address_item')
+        }
       />
-      <i className="iconfont icon-search search" />
+      <i
+        className="iconfont icon-search search"
+        onClick={() => {
+          search(str)
+        }}
+      />
     </span>
   )
 }

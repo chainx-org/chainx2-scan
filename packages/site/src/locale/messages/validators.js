@@ -3,6 +3,14 @@ export default {
     zh: '验证节点',
     en: 'Validators'
   },
+  validators_number: {
+    zh: '验证节点数',
+    en: 'Total Validators'
+  },
+  elections: {
+    zh: '选举届数',
+    en: 'Elections'
+  },
   standby_node: {
     zh: '同步节点',
     en: 'StandBy Node'
