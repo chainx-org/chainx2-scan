@@ -27,6 +27,7 @@ export default function AccountAsset(props) {
       dataIndex: 'free',
       align: 'right'
     },
+    /*
     {
       title: $t('STAKINGRESERVED'),
       dataIndex: 'reservedStaking',
@@ -42,6 +43,7 @@ export default function AccountAsset(props) {
       dataIndex: 'reservedDexSpot',
       align: 'right'
     },
+    */
     {
       title: $t('BLOCKTOTALBALANCE'),
       dataIndex: 'total',
@@ -63,11 +65,12 @@ export default function AccountAsset(props) {
               token: item.token,
               free: (
                 <Amount
-                  value={item.free}
+                  value={item.data.free}
                   symbol={item.token}
                   hideSymbol={true}
                 />
               ),
+              /*
               reservedStaking: (
                 <Amount
                   value={item.stakingReserved.bonded}
@@ -89,9 +92,10 @@ export default function AccountAsset(props) {
                   hideSymbol={true}
                 />
               ),
+              */
               total: (
                 <Amount
-                  value={safeAdd(item.free, item.reserved)}
+                  value={safeAdd(item.data.free, item.data.reserved)}
                   symbol={item.token}
                   hideSymbol={true}
                 />

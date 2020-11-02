@@ -1,5 +1,7 @@
 const { extractPage } = require('../../utils')
 const { getTransferColCollection } = require('../../services/mongo')
+const { encodeAddress } = require('./utils')
+const { Account } = require('@chainx-v2/account')
 
 class TransferController {
   async getTransfer(ctx) {
@@ -8,7 +10,7 @@ class TransferController {
       ctx.status = 400
       return
     }
-    console.log('address:' + ctx.query.address)
+    // console.log('address:' + ctx.query.address)
 
     let address = ctx.query.address
     const col = await getTransferColCollection()
@@ -37,7 +39,18 @@ class TransferController {
       return
     }
 
-    const { address } = ctx.params
+    const { address: addressOrId } = ctx.params
+    // console.log('addressOrId', addressOrId)
+    const isAddress = !addressOrId.startsWith('0x')
+    if (isAddress && !Account.isAddressValid(addressOrId)) {
+      ctx.body = {
+        errMsg: 'illegal address or account id'
+      }
+      return
+    }
+
+    const address = isAddress ? addressOrId : encodeAddress(addressOrId)
+
     const col = await getTransferColCollection()
     const total = await col.count({ $or: [{ from: address }, { to: address }] })
     const transfers = await col
