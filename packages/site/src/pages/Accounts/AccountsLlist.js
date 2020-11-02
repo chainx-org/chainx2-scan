@@ -28,9 +28,11 @@ export default function({ blockHeight }) {
         return {
           key: item._id,
           address: <AccountLink value={item.address} />,
-          avalibleBalance: <Amount value={item.data.free} />,
+          avalibleBalance: (
+            <Amount value={item.data.free - item.data.miscFrozen} />
+          ),
           totalBalance: (
-            <Amount minDigits={8} value={item.data.free + item.data.reserved} />
+            <Amount minDigits={8} value={item.data.free - item.data.reserved} />
           )
           // totalBtc: (
           //   <Amount
@@ -48,7 +50,7 @@ export default function({ blockHeight }) {
           dataIndex: 'address'
         },
         {
-          title: $t('avaliable_balance_item'),
+          title: $t('usable'),
           dataIndex: 'avalibleBalance'
         },
         {

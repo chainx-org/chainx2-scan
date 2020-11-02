@@ -23,8 +23,8 @@ export default function AccountAsset(props) {
       dataIndex: 'token'
     },
     {
-      title: $t('FREEBALANCE'),
-      dataIndex: 'free',
+      title: $t('usable'),
+      dataIndex: 'usable',
       align: 'right'
     },
     /*
@@ -45,6 +45,16 @@ export default function AccountAsset(props) {
     },
     */
     {
+      title: $t('reserved'),
+      dataIndex: 'reserved',
+      align: 'right'
+    },
+    {
+      title: $t('frozen'),
+      dataIndex: 'frozen',
+      align: 'right'
+    },
+    {
       title: $t('BLOCKTOTALBALANCE'),
       dataIndex: 'total',
       align: 'right'
@@ -63,9 +73,16 @@ export default function AccountAsset(props) {
             return {
               key: item.token,
               token: item.token,
-              free: (
+              usable: (
                 <Amount
-                  value={item.data.free}
+                  value={item.data.free - item.data.miscFrozen}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
+              reserved: (
+                <Amount
+                  value={item.data.reserved}
                   symbol={item.token}
                   hideSymbol={true}
                 />
@@ -93,9 +110,16 @@ export default function AccountAsset(props) {
                 />
               ),
               */
+              frozen: (
+                <Amount
+                  value={item.data.miscFrozen}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
               total: (
                 <Amount
-                  value={safeAdd(item.data.free, item.data.reserved)}
+                  value={item.data.free - item.data.reserved}
                   symbol={item.token}
                   hideSymbol={true}
                 />
