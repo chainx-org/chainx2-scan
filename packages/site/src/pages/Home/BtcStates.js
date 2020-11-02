@@ -105,60 +105,50 @@ export default function BtcStates() {
           <img src={Bitcoin} alt="Bitcoin" className="panel-heading-icon" />
           {$t('bitcoin_bridge')}
         </div>
-        <div className="panel-block align-start">
-          {!(items && items.length) ? (
-            <div style={{ minHeight: 269, display: 'flex', width: '100%' }}>
-              <Spinner />
-            </div>
-          ) : (
-            <div className="btc_block">
-              <div className="btc_status">
-                <div className="btc_title">{$t('multisig_hot')}</div>
-                <div className="btc_content">
-                  <ExternalLink
-                    value={hotaddress}
-                    type="btcTestnetAddress"
-                    render={() => (
-                      <Amount
-                        value={hotbalanceAmount}
-                        symbol="BTC"
-                        hideSymbol
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="btc_status">
-                <div className="btc_title">{$t('multisig_cold')}</div>
-                <div className="btc_content">
-                  <ExternalLink
-                    value={coldaddress}
-                    type="btcTestnetAddress"
-                    render={() => (
-                      <Amount
-                        value={coldbalanceAmount}
-                        symbol="BTC"
-                        hideSymbol
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="btc_status">
-                <div className="btc_title">{$t('deposit_txs')}</div>
-                <div className="btc_content">
-                  <NavLink to="/crossblocks/bitcoin/deposits">{total}</NavLink>
-                </div>
-              </div>
-              <div className="btc_status">
-                <div className="btc_title">{$t('withdrawal_txs')}</div>
-                <div className="btc_content">
-                  <NavLink to="/crossblocks/bitcoin/withdrawals">{sum}</NavLink>
-                </div>
+        {!(items && items.length) ? (
+          <div style={{ minHeight: 269, display: 'flex', width: '100%' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <div className="btc_block">
+            <div className="btc_status">
+              <div className="btc_title">{$t('multisig_hot')}</div>
+              <div className="btc_content">
+                <ExternalLink
+                  value={hotaddress}
+                  type="btcTestnetAddress"
+                  render={() => (
+                    <Amount value={hotbalanceAmount} symbol="BTC" hideSymbol />
+                  )}
+                />
               </div>
             </div>
-          )}
-        </div>
+            <div className="btc_status">
+              <div className="btc_title">{$t('multisig_cold')}</div>
+              <div className="btc_content">
+                <ExternalLink
+                  value={coldaddress}
+                  type="btcTestnetAddress"
+                  render={() => (
+                    <Amount value={coldbalanceAmount} symbol="BTC" hideSymbol />
+                  )}
+                />
+              </div>
+            </div>
+            <div className="btc_status">
+              <div className="btc_title">{$t('deposit_txs')}</div>
+              <div className="btc_content">
+                <NavLink to="/crossblocks/bitcoin/deposits">{total}</NavLink>
+              </div>
+            </div>
+            <div className="btc_status">
+              <div className="btc_title">{$t('withdrawal_txs')}</div>
+              <div className="btc_content">
+                <NavLink to="/crossblocks/bitcoin/withdrawals">{sum}</NavLink>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <section className="panel" style={{ flex: 1 }}>
         <div
