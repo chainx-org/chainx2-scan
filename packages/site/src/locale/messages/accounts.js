@@ -94,5 +94,13 @@ export default {
   reserved: {
     zh: '保留余额',
     en: 'Reserved'
+  },
+  nominee: {
+    zh: '候选人',
+    en: 'Nominee'
+  },
+  nominator: {
+    zh: '投票人',
+    en: 'Nominator'
   }
 }
