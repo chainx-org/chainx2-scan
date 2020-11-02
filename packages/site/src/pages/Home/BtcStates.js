@@ -20,7 +20,10 @@ import {
   crossTransactionsWithdrawlSelector,
   fetchBitCoinTransitbridgeDeposited,
   fetchBitCoinTransitbridgeWithdrawl,
-  fetchCrossBlocks
+  fetchBtcAddress,
+  fetchCrossBlocks,
+  fetchBitCoinAddress,
+  crossBtcAddressSelector
 } from '../../store/reducers/crossBlocksSlice'
 import { latestExtrinsicsSelector } from '../../store/reducers/latestExtrinsicSlice'
 import Hash from '../../components/Hash'
@@ -44,6 +47,47 @@ export default function BtcStates() {
   }, [dispatch, page, pageSize])
   const { sum } = useSelector(crossTransactionsWithdrawlSelector)
 
+  useEffect(() => {
+    dispatch(fetchBitCoinAddress(setLoading, page - 1, pageSize))
+  }, [dispatch, page, pageSize])
+  const datas = useSelector(crossBtcAddressSelector)
+  if (datas.trusteeListInfoJSON) {
+    var coldaddress = datas.trusteeListInfoJSON.coldAddress.addr
+    var hotaddress = datas.trusteeListInfoJSON.hotAddress.addr
+  }
+
+  function httpGethotBalance(theUrl) {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        hotbalance(xmlHttp.responseText)
+    }
+    xmlHttp.open('GET', theUrl, true)
+    xmlHttp.send(null)
+  }
+  function httpGetcoldBalance(theUrl) {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        coldbalance(xmlHttp.responseText)
+    }
+    xmlHttp.open('GET', theUrl, true)
+    xmlHttp.send(null)
+  }
+  function hotbalance(req) {
+    SethotbalanceAmount(JSON.parse(req).confirmed)
+  }
+  const [hotbalanceAmount, SethotbalanceAmount] = useState(0)
+  const [coldbalanceAmount, SetcoldbalanceAmount] = useState(0)
+  function coldbalance(req) {
+    SetcoldbalanceAmount(JSON.parse(req).confirmed)
+  }
+  httpGethotBalance(
+    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
+  )
+  httpGetcoldBalance(
+    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
+  )
   useEffect(() => {
     dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
@@ -72,11 +116,11 @@ export default function BtcStates() {
                 <div className="btc_title">{$t('multisig_hot')}</div>
                 <div className="btc_content">
                   <ExternalLink
-                    value={status.hot_address}
-                    type="btcAddress"
+                    value={hotaddress}
+                    type="btcTestnetAddress"
                     render={() => (
                       <Amount
-                        value={status.hot_balance}
+                        value={hotbalanceAmount}
                         symbol="BTC"
                         hideSymbol
                       />
@@ -88,11 +132,11 @@ export default function BtcStates() {
                 <div className="btc_title">{$t('multisig_cold')}</div>
                 <div className="btc_content">
                   <ExternalLink
-                    value={status.cold_address}
-                    type="btcAddress"
+                    value={coldaddress}
+                    type="btcTestnetAddress"
                     render={() => (
                       <Amount
-                        value={status.cold_balance}
+                        value={coldbalanceAmount}
                         symbol="BTC"
                         hideSymbol
                       />
