@@ -141,15 +141,16 @@ class AccountsController {
 
   //TODO 获取资产信息
   async getAssets(ctx) {
-    const { address } = ctx.params
-
-    if (!Account.isAddressValid(address)) {
+    const { address: addressOrId } = ctx.params
+    const isAddress = !addressOrId.startsWith('0x')
+    if (isAddress && !Account.isAddressValid(addressOrId)) {
       ctx.body = {
-        errMsg: 'illegal address'
+        errMsg: 'illegal address or account id'
       }
       return
     }
 
+    const address = isAddress ? addressOrId : encodeAddress(addressOrId)
     const api = await getApi()
     const accountInfo = await api.query.system.account(address)
     // console.log('account info', accountInfo.toJSON())

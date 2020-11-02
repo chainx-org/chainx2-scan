@@ -82,5 +82,17 @@ export default {
   call_counts: {
     zh: '调用数',
     en: 'Call Count'
+  },
+  usable: {
+    zh: '可转账余额',
+    en: 'Usable'
+  },
+  frozen: {
+    zh: '冻结余额',
+    en: 'Frozen'
+  },
+  reserved: {
+    zh: '保留余额',
+    en: 'Reserved'
   }
 }
