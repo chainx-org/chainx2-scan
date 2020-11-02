@@ -14,15 +14,15 @@ import Success from '@components/Success'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
+  const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchExtrinsics(address, setLoading))
-  }, [address, dispatch])
+    dispatch(fetchExtrinsics(address, page - 1, pageSize, setLoading))
+  }, [address, page, pageSize, dispatch])
 
-  const { items: extrinsics, total } = useSelector(extrinsicsSelector)
+  const { items: extrinsics, total } = useSelector(extrinsicsSelector) || {}
 
   return (
     <Table
