@@ -132,6 +132,7 @@ class AccountsController {
     const address = isAddress ? addressOrId : encodeAddress(addressOrId)
     const extrinsicCount = await getExtrinsicCount(address)
     const nativeAsset = await getNativeAsset(addressOrId)
+
     ctx.body = {
       ...nativeAsset,
       extrinsicCount
@@ -149,7 +150,15 @@ class AccountsController {
       return
     }
 
-    ctx.body = await getNativeAsset(address)
+    const api = await getApi()
+    const accountInfo = await api.query.system.account(address)
+    // console.log('account info', accountInfo.toJSON())
+
+    // const assetInfo = await api.rpc.xassets.getAssetsByAccount(address)
+    // console.log('foreign asset info', assetInfo.toJSON())
+
+    // ctx.body = await getNativeAsset(address)
+    ctx.body = { ...accountInfo }
   }
 }
 
