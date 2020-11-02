@@ -1,3 +1,4 @@
+const { getApi } = require('../../api')
 const { getDb } = require('../../services/mongo')
 const { isNum } = require('../../utils')
 const { isHash } = require('../../utils')
@@ -65,6 +66,14 @@ class HomeController {
       page,
       pageSize,
       sum
+    }
+  }
+  async getBtcAddress(ctx) {
+    const api = await getApi()
+    const trusteeListInfo = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
+    const trusteeListInfoJSON = trusteeListInfo.toJSON()
+    ctx.body = {
+      trusteeListInfoJSON
     }
   }
 }
