@@ -29,6 +29,7 @@ import { latestExtrinsicsSelector } from '../../store/reducers/latestExtrinsicSl
 import Hash from '../../components/Hash'
 import SeeAll from './SeeAll'
 import AddressLink from '../../components/AddressLink'
+import { timeout } from 'rxjs/operators'
 
 export default function BtcStates() {
   const [page, setPage] = useState(1)
@@ -82,9 +83,30 @@ export default function BtcStates() {
   function coldbalance(req) {
     SetcoldbalanceAmount(JSON.parse(req).confirmed)
   }
-  httpGethotBalance(
-    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
-  )
+  if (hotbalanceAmount) {
+    setTimeout(
+      httpGethotBalance(
+        `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
+      ),
+      600000
+    )
+  } else {
+    httpGethotBalance(
+      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
+    )
+  }
+  if (coldbalanceAmount) {
+    setTimeout(
+      httpGetcoldBalance(
+        `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
+      ),
+      600000
+    )
+  } else {
+    httpGetcoldBalance(
+      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
+    )
+  }
   httpGetcoldBalance(
     `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
   )
