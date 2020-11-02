@@ -6,8 +6,13 @@ const accountSlice = createSlice({
   name: 'settings',
   initialState: {
     transfers: [],
-    votes: [],
     pairs: [],
+    votes: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
     extrinsics: {
       items: [],
       page: 0,
@@ -109,6 +114,8 @@ export const fetchVotes = (address, setLoading = nonFunc) => async dispatch => {
     const { result: votes } = await api.fetch(`/accounts/${address}/votes`)
 
     dispatch(
+      setVotes(votes)
+      /*
       setVotes(
         Object.entries(votes).map(([validator, value]) => {
           return {
@@ -117,6 +124,7 @@ export const fetchVotes = (address, setLoading = nonFunc) => async dispatch => {
           }
         })
       )
+      */
     )
   } finally {
     setLoading(false)
