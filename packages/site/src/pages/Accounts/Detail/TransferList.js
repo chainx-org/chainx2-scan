@@ -36,7 +36,7 @@ export default function({ address }) {
       dataSource={transfers.map(item => {
         return {
           key: item.extrinsicHash,
-          token: item.token,
+          token: 'PCX',
           hash: (
             <TxLink
               style={{ width: 136 }}
@@ -50,17 +50,17 @@ export default function({ address }) {
             <AccountLink
               style={{ width: 136 }}
               className="text-truncate"
-              value={item.from}
+              value={item.data[0]}
             />
           ),
           receiver: (
             <AccountLink
               style={{ width: 136 }}
               className="text-truncate"
-              value={item.to}
+              value={item.data[1]}
             />
           ),
-          value: <Amount value={item.value} symbol={item.token} />
+          value: <Amount value={item.data[2]} symbol={item.token} />
         }
       })}
       columns={[
