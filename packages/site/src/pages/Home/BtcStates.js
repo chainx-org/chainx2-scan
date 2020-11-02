@@ -33,9 +33,8 @@ export default function BtcStates() {
   useEffect(() => {
     dispatch(fetchBitCoinTransitbridgeDeposited(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
-  const { deposited = [], total } = useSelector(
-    crossTransactionsDepositedSelector
-  )
+  const { deposited = [], total } =
+    useSelector(crossTransactionsDepositedSelector) || {}
   useEffect(() => {
     dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
