@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Table } from '../../../components'
+import { Amount, Table } from '../../../components'
 import $t from '../../../locale'
 import {
   accountVotesSelector,
@@ -8,6 +8,8 @@ import {
 } from '@src/store/reducers/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import AddressLink from '@components/AddressLink'
+import BlockLink from '../../../components/BlockLink'
+import DateShow from '../../../components/DateShow'
 
 export default function AccountNomination({ address }) {
   const dispatch = useDispatch()
@@ -17,18 +19,24 @@ export default function AccountNomination({ address }) {
     dispatch(fetchVotes(address, setLoading))
   }, [address, dispatch])
 
-  const votes = useSelector(accountVotesSelector)
+  const { items } = useSelector(accountVotesSelector) || {}
 
   return (
     <Table
       loading={loading}
       pagination={false}
-      dataSource={(votes || []).map(data => {
+      dataSource={items.map(item => {
         return {
-          key: data.nominee,
+          key: item._id,
           // blockTime: <DateShow value={data.indexer.blockTime} />,
-          nominee: <AddressLink value={data.validator} short={true} />,
-          nomination: data.nomination
+          nominator: <AddressLink value={item.data[0]} short={true} />,
+          nominee: <AddressLink value={item.data[1]} short={true} />,
+          balance: (
+            <Amount value={item.data[2]} precision={8} hideSymbol={true} />
+          ),
+          blockTime: <DateShow value={item.indexer.blockTime} />,
+          blockHeight: <BlockLink value={item.indexer.blockHeight} />
+          //nomination: item.nomination
           //revocations: <Amount value={data.revocations} hideSymbol />,
           // revocations: data.revocations,
           // updateHeight: data.last_vote_weight_update,
@@ -37,17 +45,21 @@ export default function AccountNomination({ address }) {
       })}
       columns={[
         {
-          title: 'Validator',
+          title: $t('nominator'),
+          dataIndex: 'nominator'
+        },
+        {
+          title: $t('nominee'),
           dataIndex: 'nominee'
         },
-        // {
-        //   title: $t('VOTETIME'),
-        //   dataIndex: 'blockTime'
-        // },
-        // {
-        //   title: $t('UPDATEWEIGHT'),
-        //   dataIndex: 'updateHeight'
-        // },
+        {
+          title: $t('VOTETIME'),
+          dataIndex: 'blockTime'
+        },
+        {
+          title: $t('UPDATEWEIGHT'),
+          dataIndex: 'blockHeight'
+        },
         // {
         //   title: $t('WEIGHT'),
         //   dataIndex: 'weight'
@@ -59,7 +71,7 @@ export default function AccountNomination({ address }) {
               (PCX)
             </>
           ),
-          dataIndex: 'nomination'
+          dataIndex: 'balance'
         }
         // {
         //   title: (

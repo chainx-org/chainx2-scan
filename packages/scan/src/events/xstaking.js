@@ -36,7 +36,7 @@ async function handleStakingEvent(event, indexer) {
   const { method } = event
   const { blockHeight, blockHash } = indexer
 
-  if (['Bond', 'Unbond', 'Rebond'].includes(method)) {
+  if (['Bonded', 'Unbonded', 'Rebonded'].includes(method)) {
     let [nominator] = event.data.toJSON()
     await updateNominationsAt(blockHeight, blockHash, nominator)
   }
