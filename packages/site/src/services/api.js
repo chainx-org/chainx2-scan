@@ -246,7 +246,7 @@ class Api {
       )
     ) {
       try {
-        const address = decodeAddress(input)
+        const address = input
         return {
           result: `/accounts/${address}`
         }

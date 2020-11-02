@@ -16,8 +16,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   crossBlocksSelector,
   crossTransactionsDepositedSelector,
+  crossTransactionsWithdrawl,
+  crossTransactionsWithdrawlSelector,
   fetchBitCoinTransitbridgeDeposited,
-  fetchCrossBlocks
+  fetchBitCoinTransitbridgeWithdrawl,
+  fetchBtcAddress,
+  fetchCrossBlocks,
+  fetchBitCoinAddress,
+  crossBtcAddressSelector
 } from '../../store/reducers/crossBlocksSlice'
 import { latestExtrinsicsSelector } from '../../store/reducers/latestExtrinsicSlice'
 import Hash from '../../components/Hash'
@@ -30,11 +36,58 @@ export default function BtcStates() {
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(fetchBitCoinTransitbridgeDeposited(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
-  const { deposited = [], total } =
-    useSelector(crossTransactionsDepositedSelector) || {}
+  const { total } = useSelector(crossTransactionsDepositedSelector)
+
+  useEffect(() => {
+    dispatch(fetchBitCoinTransitbridgeWithdrawl(setLoading, page - 1, pageSize))
+  }, [dispatch, page, pageSize])
+  const { sum } = useSelector(crossTransactionsWithdrawlSelector)
+
+  useEffect(() => {
+    dispatch(fetchBitCoinAddress(setLoading, page - 1, pageSize))
+  }, [dispatch, page, pageSize])
+  const datas = useSelector(crossBtcAddressSelector)
+  if (datas.trusteeListInfoJSON) {
+    var coldaddress = datas.trusteeListInfoJSON.coldAddress.addr
+    var hotaddress = datas.trusteeListInfoJSON.hotAddress.addr
+  }
+
+  function httpGethotBalance(theUrl) {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        hotbalance(xmlHttp.responseText)
+    }
+    xmlHttp.open('GET', theUrl, true)
+    xmlHttp.send(null)
+  }
+  function httpGetcoldBalance(theUrl) {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        coldbalance(xmlHttp.responseText)
+    }
+    xmlHttp.open('GET', theUrl, true)
+    xmlHttp.send(null)
+  }
+  function hotbalance(req) {
+    SethotbalanceAmount(JSON.parse(req).confirmed)
+  }
+  const [hotbalanceAmount, SethotbalanceAmount] = useState(0)
+  const [coldbalanceAmount, SetcoldbalanceAmount] = useState(0)
+  function coldbalance(req) {
+    SetcoldbalanceAmount(JSON.parse(req).confirmed)
+  }
+  httpGethotBalance(
+    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
+  )
+  httpGetcoldBalance(
+    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
+  )
   useEffect(() => {
     dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
@@ -52,64 +105,50 @@ export default function BtcStates() {
           <img src={Bitcoin} alt="Bitcoin" className="panel-heading-icon" />
           {$t('bitcoin_bridge')}
         </div>
-        <div className="panel-block align-start">
-          {!(items && items.length) ? (
-            <div style={{ minHeight: 269, display: 'flex', width: '100%' }}>
-              <Spinner />
-            </div>
-          ) : (
-            <div className="btc_block">
-              <div className="btc_status">
-                <div className="btc_title">{$t('multisig_hot')}</div>
-                <div className="btc_content">
-                  <ExternalLink
-                    value={status.hot_address}
-                    type="btcAddress"
-                    render={() => (
-                      <Amount
-                        value={status.hot_balance}
-                        symbol="BTC"
-                        hideSymbol
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="btc_status">
-                <div className="btc_title">{$t('multisig_cold')}</div>
-                <div className="btc_content">
-                  <ExternalLink
-                    value={status.cold_address}
-                    type="btcAddress"
-                    render={() => (
-                      <Amount
-                        value={status.cold_balance}
-                        symbol="BTC"
-                        hideSymbol
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="btc_status">
-                <div className="btc_title">{$t('deposit_txs')}</div>
-                <div className="btc_content">
-                  <NavLink to="/crossblocks/bitcoin/locklist">
-                    <Amount value={total} symbol="BTC" hideSymbol />
-                  </NavLink>
-                </div>
-              </div>
-              <div className="btc_status">
-                <div className="btc_title">{$t('withdrawal_txs')}</div>
-                <div className="btc_content">
-                  <NavLink to="/crossblocks/bitcoin/deposits">
-                    {status.deposit_count}
-                  </NavLink>
-                </div>
+        {!(items && items.length) ? (
+          <div style={{ minHeight: 269, display: 'flex', width: '100%' }}>
+            <Spinner />
+          </div>
+        ) : (
+          <div className="btc_block">
+            <div className="btc_status">
+              <div className="btc_title">{$t('multisig_hot')}</div>
+              <div className="btc_content">
+                <ExternalLink
+                  value={hotaddress}
+                  type="btcTestnetAddress"
+                  render={() => (
+                    <Amount value={hotbalanceAmount} symbol="BTC" hideSymbol />
+                  )}
+                />
               </div>
             </div>
-          )}
-        </div>
+            <div className="btc_status">
+              <div className="btc_title">{$t('multisig_cold')}</div>
+              <div className="btc_content">
+                <ExternalLink
+                  value={coldaddress}
+                  type="btcTestnetAddress"
+                  render={() => (
+                    <Amount value={coldbalanceAmount} symbol="BTC" hideSymbol />
+                  )}
+                />
+              </div>
+            </div>
+            <div className="btc_status">
+              <div className="btc_title">{$t('deposit_txs')}</div>
+              <div className="btc_content">
+                <NavLink to="/crossblocks/bitcoin/deposits">{total}</NavLink>
+              </div>
+            </div>
+            <div className="btc_status">
+              <div className="btc_title">{$t('withdrawal_txs')}</div>
+              <div className="btc_content">
+                <NavLink to="/crossblocks/bitcoin/withdrawals">{sum}</NavLink>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <section className="panel" style={{ flex: 1 }}>
         <div
