@@ -224,6 +224,15 @@ async function updateScanHeight(height) {
   )
 }
 
+async function updateLatestHeight(height) {
+  const statusCol = await getStatusCollection()
+  await statusCol.findOneAndUpdate(
+    { name: mainScanName },
+    { $set: { latestHeight: height } },
+    { upsert: true }
+  )
+}
+
 module.exports = {
   getValidatorsCollection,
   getExtrinsicCollection,
@@ -235,6 +244,7 @@ module.exports = {
   getFirstScanHeight,
   getTransferColCollection,
   updateScanHeight,
+  updateLatestHeight,
   getVoteCollection,
   getChainCollection,
   getOrdersCollection,
