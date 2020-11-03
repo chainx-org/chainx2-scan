@@ -66,6 +66,7 @@ class TransferController {
     const total = await col.count(query)
     const transfers = await col
       .find(query)
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
