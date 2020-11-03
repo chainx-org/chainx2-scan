@@ -8,6 +8,7 @@ import Table from '@components/Table'
 import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '@components/AccountLink'
 import CommonLink from '@components/CommonLink'
 import TxLink from '@components/TxLink'
 import TxType from '@components/TxType'
@@ -80,7 +81,7 @@ export default function CrossHost({ address }) {
           threshold: item.threshold,
           name: item.name,
           chainx_address: (
-            <AddressLink
+            <AccountLink
               // style={{ width: 138 }}
               // className="text-truncate"
               value={item.address}

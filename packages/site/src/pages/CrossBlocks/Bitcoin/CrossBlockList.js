@@ -8,6 +8,7 @@ import Table from '@components/Table'
 import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '@components/AccountLink'
 import TxLink from '@components/TxLink'
 import BlockLink from '@components/BlockLink'
 import DateShow from '@components/DateShow'
@@ -77,7 +78,7 @@ export default function CrossBlocksList({ address }) {
             />
           ),
           chainx_signer: (
-            <AddressLink
+            <AccountLink
               style={{ width: 138 }}
               className="text-truncate"
               value={item.signer}
