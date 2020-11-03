@@ -207,7 +207,7 @@ export const fetchDeposits = (
       }
     )
 
-    dispatch(setDeals(deposits))
+    dispatch(setDeposits(deposits))
   } finally {
     setLoading(false)
   }
