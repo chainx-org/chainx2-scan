@@ -229,7 +229,7 @@ export const fetchWithdrawals = (
       }
     )
 
-    dispatch(setDeals(withdrawals))
+    dispatch(setWithdrawals(withdrawals))
   } finally {
     setLoading(false)
   }
