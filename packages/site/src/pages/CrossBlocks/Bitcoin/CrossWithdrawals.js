@@ -147,11 +147,13 @@ export default function CrossWithdrawals({ address }) {
         {
           title: $t('tx_balance'),
           dataIndex: 'tx_balance'
-        },
+        }
+        /*
         {
           title: $t('withdraw_state'),
           dataIndex: 'state'
         }
+        */
       ]}
     />
   )

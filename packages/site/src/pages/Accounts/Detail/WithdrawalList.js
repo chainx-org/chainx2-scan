@@ -4,6 +4,9 @@ import $t from '../../../locale'
 import DateShow from '../../../components/DateShow'
 import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
+import AccountLink from '../../../components/AccountLink'
+import Amount from '../../../components/Amount'
+import ExternalLink from '../../../components/ExternalLink'
 import {
   withdrawalsSelector,
   fetchWithdrawals
@@ -22,7 +25,7 @@ export default function({ address }) {
     dispatch(fetchWithdrawals(address, setLoading, page - 1, pageSize))
   }, [address, dispatch, page, pageSize])
 
-  const { items, total } = useSelector(withdrawalsSelector)
+  const { items = [], total } = useSelector(withdrawalsSelector) || {}
 
   return (
     <Table
@@ -43,51 +46,82 @@ export default function({ address }) {
       }}
       dataSource={(items || []).map(item => {
         return {
-          key: item.hash,
-          hash: (
-            <TxLink
-              style={{ width: 136 }}
-              className="text-truncate"
-              value={item.hash}
+          key: item._id,
+          withdrawal_id: item.data[0],
+          btc_withdraw_address: (
+            <ExternalLink type="btcTestnetAddress" value={item.data[1].addr} />
+          ),
+          tx_balance: (
+            <Amount
+              value={item.data[1].balance}
+              precision={8}
+              symbol={'BTC'}
+              hideSymbol
             />
           ),
-          blockHeight: <BlockLink value={item.indexer.blockHeight} />,
-          blockTime: <DateShow value={item.indexer.blockTime} />,
+          chainx_ex_hash: (
+            <TxLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.extrinsicHash}
+            />
+          ),
+          chainx_account_id: item.data ? (
+            <AccountLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.data[1].applicant}
+            />
+          ) : (
+            ''
+          ),
+          asset_type: 'BTC',
+          chainx_time: <DateShow value={item.indexer.blockTime} />,
+          state: item.withdrawState
+
+          /*
           section: item.section,
-          operation: `${item.section}(${item.name})`,
+          operation: `${item.section}(${item.method})`,
           args: item.args,
           status: item.isSuccess ? <Success /> : <Fail />
+          */
         }
       })}
       columns={[
         {
-          title: $t('chainx_apply_hash'),
-          dataIndex: 'blockHeight'
+          title: $t('withdrawal_id'),
+          dataIndex: 'withdrawal_id'
         },
         {
-          title: $t('cross_btc_tx_hash'),
-          dataIndex: 'blockTime'
+          title: $t('chainx_ex_hash'),
+          dataIndex: 'chainx_ex_hash'
+        },
+        {
+          title: $t('chainx_withdraw_account_id'),
+          dataIndex: 'chainx_account_id'
         },
         {
           title: $t('btc_withdraw_address'),
-          dataIndex: 'hash'
+          dataIndex: 'btc_withdraw_address'
         },
         {
-          title: $t('ASSETNAME'),
-          dataIndex: 'hash'
+          title: $t('chainx_withdraw_created_time'),
+          dataIndex: 'chainx_time'
+        },
+        {
+          title: $t('cross_withdraw_asset'),
+          dataIndex: 'asset_type'
         },
         {
           title: $t('tx_balance'),
-          dataIndex: 'operation'
-        },
+          dataIndex: 'tx_balance'
+        }
+        /*
         {
           title: $t('withdraw_state'),
-          dataIndex: 'operation'
-        },
-        {
-          title: $t('common_memo'),
-          dataIndex: 'operation'
+          dataIndex: 'state'
         }
+        */
       ]}
     />
   )
