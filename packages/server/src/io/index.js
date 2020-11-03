@@ -1,6 +1,15 @@
-const { latestBlocksRoom, latestExtrinsicsRoom } = require('./constant')
+const {
+  latestBlocksRoom,
+  latestExtrinsicsRoom,
+  latestChainStatusRoom
+} = require('./constant')
+const {
+  getLatestBlocks,
+  getLatestExtrinsics,
+  getLatestChainStatus
+} = require('../store')
 const { feedLatestExtrinsics } = require('./latestExtrinsic')
-const { getLatestBlocks, getLatestExtrinsics } = require('../store')
+const { feedLatestChainStatus } = require('./latestChainStatus')
 const { feedLatestBlocks } = require('./latestBlock')
 
 module.exports = async io => {
@@ -14,6 +23,10 @@ module.exports = async io => {
         const extrinsics = getLatestExtrinsics()
         socket.emit('latestExtrinsics', extrinsics)
       }
+      if (room === latestChainStatusRoom) {
+        const status = getLatestChainStatus()
+        socket.emit('latestChainStatus', status)
+      }
       socket.join(room)
     })
     socket.on('unsubscribe', room => {
@@ -23,4 +36,5 @@ module.exports = async io => {
 
   await feedLatestBlocks(io)
   await feedLatestExtrinsics(io)
+  await feedLatestChainStatus(io)
 }
