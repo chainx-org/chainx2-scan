@@ -13,6 +13,7 @@ import { ReactComponent as Right } from '../../assets/right.svg'
 import { FormattedMessage } from 'react-intl'
 import $t from '../../locale'
 import { useDispatch, useSelector } from 'react-redux'
+import BridgeBlock from './BridgeBlock'
 import {
   crossBlocksSelector,
   crossTransactionsDepositedSelector,
@@ -74,28 +75,30 @@ export default function BtcStates() {
     }
     xmlHttp.open('GET', theUrl, true)
     xmlHttp.send(null)
+    if (coldbalanceAmount) {
+      xmlHttp.abort()
+    }
   }
   function hotbalance(req) {
     SethotbalanceAmount(JSON.parse(req).confirmed)
   }
-  const [hotbalanceAmount, SethotbalanceAmount] = useState(0)
-  const [coldbalanceAmount, SetcoldbalanceAmount] = useState(0)
+  const [hotbalanceAmount, SethotbalanceAmount] = useState(null)
+  const [coldbalanceAmount, SetcoldbalanceAmount] = useState(null)
   function coldbalance(req) {
     SetcoldbalanceAmount(JSON.parse(req).confirmed)
   }
-  /*
-  httpGethotBalance(
-    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
-  )
->>>>>>> develop
-  httpGetcoldBalance(
-    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
-  )
-  */
-  useEffect(() => {
-    dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
-  }, [dispatch, page, pageSize])
-  const { items = [] } = useSelector(crossBlocksSelector) || {}
+  console.log(coldbalanceAmount)
+  console.log(hotbalanceAmount)
+  if (hotbalanceAmount === null) {
+    httpGethotBalance(
+      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
+    )
+  }
+  if (coldbalanceAmount === null) {
+    httpGetcoldBalance(
+      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
+    )
+  }
   const extrinsics = useSelector(latestExtrinsicsSelector)
   const [status, setList] = useState({})
 
@@ -124,7 +127,9 @@ export default function BtcStates() {
                 <ExternalLink
                   value={hotaddress}
                   type="btcTestnetAddress"
-                  render={() => <Amount value={0} symbol="BTC" hideSymbol />}
+                  render={() => (
+                    <Amount value={hotbalanceAmount} symbol="BTC" hideSymbol />
+                  )}
                 />
               </div>
             </div>
@@ -134,7 +139,9 @@ export default function BtcStates() {
                 <ExternalLink
                   value={coldaddress}
                   type="btcTestnetAddress"
-                  render={() => <Amount value={0} symbol="BTC" hideSymbol />}
+                  render={() => (
+                    <Amount value={coldbalanceAmount} symbol="BTC" hideSymbol />
+                  )}
                 />
               </div>
             </div>
@@ -153,91 +160,7 @@ export default function BtcStates() {
           </div>
         )}
       </div>
-      <section className="panel" style={{ flex: 1 }}>
-        <div
-          className="panel-heading"
-          style={{ borderBottom: '1px solid #dbdbdb' }}
-        >
-          {$t('bridge_newblocks')}
-        </div>
-        <div className="panel-block">
-          <table className="table is-striped is-fullwidth data-table">
-            <thead>
-              <tr>
-                <th>{$t('cross_block_height')}</th>
-                <th>{$t('cross_block_hash')}</th>
-                <th>{$t('chainx_relay_transaction_hash')}</th>
-                <th>{$t('chainx_relay_transactioner')}</th>
-                <th>{$t('chainx_relay_transaction_time')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items && items.length
-                ? items
-                    .slice(0, 6)
-                    .map(
-                      ({
-                        _id,
-                        btcHeight,
-                        btcHash,
-                        chainxExtrinsicHash,
-                        signer,
-                        chainxTime
-                      }) => {
-                        return (
-                          <tr key={_id}>
-                            <td>
-                              <ExternalLink
-                                type="btcTestnetHash"
-                                style={{ width: 80 }}
-                                value={btcHeight}
-                                render={() => {
-                                  return <NumberFormat value={btcHeight} />
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <ExternalLink
-                                type="btcTestnetHash"
-                                value={btcHash}
-                                render={() => {
-                                  return (
-                                    <Hash
-                                      style={{ width: 136 }}
-                                      className="text-truncate"
-                                      value={btcHash}
-                                    />
-                                  )
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <TxLink
-                                style={{ width: 136 }}
-                                className="text-truncate"
-                                value={chainxExtrinsicHash}
-                              />
-                            </td>
-                            <td>
-                              <AddressLink
-                                style={{ width: 136 }}
-                                className="text-truncate"
-                                value={signer}
-                              />
-                            </td>
-                            <td>
-                              <DateShow value={chainxTime} />
-                            </td>
-                          </tr>
-                        )
-                      }
-                    )
-                : loading}
-            </tbody>
-          </table>
-        </div>
-        <SeeAll link="/crossblocks" />
-      </section>
+      <BridgeBlock />
     </div>
   )
 }
