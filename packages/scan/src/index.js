@@ -122,8 +122,7 @@ async function main() {
 
     logger.info('indexing block:', block.block.header.number.toString())
     let indexedBlockHeight
-    indexedBlockHeight = await block.block.header.number.toString()
-    console.log('indexed block height', indexedBlockHeight)
+    indexedBlockHeight = await block.block.header.number.toNumber()
 
     try {
       console.log('try handle block start')
