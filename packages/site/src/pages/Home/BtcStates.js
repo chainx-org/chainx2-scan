@@ -87,8 +87,6 @@ export default function BtcStates() {
   function coldbalance(req) {
     SetcoldbalanceAmount(JSON.parse(req).confirmed)
   }
-  console.log(coldbalanceAmount)
-  console.log(hotbalanceAmount)
   if (hotbalanceAmount === null) {
     httpGethotBalance(
       `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
