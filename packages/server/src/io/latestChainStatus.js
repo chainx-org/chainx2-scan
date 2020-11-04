@@ -27,8 +27,9 @@ async function feedLatestChainStatus(io) {
         latestHeader = await header
       }
     )
-    const latestHeight =
-      latestHeader !== {} ? latestHeader.number.toNumber() : 0
+    const latestHeight = latestHeader.number
+      ? latestHeader.number.toNumber()
+      : 0
     chainStatus.best = latestHeight
 
     // 已确认区块高度
