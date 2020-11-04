@@ -18,7 +18,7 @@ class WithdrawalsController {
       $and: [
         { section: 'xGatewayRecords' },
         { method: 'WithdrawalCreated' },
-        { 'data[1].applicant': address }
+        { 'data.1.applicant': address }
       ]
     }
 

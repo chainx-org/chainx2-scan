@@ -1,5 +1,6 @@
 let latestBlocks = []
 let latestExtrinsics = []
+let latestChainStatus = []
 
 function setLatestBlocks(blocks) {
   latestBlocks = blocks
@@ -17,9 +18,19 @@ function getLatestExtrinsics() {
   return latestExtrinsics
 }
 
+function setLatestChainStatus(status) {
+  latestChainStatus = status
+}
+
+function getLatestChainStatus() {
+  return latestChainStatus
+}
+
 module.exports = {
   setLatestBlocks,
   getLatestBlocks,
   setLatestExtrinsics,
-  getLatestExtrinsics
+  getLatestExtrinsics,
+  setLatestChainStatus,
+  getLatestChainStatus
 }

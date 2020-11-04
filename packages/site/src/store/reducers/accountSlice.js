@@ -133,13 +133,15 @@ export const fetchVotes = (address, setLoading = nonFunc) => async dispatch => {
 
 export const fetchExtrinsics = (
   address,
+  page,
+  pageSize,
   setLoading = nonFunc
 ) => async dispatch => {
   setLoading(true)
   try {
-    const { result: extrinsics } = await api.fetch(
-      `/accounts/${address}/extrinsics`
-    )
+    const {
+      result: extrinsics
+    } = await api.fetch(`/accounts/${address}/extrinsics`, { page, pageSize })
 
     dispatch(setExtrinsics(extrinsics))
   } finally {
@@ -205,7 +207,7 @@ export const fetchDeposits = (
       }
     )
 
-    dispatch(setDeals(deposits))
+    dispatch(setDeposits(deposits))
   } finally {
     setLoading(false)
   }
@@ -227,7 +229,7 @@ export const fetchWithdrawals = (
       }
     )
 
-    dispatch(setDeals(withdrawals))
+    dispatch(setWithdrawals(withdrawals))
   } finally {
     setLoading(false)
   }

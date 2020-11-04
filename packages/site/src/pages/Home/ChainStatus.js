@@ -1,21 +1,16 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { useRedux } from '../../shared'
+import { latestChainStatusSelector } from '../../store/reducers/latestChainStatusSlice'
 import api from '../../services/api'
 import { Amount, NumberFormat, AntSpinner as Spinner } from '../../components'
 import PCX from '../../assets/tokens/pcx.png'
 import $t from '../../locale'
 
-export default function DashBoard() {
-  const [{ data }, setState] = useRedux('dashBoard', { data: {} })
-
-  useEffect(() => {
-    const subscription = api
-      .fetchChainStatus$()
-      .subscribe(result => setState({ data: result }))
-    return () => subscription.unsubscribe()
-  }, [api])
+export default function ChainStatus() {
+  const data = useSelector(latestChainStatusSelector) || {}
 
   const dataSource = [
     {
@@ -40,24 +35,9 @@ export default function DashBoard() {
       ),
       data: (
         <>
-          <NumberFormat value={data.transactions} /> /{' '}
+          <NumberFormat value={data.extrinsic_count} /> /{' '}
           <NumberFormat value={data.account_count} />
         </>
-      )
-    },
-    {
-      label: (
-        <>
-          {$t('contracts_counts')} / {$t('call_counts')}
-        </>
-      ),
-      data: (
-        <div>
-          <NavLink to={`/contracts`} className="nav-link">
-            <NumberFormat value={data.contract_count} />
-          </NavLink>{' '}
-          / <NumberFormat value={data.contract_call_count} />
-        </div>
       )
     },
     {
@@ -69,7 +49,7 @@ export default function DashBoard() {
       data: (
         <div>
           <NavLink to={`/validators`} className="nav-link">
-            <NumberFormat value={data.validators} />
+            <NumberFormat value={data.validator_count} />
           </NavLink>{' '}
           / <NumberFormat value={data.vote_cycle} />
         </div>
@@ -122,6 +102,21 @@ export default function DashBoard() {
         <div>
           <Amount value={data.btc_power} hideSymbol /> /{' '}
           <Amount value={data.sdot_power} hideSymbol />
+        </div>
+      )
+    },
+    {
+      label: (
+        <>
+          {$t('contracts_counts')} / {$t('call_counts')}
+        </>
+      ),
+      data: (
+        <div>
+          <NavLink to={`/contracts`} className="nav-link">
+            <NumberFormat value={data.contract_count} />
+          </NavLink>{' '}
+          / <NumberFormat value={data.contract_call_count} />
         </div>
       )
     }

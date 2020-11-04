@@ -1,12 +1,12 @@
 import React from 'react'
 import BestBlocks from './BestBlocks'
 import BestExtrinsics from './BestExtrinsics'
-import DashBoard from './DashBoard'
+import ChainStatus from './ChainStatus'
 import BtcStates from './BtcStates'
 export default function Home() {
   return (
     <section className="blockTransaction">
-      <DashBoard />
+      <ChainStatus />
       <div className="columns">
         <div className="column">
           <BestBlocks />

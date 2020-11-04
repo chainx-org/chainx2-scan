@@ -12,7 +12,8 @@ const {
   getBlockCollection,
   getEventCollection,
   getFirstScanHeight,
-  updateScanHeight
+  updateScanHeight,
+  updateLatestHeight
 } = require('./mongoClient')
 const { getApi, disconnect } = require('./api')
 const {
@@ -121,6 +122,7 @@ async function main() {
     await handleBlock(block.block, author)
     preBlockHash = block.block.hash.toHex()
 
+    await updateLatestHeight(chainHeight)
     await updateAssetsInfo(scanHeight)
     await updateScanHeight(scanHeight++)
     await updateTrusteeList(blockHash)

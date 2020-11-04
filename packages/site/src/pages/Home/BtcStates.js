@@ -46,7 +46,7 @@ export default function BtcStates() {
   useEffect(() => {
     dispatch(fetchBitCoinTransitbridgeWithdrawl(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
-  const { sum } = useSelector(crossTransactionsWithdrawlSelector)
+  const { sum } = useSelector(crossTransactionsWithdrawlSelector) || {}
 
   useEffect(() => {
     dispatch(fetchBitCoinAddress(setLoading, page - 1, pageSize))
@@ -83,33 +83,15 @@ export default function BtcStates() {
   function coldbalance(req) {
     SetcoldbalanceAmount(JSON.parse(req).confirmed)
   }
-  if (hotbalanceAmount) {
-    setTimeout(
-      httpGethotBalance(
-        `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
-      ),
-      600000
-    )
-  } else {
-    httpGethotBalance(
-      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
-    )
-  }
-  if (coldbalanceAmount) {
-    setTimeout(
-      httpGetcoldBalance(
-        `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
-      ),
-      600000
-    )
-  } else {
-    httpGetcoldBalance(
-      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
-    )
-  }
+  /*
+  httpGethotBalance(
+    `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
+  )
+>>>>>>> develop
   httpGetcoldBalance(
     `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
   )
+  */
   useEffect(() => {
     dispatch(fetchCrossBlocks(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
@@ -127,7 +109,10 @@ export default function BtcStates() {
           <img src={Bitcoin} alt="Bitcoin" className="panel-heading-icon" />
           {$t('bitcoin_bridge')}
         </div>
+        {/*
         {!(items && items.length) ? (
+        */}
+        {false ? (
           <div style={{ minHeight: 269, display: 'flex', width: '100%' }}>
             <Spinner />
           </div>
@@ -139,9 +124,7 @@ export default function BtcStates() {
                 <ExternalLink
                   value={hotaddress}
                   type="btcTestnetAddress"
-                  render={() => (
-                    <Amount value={hotbalanceAmount} symbol="BTC" hideSymbol />
-                  )}
+                  render={() => <Amount value={0} symbol="BTC" hideSymbol />}
                 />
               </div>
             </div>
@@ -151,22 +134,20 @@ export default function BtcStates() {
                 <ExternalLink
                   value={coldaddress}
                   type="btcTestnetAddress"
-                  render={() => (
-                    <Amount value={coldbalanceAmount} symbol="BTC" hideSymbol />
-                  )}
+                  render={() => <Amount value={0} symbol="BTC" hideSymbol />}
                 />
               </div>
             </div>
             <div className="btc_status">
               <div className="btc_title">{$t('deposit_txs')}</div>
               <div className="btc_content">
-                <NavLink to="/crossblocks/bitcoin/deposits">{total}</NavLink>
+                <NavLink to="/crossblocks/bitcoin/deposits">{0}</NavLink>
               </div>
             </div>
             <div className="btc_status">
               <div className="btc_title">{$t('withdrawal_txs')}</div>
               <div className="btc_content">
-                <NavLink to="/crossblocks/bitcoin/withdrawals">{sum}</NavLink>
+                <NavLink to="/crossblocks/bitcoin/withdrawals">{0}</NavLink>
               </div>
             </div>
           </div>

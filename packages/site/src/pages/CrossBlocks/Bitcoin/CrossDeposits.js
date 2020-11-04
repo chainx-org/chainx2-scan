@@ -8,6 +8,7 @@ import Table from '@components/Table'
 import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '@components/AccountLink'
 import TxLink from '@components/TxLink'
 import TxType from '@components/TxType'
 import BlockLink from '@components/BlockLink'
@@ -18,7 +19,7 @@ import Hash from '@components/Hash'
 
 import swapEndian from '../../../utils/swapEndian'
 
-export default function CrossDeposits({ address }) {
+export default function CrossDeposits({ props }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
@@ -95,7 +96,7 @@ export default function CrossDeposits({ address }) {
             />
           ),
           chainx_account_id: item.data ? (
-            <AddressLink
+            <AccountLink
               style={{ width: 138 }}
               className="text-truncate"
               value={item.data[1]}

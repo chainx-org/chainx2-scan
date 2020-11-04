@@ -18,7 +18,7 @@ class DepositsController {
       $and: [
         { section: 'xGatewayBitcoin' },
         { method: 'Deposited' },
-        { 'data[1]': address }
+        { 'data.1': address }
       ]
     }
 
