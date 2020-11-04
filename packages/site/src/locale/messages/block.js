@@ -51,6 +51,10 @@ export default {
     zh: '确认高度',
     en: 'Finalized Block'
   },
+  scan_block: {
+    zh: '扫描高度',
+    en: 'Scanned Block'
+  },
   power_distributton: {
     zh: '挖矿收益比率',
     en: 'Mining Distribution'

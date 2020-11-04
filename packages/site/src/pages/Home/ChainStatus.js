@@ -73,6 +73,19 @@ export default function ChainStatus() {
       )
     },
     {
+      label: (
+        <div>
+          {$t('scan_block')} / {$t('event_count')}
+        </div>
+      ),
+      data: (
+        <div>
+          <NumberFormat value={data.scan_height} /> /{' '}
+          <NumberFormat value={data.event_count} />
+        </div>
+      )
+    },
+    {
       label: $t('intention_bonded'),
       data: <Amount value={data.selfvote_count} hideSymbol />
     },
@@ -105,7 +118,8 @@ export default function ChainStatus() {
           <Amount value={data.sdot_power} hideSymbol />
         </div>
       )
-    },
+    }
+    /*
     {
       label: (
         <>
@@ -121,6 +135,7 @@ export default function ChainStatus() {
         </div>
       )
     }
+    */
   ]
 
   const loading = (

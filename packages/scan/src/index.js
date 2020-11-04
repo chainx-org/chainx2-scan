@@ -11,9 +11,11 @@ const {
   getExtrinsicCollection,
   getBlockCollection,
   getEventCollection,
+  getErrorBlockCollection,
   getFirstScanHeight,
   updateScanHeight,
-  updateLatestHeight
+  updateLatestHeight,
+  updateIndexedHeight
 } = require('./mongoClient')
 const { getApi, disconnect } = require('./api')
 const {
@@ -119,11 +121,38 @@ async function main() {
     const author = extractAuthor(validators, block.block.header)
 
     logger.info('indexing block:', block.block.header.number.toString())
-    await handleBlock(block.block, author)
+    let indexedBlockHeight
+    indexedBlockHeight = await block.block.header.number.toString()
+    console.log('indexed block height', indexedBlockHeight)
+
+    try {
+      console.log('try handle block start')
+      await handleBlock(block.block, author)
+      console.log('try handle block end')
+    } catch (e) {
+      logger.info('handle block failed: ', e.message)
+      /*
+      const errorBlockCol = await getErrorBlockCollection()
+      const errMessage = e.message
+      const errorBlock = block.block
+      const doc = {
+        errorBlock,
+        author,
+        errMessage
+      }
+      await errorBlockCol.insertOne(doc)
+      scanHeight = scanHeight + 1
+      await updateScanHeight(scanHeight)
+      */
+      // await sleep(1000)
+      // continue
+    }
     preBlockHash = block.block.hash.toHex()
 
+    await updateIndexedHeight(indexedBlockHeight)
     await updateLatestHeight(chainHeight)
     await updateAssetsInfo(scanHeight)
+
     await updateScanHeight(scanHeight++)
     await updateTrusteeList(blockHash)
     await updateDepositMineInfo(blockHash)
@@ -190,7 +219,14 @@ async function handleBlock(block, author) {
   const blockIndexer = { blockHeight, blockHash: hash, blockTime }
 
   const api = await getApi()
-  const allEvents = await api.query.system.events.at(hash)
+  let allEvents = {}
+  try {
+    allEvents = await api.query.system.events.at(hash)
+  } catch (e) {
+    logger.info('get all events failed: ', e.message)
+    allEvents = {}
+    // await sleep(1000)
+  }
   await handleEvents(allEvents, blockIndexer, block.extrinsics)
   await updateDepthByEvents(allEvents)
 

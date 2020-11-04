@@ -46,5 +46,9 @@ export default {
   total_extrinsics: {
     zh: '交易总数',
     en: 'Total Extrinsics'
+  },
+  timestamp: {
+    zh: '时间戳',
+    en: 'timestamp'
   }
 }
