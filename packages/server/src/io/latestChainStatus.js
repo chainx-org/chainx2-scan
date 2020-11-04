@@ -44,7 +44,7 @@ async function feedLatestChainStatus(io) {
     // 已扫描区块高度
     const statusCol = await getStatusCollection()
     const statusInfo = await statusCol.findOne({ name: 'main-scan-height' })
-    chainStatus.scan_height = statusInfo.value
+    chainStatus.scan_height = statusInfo.indexedHeight
 
     // 交易总数
     const extrinsicCol = await getExtrinsicCollection()
