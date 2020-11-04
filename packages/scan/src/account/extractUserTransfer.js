@@ -42,6 +42,5 @@ module.exports = async function extractUserTransfer(
   const result = await exCol.insertOne(data)
   if (result.result && !result.result.ok) {
     // TODO: 处理插入不成功的情况
-    console.log('插入失败')
   }
 }

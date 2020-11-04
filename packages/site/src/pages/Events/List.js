@@ -6,6 +6,7 @@ import DateShow from '../../components/DateShow'
 import BlockLink from '../../components/BlockLink'
 import TxLink from '../../components/TxLink'
 import { useLoad } from '../../utils/hooks'
+import TxAction from '../../components/TxAction'
 
 export default function() {
   const [page, setPage] = useState(1)
@@ -52,7 +53,7 @@ export default function() {
           blockHeight: <BlockLink value={blockHeight} />,
           blockTime: <DateShow value={blockTime} />,
           index,
-          method,
+          method: <TxAction module={item.method} call={item.name} />,
           extrinsicHash: (
             <TxLink
               style={{ width: 136 }}
