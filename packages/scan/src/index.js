@@ -120,7 +120,9 @@ async function main() {
     const author = extractAuthor(validators, block.block.header)
 
     logger.info('indexing block:', block.block.header.number.toString())
-    const indexedBlockHeight = block.block.header.number.toNumber()
+    let indexedBlockHeight
+    indexedBlockHeight = await block.block.header.number.toNumber()
+
     await handleBlock(block.block, author)
     preBlockHash = block.block.hash.toHex()
 
