@@ -9,7 +9,8 @@ import {
   fetchCrossBlocks
 } from '../../store/reducers/crossBlocksSlice'
 import { useDispatch, useSelector } from 'react-redux'
-export default function BridgeBlock() {
+
+const BridgeBlock = function() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
@@ -107,3 +108,6 @@ export default function BridgeBlock() {
     </section>
   )
 }
+
+
+export default React.memo(BridgeBlock)

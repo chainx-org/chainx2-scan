@@ -109,4 +109,4 @@ const PowerDistributton = function() {
   )
 }
 
-export default PowerDistributton
+export default React.memo(PowerDistributton)
