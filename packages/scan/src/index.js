@@ -148,7 +148,7 @@ async function handleEvents(events, indexer, extrinsics) {
     }
 
     const index = parseInt(event.index)
-    const meta = event.meta.toJSON()
+    const meta = event.meta ? event.meta.toJSON() : {}
     const section = event.section
     const method = event.method
     const data = event.data.toJSON()
