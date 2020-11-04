@@ -4,9 +4,9 @@ import { setLatestBlocks } from '../store/reducers/latestBlockSlice'
 import { setLatestExtrinsics } from '../store/reducers/latestExtrinsicSlice'
 import { setLatestChainStatus } from '../store/reducers/latestChainStatusSlice'
 
-console.log('addr', process.env.REACT_APP_SERVER)
-// const socket = io(process.env.REACT_APP_SERVER)
-const socket = io('http://localhost:3213')
+const socket = io(process.env.REACT_APP_SERVER)
+// const socket = io('http://localhost:3213')
+
 socket.connect()
 socket.on('connect', () => {
   socket.emit('subscribe', 'LATEST_CHAIN_STATUS_ROOM')
