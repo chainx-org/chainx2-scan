@@ -3,6 +3,10 @@ export default {
     zh: '事件列表',
     en: 'Events'
   },
+  event_count: {
+    zh: 'ChainX事件总数',
+    en: 'Event Count'
+  },
   event_id: {
     zh: '事件 Id',
     en: 'Event Id'
