@@ -24,6 +24,7 @@ const crossBlockCollectionName = 'crossBlock'
 const crossTransactionCollectionName = 'crossTransaction'
 const crossTrusteesCollectionName = 'trustees'
 const depositMineCollectionName = 'depositMine'
+const errorBlockCollectionName = 'errorBlock'
 
 const mainScanName = 'main-scan-height'
 
@@ -49,6 +50,7 @@ let crossBlockCol = null
 let crossTransactionCol = null
 let crossTrusteesCol = null
 let depositMineCol = null
+let errorBlockCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url, {
@@ -77,6 +79,7 @@ async function initDb() {
   crossTransactionCol = db.collection(crossTransactionCollectionName)
   crossTrusteesCol = db.collection(crossTrusteesCollectionName)
   depositMineCol = db.collection(depositMineCollectionName)
+  errorBlockCol = db.collection(errorBlockCollectionName)
 
   await _createIndexes()
 }
@@ -201,6 +204,11 @@ async function getDepositMineCollection() {
   return depositMineCol
 }
 
+async function getErrorBlockCollection() {
+  await tryInit(errorBlockCol)
+  return errorBlockCol
+}
+
 // 获取首个扫描区块的高度
 async function getFirstScanHeight() {
   const statusCol = await getStatusCollection()
@@ -266,5 +274,6 @@ module.exports = {
   getCrossBlockCollection,
   getCrossTransactionCollection,
   getCrossTrusteesCollection,
-  getDepositMineCollection
+  getDepositMineCollection,
+  getErrorBlockCollection
 }

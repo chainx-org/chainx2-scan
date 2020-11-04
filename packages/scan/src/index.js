@@ -11,6 +11,7 @@ const {
   getExtrinsicCollection,
   getBlockCollection,
   getEventCollection,
+  getErrorBlockCollection,
   getFirstScanHeight,
   updateScanHeight,
   updateLatestHeight,
@@ -121,9 +122,27 @@ async function main() {
 
     logger.info('indexing block:', block.block.header.number.toString())
     let indexedBlockHeight
-    indexedBlockHeight = await block.block.header.number.toNumber()
+    indexedBlockHeight = await block.block.header.number.toString()
+    console.log('indexed block height', indexedBlockHeight)
 
-    await handleBlock(block.block, author)
+    try {
+      console.log('try handle block start')
+      await handleBlock(block.block, author)
+      console.log('try handle block end')
+    } catch (e) {
+      logger.info('handle block failed: ', e.message)
+      const errorBlockCol = await getErrorBlockCollection()
+      const errMessage = e.message
+      const errorBlock = block.block
+      const doc = {
+        errorBlock,
+        author,
+        errMessage
+      }
+      await errorBlockCol.insertOne(doc)
+      await sleep(1000)
+      continue
+    }
     preBlockHash = block.block.hash.toHex()
 
     await updateIndexedHeight(indexedBlockHeight)
