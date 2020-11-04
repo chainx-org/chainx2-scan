@@ -141,7 +141,9 @@ async function main() {
       }
       await errorBlockCol.insertOne(doc)
       await sleep(1000)
-      // continue
+      scanHeight = scanHeight + 1
+      await updateScanHeight(scanHeight)
+      continue
     }
     preBlockHash = block.block.hash.toHex()
 
