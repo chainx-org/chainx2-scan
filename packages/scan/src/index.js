@@ -131,6 +131,7 @@ async function main() {
       console.log('try handle block end')
     } catch (e) {
       logger.info('handle block failed: ', e.message)
+      /*
       const errorBlockCol = await getErrorBlockCollection()
       const errMessage = e.message
       const errorBlock = block.block
@@ -140,10 +141,11 @@ async function main() {
         errMessage
       }
       await errorBlockCol.insertOne(doc)
-      await sleep(1000)
       scanHeight = scanHeight + 1
       await updateScanHeight(scanHeight)
-      continue
+      */
+      // await sleep(1000)
+      // continue
     }
     preBlockHash = block.block.hash.toHex()
 
@@ -217,7 +219,14 @@ async function handleBlock(block, author) {
   const blockIndexer = { blockHeight, blockHash: hash, blockTime }
 
   const api = await getApi()
-  const allEvents = await api.query.system.events.at(hash)
+  let allEvents = {}
+  try {
+    allEvents = await api.query.system.events.at(hash)
+  } catch (e) {
+    logger.info('get all events failed: ', e.message)
+    allEvents = {}
+    // await sleep(1000)
+  }
   await handleEvents(allEvents, blockIndexer, block.extrinsics)
   await updateDepthByEvents(allEvents)
 
