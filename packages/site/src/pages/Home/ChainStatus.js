@@ -8,6 +8,7 @@ import api from '../../services/api'
 import { Amount, NumberFormat, AntSpinner as Spinner } from '../../components'
 import PCX from '../../assets/tokens/pcx.png'
 import $t from '../../locale'
+import PowerDistributton from './PowerDistributton'
 
 export default function ChainStatus() {
   const data = useSelector(latestChainStatusSelector) || {}
@@ -167,10 +168,7 @@ export default function ChainStatus() {
           {/*<Transaction style={{ width: "40%", height: "265px" }} />*/}
         </div>
       </section>
-      <div className="panel" style={{ width: 417, marginBottom: '1.25rem' }}>
-        <div className="panel-heading">{$t('power_distributton')}</div>
-        <div className="panel-block align-start"></div>
-      </div>
+      <PowerDistributton />
     </div>
   )
 }
