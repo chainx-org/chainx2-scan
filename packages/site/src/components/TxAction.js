@@ -6,8 +6,11 @@ export default function TxAction(props) {
   const { module, call, className, style } = props
 
   return (
-    <div className={classnames(className)} style={style}>{`${$t(module) || (module)}${
-      call ? `(${$t(call) || (call)})` : ''
-    }`}</div>
+    <div className={classnames(className)} style={style}>
+      {`
+      ${module ? `${$t(module) || (module)}`: ''}
+      ${module && call ? '-' : ''}
+      ${call ? `${$t(call) || (call)}` : ''}
+      `}</div>
   )
 }

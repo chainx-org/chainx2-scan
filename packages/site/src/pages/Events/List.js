@@ -53,7 +53,7 @@ export default function() {
           blockHeight: <BlockLink value={blockHeight} />,
           blockTime: <DateShow value={blockTime} />,
           index,
-          method: <TxAction module={item.method} call={item.name} />,
+          method: <TxAction call={method} />,
           extrinsicHash: (
             <TxLink
               style={{ width: 136 }}
@@ -61,7 +61,7 @@ export default function() {
               value={extrinsicHash}
             />
           ),
-          section: <TxAction module={item.section} />,
+          section: <TxAction module={section} />,
           meta,
           data,
           key: id

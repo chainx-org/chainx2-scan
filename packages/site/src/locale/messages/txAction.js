@@ -23,7 +23,8 @@ const moduleZhNameMap = {
   balances: '余额',
   xBridgeFeatures: '桥特性集',
   xBridgeCommon: '桥基础',
-  xContracts: '合约'
+  xContracts: '合约',
+  offences: '犯规',
 }
 
 export const moduleEnNameMap = {
@@ -51,7 +52,8 @@ export const moduleEnNameMap = {
   session: 'Session',
   xBridgeFeatures: 'Bridge Features',
   xBridgeCommon: 'Bridge Common',
-  xContracts: 'contracts'
+  xContracts: 'contracts',
+  offences: 'offences',
 }
 
 const moduleNameMap = Object.entries(moduleEnNameMap).reduce(
@@ -169,7 +171,10 @@ export const callZhNameMap = {
   Lock: '锁仓LBTC',
   Unlock: '解锁LBTC',
   UnlockedFromRoot: '议会解锁LBTC',
-  ChannelBinding: '渠道绑定'
+  ChannelBinding: '渠道绑定',
+  Minted: '铸币',
+  Slashed: '清除',
+  Offence: '犯规',
 }
 
 export const callEnNameMap = {
@@ -271,7 +276,10 @@ export const callEnNameMap = {
   Lock: 'Lock LBTC',
   Unlock: 'Unlock LBTC',
   UnlockedFromRoot: 'Council Unlock LBTC',
-  ChannelBinding: 'Channel Binding'
+  ChannelBinding: 'Channel Binding',
+  Minted: 'Minted',
+  Slashed: 'Slashed',
+  Offence: 'Offence',
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
