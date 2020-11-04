@@ -6,5 +6,5 @@ module.exports = {
   latestBlocksRoom,
   latestExtrinsicsRoom,
   latestChainStatusRoom,
-  FEED_INTERVAL: 6000
+  FEED_INTERVAL: 3000
 }

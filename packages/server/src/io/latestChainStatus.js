@@ -4,6 +4,7 @@ const { latestChainStatusRoom } = require('./constant')
 const { getBlockCollection } = require('../services/mongo')
 const { getApi } = require('../api')
 const { getExtrinsicCollection } = require('../services/mongo')
+const { getEventCollection } = require('../services/mongo')
 const { getStatusCollection } = require('../services/mongo')
 const { getAccountsCollection } = require('../services/mongo')
 const { getValidatorsCollection } = require('../services/mongo')
@@ -16,8 +17,8 @@ async function feedLatestChainStatus(io) {
     const api = await getApi()
 
     // 最新区块高度
-    const statusCol = await getStatusCollection()
     /*
+    const statusCol = await getStatusCollection()
     const heightInfo = await statusCol.findOne({ name: 'main-scan-height' })
     chainStatus.best = heightInfo.latestHeight
     */
@@ -40,6 +41,11 @@ async function feedLatestChainStatus(io) {
     const finalizedHeight = latestFinalizedBlockHeader.number.toNumber()
     chainStatus.finalized = finalizedHeight
 
+    // 已扫描区块高度
+    const statusCol = await getStatusCollection()
+    const statusInfo = await statusCol.findOne({ name: 'main-scan-height' })
+    chainStatus.scan_height = statusInfo.value
+
     // 交易总数
     const extrinsicCol = await getExtrinsicCollection()
     const extrinsicCount = await extrinsicCol.countDocuments({})
@@ -49,6 +55,11 @@ async function feedLatestChainStatus(io) {
     const accountCol = await getAccountsCollection()
     const accountCount = await accountCol.countDocuments({})
     chainStatus.account_count = accountCount
+
+    // 事件总数
+    const eventCol = await getEventCollection()
+    const eventCount = await eventCol.countDocuments({})
+    chainStatus.event_count = eventCount
 
     // 验证节点总数
     const validatorCol = await getValidatorsCollection()
