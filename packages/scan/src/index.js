@@ -141,13 +141,14 @@ async function main() {
       }
       await errorBlockCol.insertOne(doc)
       await sleep(1000)
-      continue
+      // continue
     }
     preBlockHash = block.block.hash.toHex()
 
     await updateIndexedHeight(indexedBlockHeight)
     await updateLatestHeight(chainHeight)
     await updateAssetsInfo(scanHeight)
+
     await updateScanHeight(scanHeight++)
     await updateTrusteeList(blockHash)
     await updateDepositMineInfo(blockHash)
