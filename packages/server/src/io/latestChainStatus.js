@@ -67,54 +67,19 @@ async function feedLatestChainStatus(io) {
       isValidating: true
     })
     chainStatus.validator_count = validatorCount
-    // 节点抵押总数
-    /*
-    const selfBondedSum = await validatorCol.aggregate(
-      [
-        {
-          "$group": {
-            "_id": null,
-            "totalSelfBonded": {
-              "$sum": {
-                "$toDouble": "$selfBonded"
-              }
-            },
-            "count": {
-              "$sum": 1
-            }
-          }
-        }
-]
-    ).toArray()
-    // console.log('selfBondedSum', selfBondedSum)
-    chainStatus.totalValidatorBonded = selfBondedSum[0].totalSelfBonded
-    */
-    chainStatus.totalValidatorBonded = 0
-    // 用户投票总数
-    // 现在用的是节点得票总数，另外可以将用户的投票总数加起来
-    /*
-    const totalNomimationSum = await validatorCol.aggregate(
-      [
-        {
-          "$group": {
-            "_id": null,
-            "totalSum": {
-              "$sum": {
-                "$toDouble": "$totalNomination"
-              }
-            },
-            "count": {
-              "$sum": 1
-            }
-          }
-        }
-]
-    ).toArray()
-    // console.log('selfBondedSum', selfBondedSum)
-    chainStatus.totalNominationSum = totalNomimationSum[0].totalSum
-    */
-    chainStatus.totalNominationSum = 0
 
+    // 1.节点抵押总数
+    // 2.用户投票总数
+    // 注：现在用的是节点得票总数，另外将用户的投票总数加起来也可以得到
+    const allValidators = await validatorCol.find({}).toArray()
+    let selfBondedSum = 0
+    let totalNomimationSum = 0
+    for (let i=0;i<allValidators.length;i++) {
+      selfBondedSum = selfBondedSum + parseFloat(allValidators[i].selfBonded)
+      totalNomimationSum = totalNomimationSum + parseFloat(allValidators[i].totalNomination)
+    }
+    chainStatus.totalValidatorBonded = selfBondedSum
+    chainStatus.totalNominationSum = totalNomimationSum
 
     // 发行总量
     const totalIssuance = await api.query.balances.totalIssuance()
