@@ -87,11 +87,11 @@ export default function ChainStatus() {
     },
     {
       label: $t('intention_bonded'),
-      data: <Amount value={data.selfvote_count} hideSymbol />
+      data: <Amount value={data.totalValidatorBonded} hideSymbol />
     },
     {
       label: $t('use_vote'),
-      data: <Amount value={data.votes} hideSymbol />
+      data: <Amount value={data.totalNominationSum} hideSymbol />
     },
     {
       label: $t('price'),

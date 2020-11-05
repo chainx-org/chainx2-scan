@@ -61,12 +61,54 @@ async function feedLatestChainStatus(io) {
     const eventCount = await eventCol.countDocuments({})
     chainStatus.event_count = eventCount
 
-    // 验证节点总数
     const validatorCol = await getValidatorsCollection()
+    // 验证节点总数
     const validatorCount = await validatorCol.countDocuments({
       isValidating: true
     })
     chainStatus.validator_count = validatorCount
+    // 节点抵押总数
+    const selfBondedSum = await validatorCol.aggregate(
+      [
+        {
+          "$group": {
+            "_id": null,
+            "totalSelfBonded": {
+              "$sum": {
+                "$toDouble": "$selfBonded"
+              }
+            },
+            "count": {
+              "$sum": 1
+            }
+          }
+        }
+]
+    ).toArray()
+    // console.log('selfBondedSum', selfBondedSum)
+    chainStatus.totalValidatorBonded = selfBondedSum[0].totalSelfBonded
+    // 用户投票总数
+    // 现在用的是节点得票总数，另外可以将用户的投票总数加起来
+    const totalNomimationSum = await validatorCol.aggregate(
+      [
+        {
+          "$group": {
+            "_id": null,
+            "totalSum": {
+              "$sum": {
+                "$toDouble": "$totalNomination"
+              }
+            },
+            "count": {
+              "$sum": 1
+            }
+          }
+        }
+]
+    ).toArray()
+    // console.log('selfBondedSum', selfBondedSum)
+    chainStatus.totalNominationSum = totalNomimationSum[0].totalSum
+
 
     // 发行总量
     const totalIssuance = await api.query.balances.totalIssuance()
