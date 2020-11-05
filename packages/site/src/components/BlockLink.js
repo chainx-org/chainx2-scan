@@ -7,7 +7,7 @@ export default function BlockLink(props) {
 
   return (
     <NavLink
-      to={`/blocks/${hexValue || value}`}
+      to={hexValue || value === 0 ? '/' : `/blocks/${hexValue || value}`}
       style={style}
       className={classnames('nav-link', className)}
     >
