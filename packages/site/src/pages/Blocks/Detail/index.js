@@ -13,6 +13,7 @@ import DateShow from '../../../components/DateShow'
 import Extrinsics from './Extrinsics'
 import { useLoadDetail } from '../../../utils/hooks'
 import NoData from '../../../components/NoData'
+import Paneljson from '../../../components/PanelJson'
 
 export default function() {
 
@@ -107,7 +108,11 @@ export default function() {
             data: (
               <DateShow value={block?.blockTime} format="YYYY-MM-DD HH:mm:ss" />
             )
-          }
+          },
+           {
+            label: $t('block_digest'),
+            data: <Paneljson json={block?.header?.digest} />
+          },
         ]}
       />
       <Extrinsics blockHeight={block?.header?.number} />

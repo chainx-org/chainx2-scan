@@ -15,6 +15,10 @@ export default {
     zh: '区块哈希',
     en: 'Block Hash'
   },
+  block_digest: {
+    zh: '区块摘要',
+    en: 'Block Digest'
+  },
   block_time: {
     zh: '出块时间',
     en: 'Block Time'
