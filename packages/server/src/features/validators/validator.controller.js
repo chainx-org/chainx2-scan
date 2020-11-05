@@ -12,9 +12,14 @@ class validatorsController {
 
     const db = await getDb()
     const col = await db.collection('validators')
-
+    const trust = await db
+      .collection('trustees')
+      .find({})
+      .toArray()
+    const trustAddress = trust.map(item => {
+      return item.address
+    })
     const query = { isValidating: true }
-
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
@@ -23,9 +28,33 @@ class validatorsController {
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
+    const validatorAddress = items.map(item => {
+      return item.account
+    })
 
+    function getArrEqual(arr1, arr2) {
+      let newArr = []
+      for (let i = 0; i < arr2.length; i++) {
+        for (let j = 0; j < arr1.length; j++) {
+          if (arr1[j] === arr2[i]) {
+            newArr.push(arr1[j])
+          }
+        }
+      }
+      return newArr
+    }
+    const validatorInTrust = getArrEqual(trustAddress, validatorAddress)
+    function IsInArray(arr, val) {
+      var testStr = ',' + arr.join(',') + ','
+      return testStr.indexOf(',' + val + ',') !== -1
+    }
+    let newitems = []
+    items.map((item, index) => {
+      const isTrust = IsInArray(validatorInTrust, item.account)
+      newitems.push(Object.assign({}, item, { isTrust: isTrust }))
+    })
     ctx.body = {
-      items,
+      newitems,
       page,
       pageSize,
       total
