@@ -32,7 +32,7 @@ export default function() {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
 
-  const { items = [], total } = useSelector(validatorNodesSelector) || {}
+  const { newitems = [], total } = useSelector(validatorNodesSelector) || {}
 
   return (
     <Table
@@ -42,7 +42,7 @@ export default function() {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
-      dataSource={items.map(item => {
+      dataSource={newitems.map(item => {
         return {
           account_address: (
             <AddressLink
@@ -51,6 +51,20 @@ export default function() {
               value={item.account}
             />
           ),
+          trust: item.isTrust ? (
+            <div
+              style={{
+                background: 'rgba(246, 201, 74)',
+                textAlign: 'center',
+                borderRadius: '4px',
+                whiteSpace: 'nowrap',
+                width: '100%',
+                height: '100%'
+              }}
+            >
+              {$t('trustee')}
+            </div>
+          ) : null,
           number: <BlockLink value={item.selfBonded} />,
           registered_block_height: (
             <BlockLink
@@ -105,6 +119,10 @@ export default function() {
         {
           title: $t('address_item'),
           dataIndex: 'account_address'
+        },
+        {
+          title: '',
+          dataIndex: 'trust'
         },
         {
           title: $t('referral_id'),
