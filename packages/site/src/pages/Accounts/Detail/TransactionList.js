@@ -3,6 +3,7 @@ import { Table } from '../../../components'
 import $t from '../../../locale'
 import DateShow from '../../../components/DateShow'
 import TxLink from '../../../components/TxLink'
+import TxAction from '../../../components/TxAction'
 import BlockLink from '../../../components/BlockLink'
 import {
   extrinsicsSelector,
@@ -54,7 +55,7 @@ export default function({ address }) {
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           section: item.section,
-          operation: `${item.section}(${item.name})`,
+          operation: <TxAction module={item.section} call={item.name} />,
           args: item.args,
           status: item.isSuccess ? <Success /> : <Fail />
         }

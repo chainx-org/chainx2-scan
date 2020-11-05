@@ -175,6 +175,8 @@ export const callZhNameMap = {
   Minted: '铸币',
   Slashed: '清除',
   Offence: '犯规',
+  bond: '抵押',
+  unbond: '解除抵押',
 }
 
 export const callEnNameMap = {
@@ -280,6 +282,8 @@ export const callEnNameMap = {
   Minted: 'Minted',
   Slashed: 'Slashed',
   Offence: 'Offence',
+  bond: 'Bond',
+  unbond: 'Unbond',
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
