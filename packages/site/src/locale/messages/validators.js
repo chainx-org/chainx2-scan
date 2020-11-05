@@ -19,6 +19,10 @@ export default {
     zh: '信托节点(Bitcoin)',
     en: 'Bitcoin Trustees'
   },
+  trustee: {
+    zh: '信托',
+    en: 'Trustee'
+  },
   missed_block_stats: {
     zh: '漏块统计',
     en: 'Missed Block Stats'
