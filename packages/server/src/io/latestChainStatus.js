@@ -68,6 +68,7 @@ async function feedLatestChainStatus(io) {
     })
     chainStatus.validator_count = validatorCount
     // 节点抵押总数
+    /*
     const selfBondedSum = await validatorCol.aggregate(
       [
         {
@@ -87,8 +88,11 @@ async function feedLatestChainStatus(io) {
     ).toArray()
     // console.log('selfBondedSum', selfBondedSum)
     chainStatus.totalValidatorBonded = selfBondedSum[0].totalSelfBonded
+    */
+    chainStatus.totalValidatorBonded = 0
     // 用户投票总数
     // 现在用的是节点得票总数，另外可以将用户的投票总数加起来
+    /*
     const totalNomimationSum = await validatorCol.aggregate(
       [
         {
@@ -108,6 +112,8 @@ async function feedLatestChainStatus(io) {
     ).toArray()
     // console.log('selfBondedSum', selfBondedSum)
     chainStatus.totalNominationSum = totalNomimationSum[0].totalSum
+    */
+    chainStatus.totalNominationSum = 0
 
 
     // 发行总量
