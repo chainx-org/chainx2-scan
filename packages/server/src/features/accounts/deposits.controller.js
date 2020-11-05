@@ -25,7 +25,7 @@ class DepositsController {
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ executedAt: -1 })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()

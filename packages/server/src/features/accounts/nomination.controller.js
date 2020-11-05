@@ -17,7 +17,7 @@ class NominationController {
     console.log('total', total)
     const items = await col
       .find(query)
-      .sort({ blockHeight: -1 })
+      .sort({ 'indexer.blockHeight': -1 })
       //.limit(1)
       .toArray()
 
