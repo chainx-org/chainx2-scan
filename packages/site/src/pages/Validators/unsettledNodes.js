@@ -18,6 +18,7 @@ import DateShow from '@components/DateShow'
 import ExternalLink from '@components/ExternalLink'
 import NumberFormat from '@components/NumberFormat'
 import Hash from '@components/Hash'
+import AccountLink from '../../components/AccountLink'
 
 export default function() {
   // const { items: blocks, loading, total } = useLoad(api.fetchBlocks, params)
@@ -45,7 +46,7 @@ export default function() {
       dataSource={items.map(item => {
         return {
           account_address: (
-            <AddressLink
+            <AccountLink
               style={{ width: 138 }}
               className="text-truncate"
               value={item.account}
@@ -62,7 +63,7 @@ export default function() {
           timestamp: <DateShow value={item.registeredAt} />,
           key: item._id,
           reward_pot_address: (
-            <AddressLink
+            <AccountLink
               style={{ width: 69 }}
               className="text-truncate"
               value={item.rewardPotAccount}
