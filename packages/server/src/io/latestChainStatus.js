@@ -101,7 +101,6 @@ async function feedLatestChainStatus(io) {
     */
     io.to(latestChainStatusRoom).emit('latestChainStatus', chainStatus)
     setLatestChainStatus(chainStatus)
-    console.log('chain status', chainStatus)
   } catch (e) {
     console.error(e)
   } finally {

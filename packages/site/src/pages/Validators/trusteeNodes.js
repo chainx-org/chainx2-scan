@@ -49,6 +49,20 @@ export default function() {
               value={item.account}
             />
           ),
+          trust: (
+            <div
+              style={{
+                background: 'rgba(246, 201, 74)',
+                textAlign: 'center',
+                borderRadius: '4px',
+                whiteSpace: 'nowrap',
+                width: '100%',
+                height: '100%'
+              }}
+            >
+              {$t('trustee')}
+            </div>
+          ),
           number: <BlockLink value={item.selfBonded} />,
           registered_block_height: (
             <BlockLink
@@ -103,6 +117,10 @@ export default function() {
         {
           title: $t('address_item'),
           dataIndex: 'account_address'
+        },
+        {
+          title: '',
+          dataIndex: 'trust'
         },
         {
           title: $t('referral_id'),

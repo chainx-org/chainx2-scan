@@ -264,7 +264,6 @@ export const fetchBitCoinAddress = (
       page,
       pageSize
     })
-    console.log(bitcoinAddress, 'Address')
     dispatch(setBitcoinAddress(bitcoinAddress))
   } finally {
     setLoading(false)
