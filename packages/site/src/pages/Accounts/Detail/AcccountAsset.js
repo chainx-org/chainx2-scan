@@ -20,7 +20,6 @@ export default function AccountAsset(props) {
     api.fetchCrossAssets,
     params
   )
-  console.log(crossAsset)
 
   const nativeColumns = [
     {
@@ -159,7 +158,6 @@ export default function AccountAsset(props) {
         dataSource={
           crossAsset &&
           crossAsset.map(item => {
-            console.log(Object.keys(item)[0])
             return {
               key: item.token,
               token: Object.keys(item)[0] === '1' ? 'BTC' : null,

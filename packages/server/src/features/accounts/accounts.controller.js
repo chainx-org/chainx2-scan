@@ -174,7 +174,6 @@ class AccountsController {
 
     const address = isAddress ? addressOrId : encodeAddress(addressOrId)
     const api = await getApi()
-    console.log(address)
     const accountInfo = await api.rpc.xassets.getAssetsByAccount(address)
     const accountInfoJSON = accountInfo.toJSON()
     ctx.body = [accountInfoJSON]
