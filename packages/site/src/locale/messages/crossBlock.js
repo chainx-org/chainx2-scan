@@ -215,6 +215,14 @@ export default {
     zh: '多签热地址余额(BTC)',
     en: 'MultiSig Hot Balance(BTC)'
   },
+  multsighot_address: {
+    zh: '多签热地址',
+    en: 'MultiSig Hot Address(BTC)'
+  },
+  multsigcold_address: {
+    zh: '多签冷地址',
+    en: 'MultiSig Cold Address(BTC)'
+  },
   multisig_cold: {
     zh: '多签冷地址余额(BTC)',
     en: 'MultiSig Hot Balance(BTC)'
