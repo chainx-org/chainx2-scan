@@ -16,6 +16,11 @@ export default function AccountAsset(props) {
     api.fetchNativeAssets,
     params
   )
+  const { detail: crossAsset, wait } = useLoadDetail(
+    api.fetchCrossAssets,
+    params
+  )
+  console.log(crossAsset)
 
   const nativeColumns = [
     {
@@ -60,6 +65,47 @@ export default function AccountAsset(props) {
       align: 'right'
     }
   ]
+  const otherColumns = [
+    {
+      title: $t('ASSETNAME'),
+      dataIndex: 'token'
+    },
+    {
+      title: $t('OriginChain'),
+      dataIndex: 'originchain',
+      align: 'right'
+    },
+    {
+      title: $t('LOCKEDBALANCE'),
+      dataIndex: 'lockedbalance',
+      align: 'right'
+    },
+    {
+      title: $t('ReservedBalance'),
+      dataIndex: 'reversebalance',
+      align: 'right'
+    },
+    {
+      title: $t('DEXRESERVED'),
+      dataIndex: 'dexspot',
+      align: 'right'
+    },
+    {
+      title: $t('withdrawalFreeze'),
+      dataIndex: 'withdrawalFreeze',
+      align: 'right'
+    },
+    {
+      title: $t('usable'),
+      dataIndex: 'usable',
+      align: 'right'
+    },
+    {
+      title: $t('BLOCKTOTALBALANCE'),
+      dataIndex: 'total',
+      align: 'right'
+    }
+  ]
 
   return (
     <div>
@@ -87,29 +133,6 @@ export default function AccountAsset(props) {
                   hideSymbol={true}
                 />
               ),
-              /*
-              reservedStaking: (
-                <Amount
-                  value={item.stakingReserved.bonded}
-                  symbol={item.token}
-                  hideSymbol={true}
-                />
-              ),
-              reservedStakingRevocation: (
-                <Amount
-                  value={item.stakingReserved.bondedWithdrawal}
-                  symbol={item.token}
-                  hideSymbol={true}
-                />
-              ),
-              reservedDexSpot: (
-                <Amount
-                  value={item.dexReserved}
-                  symbol={item.token}
-                  hideSymbol={true}
-                />
-              ),
-              */
               frozen: (
                 <Amount
                   value={item.data.miscFrozen}
@@ -128,6 +151,71 @@ export default function AccountAsset(props) {
           })
         }
         columns={nativeColumns}
+      />
+      <div className="asset-title">{$t('CROSS_ASSET')}</div>
+      <Table
+        loading={loading}
+        pagination={false}
+        dataSource={
+          crossAsset &&
+          crossAsset.map(item => {
+            console.log(Object.keys(item)[0])
+            return {
+              key: item.token,
+              token: Object.keys(item)[0] === '1' ? 'BTC' : null,
+              originchain: 'Bitcoin',
+              lockedbalance: (
+                <Amount
+                  value={item[1].Locked}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
+              reversebalance: (
+                <Amount
+                  value={item[1].Reserved}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
+              dexspot: (
+                <Amount
+                  value={item[1].ReservedDexSpot}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
+              withdrawalFreeze: (
+                <Amount
+                  value={item[1].ReservedWithdrawal}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
+              usable: (
+                <Amount
+                  value={item[1].Usable}
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              ),
+              total: (
+                <Amount
+                  value={
+                    item[1].Locked +
+                    item[1].Reserved +
+                    item[1].ReservedDexSpot +
+                    item[1].ReservedWithdrawal +
+                    item[1].Usable
+                  }
+                  symbol={item.token}
+                  hideSymbol={true}
+                />
+              )
+            }
+          })
+        }
+        columns={otherColumns}
       />
     </div>
   )
