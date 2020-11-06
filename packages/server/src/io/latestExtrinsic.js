@@ -12,8 +12,10 @@ async function feedLatestExtrinsics(io) {
       $nor: [
         { section: 'timestamp' },
         { section: 'finalityTracker' },
+        { section: 'imOnline' },
         { name: 'set' },
-        { name: 'finalHint' }
+        { name: 'finalHint' },
+        { name: 'heartbeat' },
       ]
     }
     const extrinsics = await col
