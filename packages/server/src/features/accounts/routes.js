@@ -13,6 +13,7 @@ router.get('/accounts', blockController.getAccounts)
 router.get('/accounts/:addressOrId', blockController.getAccount)
 
 router.get('/accounts/:address/assets', blockController.getAssets)
+router.get('/accounts/:address/crossassets', blockController.getCrossAssets)
 router.get('/accounts/:address/transfers', transferController.accountTransfers)
 router.get(
   '/accounts/:address/votes',

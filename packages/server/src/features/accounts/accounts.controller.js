@@ -161,6 +161,23 @@ class AccountsController {
     // ctx.body = await getNativeAsset(address)
     ctx.body = { ...accountInfo }
   }
+  //TODO 获取其他资产信息
+  async getCrossAssets(ctx) {
+    const { address: addressOrId } = ctx.params
+    const isAddress = !addressOrId.startsWith('0x')
+    if (isAddress && !Account.isAddressValid(addressOrId)) {
+      ctx.body = {
+        errMsg: 'illegal address or account id'
+      }
+      return
+    }
+
+    const address = isAddress ? addressOrId : encodeAddress(addressOrId)
+    const api = await getApi()
+    const accountInfo = await api.rpc.xassets.getAssetsByAccount(address)
+    const accountInfoJSON = accountInfo.toJSON()
+    ctx.body = [accountInfoJSON]
+  }
 }
 
 module.exports = new AccountsController()
