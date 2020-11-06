@@ -57,46 +57,6 @@ export default function BtcStates() {
     var coldaddress = datas.trusteeListInfoJSON.coldAddress.addr
     var hotaddress = datas.trusteeListInfoJSON.hotAddress.addr
   }
-
-  function httpGethotBalance(theUrl) {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.onreadystatechange = function() {
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        hotbalance(xmlHttp.responseText)
-    }
-    xmlHttp.open('GET', theUrl, true)
-    xmlHttp.send(null)
-  }
-  function httpGetcoldBalance(theUrl) {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.onreadystatechange = function() {
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        coldbalance(xmlHttp.responseText)
-    }
-    xmlHttp.open('GET', theUrl, true)
-    xmlHttp.send(null)
-    if (coldbalanceAmount) {
-      xmlHttp.abort()
-    }
-  }
-  function hotbalance(req) {
-    SethotbalanceAmount(JSON.parse(req).confirmed)
-  }
-  const [hotbalanceAmount, SethotbalanceAmount] = useState(null)
-  const [coldbalanceAmount, SetcoldbalanceAmount] = useState(null)
-  function coldbalance(req) {
-    SetcoldbalanceAmount(JSON.parse(req).confirmed)
-  }
-  if (hotbalanceAmount === null) {
-    httpGethotBalance(
-      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${hotaddress}/balance`
-    )
-  }
-  if (coldbalanceAmount === null) {
-    httpGetcoldBalance(
-      `https://api.blockchain.info/haskoin-store/btc-testnet/address/${coldaddress}/balance`
-    )
-  }
   const extrinsics = useSelector(latestExtrinsicsSelector)
   const [status, setList] = useState({})
 
@@ -120,26 +80,38 @@ export default function BtcStates() {
         ) : (
           <div className="btc_block">
             <div className="btc_status">
-              <div className="btc_title">{$t('multisig_hot')}</div>
+              <div className="btc_title">{$t('multsighot_address')}</div>
               <div className="btc_content">
                 <ExternalLink
                   value={hotaddress}
                   type="btcTestnetAddress"
-                  render={() => (
-                    <Amount value={hotbalanceAmount} symbol="BTC" hideSymbol />
-                  )}
+                  render={() => {
+                    return (
+                      <Hash
+                        style={{ width: 138 }}
+                        className="text-truncate"
+                        value={hotaddress}
+                      />
+                    )
+                  }}
                 />
               </div>
             </div>
             <div className="btc_status">
-              <div className="btc_title">{$t('multisig_cold')}</div>
+              <div className="btc_title">{$t('multsigcold_address')}</div>
               <div className="btc_content">
                 <ExternalLink
                   value={coldaddress}
                   type="btcTestnetAddress"
-                  render={() => (
-                    <Amount value={coldbalanceAmount} symbol="BTC" hideSymbol />
-                  )}
+                  render={() => {
+                    return (
+                      <Hash
+                        style={{ width: 138 }}
+                        className="text-truncate"
+                        value={coldaddress}
+                      />
+                    )
+                  }}
                 />
               </div>
             </div>
