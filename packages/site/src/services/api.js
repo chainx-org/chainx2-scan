@@ -182,6 +182,9 @@ class Api {
   fetchNativeAssets = address => {
     return this.cancelableFetch(`/accounts/${address}/assets`)
   }
+  fetchCrossAssets = address => {
+    return this.cancelableFetch(`/accounts/${address}/crossassets`)
+  }
 
   fetchEvent = eventId => {
     return this.cancelableFetch(`/events/${eventId}`)
