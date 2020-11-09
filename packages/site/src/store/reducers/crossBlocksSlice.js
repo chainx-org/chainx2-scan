@@ -63,7 +63,8 @@ const crossBlocksSlice = createSlice({
       pageSize: 10,
       sum: 0
     },
-    address: {}
+    address: {},
+    btcStatus: {}
   },
   reducers: {
     setCrossBlocks(state, action) {
@@ -95,6 +96,9 @@ const crossBlocksSlice = createSlice({
     },
     setBitcoinAddress(state, action) {
       state.address = action.payload
+    },
+    setBtcStatus(state, action) {
+      state.btcStatus = action.payload
     }
     /*
     setVotes(state, action) {
@@ -126,7 +130,8 @@ export const {
   setDepositMine,
   setBitcoinbridgeDeposited,
   setBitcoinbridgeWithdrawl,
-  setBitcoinAddress
+  setBitcoinAddress,
+  setBtcStatus
   /*
   setVotes,
   setExtrinsics,
@@ -232,59 +237,13 @@ export const fetchDeals = (
   }
 }
 */
-//获取比特币转接桥提现
-export const fetchBitCoinTransitbridgeWithdrawl = (
-  setLoading = nonFunc,
-  page,
-  pageSize
-) => async dispatch => {
+
+// 获取比特币转接桥数据：冷热地址，充值数，体现数
+export const fetchBtcStatus = (setLoading = nonFunc) => async dispatch => {
   setLoading(true)
   try {
-    const { result: bitcoinbridgeWithdrawl } = await api.fetch(
-      '/home/bitcoinwithdrawl',
-      {
-        page,
-        pageSize
-      }
-    )
-    dispatch(setBitcoinbridgeWithdrawl(bitcoinbridgeWithdrawl))
-  } finally {
-    setLoading(false)
-  }
-}
-// 获取比特币冷热地址
-export const fetchBitCoinAddress = (
-  setLoading = nonFunc,
-  page,
-  pageSize
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: bitcoinAddress } = await api.fetch('/home/bitcoinAddress', {
-      page,
-      pageSize
-    })
-    dispatch(setBitcoinAddress(bitcoinAddress))
-  } finally {
-    setLoading(false)
-  }
-}
-// 获取比特币转接桥充值
-export const fetchBitCoinTransitbridgeDeposited = (
-  setLoading = nonFunc,
-  page,
-  pageSize
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: bitcoinbridgeDeposited } = await api.fetch(
-      '/home/bitcoinbridge',
-      {
-        page,
-        pageSize
-      }
-    )
-    dispatch(setBitcoinbridgeDeposited(bitcoinbridgeDeposited))
+    const { result: btcstatus } = await api.fetch(`/home/btcStatus`)
+    await dispatch(setBtcStatus(btcstatus))
   } finally {
     setLoading(false)
   }
@@ -447,6 +406,7 @@ export const dealsSelector = state => state.accounts.deals
 */
 export const crossBlocksSelector = state => state.crossblocks.crossblocks
 export const crossBtcAddressSelector = state => state.crossblocks.address
+export const crossBtcStatusSelector = state => state.crossblocks.btcStatus
 export const crossTransactionsSelector = state =>
   state.crossblocks.crosstransactions
 export const crossTransactionsDepositedSelector = state =>
