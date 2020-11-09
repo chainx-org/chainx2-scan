@@ -5,7 +5,9 @@ export default function InputSearch(props) {
   const { history } = props
 
   const [str, setStr] = useState('')
-
+  const width = document.documentElement.clientWidth
+  const style =
+    width < 768 ? { width: '100vw' } : { width: '30vw', paddingRight: '3vw' }
   const search = useCallback(
     async str => {
       const result = await api.search(str)
@@ -28,7 +30,7 @@ export default function InputSearch(props) {
             search(str)
           }
         }}
-        style={{ width: 430, paddingRight: 50 }}
+        style={style}
         className="input is-rounded"
         type="text"
         placeholder={
