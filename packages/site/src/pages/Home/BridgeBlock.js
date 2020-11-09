@@ -21,14 +21,14 @@ const BridgeBlock = function() {
   }, [dispatch, page, pageSize])
   const { items = [] } = useSelector(crossBlocksSelector) || {}
   return (
-    <section className="panel" style={{ flex: 1 }}>
+    <section className="panel">
       <div
         className="panel-heading"
         style={{ borderBottom: '1px solid #dbdbdb' }}
       >
         {$t('bridge_newblocks')}
       </div>
-      <div className="panel-block">
+      <div className="panel-block table-container">
         <table className="table is-striped is-fullwidth data-table">
           <thead>
             <tr>
@@ -109,5 +109,4 @@ const BridgeBlock = function() {
   )
 }
 
-
-export default React.memo(BridgeBlock)
+export default BridgeBlock
