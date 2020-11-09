@@ -237,64 +237,8 @@ export const fetchDeals = (
   }
 }
 */
-//获取比特币转接桥提现
-export const fetchBitCoinTransitbridgeWithdrawl = (
-  setLoading = nonFunc,
-  page,
-  pageSize
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: bitcoinbridgeWithdrawl } = await api.fetch(
-      '/home/bitcoinwithdrawl',
-      {
-        page,
-        pageSize
-      }
-    )
-    dispatch(setBitcoinbridgeWithdrawl(bitcoinbridgeWithdrawl))
-  } finally {
-    setLoading(false)
-  }
-}
-// 获取比特币冷热地址
-export const fetchBitCoinAddress = (
-  setLoading = nonFunc,
-  page,
-  pageSize
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: bitcoinAddress } = await api.fetch('/home/bitcoinAddress', {
-      page,
-      pageSize
-    })
-    dispatch(setBitcoinAddress(bitcoinAddress))
-  } finally {
-    setLoading(false)
-  }
-}
-// 获取比特币转接桥充值
-export const fetchBitCoinTransitbridgeDeposited = (
-  setLoading = nonFunc,
-  page,
-  pageSize
-) => async dispatch => {
-  setLoading(true)
-  try {
-    const { result: bitcoinbridgeDeposited } = await api.fetch(
-      '/home/bitcoinbridge',
-      {
-        page,
-        pageSize
-      }
-    )
-    dispatch(setBitcoinbridgeDeposited(bitcoinbridgeDeposited))
-  } finally {
-    setLoading(false)
-  }
-}
 
+// 获取比特币转接桥数据：冷热地址，充值数，体现数
 export const fetchBtcStatus = (
   setLoading = nonFunc,
 ) => async dispatch => {
