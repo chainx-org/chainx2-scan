@@ -87,7 +87,7 @@ export const normalizedDepthSelector = createSelector(
   depthSelector,
   ({ asks, bids }) => {
     let total = 0
-    const nAsks = asks
+    const nAsks = asks.slice()
       .reverse()
       .map(ask => {
         total += ask.amount
