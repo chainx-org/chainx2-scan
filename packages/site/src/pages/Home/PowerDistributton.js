@@ -70,42 +70,46 @@ const PowerDistributton = function() {
   })
 
   return (
-    <div className="panel" style={{ width: 417, marginBottom: '1.25rem' }}>
+    <section className="panel"
+    // style={{ width: 417, marginBottom: '1.25rem' }}
+    >
       <div className="panel-heading">{$t('power_distributton')}</div>
-      <Chart data={data} height={241} width={374} autoFit>
-        <Coordinate type="theta" radius={0.8} innerRadius={0.75} />
-        <Axis visible={false} />
-        <Tooltip showTitle={false} visible={false} />
-        <Guide>
-          <Guide.Text
-            top={true}
-            content={'挖矿收益分配比例'}
-            style={{
-              fill: '#000',
-              fontSize: '16',
-              textAlign: 'center',
-              width: '400'
-            }}
-            offsetY={60}
-          />
-        </Guide>
-        <Interval
-          adjust="stack"
-          position="value"
-          color="type"
-          shape="sliceShape"
-          label={[
-            '*',
-            {
-              content: data => {
-                return `${data.type}: ${(data.value * 100).toFixed(1)}%`
+      <div className="panel-block">
+        <Chart data={data} height={250}  autoFit>
+          <Coordinate type="theta" radius={0.8} innerRadius={0.75} />
+          <Axis visible={false} />
+          <Tooltip showTitle={false} visible={false} />
+          <Guide>
+            <Guide.Text
+              top={true}
+              content={'挖矿收益分配比例'}
+              style={{
+                fill: '#000',
+                fontSize: '16',
+                textAlign: 'center',
+                width: '400'
+              }}
+              offsetY={60}
+            />
+          </Guide>
+          <Interval
+            adjust="stack"
+            position="value"
+            color="type"
+            shape="sliceShape"
+            label={[
+              '*',
+              {
+                content: data => {
+                  return `${data.type}: ${(data.value * 100).toFixed(1)}%`
+                }
               }
-            }
-          ]}
-        />
-        <Interaction type="element-single-selected" />
-      </Chart>
-    </div>
+            ]}
+          />
+          <Interaction type="element-single-selected" />
+        </Chart>
+      </div>
+    </section>
   )
 }
 

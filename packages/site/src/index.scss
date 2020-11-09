@@ -736,7 +736,7 @@ a:focus {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 269px;
+    // min-height: 269px;
     justify-content: space-between;
     .btc_status {
       display: flex;
@@ -1188,5 +1188,12 @@ a:focus {
     font-weight: 600;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+}
+
+
+@media (min-width: 320px) and (max-width: 1024px) {
+  .container {
+    width: unset;
   }
 }

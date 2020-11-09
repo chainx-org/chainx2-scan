@@ -180,10 +180,8 @@ export default function ChainStatus() {
                 ))
               : loading}
           </div>
-          {/*<Transaction style={{ width: "40%", height: "265px" }} />*/}
         </div>
       </section>
-      <PowerDistributton />
     </div>
   )
 }
