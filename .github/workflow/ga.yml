@@ -18,8 +18,26 @@ jobs:
         uses: actions/checkout@v2
 
       # Runs the Super-Linter action
-      - name: Run Super-Linter
-        uses: github/super-linter@v3
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #
+      #- name: Run Super-Linter
+      #  uses: github/super-linter@v3
+      #  env:
+      #    DEFAULT_BRANCH: main
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Execute SSH commmands on remote server
+
+      uses: JimCronqvist/action-ssh@master
+      env:
+        NAME: "Root"
+      with:
+        hosts: 'root@47.242.81.132'
+        privateKey: ${{ secrets.PRIVATE_KEY }}
+        debug: false
+        command: |
+          ls -lah
+          echo "I am $NAME"
+          mkdir test-github-action
+          cd test-github-action
+          touch test.js
