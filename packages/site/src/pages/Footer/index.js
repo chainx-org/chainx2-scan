@@ -117,7 +117,7 @@ export default function Footer() {
             <li>
               <div className="footer-end">
                 <LangChanger />
-                <div>Copyright © 2020 ChainX</div>
+                Copyright © 2020 ChainX
               </div>
             </li>
           </ul>
