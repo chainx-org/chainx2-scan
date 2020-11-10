@@ -117,7 +117,7 @@ export default function Footer() {
             <li>
               <div className="footer-end">
                 <LangChanger />
-                Copyright © 2020 ChainX
+                <div>Copyright © 2020 ChainX</div>
               </div>
             </li>
           </ul>
@@ -133,7 +133,8 @@ export default function Footer() {
               display: 'flex',
               flexWrap: 'wrap',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              paddingTop: '10px'
             }}
           >
             <li>
@@ -187,15 +188,31 @@ export default function Footer() {
                 <img src={weixin} alt="" />
               </div>
             </li>
-            <li>
-              <a href="mailto:hi@chainx.org">hi@chainx.org</a>
+            <li
+              style={{
+                marginTop: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '6vh'
+              }}
+            >
+              <a href="mailto:hi@chainx.org" style={{ marginRight: '15px' }}>
+                hi@chainx.org
+              </a>
+              <LangChanger />
             </li>
-            <li>
-              <div className="footer-end">
-                <LangChanger />
-              </div>
-            </li>
-            Copyright © 2020 ChainX
+            <div
+              style={{
+                paddingTop: '10px',
+                paddingBottom: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              Copyright © 2020 ChainX
+            </div>
           </ul>
         </div>
       </div>
