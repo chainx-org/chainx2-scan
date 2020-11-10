@@ -16,22 +16,43 @@ export default withRouter(function(props) {
   const isMatchValidators = ['/validators'].some(
     path => !!matchPath(location.pathname, { path })
   )
-
+  const [active, SetActive] = React.useState(false)
   return (
-    <nav className="navbar" role="navigation">
+    <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="container">
         <div className="navbar-brand">
           <NavLink to="/" className="navbar-item" activeClassName="selected">
             <img src={chainxLogo} alt="chainx" width="112" height="28" />
           </NavLink>
+          <a
+            role="button"
+            className="navbar-burger burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+            style={{ color: 'white' }}
+            onClick={() => {
+              SetActive(!active)
+            }}
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
         </div>
-
-        <div className={classnames('navbar-menu')}>
+        <div
+          id="navbarBasicExample"
+          className={classnames('navbar-menu', active ? 'is-active' : '')}
+          style={{ background: 'rgba(63, 63, 63)' }}
+        >
           <div className="navbar-start">
             <NavLink
               exact
               className="navbar-item is-tab"
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/"
             >
               {$t('common_home')}
@@ -41,6 +62,9 @@ export default withRouter(function(props) {
                 'is-active': isMatchBlocks
               })}
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/blocks"
             >
               {$t('common_blockchain')}
@@ -50,6 +74,9 @@ export default withRouter(function(props) {
                 'is-active': isMatchValidators
               })}
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/validators"
             >
               {$t('validators')}
@@ -59,6 +86,9 @@ export default withRouter(function(props) {
                 'is-active': isMatchCrossBlocks
               })}
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/crossblocks"
             >
               {$t('cross_block')}
@@ -66,6 +96,9 @@ export default withRouter(function(props) {
             <NavLink
               className="navbar-item is-tab"
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/dex"
             >
               {$t('dex_section')}

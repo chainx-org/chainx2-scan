@@ -153,13 +153,13 @@ export default function ChainStatus() {
 
   return (
     <div style={{ display: 'flex' }}>
-      <section className="panel" style={{ flex: 1, marginRight: 16 }}>
+      <section className="panel" style={{ flex: 1 }}>
         <div className="panel-heading">
           <img src={PCX} alt="pcx" className="panel-heading-icon" />
           {$t('chain_status')}
         </div>
         <div
-          className="panel-block align-start"
+          className="panel-inline align-start"
           style={{
             padding: 0,
             borderRight:
