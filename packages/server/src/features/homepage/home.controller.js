@@ -8,72 +8,31 @@ const { isMongoId } = require('../../utils')
 const { extractPage } = require('../../utils')
 const { getEventCollection } = require('../../services/mongo')
 const { ObjectID } = require('mongodb')
+
 class HomeController {
-  async getBtcCoinBridgeDeposited(ctx) {
-    const { page, pageSize } = extractPage(ctx)
-    if (pageSize === 0) {
-      ctx.status = 400
-      return
-    }
-
-    const db = await getDb()
-    const col = await db.collection('event')
-
-    const query = {
-      $and: [{ section: 'xGatewayBitcoin' }, { method: 'Deposited' }]
-    }
-
-    const total = await col.countDocuments(query)
-    const items = await col
-      .find(query)
-      .sort({ 'indexer.blockHeight': -1 })
-      .skip(page * pageSize)
-      .limit(pageSize)
-      .toArray()
-
-    ctx.body = {
-      items,
-      page,
-      pageSize,
-      total
-    }
-  }
-
-  async getBtcCoinBridgeWithdrawl(ctx) {
-    const { page, pageSize } = extractPage(ctx)
-    if (pageSize === 0) {
-      ctx.status = 400
-      return
-    }
-
-    const db = await getDb()
-    const col = await db.collection('event')
-
-    const query = {
-      $and: [{ section: 'xGatewayBitcoin' }, { method: 'WithdrawalCreated' }]
-    }
-
-    const sum = await col.countDocuments(query)
-    const items = await col
-      .find(query)
-      .sort({ 'indexer.blockHeight': -1 })
-      .skip(page * pageSize)
-      .limit(pageSize)
-      .toArray()
-
-    ctx.body = {
-      items,
-      page,
-      pageSize,
-      sum
-    }
-  }
-  async getBtcAddress(ctx) {
+  async getBtcStatus(ctx) {
     const api = await getApi()
     const trusteeListInfo = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
     const trusteeListInfoJSON = trusteeListInfo.toJSON()
+
+    const db = await getDb()
+    const col = await db.collection('event')
+
+    // 充值交易数
+    const depositQuery = {
+      $and: [{ section: 'xGatewayBitcoin' }, { method: 'Deposited' }]
+    }
+    const depositCount = await col.countDocuments(depositQuery)
+
+    // 提现交易数
+    const withdrawalQuery = {
+      $and: [{ section: 'xGatewayBitcoin' }, { method: 'WithdrawalCreated' }]
+    }
+    const withdrawalCount = await col.countDocuments(withdrawalQuery)
+
     ctx.body = {
-      trusteeListInfoJSON
+      ...trusteeListInfoJSON,
+      depositCount
     }
   }
 }
