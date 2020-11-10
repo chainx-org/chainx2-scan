@@ -8,7 +8,7 @@ jobs:
   # when a job name is not provided
   chainx2-scan-deploy:
     # Name the Job
-    name: Deploy release of chainx2-scan
+    name: Deploy chainx2-scan
     # Set the type of machine to run on
     runs-on: ubuntu-latest
 
