@@ -32,8 +32,7 @@ class HomeController {
 
     ctx.body = {
       ...trusteeListInfoJSON,
-      depositCount,
-      withdrawalCount
+      depositCount
     }
   }
 }

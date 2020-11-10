@@ -27,7 +27,6 @@ export default function BtcStates() {
   }, [dispatch])
 
   const status = useSelector(crossBtcStatusSelector) || {}
-
   return (
     <section
       className="panel"
