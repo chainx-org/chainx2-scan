@@ -8,18 +8,34 @@ jobs:
   # when a job name is not provided
   super-lint:
     # Name the Job
-    name: Lint code base
+    name: SSH commands
     # Set the type of machine to run on
     runs-on: ubuntu-latest
 
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      #  uses: actions/checkout@v2
 
       # Runs the Super-Linter action
-      - name: Run Super-Linter
-        uses: github/super-linter@v3
+      # - name: Run Super-Linter
+      #  uses: github/super-linter@v3
+      #  env:
+      #    DEFAULT_BRANCH: github-action
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Execute SSH commmands on remote server
+
+        uses: JimCronqvist/action-ssh@master
         env:
-          DEFAULT_BRANCH: github-action
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NAME: "Root"
+        with:
+          hosts: 'root@47.242.81.132'
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          debug: false
+          command: |
+            ls -lah
+            echo "I am $NAME"
+            mkdir test-github-action
+            cd test-github-action
+            touch test.js
