@@ -50,6 +50,9 @@ export default withRouter(function(props) {
               exact
               className="navbar-item is-tab"
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/"
             >
               {$t('common_home')}
@@ -59,6 +62,9 @@ export default withRouter(function(props) {
                 'is-active': isMatchBlocks
               })}
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/blocks"
             >
               {$t('common_blockchain')}
@@ -68,6 +74,9 @@ export default withRouter(function(props) {
                 'is-active': isMatchValidators
               })}
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/validators"
             >
               {$t('validators')}
@@ -77,6 +86,9 @@ export default withRouter(function(props) {
                 'is-active': isMatchCrossBlocks
               })}
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/crossblocks"
             >
               {$t('cross_block')}
@@ -84,6 +96,9 @@ export default withRouter(function(props) {
             <NavLink
               className="navbar-item is-tab"
               activeClassName="is-active"
+              onClick={() => {
+                SetActive(!active)
+              }}
               to="/dex"
             >
               {$t('dex_section')}
