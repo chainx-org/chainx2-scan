@@ -14,6 +14,9 @@ export default function({ blockHeight }) {
       : { page, pageSize }
   }, [blockHeight, page, pageSize])
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   const { items: accounts, loading, total } = useLoad(api.fetchAccounts, params)
 
   return (
@@ -23,7 +26,10 @@ export default function({ blockHeight }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={accounts.map(item => {
         return {
           key: item._id,
