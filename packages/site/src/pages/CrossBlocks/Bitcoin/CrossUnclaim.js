@@ -31,6 +31,9 @@ export default function CrossUnclaim() {
 
   const { items = [], total } = useSelector(crossUnclaimSelector) || {}
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   return (
     <Table
       loading={loading}
@@ -38,7 +41,10 @@ export default function CrossUnclaim() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {
         // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
         const btcTxHashForExplorer = swapEndian(item.data[0].slice(2))
