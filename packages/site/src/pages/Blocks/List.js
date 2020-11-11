@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react'
-import { VariableSizeGrid as Grid } from 'react-window'
+// import { VariableSizeGrid as Grid } from 'react-window'
 import ResizeObserver from 'rc-resize-observer'
 import classNames from 'classnames'
 import api from '../../services/api'
