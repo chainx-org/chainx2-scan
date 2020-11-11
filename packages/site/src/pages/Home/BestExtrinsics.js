@@ -7,6 +7,8 @@ import TxAction from '../../components/TxAction'
 import loading from './Loading'
 import SeeAll from './SeeAll'
 import AddressLink from '@components/AddressLink'
+import { encodeAddress } from '../../shared'
+import AccountLink from '../../components/AccountLink'
 
 export default function BestExtrinsics() {
   const extrinsics = useSelector(latestExtrinsicsSelector)
@@ -44,7 +46,16 @@ export default function BestExtrinsics() {
                         </td>
                         <td>
                           {signer ? (
-                            <AddressLink short={true} value={signer} />
+                            <AccountLink
+                              short={true}
+                              value={signer}
+                              style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                width: '100px',
+                                textOverflow: 'ellipsis'
+                              }}
+                            />
                           ) : (
                             '--'
                           )}
