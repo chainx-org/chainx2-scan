@@ -6,7 +6,9 @@ function zeroSmoke(value) {
     return (
       <>
         {str.replace(Reg, '')}
-        <span className="opacity4">{str.match(Reg)[0]}</span>
+        <span className="opacity4" style={{ whiteSpace: 'nowrap' }}>
+          {str.match(Reg)[0]}
+        </span>
       </>
     )
   } else {

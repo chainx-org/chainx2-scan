@@ -32,6 +32,9 @@ export default function CrossDeposits({ props }) {
 
   const { items = [], total } = useSelector(crossDepositsSelector) || {}
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   return (
     <Table
       loading={loading}
@@ -39,7 +42,10 @@ export default function CrossDeposits({ props }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {
         // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
         const btcTxHashForExplorer = swapEndian(item.data[0].slice(2))
@@ -104,7 +110,7 @@ export default function CrossDeposits({ props }) {
           ) : (
             ''
           ),
-          asset_type: 'BTC',
+          asset_type: <div style={{ whiteSpace: 'nowrap' }}>BTC</div>,
           chainx_time: <DateShow value={item.indexer.blockTime} />
         }
       })}

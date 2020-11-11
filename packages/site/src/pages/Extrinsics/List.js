@@ -13,6 +13,8 @@ import Fail from '@components/Fail'
 export default function({ blockHeight }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   const params = useMemo(() => {
     return blockHeight
       ? { block: blockHeight, page, pageSize }
@@ -31,7 +33,10 @@ export default function({ blockHeight }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
+      scroll={{
+        x: '100vh'
+      }}
       expandedRowRender={data => {
         console.log(data.args)
         return (

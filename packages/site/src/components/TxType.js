@@ -7,7 +7,9 @@ export default function TxType(props) {
   if (value === 'Withdrawal') {
     return <div>{$t('withdrawal')}</div>
   } else if (value === 'Deposit') {
-    return <div>{$t('deposit')}</div>
+    return (
+      <div style={{ whiteSpace: 'nowrap', width: 58 }}>{$t('deposit')}</div>
+    )
   } else if (value === 'HotAndCold') {
     return <div>{$t('hot_and_cold_swap')}</div>
   } else if (value === 'TrusteeTransition') {

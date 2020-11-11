@@ -26,6 +26,9 @@ export default function CrossWithdrawals({ address }) {
 
   const dispatch = useDispatch()
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   useEffect(() => {
     dispatch(fetchCrossWithdrawals(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
@@ -39,7 +42,10 @@ export default function CrossWithdrawals({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
+      scroll={{
+        x: '100vh'
+      }}
       dataSource={items.map(item => {
         // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
         // const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))

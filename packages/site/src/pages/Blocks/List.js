@@ -1,4 +1,7 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
+import { VariableSizeGrid as Grid } from 'react-window'
+import ResizeObserver from 'rc-resize-observer'
+import classNames from 'classnames'
 import api from '../../services/api'
 import { Table } from '../../components'
 import $t from '../../locale'
@@ -10,7 +13,8 @@ import { useLoad } from '../../utils/hooks'
 export default function() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   const params = useMemo(() => {
     return { page, pageSize }
   }, [page, pageSize])
@@ -24,7 +28,10 @@ export default function() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
+      scroll={{
+        x: '100vh'
+      }}
       dataSource={blocks.map(item => {
         return {
           number: <BlockLink value={item.header.number} />,

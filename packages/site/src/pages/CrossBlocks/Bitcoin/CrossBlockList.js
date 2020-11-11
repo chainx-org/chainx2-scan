@@ -31,6 +31,9 @@ export default function CrossBlocksList({ address }) {
 
   const { items = [], total } = useSelector(crossBlocksSelector) || {}
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   return (
     <Table
       loading={loading}
@@ -38,7 +41,11 @@ export default function CrossBlocksList({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh',
+        y: 600
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {
         // const currentPair = pairs.find(item => item.pairId === fill.pairId)
         // const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
