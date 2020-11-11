@@ -34,6 +34,8 @@ jobs:
             cd chainx2-scan
             git checkout -b temp
             git checkout develop
+            eval $(ssh-agent)
+            ssh-add ~/.ssh/chainx2-scan_rsa
             git pull
             cd packages
             git diff --quiet HEAD temp -- scan || pm2 restart explorer-scan
