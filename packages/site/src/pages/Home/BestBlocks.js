@@ -7,6 +7,8 @@ import BlockLink from '../../components/BlockLink'
 import NumberFormat from '../../components/NumberFormat'
 import SeeAll from './SeeAll'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '../../components/AccountLink'
+import { encodeAddress } from '../../shared'
 
 export default function BestBlocks() {
   const blocks = useSelector(latestBlocksSelector)
@@ -45,7 +47,7 @@ export default function BestBlocks() {
                         <BlockLink value={number} />
                       </td>
                       <td>
-                        <AddressLink short={true} value={author} />
+                        <AccountLink value={encodeAddress(author)} />
                       </td>
                       <td className="has-text-right">
                         <NumberFormat value={extrinsicsCnt} />
