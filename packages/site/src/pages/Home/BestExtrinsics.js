@@ -52,7 +52,7 @@ export default function BestExtrinsics() {
                               style={{
                                 whiteSpace: 'nowrap',
                                 overflow: 'hidden',
-                                width: '200px',
+                                width: '100px',
                                 textOverflow: 'ellipsis'
                               }}
                             />
