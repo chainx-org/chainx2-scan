@@ -22,6 +22,9 @@ export default function DepositMine({ address }) {
 
   const { items = [], total } = useSelector(crossDepositMineSelector) || {}
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   return (
     <div className="box">
       <Table
@@ -30,6 +33,9 @@ export default function DepositMine({ address }) {
           setPage(current)
           setPageSize(size)
         }}
+        scroll={{
+          x: '100vh'
+        }}
         pagination={false}
         dataSource={items.map(item => {
           const token_name = ['BTC', 'PCX']
@@ -37,7 +43,9 @@ export default function DepositMine({ address }) {
             key: item._id,
             // asset_type: 'Interchain BTC(X-BTC)',
             // asset_type: <TokenName value={token_name} id={1}/>,
-            asset_type: item.info.tokenName,
+            asset_type: (
+              <div style={{ whiteSpace: 'nowrap' }}>{item.info.tokenName}</div>
+            ),
             btc_total_balance: (
               <Amount
                 value={item.balance.Usable}
