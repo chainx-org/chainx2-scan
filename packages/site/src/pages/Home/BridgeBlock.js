@@ -9,6 +9,8 @@ import {
   fetchCrossBlocks
 } from '../../store/reducers/crossBlocksSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import AccountLink from '../../components/AccountLink'
+import swapEndian from '../../utils/swapEndian'
 
 const BridgeBlock = function() {
   const [page, setPage] = useState(1)
@@ -52,6 +54,7 @@ const BridgeBlock = function() {
                       signer,
                       chainxTime
                     }) => {
+                      const btcHashForExplorer = swapEndian(btcHash.slice(2))
                       return (
                         <tr key={_id}>
                           <td>
@@ -67,13 +70,13 @@ const BridgeBlock = function() {
                           <td>
                             <ExternalLink
                               type="btcTestnetHash"
-                              value={btcHash}
+                              value={btcHashForExplorer}
                               render={() => {
                                 return (
                                   <Hash
                                     style={{ width: 136 }}
                                     className="text-truncate"
-                                    value={btcHash}
+                                    value={btcHashForExplorer}
                                   />
                                 )
                               }}
@@ -87,7 +90,7 @@ const BridgeBlock = function() {
                             />
                           </td>
                           <td>
-                            <AddressLink
+                            <AccountLink
                               style={{ width: 136 }}
                               className="text-truncate"
                               value={signer}
