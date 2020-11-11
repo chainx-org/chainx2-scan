@@ -36,8 +36,8 @@ jobs:
             git checkout develop
             git pull
             cd packages
-            git diff --quiet HEAD temp -- scan || pm2 restart scan
-            git diff --quiet HEAD temp -- server || pm2 restart server
-            git diff --quiet HEAD temp -- site || pm2 restart site
+            git diff --quiet HEAD temp -- scan || pm2 restart explorer-scan
+            git diff --quiet HEAD temp -- server || pm2 restart explorer-server
+            git diff --quiet HEAD temp -- site || pm2 restart explorer-site
             git branch -d temp
             pm2 status
