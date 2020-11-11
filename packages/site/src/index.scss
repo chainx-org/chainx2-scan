@@ -1195,4 +1195,9 @@ a:focus {
   .container {
     width: unset;
   }
+  .ant-pagination-simple{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
