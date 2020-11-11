@@ -31,7 +31,8 @@ export default function CrossBtcTx({ address }) {
   }, [dispatch, page, pageSize])
 
   const { items = [], total } = useSelector(crossTransactionsSelector) || {}
-
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   return (
     <Table
       loading={loading}
@@ -39,7 +40,10 @@ export default function CrossBtcTx({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {
         const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
         const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
