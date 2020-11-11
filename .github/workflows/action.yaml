@@ -23,7 +23,7 @@ jobs:
           NAME: "Root"
           BRANCH: "develop"
         with:
-          hosts: 'root@47.242.81.132'
+          hosts: 'root@8.210.209.20'
           privateKey: ${{ secrets.PRIVATE_KEY }}
           debug: false
           command: |
@@ -36,8 +36,8 @@ jobs:
             git checkout develop
             git pull
             cd packages
-            git diff --quiet HEAD temp -- scan || echo "scan changed" && pm2 restart 0
-            git diff --quiet HEAD temp -- server || echo "server changed" && pm2 restart 1
-            git diff --quiet HEAD temp -- site || echo "site changed" && pm2 restart 2
+            git diff --quiet HEAD temp -- scan || pm2 restart scan
+            git diff --quiet HEAD temp -- server || pm2 restart server
+            git diff --quiet HEAD temp -- site || pm2 restart site
             git branch -d temp
             pm2 status
