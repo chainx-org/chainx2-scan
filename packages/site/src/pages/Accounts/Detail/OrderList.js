@@ -13,6 +13,7 @@ import OrderDirection from '@components/OrderDirection'
 import Amount from '@components/Amount'
 import HasFill from '@components/HasFill'
 import OrderStatus from '@components/OrderStatus'
+import AccountLink from '../../../components/AccountLink'
 
 export default function OrderList({ address }) {
   const [page, setPage] = useState(1)
@@ -53,7 +54,7 @@ export default function OrderList({ address }) {
         const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
         return {
           accountid: (
-            <AddressLink
+            <AccountLink
               style={{ maxWidth: 136 }}
               className="text-truncate"
               value={data.props.submitter}
