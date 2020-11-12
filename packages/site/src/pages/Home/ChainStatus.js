@@ -66,7 +66,10 @@ export default function ChainStatus() {
         <div>
           <Amount value={data.pcx_issuance} hideSymbol minDigits={0} /> /{' '}
           <NumberFormat
-            value={(data.selfvote_count + data.votes) / data.pcx_issuance}
+            value={
+              (data.totalValidatorBonded + data.totalNominationSum) /
+              data.pcx_issuance
+            }
             options={{ style: 'percent', minimumFractionDigits: 2 }}
           />
         </div>
@@ -94,30 +97,26 @@ export default function ChainStatus() {
       data: <Amount value={data.totalNominationSum} hideSymbol />
     },
     {
-      label: $t('price'),
-      // 写死了精度 9
-      data: (
-        <Amount
-          value={data.last_price}
-          hideSymbol
-          symbol="BTC"
-          precision={9}
-          minDigits={7}
-        />
-      )
-    },
-    {
       label: (
         <div>
-          {$t('btc_mining')} / {$t('sdot_mining')}
+          {$t('price')} / {$t('btc_mining')}
         </div>
+        // 写死了精度 9
       ),
-      data: (
-        <div>
-          <Amount value={data.btc_power} hideSymbol /> /{' '}
-          <Amount value={data.sdot_power} hideSymbol />
-        </div>
-      )
+      data:
+        (
+          <Amount
+            value={data.last_price}
+            hideSymbol
+            symbol="BTC"
+            precision={9}
+            minDigits={7}
+          />
+        ) / <Amount value={data.btc_power} hideSymbol />
+    },
+    {
+      label: $t('transfer_count'),
+      data: <NumberFormat value={data.transfer_count} />
     }
     /*
     {

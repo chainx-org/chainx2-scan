@@ -50,5 +50,9 @@ export default {
   timestamp: {
     zh: '时间戳',
     en: 'timestamp'
+  },
+  transfer_count: {
+    zh: '转账总数',
+    en: 'Transfer Count'
   }
 }

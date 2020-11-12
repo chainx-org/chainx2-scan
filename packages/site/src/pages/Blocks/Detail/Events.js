@@ -21,6 +21,8 @@ export default function({ blockHeight }) {
     api.fetchBlockEvents,
     params
   )
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   let list = arrayObjectDeDuplication(extrinsics, 'extrinsicHash')
   const renderList = list.sort(function(a, b) {
     return a.phase.value - b.phase.value
@@ -32,7 +34,10 @@ export default function({ blockHeight }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple }}
+      scroll={{
+        x: '100vh'
+      }}
       expandedRowRender={data => {
         return (
           <div>

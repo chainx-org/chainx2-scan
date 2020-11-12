@@ -20,7 +20,6 @@ export default function() {
   const params = useMemo(() => [eventId], [eventId])
 
   const { detail: event, loading } = useLoadDetail(api.fetchEvent, params)
-  console.log('event', event)
 
   const breadcrumb = (
     <Breadcrumb
@@ -57,9 +56,7 @@ export default function() {
           },
           {
             label: $t('ex_hash'),
-            data: (
-              <TxLink className="text-truncate" value={event.extrinsicHash} />
-            )
+            data: <TxLink value={event.extrinsicHash} />
           },
           {
             label: $t('event_index'),

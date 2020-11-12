@@ -8,6 +8,7 @@ const { getEventCollection } = require('../services/mongo')
 const { getStatusCollection } = require('../services/mongo')
 const { getAccountsCollection } = require('../services/mongo')
 const { getValidatorsCollection } = require('../services/mongo')
+const { getTransferColCollection } = require('../services/mongo')
 
 let chainStatus = {}
 let latestHeader = {}
@@ -61,6 +62,11 @@ async function feedLatestChainStatus(io) {
     const eventCount = await eventCol.countDocuments({})
     chainStatus.event_count = eventCount
 
+    // 转账总数
+    const transferCol = await getTransferColCollection()
+    const transferCount = await transferCol.countDocuments({})
+    chainStatus.transfer_count = transferCount
+
     const validatorCol = await getValidatorsCollection()
     // 验证节点总数
     const validatorCount = await validatorCol.countDocuments({
@@ -74,9 +80,12 @@ async function feedLatestChainStatus(io) {
     const allValidators = await validatorCol.find({}).toArray()
     let selfBondedSum = 0
     let totalNomimationSum = 0
-    for (let i=0;i<allValidators.length;i++) {
+    for (let i = 0; i < allValidators.length; i++) {
       selfBondedSum = selfBondedSum + parseFloat(allValidators[i].selfBonded)
-      totalNomimationSum = totalNomimationSum + parseFloat(allValidators[i].totalNomination)
+      totalNomimationSum =
+        totalNomimationSum +
+        (parseFloat(allValidators[i].totalNomination) -
+          parseFloat(allValidators[i].selfBonded))
     }
     chainStatus.totalValidatorBonded = selfBondedSum
     chainStatus.totalNominationSum = totalNomimationSum

@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import Fail from '@components/Fail'
 import Success from '@components/Success'
+import AccountLink from '../../../components/AccountLink'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
@@ -25,6 +26,9 @@ export default function({ address }) {
 
   const { items: extrinsics, total } = useSelector(extrinsicsSelector) || {}
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   return (
     <Table
       loading={loading}
@@ -32,7 +36,10 @@ export default function({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple }}
       expandedRowRender={data => {
         return (
           <div>
@@ -52,6 +59,7 @@ export default function({ address }) {
               value={item.hash}
             />
           ),
+          signer: <AccountLink value={item.signer} />,
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           section: item.section,
@@ -68,6 +76,10 @@ export default function({ address }) {
         {
           title: $t('block_time'),
           dataIndex: 'blockTime'
+        },
+        {
+          title: $t('ex_signer'),
+          dataIndex: 'signer'
         },
         {
           title: $t('ex_hash'),
