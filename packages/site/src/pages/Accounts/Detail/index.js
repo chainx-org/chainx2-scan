@@ -18,6 +18,7 @@ import WithdrawalList from './WithdrawalList'
 import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
+import DealList from './DealList'
 
 export default function() {
   const [activeKey, setActiveKey] = useState('assets')
@@ -142,6 +143,7 @@ export default function() {
         {activeKey === 'transaction' && <TransActionList address={address} />}
         {activeKey === 'vote' && <NominationList address={address} />}
         {activeKey === 'order' && <OrderList address={address} />}
+        {activeKey === 'deal' && <DealList address={address} />}
         {activeKey === 'deposit' && <DepositList address={address} />}
         {activeKey === 'withdrawal' && <WithdrawalList address={address} />}
       </div>

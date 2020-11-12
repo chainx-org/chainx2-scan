@@ -18,6 +18,8 @@ export default function OrderList({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(false)
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
 
   const dispatch = useDispatch()
 
@@ -30,6 +32,7 @@ export default function OrderList({ address }) {
     dispatch(fetchOpenOrders(address, setLoading, page - 1, pageSize))
   }, [address, dispatch, page, pageSize])
   const { items: openOrders, total } = useSelector(openOrdersSelector) || {}
+  console.log(openOrders)
 
   return (
     <Table
@@ -41,14 +44,13 @@ export default function OrderList({ address }) {
       scroll={{
         x: '100vh'
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple }}
       dataSource={(openOrders || []).map((data, idx) => {
         const hasFill = data.alreadyFilled
         const currentPair = pairs.find(
           item => item.pairId === data.props.pairId
         )
         const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
-
         return {
           accountid: (
             <AddressLink
