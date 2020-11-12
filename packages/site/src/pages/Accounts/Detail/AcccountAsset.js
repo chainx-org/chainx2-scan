@@ -20,6 +20,8 @@ export default function AccountAsset(props) {
     api.fetchCrossAssets,
     params
   )
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   var display = ''
   if (crossAsset) {
     if (JSON.stringify(crossAsset[0]) === '{}') {
@@ -122,6 +124,9 @@ export default function AccountAsset(props) {
             <Table
               loading={loading}
               pagination={false}
+              scroll={{
+                x: '100vh'
+              }}
               dataSource={
                 crossAsset &&
                 crossAsset.map(item => {
@@ -199,12 +204,15 @@ export default function AccountAsset(props) {
         <Table
           loading={loading}
           pagination={false}
+          scroll={{
+            x: '100vh'
+          }}
           dataSource={
             nativeAsset &&
             [{ ...nativeAsset, token: 'PCX' }].map(item => {
               return {
                 key: item.token,
-                token: item.token,
+                token: <div style={{ whiteSpace: 'nowrap' }}>{item.token}</div>,
                 usable: (
                   <Amount
                     value={item.data.free - item.data.miscFrozen}

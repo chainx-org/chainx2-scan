@@ -24,7 +24,8 @@ export default function({ address }) {
 
   const { items: transfers = [], total = 0 } =
     useSelector(transfersSelector) || {}
-
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   return (
     <Table
       loading={loading}
@@ -32,7 +33,10 @@ export default function({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple }}
+      scroll={{
+        x: '100vh'
+      }}
       dataSource={transfers.map(item => {
         return {
           key: item.extrinsicHash,

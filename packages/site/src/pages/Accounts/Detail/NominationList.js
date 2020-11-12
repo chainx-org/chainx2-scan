@@ -25,6 +25,9 @@ export default function AccountNomination({ address }) {
     <Table
       loading={loading}
       pagination={false}
+      scroll={{
+        x: '100vh'
+      }}
       dataSource={items.map(item => {
         return {
           key: item._id,
