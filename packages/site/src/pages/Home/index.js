@@ -5,9 +5,15 @@ import ChainStatus from './ChainStatus'
 import BtcStates from './BtcStates'
 import PowerDistribution from './PowerDistributton'
 import BridgeBlock from './BridgeBlock'
-export default function Home() {
+import InputSearch from '../../components/InputSearch'
+export default function Home(props) {
   return (
     <section className="blockTransaction">
+      <div className="columns is-hidden-desktop">
+        <div className="column">
+          <InputSearch {...props}/>
+        </div>
+      </div>
       <div className="columns">
         <div className="column">
           <ChainStatus />

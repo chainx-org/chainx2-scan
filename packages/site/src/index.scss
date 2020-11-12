@@ -1196,4 +1196,18 @@ a:focus {
   .container {
     width: unset;
   }
+  .navbar-search {
+    input {
+      width: 100vw;
+    }
+
+    .icon-search.search {
+      position: absolute;
+      top: 12px;
+      right: 5%;
+      font-size: 20px;
+      color: #f6c94a;
+      cursor: pointer;
+    }
+  }
 }

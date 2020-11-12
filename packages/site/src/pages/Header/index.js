@@ -104,7 +104,7 @@ export default withRouter(function(props) {
               {$t('dex_section')}
             </NavLink>
           </div>
-          <div className="navbar-end">
+          <div className="navbar-end is-hidden-touch is-hidden-tablet-only">
             <InputSearch {...props} />
           </div>
         </div>
