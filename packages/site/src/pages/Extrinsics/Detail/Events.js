@@ -20,6 +20,8 @@ export default function({ extrinsicHash }) {
     api.fetchExtrinsicEvents,
     params
   )
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
 
   return (
     <div className="box">
@@ -36,7 +38,10 @@ export default function({ extrinsicHash }) {
           setPage(current)
           setPageSize(size)
         }}
-        pagination={{ current: page, pageSize, total }}
+        scroll={{
+          x: '100vh'
+        }}
+        pagination={{ current: page, pageSize, total, simple }}
         expandedRowRender={data => {
           return (
             <div style={{ textAlign: 'left' }}>
