@@ -34,6 +34,9 @@ export default function({ address }) {
         setPage(current)
         setPageSize(size)
       }}
+      scroll={{
+        x: '100vh'
+      }}
       pagination={{ current: page, pageSize, total }}
       expandedRowRender={data => {
         return (

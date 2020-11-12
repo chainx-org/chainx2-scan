@@ -38,6 +38,9 @@ export default function OrderList({ address }) {
         setPage(current)
         setPageSize(size)
       }}
+      scroll={{
+        x: '100vh'
+      }}
       pagination={{ current: page, pageSize, total }}
       dataSource={(openOrders || []).map((data, idx) => {
         const hasFill = data.alreadyFilled
