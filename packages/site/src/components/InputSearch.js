@@ -7,7 +7,7 @@ export default function InputSearch(props) {
   const [str, setStr] = useState('')
   const width = document.documentElement.clientWidth
   const style =
-    width < 768 ? { width: '100vw' } : { width: '30vw', paddingRight: '3vw' }
+    width < 1024 ? { width: '90vw' } : { width: '30vw', paddingRight: '3vw' }
   const search = useCallback(
     async str => {
       const result = await api.search(str)
@@ -35,7 +35,6 @@ export default function InputSearch(props) {
         type="text"
         placeholder={
           $t('search') +
-          '/' +
           $t('block_height') +
           '/' +
           $t('hash') +
