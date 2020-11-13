@@ -11,12 +11,14 @@ import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
 import DateShow from '@components/DateShow'
+import AccountLink from '../../../components/AccountLink'
 
 export default function DealList({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(false)
-
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -37,7 +39,10 @@ export default function DealList({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple }}
       dataSource={items.map(fill => {
         const currentPair = pairs.find(item => item.pairId === fill.pairId)
         const { pipDecimals = 0, tickDecimals = 0 } = currentPair || {}
@@ -53,16 +58,23 @@ export default function DealList({ address }) {
               hideSymbol
             />
           ),
-          amount: <Amount value={fill.turnover} symbol={'PCX'} hideSymbol />,
+          amount: (
+            <Amount
+              value={fill.turnover}
+              symbol={'PCX'}
+              hideSymbol
+              style={{ whiteSpace: 'nowrap' }}
+            />
+          ),
           maker: (
-            <AddressLink
+            <AccountLink
               style={{ maxWidth: 136 }}
               className="text-truncate"
               value={fill.maker}
             />
           ),
           taker: (
-            <AddressLink
+            <AccountLink
               style={{ maxWidth: 136 }}
               className="text-truncate"
               value={fill.taker}
@@ -79,11 +91,13 @@ export default function DealList({ address }) {
           dataIndex: 'id'
         },
         {
-          title: <>{$t('dex_price')}</>,
+          title: <div style={{ whiteSpace: 'nowrap' }}>{$t('dex_price')}</div>,
           dataIndex: 'price'
         },
         {
-          title: <>{$t('dex_fill_amount')}</>,
+          title: (
+            <div style={{ whiteSpace: 'nowrap' }}>{$t('dex_fill_amount')}</div>
+          ),
           dataIndex: 'amount'
         },
         {

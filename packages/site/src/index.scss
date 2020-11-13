@@ -842,9 +842,8 @@ a:focus {
     display: flex;
     flex: 1;
   }
-
-  ul li {
-    margin-right: 32px;
+  li {
+    margin-right: 3vw;
   }
 
   .chainx-code-wrapper {
@@ -1209,5 +1208,10 @@ a:focus {
       color: #f6c94a;
       cursor: pointer;
     }
+  }
+  .ant-pagination-simple{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

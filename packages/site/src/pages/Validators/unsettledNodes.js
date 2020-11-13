@@ -27,6 +27,9 @@ export default function() {
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -42,7 +45,11 @@ export default function() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh',
+        y: 600
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {
         return {
           account_address: (
@@ -86,6 +93,20 @@ export default function() {
               hideSymbol
             />
           ),
+          trust: item.isTrust ? (
+            <div
+              style={{
+                background: 'rgba(246, 201, 74)',
+                textAlign: 'center',
+                borderRadius: '4px',
+                whiteSpace: 'nowrap',
+                width: '100%',
+                height: '100%'
+              }}
+            >
+              {$t('trustee')}
+            </div>
+          ) : null,
           weight_last_update: (
             <BlockLink
               style={{ width: 69 }}
@@ -106,6 +127,10 @@ export default function() {
         {
           title: $t('address_item'),
           dataIndex: 'account_address'
+        },
+        {
+          title: '',
+          dataIndex: 'trust'
         },
         {
           title: $t('referral_id'),

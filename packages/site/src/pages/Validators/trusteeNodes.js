@@ -25,6 +25,9 @@ export default function() {
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -41,6 +44,10 @@ export default function() {
         setPageSize(size)
       }}
       pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh',
+        y: 600
+      }}
       dataSource={items.map(item => {
         return {
           account_address: (

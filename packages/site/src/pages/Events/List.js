@@ -12,6 +12,9 @@ export default function() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   const params = useMemo(() => {
     return { page, pageSize }
   }, [page, pageSize])
@@ -25,7 +28,10 @@ export default function() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       expandedRowRender={data => {
         return (
           <div style={{ textAlign: 'left' }}>

@@ -53,72 +53,169 @@ export const LangChanger = function() {
     </div>
   )
 }
-
+const width = document.documentElement.clientWidth
 export default function Footer() {
-  return (
-    <div className="page-footer">
-      <div className="container">
-        <ul className="footer-start">
-          <li>
-            <a
-              href="https://chainx.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ChainX{$t('common_home')}
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://wallet.chainx.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {$t('common_wallet')}
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://twitter.com/chainx_org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Twitter
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/chainx-org/ChainX"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://t.me/chainx_org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Telegram
-            </a>
-          </li>
-          <li className="chainx-code-wrapper">
-            WeChat
-            <div className="chainx-code">
-              <img src={weixin} alt="" />
-            </div>
-          </li>
-          <li>
-            <a href="mailto:hi@chainx.org">hi@chainx.org</a>
-          </li>
-        </ul>
-        <div className="footer-end">
-          <LangChanger />
-          Copyright © 2020 ChainX
+  if (width > 768) {
+    return (
+      <div className="page-footer">
+        <div className="container">
+          <ul className="footer-start">
+            <li>
+              <a
+                href="https://chainx.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ChainX{$t('common_home')}
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://wallet.chainx.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {$t('common_wallet')}
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://twitter.com/chainx_org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/chainx-org/ChainX"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://t.me/chainx_org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Telegram
+              </a>
+            </li>
+            <li className="chainx-code-wrapper">
+              WeChat
+              <div className="chainx-code">
+                <img src={weixin} alt="" />
+              </div>
+            </li>
+            <li>
+              <a href="mailto:hi@chainx.org">hi@chainx.org</a>
+            </li>
+            <li>
+              <div className="footer-end">
+                <LangChanger />
+                Copyright © 2020 ChainX
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return (
+      <div className="page-footer" style={{ height: '100px' }}>
+        <div className="container">
+          <ul
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingTop: '10px'
+            }}
+          >
+            <li>
+              <a
+                href="https://chainx.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ChainX{$t('common_home')}
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://wallet.chainx.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {$t('common_wallet')}
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://twitter.com/chainx_org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/chainx-org/ChainX"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://t.me/chainx_org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Telegram
+              </a>
+            </li>
+            <li className="chainx-code-wrapper">
+              WeChat
+              <div className="chainx-code">
+                <img src={weixin} alt="" />
+              </div>
+            </li>
+            <li
+              style={{
+                marginTop: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '6vh'
+              }}
+            >
+              <a href="mailto:hi@chainx.org" style={{ marginRight: '15px' }}>
+                hi@chainx.org
+              </a>
+              <LangChanger />
+            </li>
+            <div
+              style={{
+                paddingTop: '10px',
+                paddingBottom: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              Copyright © 2020 ChainX
+            </div>
+          </ul>
+        </div>
+      </div>
+    )
+  }
 }

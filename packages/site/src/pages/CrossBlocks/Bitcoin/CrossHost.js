@@ -25,6 +25,9 @@ export default function CrossHost({ address }) {
   const [pageSize, setPageSize] = useState(20)
   const [loading, setLoading] = useState(false)
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -40,7 +43,10 @@ export default function CrossHost({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh'
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {
         // const btcHashForExplorer = swapEndian(item.btcHash.slice(2))
         // const btcTxHashForExplorer = swapEndian(item.btcTxHash.slice(2))
@@ -78,7 +84,11 @@ export default function CrossHost({ address }) {
             />
           ),
           */
-          threshold: item.threshold,
+          threshold: (
+            <div style={{ whiteSpace: 'nowrap', width: 58 }}>
+              {item.threshold}
+            </div>
+          ),
           name: item.name,
           chainx_address: (
             <AccountLink

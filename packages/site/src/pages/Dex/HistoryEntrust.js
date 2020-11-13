@@ -10,6 +10,7 @@ import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
 import DateShow from '@components/DateShow'
+import AccountLink from '../../components/AccountLink'
 
 export default function HistoryEntrust() {
   const [page, setPage] = useState(1)
@@ -49,14 +50,14 @@ export default function HistoryEntrust() {
           ),
           amount: <Amount value={fill.turnover} symbol={'PCX'} hideSymbol />,
           maker: (
-            <AddressLink
+            <AccountLink
               style={{ maxWidth: 136 }}
               className="text-truncate"
               value={fill.maker}
             />
           ),
           taker: (
-            <AddressLink
+            <AccountLink
               style={{ maxWidth: 136 }}
               className="text-truncate"
               value={fill.taker}

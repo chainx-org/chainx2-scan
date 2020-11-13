@@ -35,6 +35,9 @@ export default function() {
 
   const { newitems = [], total } = useSelector(validatorNodesSelector) || {}
 
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
+
   return (
     <Table
       loading={loading}
@@ -42,7 +45,11 @@ export default function() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      scroll={{
+        x: '100vh',
+        y: 600
+      }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={newitems.map(item => {
         return {
           account_address: (
