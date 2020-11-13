@@ -33,7 +33,6 @@ export default function OrderList({ address }) {
     dispatch(fetchOpenOrders(address, setLoading, page - 1, pageSize))
   }, [address, dispatch, page, pageSize])
   const { items: openOrders, total } = useSelector(openOrdersSelector) || {}
-  console.log(openOrders)
 
   return (
     <Table

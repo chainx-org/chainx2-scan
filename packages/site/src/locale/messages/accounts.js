@@ -102,5 +102,17 @@ export default {
   nominator: {
     zh: '投票人',
     en: 'Nominator'
+  },
+  sender: {
+    zh: '发送人',
+    en: 'Sender'
+  },
+  receiver: {
+    zh: '接收人',
+    en: 'Receiver'
+  },
+  transfer_balance: {
+    zh: '金额',
+    en: 'Balance'
   }
 }

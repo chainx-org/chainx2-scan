@@ -85,15 +85,15 @@ export default function({ address }) {
           dataIndex: 'hash'
         },
         {
-          title: '发送人',
+          title: $t('sender'),
           dataIndex: 'sender'
         },
         {
-          title: '接收人',
+          title: $t('receiver'),
           dataIndex: 'receiver'
         },
         {
-          title: '金额',
+          title: $t('transfer_balance'),
           dataIndex: 'value'
         }
       ]}
