@@ -7,16 +7,21 @@ function getUnSubscribeValidatorsFunction() {
   return unSubscribeValidators
 }
 
-async function listenAndUpdateValidators() {
+async function listenAndUpdateValidators(chainHeight) {
   const api = await getApi()
 
+  // const height = await api.query.system.number()
+  console.log('update validators at height: ', chainHeight)
+  await updateValidatorsInfo(chainHeight)
+  /*
   unSubscribeValidators = await api.query.xStaking.currentEra(async era => {
     const height = await api.query.system.number()
     await updateValidatorsInfo(height.toNumber())
   })
+  */
 }
 
-async function updateValidatorsInfo(queryHeight = 0) {
+async function updateValidatorsInfo(queryHeight) {
   const api = await getApi()
   const validators = await api.rpc.xstaking.getValidators()
 

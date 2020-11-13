@@ -59,7 +59,7 @@ async function main() {
   }
   await updateChainProperties()
   // 监听并更新validators
-  await listenAndUpdateValidators()
+  // await listenAndUpdateValidators()
   // 获取首个扫描区块高度
   let scanHeight = await getFirstScanHeight()
   console.log('scanHeight', scanHeight)
@@ -155,6 +155,7 @@ async function main() {
     await updateScanHeight(scanHeight++)
     await updateTrusteeList(blockHash)
     await updateDepositMineInfo(blockHash)
+    await listenAndUpdateValidators(chainHeight)
   }
 }
 
