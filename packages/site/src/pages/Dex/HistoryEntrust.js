@@ -21,6 +21,8 @@ export default function HistoryEntrust() {
   const { items = [], total } = useSelector(fillsSelector)
 
   const dispatch = useDispatch()
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
 
   useEffect(() => {
     if (typeof active !== 'undefined' && active !== null) {
@@ -34,7 +36,10 @@ export default function HistoryEntrust() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple }}
+      scroll={{
+        x: '100vh'
+      }}
       dataSource={items.map(fill => {
         return {
           key: fill.tradingHistoryIdx,
@@ -74,7 +79,7 @@ export default function HistoryEntrust() {
           dataIndex: 'id'
         },
         {
-          title: <>{$t('dex_price')}</>,
+          title: <div style={{ whiteSpace: 'nowrap' }}>{$t('dex_price')}</div>,
           dataIndex: 'price'
         },
         {
@@ -90,7 +95,11 @@ export default function HistoryEntrust() {
           dataIndex: 'maker_user_order_index'
         },
         {
-          title: <>{$t('dex_taker_account')}</>,
+          title: (
+            <div style={{ whiteSpace: 'nowrap' }}>
+              {$t('dex_taker_account')}
+            </div>
+          ),
           dataIndex: 'taker'
         },
         {
