@@ -24,7 +24,8 @@ export default function CurrentEntrust() {
   const { items: orders, total } = openOrders || {}
 
   const dispatch = useDispatch()
-
+  const width = document.documentElement.clientWidth
+  const simple = width < 1024
   useEffect(() => {
     if (typeof active !== 'undefined' && active !== null) {
       dispatch(fetchOpenOrders(active.pairId, page - 1, pageSize))
@@ -37,7 +38,10 @@ export default function CurrentEntrust() {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total }}
+      pagination={{ current: page, pageSize, total, simple }}
+      scroll={{
+        x: '100vh'
+      }}
       dataSource={(orders || []).map((data, idx) => {
         const hasFill = data.alreadyFilled
 
