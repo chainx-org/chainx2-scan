@@ -1,11 +1,4 @@
 const { getDb } = require('../../services/mongo')
-const { encodeAddress } = require('@polkadot/keyring')
-const { hexAddPrefix } = require('@polkadot/util')
-
-function _encodeAddress(publicKey) {
-  if (!publicKey) return publicKey
-  return encodeAddress(hexAddPrefix(publicKey))
-}
 
 const emptyAsset = {
   free: '0',

@@ -1,9 +1,13 @@
 import { encodeAddress, setSS58Format } from '@polkadot/keyring'
-import hexAddPrefix from '@polkadot/util/hex/addPrefix'
+import { hexAddPrefix } from '@polkadot/util'
+import { Keyring } from '@polkadot/keyring'
 
-setSS58Format(process.env.REACT_APP_ENV === 'test' ? 42 : 44)
+const keyring = new Keyring()
+// keyring.setSS58Format(process.env.REACT_APP_ENV === 'test' ? 42 : 44)
+// 42 for testnet, 44 for mainnet
+keyring.setSS58Format(42)
 
 export default function _encodeAddress(publicKey) {
   if (!publicKey) return publicKey
-  return encodeAddress(hexAddPrefix(publicKey))
+  return keyring.encodeAddress(hexAddPrefix(publicKey))
 }

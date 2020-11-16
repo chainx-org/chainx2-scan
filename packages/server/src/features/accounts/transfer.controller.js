@@ -1,7 +1,7 @@
 const { extractPage } = require('../../utils')
 const { getTransferColCollection } = require('../../services/mongo')
 const { getEventCollection } = require('../../services/mongo')
-const { encodeAddress } = require('./utils')
+const { encodeAddress } = require('../../utils')
 const { Account } = require('@chainx-v2/account')
 
 class TransferController {

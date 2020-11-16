@@ -1,5 +1,5 @@
 const { getExtrinsicCount } = require('./utils')
-const { encodeAddress } = require('./utils')
+const { encodeAddress } = require('../../utils')
 const { getNativeAsset } = require('./utils')
 const { safeAdd } = require('../../utils')
 const { getDb } = require('../../services/mongo')
