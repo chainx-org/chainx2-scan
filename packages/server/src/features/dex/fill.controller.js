@@ -32,28 +32,39 @@ class FillController {
   async getKline(ctx) {
     let { pairId, timeCycle } = ctx.params
     let items = []
-    var now = new Date().getTime()
-    let y = now % parseInt(timeCycle)
+    const currentTime = new Date().getTime()
+    const mod = currentTime % parseInt(timeCycle)
 
     const db = await getDb()
     const col = await db.collection('deals')
 
-    for (let i = 0; i < 100; i++) {
-      console.log(now, 'now')
+    var endTime
+    var startTime
+    endTime = currentTime - mod
+    startTime = endTime - parseInt(timeCycle)
+
+    for (let i = 0; i < 10; i++) {
+      // console.log('start time', startTime)
+      // console.log('end time', endTime)
+
       let query = {
         $and: [
-          { pairId: pairId },
-          { blockTime: { $gte: now - timeCycle } },
-          { blockTime: { $lte: now } }
+          { pairId: parseInt(pairId) },
+          { blockTime: { $gte: startTime } },
+          { blockTime: { $lte: endTime } }
         ]
       }
-      console.log(query)
-      var result = await col
+      // console.log(query)
+
+      const result = await col
         .find(query)
         .sort({ executedAt: -1 })
         .toArray()
-      now = now - timeCycle
+
       items.push(result)
+
+      endTime = startTime
+      startTime = startTime - parseInt(timeCycle)
     }
     ctx.body = {
       items
