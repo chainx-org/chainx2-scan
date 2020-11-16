@@ -41,7 +41,7 @@ export default function BestBlocks() {
           <tbody>
             {blocks && blocks.length
               ? blocks
-                  .slice(0, 10)
+                  .slice(0, 6)
                   .map(({ number, extrinsicsCnt, nikename }) => {
                     return (
                       <tr key={number}>
