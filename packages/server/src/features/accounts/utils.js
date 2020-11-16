@@ -36,6 +36,5 @@ async function getExtrinsicCount(address) {
 
 module.exports = {
   getNativeAsset,
-  getExtrinsicCount,
-  encodeAddress: _encodeAddress
+  getExtrinsicCount
 }
