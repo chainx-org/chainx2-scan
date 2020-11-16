@@ -40,21 +40,21 @@ export default function BestBlocks() {
           </thead>
           <tbody>
             {blocks && blocks.length
-              ? blocks.slice(0, 6).map(({ author, number, extrinsicsCnt }) => {
-                  return (
-                    <tr key={number}>
-                      <td>
-                        <BlockLink value={number} />
-                      </td>
-                      <td>
-                        <AccountLink value={encodeAddress(author)} />
-                      </td>
-                      <td className="has-text-right">
-                        <NumberFormat value={extrinsicsCnt} />
-                      </td>
-                    </tr>
-                  )
-                })
+              ? blocks
+                  .slice(0, 10)
+                  .map(({ number, extrinsicsCnt, nikename }) => {
+                    return (
+                      <tr key={number}>
+                        <td>
+                          <BlockLink value={number} />
+                        </td>
+                        <td>{nikename}</td>
+                        <td className="has-text-right">
+                          <NumberFormat value={extrinsicsCnt} />
+                        </td>
+                      </tr>
+                    )
+                  })
               : loading}
           </tbody>
         </table>
