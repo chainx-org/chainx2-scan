@@ -54,12 +54,18 @@ export default function({ address }) {
           key: item.hash,
           hash: (
             <TxLink
-              style={{ width: 136 }}
+              style={{ width: 138 }}
               className="text-truncate"
               value={item.hash}
             />
           ),
-          signer: <AccountLink value={item.signer} />,
+          signer: (
+            <AccountLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.signer}
+            />
+          ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           section: item.section,
