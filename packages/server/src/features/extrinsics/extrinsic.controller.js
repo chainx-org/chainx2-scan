@@ -45,6 +45,28 @@ class ExtrinsicController {
     const col = await getExtrinsicCollection()
     ctx.body = await col.findOne({ hash })
   }
+
+  async getSudoExtrinsics(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+
+    const query = { section: 'sudo' }
+
+    const col = await getExtrinsicCollection()
+    const total = await col.countDocuments(query)
+    const extrinsics = await col
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1, 'indexer.index': 1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items: extrinsics,
+      page,
+      pageSize,
+      total
+    }
+  }
 }
 
 module.exports = new ExtrinsicController()

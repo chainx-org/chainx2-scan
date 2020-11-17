@@ -1,6 +1,6 @@
 const moduleZhNameMap = {
   xTokens: '跨链挖矿',
-  Sudo: '超级权限',
+  sudo: 'sudo',
   Withdrawal: '提现',
   xSpot: '币币交易',
   xStaking: '投票选举',
@@ -24,12 +24,12 @@ const moduleZhNameMap = {
   xBridgeFeatures: '桥特性集',
   xBridgeCommon: '桥基础',
   xContracts: '合约',
-  offences: '犯规',
+  offences: '犯规'
 }
 
 export const moduleEnNameMap = {
   xTokens: 'Crosschain Mining',
-  Sudo: 'Sudo',
+  sudo: 'sudo',
   Withdrawal: 'Withdrawal',
   xSpot: 'DEX',
   xStaking: 'Staking',
@@ -53,7 +53,7 @@ export const moduleEnNameMap = {
   xBridgeFeatures: 'Bridge Features',
   xBridgeCommon: 'Bridge Common',
   xContracts: 'contracts',
-  offences: 'offences',
+  offences: 'offences'
 }
 
 const moduleNameMap = Object.entries(moduleEnNameMap).reduce(
@@ -90,7 +90,7 @@ export const callZhNameMap = {
   DepositorReward: '跨链奖励',
   BitcoinBinding: '比特币绑定',
   unnominate: '撤销投票',
-  sudo: '设置',
+  sudo: 'sudo',
   set_block_producer: '设置出块人',
   push_header: '提交块头',
   finalHint: '确认提示',
@@ -176,7 +176,7 @@ export const callZhNameMap = {
   Slashed: '清除',
   Offence: '犯规',
   bond: '抵押',
-  unbond: '解除抵押',
+  unbond: '解除抵押'
 }
 
 export const callEnNameMap = {
@@ -195,7 +195,7 @@ export const callEnNameMap = {
   DepositorReward: 'Cross Chain Reward',
   BitcoinBinding: 'Bitcoin Binding',
   unnominate: 'Unnominate',
-  sudo: 'Sudo',
+  sudo: 'sudo',
   set_block_producer: 'Set Block Author',
   push_header: 'Submit Header',
   finalHint: 'Final Hint',
@@ -283,7 +283,7 @@ export const callEnNameMap = {
   Slashed: 'Slashed',
   Offence: 'Offence',
   bond: 'Bond',
-  unbond: 'Unbond',
+  unbond: 'Unbond'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(

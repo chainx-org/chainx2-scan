@@ -3,6 +3,10 @@ export default {
     zh: '交易列表',
     en: 'Extrinsics'
   },
+  sudo_ex_list: {
+    zh: 'sudo交易列表',
+    en: 'sudo Extrinsics'
+  },
   ex_detail: {
     zh: '交易详情',
     en: 'Extrinsic Detail'
@@ -54,5 +58,5 @@ export default {
   transfer_count: {
     zh: '转账总数',
     en: 'Transfer Count'
-  },
+  }
 }
