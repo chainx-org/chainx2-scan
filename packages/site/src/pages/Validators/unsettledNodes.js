@@ -63,7 +63,7 @@ export default function() {
               <tr>
                 <td>{data.registered_block_height}</td>
                 <td>{data.weight_last_update}</td>
-                <td>{data.total_nomination}</td>
+                <td>{data.total_weight}</td>
               </tr>
             </tbody>
           </table>
@@ -133,9 +133,7 @@ export default function() {
               value={item.lastTotalVoteWeightUpdate}
             />
           ),
-          total_weight: (
-            <Amount value={item.lastTotalVoteWeight} precision={8} hideSymbol />
-          ),
+          total_weight: <NumberFormat value={item.lastTotalVoteWeight} />,
           total_nomination: (
             <Amount value={item.totalNomination} precision={8} hideSymbol />
           ),
