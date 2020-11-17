@@ -1,8 +1,10 @@
 const { getApi } = require('./api')
 const { getChainCollection } = require('./mongoClient')
 const { setSS58Format } = require('@polkadot/util-crypto')
+const { Keyring } = require('@polkadot/keyring')
 
 let properties = null
+const keyring = new Keyring()
 
 async function updateChainProperties() {
   const api = await getApi()
@@ -17,7 +19,7 @@ async function updateChainProperties() {
     properties
   })
 
-  setSS58Format(properties.ss58Format)
+  keyring.setSS58Format(properties.ss58Format)
   return systemProperties
 }
 

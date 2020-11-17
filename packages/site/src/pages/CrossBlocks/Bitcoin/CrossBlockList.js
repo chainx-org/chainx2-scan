@@ -42,8 +42,7 @@ export default function CrossBlocksList({ address }) {
         setPageSize(size)
       }}
       scroll={{
-        x: '100vh',
-        y: 600
+        x: '100vh'
       }}
       pagination={{ current: page, pageSize, total, simple: simple }}
       dataSource={items.map(item => {

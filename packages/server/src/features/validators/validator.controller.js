@@ -23,7 +23,7 @@ class validatorsController {
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ lastTotalVoteWeight: -1 })
+      .sort({ totalNomination: -1 })
       .collation({ locale: 'en_US', numericOrdering: true })
       .skip(page * pageSize)
       .limit(pageSize)
@@ -63,7 +63,7 @@ class validatorsController {
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ lastTotalVoteWeight: -1 })
+      .sort({ totalNomination: -1 })
       .collation({ locale: 'en_US', numericOrdering: true })
       .skip(page * pageSize)
       .limit(pageSize)
@@ -96,7 +96,7 @@ class validatorsController {
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ lastTotalVoteWeight: -1 })
+      .sort({ totalNomination: -1 })
       .collation({ locale: 'en_US', numericOrdering: true })
       .skip(page * pageSize)
       .limit(pageSize)

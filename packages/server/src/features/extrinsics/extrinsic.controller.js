@@ -22,7 +22,7 @@ class ExtrinsicController {
     const total = await col.countDocuments(query)
     const extrinsics = await col
       .find(query)
-      .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
+      .sort({ 'indexer.blockHeight': -1, 'indexer.index': 1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
