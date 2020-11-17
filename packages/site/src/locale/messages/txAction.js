@@ -24,7 +24,9 @@ const moduleZhNameMap = {
   xBridgeFeatures: '桥特性集',
   xBridgeCommon: '桥基础',
   xContracts: '合约',
-  offences: '犯规'
+  offences: '犯规',
+  democracy: '民主',
+  imOnline: '在线'
 }
 
 export const moduleEnNameMap = {
@@ -53,7 +55,9 @@ export const moduleEnNameMap = {
   xBridgeFeatures: 'Bridge Features',
   xBridgeCommon: 'Bridge Common',
   xContracts: 'contracts',
-  offences: 'offences'
+  offences: 'offences',
+  democracy: 'Democracy',
+  imOnline: 'ImOnline'
 }
 
 const moduleNameMap = Object.entries(moduleEnNameMap).reduce(
@@ -77,7 +81,6 @@ export const callZhNameMap = {
   put_code: '部署合约',
   TransactionFeePaid: '交易费用已支付',
   system: '系统',
-
   call: '调用合约',
   Transfer: '转账',
   Instantiated: '实例化',
@@ -176,7 +179,9 @@ export const callZhNameMap = {
   Slashed: '清除',
   Offence: '犯规',
   bond: '抵押',
-  unbond: '解除抵押'
+  unbond: '解除抵押',
+  vote: '投票',
+  heartbeat: '心跳'
 }
 
 export const callEnNameMap = {
@@ -283,7 +288,9 @@ export const callEnNameMap = {
   Slashed: 'Slashed',
   Offence: 'Offence',
   bond: 'Bond',
-  unbond: 'Unbond'
+  unbond: 'Unbond',
+  vote: 'Vote',
+  heartbeat: 'HeartBeat'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
