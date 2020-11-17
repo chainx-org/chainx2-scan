@@ -47,10 +47,8 @@ class FillController {
     let Time = []
     let highPrice = []
     let lowPrice = []
-    let volumePrice = []
+    let volume = []
     for (let i = 0; i < 100; i++) {
-      console.log(startTime, 'startTime')
-      console.log(endTime, 'endTime')
       Time[i] = startTime
 
       let query = {
@@ -83,8 +81,8 @@ class FillController {
             return o.price
           })
         )
-        volumePrice[i] = DataItems[i].reduce(
-          (totalPrice, item) => totalPrice + item.price,
+        volume[i] = DataItems[i].reduce(
+          (totalPrice, item) => totalPrice + item.turnover,
           0
         )
       } else {
@@ -92,7 +90,7 @@ class FillController {
         openPrice[i] = 0
         highPrice[i] = 0
         lowPrice[i] = 0
-        volumePrice[i] = 0
+        volume[i] = 0
       }
     }
     let items = []
@@ -103,7 +101,7 @@ class FillController {
         open: openPrice[i],
         high: highPrice[i],
         low: lowPrice[i],
-        volume: volumePrice[i]
+        volume: volume[i]
       }
       items.push(itemsInfo)
     }
