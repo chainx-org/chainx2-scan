@@ -46,10 +46,29 @@ export default function() {
         setPageSize(size)
       }}
       scroll={{
-        x: '100vh',
-        y: 600
+        x: '100vh'
       }}
       pagination={{ current: page, pageSize, total, simple: simple }}
+      expandedRowRender={data => {
+        return (
+          <table>
+            <thead>
+              <tr>
+                <th>{$t('registered_block_height')}</th>
+                <th>{$t('total_weight_last_update')}</th>
+                <th>{$t('total_vote_weight')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{data.registered_block_height}</td>
+                <td>{data.weight_last_update}</td>
+                <td>{data.total_nomination}</td>
+              </tr>
+            </tbody>
+          </table>
+        )
+      }}
       dataSource={newitems.map(item => {
         return {
           account_address: (
@@ -66,7 +85,6 @@ export default function() {
                 textAlign: 'center',
                 borderRadius: '4px',
                 whiteSpace: 'nowrap',
-                width: '100%',
                 height: '100%'
               }}
             >
@@ -85,7 +103,7 @@ export default function() {
           key: item._id,
           reward_pot_address: (
             <AccountLink
-              style={{ width: 69 }}
+              style={{ width: 138 }}
               className="text-truncate"
               value={item.rewardPotAccount}
             />
@@ -120,7 +138,7 @@ export default function() {
           total_nomination: (
             <Amount value={item.totalNomination} precision={8} hideSymbol />
           ),
-          referral_id: item.referralId
+          referral_id: <div>{item.referralId}</div>
         }
       })}
       columns={[
@@ -130,16 +148,19 @@ export default function() {
         },
         {
           title: '',
-          dataIndex: 'trust'
+          dataIndex: 'trust',
+          width: '4rem'
         },
         {
           title: $t('referral_id'),
           dataIndex: 'referral_id'
         },
+        /*
         {
           title: $t('registered_block_height'),
           dataIndex: 'registered_block_height'
         },
+        */
         {
           title: $t('self_bonded'),
           dataIndex: 'self_bonded'
@@ -155,7 +176,8 @@ export default function() {
         {
           title: $t('reward_pot_address'),
           dataIndex: 'reward_pot_address'
-        },
+        }
+        /*
         {
           title: $t('total_weight_last_update'),
           dataIndex: 'weight_last_update'
@@ -164,6 +186,7 @@ export default function() {
           title: $t('total_vote_weight'),
           dataIndex: 'total_weight'
         }
+        */
       ]}
     />
   )
