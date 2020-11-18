@@ -1,33 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Table } from '../../../components'
-import $t from '../../../locale'
-import DateShow from '../../../components/DateShow'
-import TxLink from '../../../components/TxLink'
-import TxAction from '../../../components/TxAction'
-import BlockLink from '../../../components/BlockLink'
-import {
-  extrinsicsSelector,
-  fetchExtrinsics
-} from '@src/store/reducers/accountSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import Fail from '@components/Fail'
+import React, { useMemo, useState } from 'react'
+import api from '../../services/api'
+import { Table } from '../../components'
+import $t from '../../locale'
+import DateShow from '../../components/DateShow'
+import TxLink from '../../components/TxLink'
+import BlockLink from '../../components/BlockLink'
+import TxAction from '../../components/TxAction'
+import { useLoad } from '../../utils/hooks'
 import Success from '@components/Success'
-import AccountLink from '../../../components/AccountLink'
+import Fail from '@components/Fail'
+import AccountLink from '../../components/AccountLink'
 
-export default function({ address }) {
+export default function({ blockHeight }) {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchExtrinsics(address, page - 1, pageSize, setLoading))
-  }, [address, page, pageSize, dispatch])
-
-  const { items: extrinsics, total } = useSelector(extrinsicsSelector) || {}
-
+  const [pageSize, setPageSize] = useState(20)
   const width = document.documentElement.clientWidth
   const simple = width < 1024
+  const params = useMemo(() => {
+    return blockHeight
+      ? { block: blockHeight, page, pageSize }
+      : { page, pageSize }
+  }, [blockHeight, page, pageSize])
+
+  const { items: extrinsics, loading, total } = useLoad(
+    api.fetchSudoExtrinsics,
+    params
+  )
 
   return (
     <Table
@@ -36,10 +34,10 @@ export default function({ address }) {
         setPage(current)
         setPageSize(size)
       }}
+      pagination={{ current: page, pageSize, total, simple: simple }}
       scroll={{
         x: '100vh'
       }}
-      pagination={{ current: page, pageSize, total, simple }}
       expandedRowRender={data => {
         return (
           <div>
@@ -49,7 +47,7 @@ export default function({ address }) {
           </div>
         )
       }}
-      dataSource={(extrinsics || []).map(item => {
+      dataSource={extrinsics.map(item => {
         return {
           key: item.hash,
           hash: (
@@ -68,8 +66,7 @@ export default function({ address }) {
           ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
-          section: item.section,
-          operation: <TxAction module={item.section} call={item.name} />,
+          action: <TxAction module={item.section} call={item.name} />,
           args: item.args,
           status: item.isSuccess ? <Success /> : <Fail />
         }
@@ -84,16 +81,16 @@ export default function({ address }) {
           dataIndex: 'blockTime'
         },
         {
-          title: $t('ex_signer'),
-          dataIndex: 'signer'
-        },
-        {
           title: $t('ex_hash'),
           dataIndex: 'hash'
         },
         {
-          title: $t('common_operation'),
-          dataIndex: 'operation'
+          title: $t('ex_signer'),
+          dataIndex: 'signer'
+        },
+        {
+          title: $t('ex_action'),
+          dataIndex: 'action'
         },
         {
           title: $t('common_result'),

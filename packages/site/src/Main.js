@@ -22,6 +22,7 @@ export default function Main() {
           <Route path="/validators" component={Validators} />
           <Route path="/crossblocks" component={CrossBlocks} />
           <Route path="/extrinsics" component={Extrinsincs} />
+          <Route path="/sudo_extrinsics" component={Extrinsincs} />
           <Route path="/events" component={Events} />
           <Route path="/accounts" component={Accounts} />
           <Route path="/dex" component={Dex} />

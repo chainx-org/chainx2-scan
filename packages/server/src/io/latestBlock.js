@@ -24,7 +24,7 @@ async function feedLatestBlocks(io) {
       const col = await getValidatorsCollection()
       const encodeAddr = encodeAddress(block.author)
       const validator = await col.findOne({ account: encodeAddr })
-      const blockAuthorNickName = validator.referralId
+      const blockAuthorNickName = validator.referralId || ''
       simpleblock.hash = block.hash
       simpleblock.number = block.header.number
       simpleblock.timestamp = block.blockTime

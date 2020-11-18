@@ -89,6 +89,6 @@ export default {
   },
   search: {
     zh: '搜索',
-    en: 'search'
+    en: 'Search'
   }
 }
