@@ -28,7 +28,6 @@ export default function() {
 
   const { detail: account, loading } = useLoadDetail(api.fetchAccount, params)
   const pubKey = account?.address ? decodeAddress(account.address) : ''
-
   const breadcrumb = (
     <Breadcrumb
       dataSource={[
@@ -69,11 +68,11 @@ export default function() {
           {
             label: $t('total_transaction_item'),
             data: account.extrinsicCount
-          },
-          {
-            label: $t('btc_recharge_address'),
-            data: '--'
           }
+          // {
+          //   label: $t('btc_recharge_address'),
+          //   data: '--'
+          // }
         ]}
       />
 
