@@ -76,7 +76,7 @@ export default {
     en: 'Latest'
   },
   dex_week_deal: {
-    zh: '周交易量',
+    zh: '周交易数量',
     en: 'Week Trading Volume'
   },
   dex_day_deal: {
