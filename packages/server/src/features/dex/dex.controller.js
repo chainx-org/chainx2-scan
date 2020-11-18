@@ -27,7 +27,7 @@ class DexController {
     const dayMod = currentTime % day
     let dayStartTime = currentTime - dayMod
     let dayEndTime = dayStartTime - day
-    let weekStartTime = currentTime - weekMod
+    let weekStartTime = currentTime - dayMod
     let weekEndTime = weekStartTime - week
     const weekItems = await col
       .find({
@@ -48,8 +48,12 @@ class DexController {
       })
       .sort()
       .toArray()
+
+    let TransactionsDayNumber = dayItems.reduce(function(total, currentValue) {
+      return total + currentValue.turnover
+    }, 0)
+
     let TransactionsWeekNumber = weekItems.length
-    let TransactionsDayNumber = dayItems.length
     ctx.body = {
       latestTransactionPrices,
       TransactionsWeekNumber,
