@@ -50,7 +50,7 @@ export default function PairList() {
           </div>
           <div className={'pairs-content-item'}>
             <div className="pairs-content-item__label">
-              {$t('dex_day_deal')}
+              {$t('dex_day_deal_amount')}
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <Amount
@@ -62,7 +62,7 @@ export default function PairList() {
           </div>
           <div className={'pairs-content-item'}>
             <div className="pairs-content-item__label">
-              {$t('dex_week_deal')}
+              {$t('dex_week_deal_count')}
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <div>

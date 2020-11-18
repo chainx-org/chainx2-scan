@@ -75,12 +75,12 @@ export default {
     zh: '最新成交价',
     en: 'Latest'
   },
-  dex_week_deal: {
-    zh: '周交易数量',
-    en: 'Week Trading Volume'
+  dex_week_deal_count: {
+    zh: '周交易次数',
+    en: 'Week Trading Count'
   },
-  dex_day_deal: {
-    zh: '天交易量',
-    en: 'Daily Trading Volume'
+  dex_day_deal_amount: {
+    zh: '24小时交易量',
+    en: '24 Hour Trading Volume'
   }
 }
