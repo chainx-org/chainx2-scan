@@ -53,7 +53,11 @@ export default function PairList() {
               {$t('dex_day_deal')}
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
-              <div>{Tradingpairs ? Tradingpairs.TransactionsDayNumber : 0}</div>
+              <Amount
+                value={Tradingpairs ? Tradingpairs.TransactionsDayNumber : 0}
+                precision={9}
+                symbol={'PCX'}
+              />
             </div>
           </div>
           <div className={'pairs-content-item'}>
