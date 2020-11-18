@@ -15,6 +15,14 @@ export default {
     zh: '交易哈希',
     en: 'Extrinsic Hash'
   },
+  ex_call: {
+    zh: '调用',
+    en: 'Call'
+  },
+  ex_sign: {
+    zh: '签名',
+    en: 'Sign'
+  },
   hash: {
     zh: '哈希',
     en: 'Hash'
