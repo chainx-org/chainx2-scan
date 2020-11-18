@@ -20,7 +20,7 @@ export default function PairList() {
   useEffect(() => {
     dispatch(fetchTradingPairs())
   }, [dispatch])
-  const Trandingpairs = useSelector(tradingPairsSelector)
+  const Tradingpairs = useSelector(tradingPairsSelector)
   return (
     <section className="panel">
       <div className="panel-heading" style={{ border: '1px solid #dbdbdb' }}>
@@ -42,11 +42,7 @@ export default function PairList() {
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <Amount
-                value={
-                  Trandingpairs.latestTransactionPrices
-                    ? Trandingpairs.latestTransactionPrices
-                    : 0
-                }
+                value={Tradingpairs ? Tradingpairs.latestTransactionPrices : 0}
                 precision={9}
                 symbol={'BTC'}
               />
@@ -57,11 +53,7 @@ export default function PairList() {
               {$t('dex_day_deal')}
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
-              <div>
-                {Trandingpairs.TransactionsDayNumber
-                  ? Trandingpairs.TransactionsDayNumber
-                  : 0}
-              </div>
+              <div>{Tradingpairs ? Tradingpairs.TransactionsDayNumber : 0}</div>
             </div>
           </div>
           <div className={'pairs-content-item'}>
@@ -70,9 +62,7 @@ export default function PairList() {
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <div>
-                {Trandingpairs.TransactionsWeekNumber
-                  ? Trandingpairs.TransactionsWeekNumber
-                  : 0}
+                {Tradingpairs ? Tradingpairs.TransactionsWeekNumber : 0}
               </div>
             </div>
           </div>
