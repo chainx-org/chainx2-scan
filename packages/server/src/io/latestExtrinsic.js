@@ -8,16 +8,22 @@ const extrinsicSize = 10
 async function feedLatestExtrinsics(io) {
   try {
     const col = await getExtrinsicCollection()
-    const query = {
+    let query = {
       $nor: [
         { section: 'timestamp' },
         { section: 'finalityTracker' },
         { section: 'imOnline' },
         { name: 'set' },
         { name: 'finalHint' },
-        { name: 'heartbeat' },
+        { name: 'heartbeat' }
       ]
     }
+
+    const total = await col.countDocuments(query)
+    if (total === 0) {
+      query = {}
+    }
+
     const extrinsics = await col
       .find(query)
       .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
