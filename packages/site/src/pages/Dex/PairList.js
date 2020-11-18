@@ -42,7 +42,11 @@ export default function PairList() {
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <Amount
-                value={Trandingpairs.latestTransactionPrices}
+                value={
+                  Trandingpairs.latestTransactionPrices
+                    ? Trandingpairs.latestTransactionPrices
+                    : 0
+                }
                 precision={9}
                 symbol={'BTC'}
               />
@@ -53,7 +57,11 @@ export default function PairList() {
               {$t('dex_day_deal')}
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
-              <div>{Trandingpairs.TransactionsDayNumber}</div>
+              <div>
+                {Trandingpairs.TransactionsDayNumber
+                  ? Trandingpairs.TransactionsDayNumber
+                  : 0}
+              </div>
             </div>
           </div>
           <div className={'pairs-content-item'}>
@@ -61,7 +69,11 @@ export default function PairList() {
               {$t('dex_week_deal')}
             </div>
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
-              <div>{Trandingpairs.TransactionsWeekNumber}</div>
+              <div>
+                {Trandingpairs.TransactionsWeekNumber
+                  ? Trandingpairs.TransactionsWeekNumber
+                  : 0}
+              </div>
             </div>
           </div>
         </div>
