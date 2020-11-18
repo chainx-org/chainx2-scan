@@ -17,5 +17,6 @@ router.get(
   orderController.getAccountOpenOrders
 )
 router.get('/dex/kline/:pairId/:timeCycle', fillController.getKline)
+router.get('/dex/tradingpairs', dexController.getTradingPairs)
 
 module.exports = router
