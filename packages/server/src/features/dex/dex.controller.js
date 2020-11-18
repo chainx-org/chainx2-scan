@@ -23,17 +23,11 @@ class DexController {
     let week = 604800000
     let day = 86400000
     const currentTime = new Date().getTime()
-    const weekMod = currentTime % week
-    const dayMod = currentTime % day
-    let dayStartTime = currentTime - dayMod
-    let dayEndTime = dayStartTime - day
-    let weekStartTime = currentTime - dayMod
-    let weekEndTime = weekStartTime - week
     const weekItems = await col
       .find({
         $and: [
-          { blockTime: { $gte: weekEndTime } },
-          { blockTime: { $lte: weekStartTime } }
+          { blockTime: { $gte: currentTime - week } },
+          { blockTime: { $lte: currentTime } }
         ]
       })
       .sort()
@@ -42,8 +36,8 @@ class DexController {
     const dayItems = await col
       .find({
         $and: [
-          { blockTime: { $gte: dayEndTime } },
-          { blockTime: { $lte: dayStartTime } }
+          { blockTime: { $gte: currentTime - day } },
+          { blockTime: { $lte: currentTime } }
         ]
       })
       .sort()

@@ -55,7 +55,7 @@ export default function PairList() {
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <Amount
                 value={Tradingpairs ? Tradingpairs.TransactionsDayNumber : 0}
-                precision={9}
+                precision={8}
                 symbol={'PCX'}
               />
             </div>
