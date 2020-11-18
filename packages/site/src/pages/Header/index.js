@@ -7,9 +7,13 @@ import { matchPath } from 'react-router'
 import InputSearch from '../../components/InputSearch'
 export default withRouter(function(props) {
   const { location } = props
-  const isMatchBlocks = ['/extrinsics', '/events', 'blocks', '/accounts'].some(
-    path => !!matchPath(location.pathname, { path })
-  )
+  const isMatchBlocks = [
+    '/extrinsics',
+    '/events',
+    'blocks',
+    '/accounts',
+    '/sudo_extrinsics'
+  ].some(path => !!matchPath(location.pathname, { path }))
   const isMatchCrossBlocks = ['/crossblocks'].some(
     path => !!matchPath(location.pathname, { path })
   )
