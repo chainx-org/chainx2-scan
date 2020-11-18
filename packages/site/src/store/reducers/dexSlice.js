@@ -23,7 +23,7 @@ const dexSlice = createSlice({
   },
   reducers: {
     setTrading(state, action) {
-      state.trandingPairs = action.payload
+      state.tradingPairs = action.payload
     },
     setPairs(state, action) {
       state.pairs = action.payload
@@ -46,6 +46,7 @@ const dexSlice = createSlice({
 
 const {
   setPairs,
+  setActivePair,
   setOpenOrders,
   setFills,
   setDepth,

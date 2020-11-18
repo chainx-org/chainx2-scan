@@ -20,7 +20,7 @@ export default function PairList() {
   useEffect(() => {
     dispatch(fetchFills())
   }, [dispatch])
-  const pairs = useSelector(fillsSelector())
+  const pairs = useSelector(fillsSelector)
   console.log(pairs, 'dsad')
   return (
     <section className="panel">
