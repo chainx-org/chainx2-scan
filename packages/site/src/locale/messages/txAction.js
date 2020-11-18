@@ -26,7 +26,8 @@ const moduleZhNameMap = {
   xContracts: '合约',
   offences: '犯规',
   democracy: '民主',
-  imOnline: '在线'
+  imOnline: '在线',
+  xGatewayBitcoin: 'Bitcoin转接桥'
 }
 
 export const moduleEnNameMap = {
@@ -57,7 +58,8 @@ export const moduleEnNameMap = {
   xContracts: 'contracts',
   offences: 'offences',
   democracy: 'Democracy',
-  imOnline: 'ImOnline'
+  imOnline: 'ImOnline',
+  xGatewayBitcoin: 'Bitcoin Gateway'
 }
 
 const moduleNameMap = Object.entries(moduleEnNameMap).reduce(
@@ -95,7 +97,7 @@ export const callZhNameMap = {
   unnominate: '撤销投票',
   sudo: 'sudo',
   set_block_producer: '设置出块人',
-  push_header: '提交块头',
+  pushHeader: '提交块头',
   finalHint: '确认提示',
   claim: '提息',
   renominate: '切换投票',
@@ -181,7 +183,9 @@ export const callZhNameMap = {
   bond: '抵押',
   unbond: '解除抵押',
   vote: '投票',
-  heartbeat: '心跳'
+  heartbeat: '心跳',
+  second: '支持议案',
+  propose: '提出议案'
 }
 
 export const callEnNameMap = {
@@ -202,7 +206,7 @@ export const callEnNameMap = {
   unnominate: 'Unnominate',
   sudo: 'sudo',
   set_block_producer: 'Set Block Author',
-  push_header: 'Submit Header',
+  pushHeader: 'Submit Header',
   finalHint: 'Final Hint',
   claim: 'Claim',
   renominate: 'Renominate',
@@ -290,7 +294,9 @@ export const callEnNameMap = {
   bond: 'Bond',
   unbond: 'Unbond',
   vote: 'Vote',
-  heartbeat: 'HeartBeat'
+  heartbeat: 'HeartBeat',
+  second: 'Second',
+  propose: 'Propose'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
