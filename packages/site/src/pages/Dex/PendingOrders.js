@@ -8,6 +8,10 @@ import {
 } from '@src/store/reducers/dexSlice'
 import classnames from 'classnames'
 import Amount from '@components/Amount'
+import {
+  fetchTradingPairs,
+  tradingPairsSelector
+} from '../../store/reducers/dexSlice'
 
 export default function PendingOrders() {
   const dispatch = useDispatch()
@@ -24,7 +28,10 @@ export default function PendingOrders() {
       dispatch(fetchDepth(active.pairId))
     }
   }, [dispatch, active])
-
+  useEffect(() => {
+    dispatch(fetchTradingPairs())
+  }, [dispatch])
+  const Trandingpairs = useSelector(tradingPairsSelector)
   return (
     <section className="panel">
       <div className="panel-heading">{$t('dex_depth_orders')}</div>
@@ -65,6 +72,16 @@ export default function PendingOrders() {
                     </div>
                   )
                 })}
+              </div>
+              <div className="handicap-now-price">
+                <span className="last-price">
+                  <Amount
+                    value={Trandingpairs.latestTransactionPrices}
+                    precision={7}
+                    minDigits={precision - unitPrecision}
+                    hideSymbol
+                  />
+                </span>
               </div>
               <div className="handicap-buy">
                 {bids.map((item, index) => {
