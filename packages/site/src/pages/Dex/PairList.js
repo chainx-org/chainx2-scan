@@ -1,15 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import $t from '@src/locale'
-import { useSelector } from 'react-redux'
-import { pairsSelector } from '@src/store/reducers/dexSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import PCX from '../../assets/tokens/pcx_circle.jpg'
 import classnames from 'classnames'
 import TokenName from '@src/pages/Dex/TokenName'
+import {
+  fetchFills,
+  fetchPairs,
+  fetchTradingPairs,
+  fillsSelector,
+  pairsSelector,
+  tradingPairsSelector
+} from '../../store/reducers/dexSlice'
+import { openOrdersSelector } from '../../store/reducers/accountSlice'
 
 const tokenImgs = [PCX]
 export default function PairList() {
-  const pairs = useSelector(pairsSelector)
-
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchFills())
+  }, [dispatch])
+  const pairs = useSelector(fillsSelector())
+  console.log(pairs, 'dsad')
   return (
     <section className="panel">
       <div className="panel-heading" style={{ border: '1px solid #dbdbdb' }}>
