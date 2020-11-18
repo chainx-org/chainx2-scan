@@ -11,6 +11,11 @@ import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 import Events from './Events'
 import { PanelJson } from '../../../components'
+import TxLink from '../../../components/TxLink'
+import AccountLink from '../../../components/AccountLink'
+import TxAction from '../../../components/TxAction'
+import Success from '../../../components/Success'
+import Fail from '../../../components/Fail'
 
 export default function() {
   const { hash } = useParams()
@@ -19,6 +24,7 @@ export default function() {
     api.fetchExtrinsic,
     params
   )
+  console.log(extrinsic)
 
   const breadcrumb = (
     <Breadcrumb
@@ -62,20 +68,36 @@ export default function() {
             data: extrinsic.indexer.index
           },
           {
+            label: $t('ex_hash'),
+            data: <TxLink className="text-truncate" value={hash} />
+          },
+          {
             label: $t('ex_signer'),
-            data: '--'
+            data: <AccountLink value={extrinsic.signer} />
           },
           {
             label: $t('ex_section'),
-            data: extrinsic.section
+            data: <TxAction module={extrinsic.section} />
           },
           {
-            label: 'Call',
-            data: extrinsic.name
+            label: $t('ex_call'),
+            data: <TxAction call={extrinsic.name} />
           },
           {
             label: $t('ex_params'),
             data: <PanelJson json={extrinsic.args} />
+          },
+          {
+            label: $t('common_result'),
+            data: extrinsic.isSuccess ? (
+              <div style={{ display: 'flex' }}>
+                <Success />
+              </div>
+            ) : (
+              <div style={{ display: 'flex' }}>
+                <Fail />
+              </div>
+            )
           },
           {
             label: $t('ex_version'),
