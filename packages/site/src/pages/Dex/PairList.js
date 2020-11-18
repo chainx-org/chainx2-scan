@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import $t from '@src/locale'
-import { useSelector } from 'react-redux'
-import { pairsSelector } from '@src/store/reducers/dexSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import PCX from '../../assets/tokens/pcx_circle.jpg'
 import classnames from 'classnames'
 import TokenName from '@src/pages/Dex/TokenName'
+import {
+  fetchFills,
+  fetchPairs,
+  fetchTradingPairs,
+  fillsSelector,
+  pairsSelector,
+  tradingPairsSelector
+} from '../../store/reducers/dexSlice'
+import { openOrdersSelector } from '../../store/reducers/accountSlice'
+import Amount from '../../components/Amount'
 
-const tokenImgs = [PCX]
 export default function PairList() {
-  const pairs = useSelector(pairsSelector)
-
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchTradingPairs())
+  }, [dispatch])
+  const Tradingpairs = useSelector(tradingPairsSelector)
   return (
     <section className="panel">
       <div className="panel-heading" style={{ border: '1px solid #dbdbdb' }}>
@@ -17,28 +28,48 @@ export default function PairList() {
       </div>
       <div className="panel-block pairs" style={{ minHeight: 365 }}>
         <div className="pairs-items">
-          {pairs.map((pair, idx) => {
-            const {
-              currencyPair: { base, quote }
-            } = pair
-            const currencyImg = tokenImgs[base]
-            return (
+          <div>
+            <div className={classnames('pairs-item', 'active')}>
+              <img src={PCX} className="pairs-item-icon" />
+              <div>PCX/BTC</div>
+            </div>
+          </div>
+        </div>
+        <div className={'pairs-content'}>
+          <div className={'pairs-content-item'}>
+            <div className="pairs-content-item__label">
+              {$t('dex_latest_deal')}
+            </div>
+            <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
+              <Amount
+                value={Tradingpairs ? Tradingpairs.latestTransactionPrices : 0}
+                precision={9}
+                symbol={'BTC'}
+              />
+            </div>
+          </div>
+          <div className={'pairs-content-item'}>
+            <div className="pairs-content-item__label">
+              {$t('dex_day_deal_amount')}
+            </div>
+            <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
+              <Amount
+                value={Tradingpairs ? Tradingpairs.TransactionsDayNumber : 0}
+                precision={8}
+                symbol={'PCX'}
+              />
+            </div>
+          </div>
+          <div className={'pairs-content-item'}>
+            <div className="pairs-content-item__label">
+              {$t('dex_week_deal_count')}
+            </div>
+            <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <div>
-                <div key={idx} className={classnames('pairs-item', 'active')}>
-                  {currencyImg && (
-                    <img
-                      src={currencyImg}
-                      className="pairs-item-icon"
-                      alt={base}
-                    />
-                  )}
-                  <TokenName id={base} />
-                  /
-                  <TokenName id={quote} />
-                </div>
+                {Tradingpairs ? Tradingpairs.TransactionsWeekNumber : 0}
               </div>
-            )
-          })}
+            </div>
+          </div>
         </div>
       </div>
     </section>

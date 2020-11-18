@@ -70,5 +70,17 @@ export default {
   dex_acc_amount: {
     zh: 'Sum',
     en: '累计深度'
+  },
+  dex_latest_deal: {
+    zh: '最新成交价',
+    en: 'Latest'
+  },
+  dex_week_deal_count: {
+    zh: '周交易次数',
+    en: 'Week Trading Count'
+  },
+  dex_day_deal_amount: {
+    zh: '24小时交易量',
+    en: '24 Hour Trading Volume'
   }
 }

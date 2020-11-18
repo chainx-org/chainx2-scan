@@ -12,6 +12,7 @@ const dexSlice = createSlice({
   name: 'dex',
   initialState: {
     pairs: [],
+    tradingPairs: {},
     activePair: null,
     openOrders: emptyPageInfo,
     fills: emptyPageInfo,
@@ -21,6 +22,9 @@ const dexSlice = createSlice({
     }
   },
   reducers: {
+    setTrading(state, action) {
+      state.tradingPairs = action.payload
+    },
     setPairs(state, action) {
       state.pairs = action.payload
       state.activePair = state.pairs[0]
@@ -40,11 +44,23 @@ const dexSlice = createSlice({
   }
 })
 
-const { setPairs, setOpenOrders, setFills, setDepth } = dexSlice.actions
+const {
+  setPairs,
+  setActivePair,
+  setOpenOrders,
+  setFills,
+  setDepth,
+  setTrading
+} = dexSlice.actions
 
 export const fetchPairs = () => async dispatch => {
   const { result: pairs } = await api.fetch('/dex/pairs')
   dispatch(setPairs(pairs))
+}
+
+export const fetchTradingPairs = () => async dispatch => {
+  const { result: tradingPairs } = await api.fetch('/dex/tradingpairs')
+  dispatch(setTrading(tradingPairs))
 }
 
 export const fetchOpenOrders = (
@@ -79,6 +95,7 @@ export const fetchDepth = (pairId, cnt = 6) => async dispatch => {
 }
 
 export const pairsSelector = state => state.dex.pairs
+export const tradingPairsSelector = state => state.dex.tradingPairs
 export const activePairSelector = state => state.dex.activePair
 export const openOrdersSelector = state => state.dex.openOrders
 export const fillsSelector = state => state.dex.fills
@@ -87,7 +104,8 @@ export const normalizedDepthSelector = createSelector(
   depthSelector,
   ({ asks, bids }) => {
     let total = 0
-    const nAsks = asks.slice()
+    const nAsks = asks
+      .slice()
       .reverse()
       .map(ask => {
         total += ask.amount
