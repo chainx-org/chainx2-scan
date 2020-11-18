@@ -31,7 +31,7 @@ export default function PendingOrders() {
   useEffect(() => {
     dispatch(fetchTradingPairs())
   }, [dispatch])
-  const Trandingpairs = useSelector(tradingPairsSelector)
+  const Tradingpairs = useSelector(tradingPairsSelector)
   return (
     <section className="panel">
       <div className="panel-heading">{$t('dex_depth_orders')}</div>
@@ -76,7 +76,9 @@ export default function PendingOrders() {
               <div className="handicap-now-price">
                 <span className="last-price">
                   <Amount
-                    value={Trandingpairs.latestTransactionPrices}
+                    value={
+                      Tradingpairs ? Tradingpairs.latestTransactionPrices : 0
+                    }
                     precision={9}
                     minDigits={precision - unitPrecision}
                     hideSymbol
