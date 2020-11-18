@@ -77,7 +77,7 @@ export default function PendingOrders() {
                 <span className="last-price">
                   <Amount
                     value={Trandingpairs.latestTransactionPrices}
-                    precision={7}
+                    precision={9}
                     minDigits={precision - unitPrecision}
                     hideSymbol
                   />

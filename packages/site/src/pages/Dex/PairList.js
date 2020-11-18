@@ -43,7 +43,7 @@ export default function PairList() {
             <div className="pairs-content-item__value" style={{ fontSize: 24 }}>
               <Amount
                 value={Trandingpairs.latestTransactionPrices}
-                precision={7}
+                precision={9}
                 symbol={'BTC'}
               />
             </div>
