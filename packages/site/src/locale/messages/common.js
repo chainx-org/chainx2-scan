@@ -90,5 +90,9 @@ export default {
   search: {
     zh: '搜索',
     en: 'Search'
+  },
+  WeChat: {
+    zh: '微信',
+    en: 'WeChat'
   }
 }

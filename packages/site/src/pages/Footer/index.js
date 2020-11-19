@@ -71,7 +71,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://wallet.chainx.org"
+                href="https://dapp-v2.chainx.org"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -106,7 +106,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="chainx-code-wrapper">
-              WeChat
+              {$t('WeChat')}
               <div className="chainx-code">
                 <img src={weixin} alt="" />
               </div>
@@ -148,7 +148,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://wallet.chainx.org"
+                href="https://dapp-v2.chainx.org"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -183,7 +183,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="chainx-code-wrapper">
-              WeChat
+              {$t('WeChat')}
               <div className="chainx-code">
                 <img src={weixin} alt="" />
               </div>
