@@ -98,5 +98,9 @@ export default {
   block_author: {
     zh: '验证人',
     en: 'Author'
+  },
+  mining_distribution: {
+    zh: '挖矿收益分配比例',
+    en: 'Mining Distribution'
   }
 }

@@ -70,19 +70,20 @@ const PowerDistributton = function() {
   })
 
   return (
-    <section className="panel"
-    // style={{ width: 417, marginBottom: '1.25rem' }}
+    <section
+      className="panel"
+      // style={{ width: 417, marginBottom: '1.25rem' }}
     >
       <div className="panel-heading">{$t('power_distributton')}</div>
       <div className="panel-block">
-        <Chart data={data} height={250}  autoFit>
+        <Chart data={data} height={250} autoFit animate={false}>
           <Coordinate type="theta" radius={0.8} innerRadius={0.75} />
           <Axis visible={false} />
           <Tooltip showTitle={false} visible={false} />
           <Guide>
             <Guide.Text
               top={true}
-              content={'挖矿收益分配比例'}
+              content={$t('mining_distribution')}
               style={{
                 fill: '#000',
                 fontSize: '16',
@@ -113,4 +114,4 @@ const PowerDistributton = function() {
   )
 }
 
-export default React.memo(PowerDistributton)
+export default PowerDistributton
