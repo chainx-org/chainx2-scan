@@ -28,6 +28,7 @@ export default function PendingOrders() {
       dispatch(fetchDepth(active.pairId))
     }
   }, [dispatch, active])
+
   useEffect(() => {
     dispatch(fetchTradingPairs())
   }, [dispatch])
@@ -46,31 +47,37 @@ export default function PendingOrders() {
             <div className="handicap-step">
               <div className="handicap-sell">
                 {asks.map((item, index) => {
-                  return (
-                    <div
-                      className={classnames('ask-item', { odd: !(index % 2) })}
-                      key={index}
-                    >
+                  if (item.amount === 0) {
+                    return null
+                  } else {
+                    return (
                       <div
-                        className="asks capstotal"
-                        style={{ width: `${(item.total / max) * 66.6}%` }}
-                      />
-                      <span className="price">
-                        <Amount
-                          value={item.price}
-                          precision={precision}
-                          minDigits={precision - unitPrecision}
-                          hideSymbol
+                        className={classnames('ask-item', {
+                          odd: !(index % 2)
+                        })}
+                        key={index}
+                      >
+                        <div
+                          className="asks capstotal"
+                          style={{ width: `${(item.total / max) * 66.6}%` }}
                         />
-                      </span>
-                      <span className="amount">
-                        <Amount value={item.amount} symbol="PCX" hideSymbol />
-                      </span>
-                      <span className="total">
-                        <Amount value={item.total} symbol="PCX" hideSymbol />
-                      </span>
-                    </div>
-                  )
+                        <span className="price">
+                          <Amount
+                            value={item.price}
+                            precision={precision}
+                            minDigits={precision - unitPrecision}
+                            hideSymbol
+                          />
+                        </span>
+                        <span className="amount">
+                          <Amount value={item.amount} symbol="PCX" hideSymbol />
+                        </span>
+                        <span className="total">
+                          <Amount value={item.total} symbol="PCX" hideSymbol />
+                        </span>
+                      </div>
+                    )
+                  }
                 })}
               </div>
               <div className="handicap-now-price">
