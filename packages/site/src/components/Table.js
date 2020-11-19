@@ -1,6 +1,6 @@
 import React from 'react'
 import AntdTable from 'antd/lib/table'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, Empty } from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import en_US from 'antd/lib/locale-provider/en_US'
 import { useSelector } from 'react-redux'
@@ -48,6 +48,13 @@ export default function Table({ ..._props }) {
         bordered={false}
         rowClassName={(record, index) => (index % 2 === 0 ? 'smoke' : '')}
         pagination={pagination}
+        locale={{
+          emptyText: props.loading ? (
+            <Empty image={false} description={false} />
+          ) : (
+            <Empty />
+          )
+        }}
       />
     </ConfigProvider>
   )
