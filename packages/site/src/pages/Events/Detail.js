@@ -9,6 +9,7 @@ import NoData from '../../components/NoData'
 import PanelList from '../../components/PanelList'
 import BlockLink from '../../components/BlockLink'
 import TxLink from '../../components/TxLink'
+import TxAction from '@components/TxAction'
 import { PanelJson } from '../../components'
 
 const { useMemo } = require('react')
@@ -64,11 +65,11 @@ export default function() {
           },
           {
             label: $t('common_module'),
-            data: event.section
+            data: <TxAction module={event.section} />
           },
           {
             label: $t('event_method'),
-            data: event.method
+            data: <TxAction call={event.method} />
           },
           {
             label: 'Meta',

@@ -3,6 +3,7 @@ import $t from '../../../locale'
 import { useLoad } from '../../../utils/hooks'
 import api from '../../../services/api'
 import Table from '../../../components/Table'
+import TxAction from '@components/TxAction'
 import { CommonLink } from '../../../components'
 
 const { useMemo } = require('react')
@@ -65,8 +66,8 @@ export default function({ extrinsicHash }) {
           return {
             id: <CommonLink value={id} link={`/events/${id}`} />,
             index: <CommonLink value={index} link={`/events/${id}`} />,
-            method,
-            section,
+            method: <TxAction call={method} />,
+            section: <TxAction module={section} />,
             meta,
             data,
             key: idx
