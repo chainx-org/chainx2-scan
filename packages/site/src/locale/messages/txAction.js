@@ -5,7 +5,7 @@ const moduleZhNameMap = {
   xSpot: '币币交易',
   xStaking: '投票选举',
   xSystem: '系统',
-  system: '核心',
+  system: '系统',
   xBridgeOfBTC: 'Bitcoin桥',
   timestamp: '时间戳',
   xAssets: '资产',
@@ -130,7 +130,7 @@ export const callZhNameMap = {
   Unnominate: '撤票',
   WithdrawalFatalErr: '提现错误',
   NewAuthorities: '新验证人',
-  ExtrinsicSuccess: '交易完全成功',
+  ExtrinsicSuccess: '交易成功',
   FillOrder: '成交订单',
   NewTrustees: '更新信托节点',
   MissedBlocksOfOfflineValidatorPerSession: '每个 session 掉线节点及漏块数',
@@ -190,7 +190,8 @@ export const callZhNameMap = {
   heartbeat: '心跳',
   second: '支持议案',
   propose: '提出议案',
-  transferKeepAlive: '转账'
+  transferKeepAlive: '转账',
+  setKeys: 'Set Keys'
 }
 
 export const callEnNameMap = {
@@ -302,7 +303,8 @@ export const callEnNameMap = {
   heartbeat: 'HeartBeat',
   second: 'Second',
   propose: 'Propose',
-  transferKeepAlive: 'Transfer'
+  transferKeepAlive: 'Transfer',
+  setKeys: 'Set Keys'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
