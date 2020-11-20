@@ -19,7 +19,10 @@ class DexController {
       .find({})
       .sort()
       .toArray()
-    let latestTransactionPrices = items[items.length - 1].price
+    let latestTransactionPrices = 0
+    if (items[items.length - 1].price) {
+      latestTransactionPrices = items[items.length - 1].price
+    }
     let week = 604800000
     let day = 86400000
     const currentTime = new Date().getTime()
