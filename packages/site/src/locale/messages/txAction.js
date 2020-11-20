@@ -191,7 +191,7 @@ export const callZhNameMap = {
   second: '支持议案',
   propose: '提出议案',
   transferKeepAlive: '转账',
-  setKeys: 'Set Keys'
+  setKeys: '设置Key'
 }
 
 export const callEnNameMap = {
