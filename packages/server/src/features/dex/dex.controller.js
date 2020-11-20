@@ -20,7 +20,7 @@ class DexController {
       .sort()
       .toArray()
     let latestTransactionPrices = 0
-    if (items[items.length - 1].price) {
+    if (items[items.length - 1]) {
       latestTransactionPrices = items[items.length - 1].price
     }
     let week = 604800000
