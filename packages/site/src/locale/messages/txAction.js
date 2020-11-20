@@ -189,7 +189,8 @@ export const callZhNameMap = {
   vote: '投票',
   heartbeat: '心跳',
   second: '支持议案',
-  propose: '提出议案'
+  propose: '提出议案',
+  transferKeepAlive: '转账'
 }
 
 export const callEnNameMap = {
@@ -300,7 +301,8 @@ export const callEnNameMap = {
   vote: 'Vote',
   heartbeat: 'HeartBeat',
   second: 'Second',
-  propose: 'Propose'
+  propose: 'Propose',
+  transferKeepAlive: 'Transfer'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
