@@ -23,7 +23,7 @@ jobs:
           NAME: "Root"
           BRANCH: "develop"
         with:
-          hosts: 'root@8.210.209.20'
+          hosts: 'root@8.210.38.126'
           privateKey: ${{ secrets.PRIVATE_KEY }}
           debug: false
           command: |
