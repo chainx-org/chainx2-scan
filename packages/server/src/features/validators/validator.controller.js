@@ -135,7 +135,7 @@ class validatorsController {
       return Array.from(new Set(arr))
     }
     let unitAddress = unique(address)
-    const item = unitAddress.reduce((obj, name) => {
+    const item = address.reduce((obj, name) => {
       if (name in obj) {
         obj[name]++
       } else {
