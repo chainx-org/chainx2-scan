@@ -42,5 +42,9 @@ export default {
   Finalization: {
     zh: '交易完成',
     en: 'Finalization'
+  },
+  event_action: {
+    zh: '操作',
+    en: 'Action'
   }
 }

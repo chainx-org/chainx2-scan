@@ -45,7 +45,7 @@ class EventController {
     const total = await col.countDocuments(query)
     const extrinsics = await col
       .find(query)
-      .sort({ 'indexer.blockHeight': -1, 'indexer.index': -1 })
+      .sort({ sort: 1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
