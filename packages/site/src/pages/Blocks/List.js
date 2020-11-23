@@ -5,7 +5,9 @@ import $t from '../../locale'
 import DateShow from '../../components/DateShow'
 import BlockLink from '../../components/BlockLink'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '@components/AccountLink'
 import { useLoad } from '../../utils/hooks'
+import { decodeAddress, encodeAddress } from '../../shared'
 
 export default function() {
   const [page, setPage] = useState(1)
@@ -40,10 +42,10 @@ export default function() {
             />
           ),
           author: (
-            <AddressLink
+            <AccountLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.author}
+              value={encodeAddress(item.author)}
             />
           ),
           timestamp: <DateShow value={item.blockTime} />,
