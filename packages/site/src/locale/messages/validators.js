@@ -27,6 +27,10 @@ export default {
     zh: '漏块统计',
     en: 'Missed Block Stats'
   },
+  missed_block_sum: {
+    zh: '漏块总数',
+    en: 'Missed Blocks'
+  },
   self_bonded: {
     zh: '自抵押数(PCX)',
     en: 'Self Bonded'
@@ -50,5 +54,13 @@ export default {
   total_weight_last_update: {
     zh: '更新高度',
     en: 'Total Last Update'
+  },
+  session_index: {
+    zh: '分红届数',
+    en: 'Session Index'
+  },
+  validator_address: {
+    zh: '验证人地址',
+    en: 'Validator Address'
   }
 }
