@@ -127,8 +127,6 @@ class validatorsController {
       .find(query)
       .sort({ totalNomination: -1 })
       .collation({ locale: 'en_US', numericOrdering: true })
-      .skip(page * pageSize)
-      .limit(pageSize)
       .toArray()
     const address = addressInfo.map(item => item.data[0])
     function unique(arr) {
