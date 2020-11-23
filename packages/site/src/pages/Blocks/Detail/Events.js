@@ -17,16 +17,19 @@ export default function({ blockHeight }) {
       : { page, pageSize }
   }, [blockHeight, page, pageSize])
 
-  const { items: extrinsics, loading, total } = useLoad(
+  const { items: events, loading, total } = useLoad(
     api.fetchBlockEvents,
     params
   )
   const width = document.documentElement.clientWidth
   const simple = width < 1024
+  /*
   let list = arrayObjectDeDuplication(extrinsics, 'extrinsicHash')
   const renderList = list.sort(function(a, b) {
     return a.phase.value - b.phase.value
   })
+  */
+  const renderList = events
   return (
     <Table
       loading={loading}
@@ -43,7 +46,7 @@ export default function({ blockHeight }) {
           <div>
             <pre style={{ textAlign: 'right' }}>
               {'args:' + JSON.stringify(data.args, null, 0)}
-              {',data: ' + JSON.stringify(data.data)}
+              {', data: ' + JSON.stringify(data.data)}
             </pre>
           </div>
         )
@@ -58,9 +61,10 @@ export default function({ blockHeight }) {
               value={item.extrinsicHash}
             />
           ),
+          sort: item.sort,
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
-          action: <TxAction module={item.section} call={item.name} />,
+          action: <TxAction module={item.section} call={item.method} />,
           number: item.phase.value,
           method: $t(item.method) || item.method,
           type: $t(item.phase.type),
@@ -71,12 +75,17 @@ export default function({ blockHeight }) {
       columns={[
         {
           title: $t('event_number'),
-          dataIndex: 'number'
+          dataIndex: 'sort'
         },
         {
           title: $t('ex_hash'),
           dataIndex: 'extrinsicHash'
         },
+        {
+          title: $t('event_action'),
+          dataIndex: 'action'
+        }
+        /*
         {
           title: $t('stage'),
           dataIndex: 'type'
@@ -85,6 +94,7 @@ export default function({ blockHeight }) {
           title: $t('kind'),
           dataIndex: 'method'
         }
+        */
       ]}
     />
   )
