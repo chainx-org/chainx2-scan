@@ -89,7 +89,7 @@ export default {
   },
   search: {
     zh: '搜索',
-    en: 'Search'
+    en: 'Search '
   },
   WeChat: {
     zh: '微信',

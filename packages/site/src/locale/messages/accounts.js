@@ -9,7 +9,7 @@ export default {
   },
   address_item: {
     zh: '账户地址',
-    en: 'address'
+    en: 'Address'
   },
   account_publickey: {
     zh: '账户公钥',
