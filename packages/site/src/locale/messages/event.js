@@ -20,12 +20,16 @@ export default {
     en: 'Event Number'
   },
   event_extrinsic: {
-    zh: '相关交易',
-    en: 'Referenced Extrinsic'
+    zh: '交易哈希',
+    en: 'Referenced Extrinsic Hash'
   },
   event_method: {
     zh: '事件名称',
     en: 'Event'
+  },
+  event_action: {
+    zh: '操作',
+    en: 'Action'
   },
   stage: {
     zh: '阶段',

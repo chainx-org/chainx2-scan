@@ -32,14 +32,14 @@ jobs:
             pm2 status
             free
             cd chainx2-scan
-            git checkout -b temp
+            git checkout -b server-temp
             git checkout develop
             eval $(ssh-agent)
             ssh-add ~/.ssh/chainx2scan_rsa
             git pull
             cd packages
-            git diff --quiet HEAD temp -- scan || pm2 restart explorer-scan
-            git diff --quiet HEAD temp -- server || pm2 restart explorer-server
-            git diff --quiet HEAD temp -- site || pm2 restart explorer-site
-            git branch -d temp
+            git diff --quiet HEAD temp -- scan || pm2 restart scan
+            git diff --quiet HEAD temp -- server || pm2 restart server
+            git diff --quiet HEAD temp -- site || pm2 restart site
+            git branch -d server-temp
             pm2 status
