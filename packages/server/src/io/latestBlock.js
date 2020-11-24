@@ -30,6 +30,7 @@ async function feedLatestBlocks(io) {
       simpleblock.timestamp = block.blockTime
       simpleblock.extrinsicsCnt = (block.extrinsics || []).length
       simpleblock.author = block.author
+      simpleblock.address = encodeAddr
       simpleblock.nikename = blockAuthorNickName
       simpleBlocks.push(simpleblock)
     }
