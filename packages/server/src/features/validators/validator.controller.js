@@ -119,7 +119,6 @@ class validatorsController {
 
     const db = await getDb()
     const col = await db.collection('event')
-
     const api = await getApi()
 
     const query = { section: 'xStaking', method: 'Slashed' }
@@ -143,16 +142,15 @@ class validatorsController {
     }, {})
     const vacol = await db.collection('validators')
     let items = []
-    let total = 0
     for (let i = 0; i < unitAddress.length; i++) {
       let unit = unitAddress[i]
       let unitquery = { account: unit }
-      total = await vacol.countDocuments(unitquery)
       let nickname = await vacol.find(unitquery).toArray()
       let accountitem = nickname[0].account
       nickname[0].missed = item[accountitem]
       items.push(...nickname)
     }
+    const total = items.length
 
     ctx.body = {
       items,
