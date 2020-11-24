@@ -50,20 +50,30 @@ export default function({ address }) {
           ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
-          sender: (
-            <AccountLink
-              style={{ width: 136 }}
-              className="text-truncate"
-              value={item.data[0]}
-            />
-          ),
-          receiver: (
-            <AccountLink
-              style={{ width: 136 }}
-              className="text-truncate"
-              value={item.data[1]}
-            />
-          ),
+          sender:
+            item.data[0] === address ? (
+              <div style={{ width: 138 }} className="text-truncate">
+                {address}
+              </div>
+            ) : (
+              <AccountLink
+                style={{ width: 136 }}
+                className="text-truncate"
+                value={item.data[0]}
+              />
+            ),
+          receiver:
+            item.data[1] === address ? (
+              <div style={{ width: 138 }} className="text-truncate">
+                {address}
+              </div>
+            ) : (
+              <AccountLink
+                style={{ width: 136 }}
+                className="text-truncate"
+                value={item.data[1]}
+              />
+            ),
           value: <Amount value={item.data[2]} symbol={item.token} />
         }
       })}
