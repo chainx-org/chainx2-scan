@@ -38,8 +38,8 @@ jobs:
             ssh-add ~/.ssh/chainx2scan_rsa
             git pull
             cd packages
-            git diff --quiet HEAD temp -- scan || pm2 restart scan
-            git diff --quiet HEAD temp -- server || pm2 restart server
-            git diff --quiet HEAD temp -- site || pm2 restart site
+            git diff --quiet HEAD server-temp -- scan || pm2 restart scan
+            git diff --quiet HEAD server-temp -- server || pm2 restart server
+            git diff --quiet HEAD server-temp -- site || pm2 restart site
             git branch -d server-temp
             pm2 status
