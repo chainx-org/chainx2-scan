@@ -86,6 +86,8 @@ export const callZhNameMap = {
   update_schedule: '更新费用表',
   put_code: '部署合约',
   TransactionFeePaid: '交易费用已支付',
+  FeePaid: '费用已付',
+  xTransactionFee: '交易费',
   system: '系统',
   call: '调用合约',
   Transfer: '转账',
@@ -152,7 +154,7 @@ export const callZhNameMap = {
   InsertHeader: '新增块头',
   WithdrawalApply: '提现申请',
   putOrder: '挂单',
-  NewSession: '开始新的 session',
+  NewSession: '新会话已开始',
   FeeForJackpot: '奖池手续费',
   FeeForProducer: '验证人手续费',
   FeeForCouncil: '议会手续费',
@@ -181,7 +183,7 @@ export const callZhNameMap = {
   Unlock: '解锁LBTC',
   UnlockedFromRoot: '议会解锁LBTC',
   ChannelBinding: '渠道绑定',
-  Minted: '铸币',
+  Minted: '余额变动',
   Slashed: '清除',
   Offence: '犯规',
   bond: '抵押',
@@ -191,7 +193,10 @@ export const callZhNameMap = {
   second: '支持议案',
   propose: '提出议案',
   transferKeepAlive: '转账',
-  setKeys: '设置Key'
+  setKeys: '设置会话密钥',
+  purgeKeys: '移除会话密钥',
+  HeartbeatReceived: '心跳已接收',
+  AllGood: '正常运行'
 }
 
 export const callEnNameMap = {
@@ -294,7 +299,7 @@ export const callEnNameMap = {
   Unlock: 'Unlock LBTC',
   UnlockedFromRoot: 'Council Unlock LBTC',
   ChannelBinding: 'Channel Binding',
-  Minted: 'Minted',
+  Minted: 'Balance Changed',
   Slashed: 'Slashed',
   Offence: 'Offence',
   bond: 'Bond',
@@ -304,7 +309,13 @@ export const callEnNameMap = {
   second: 'Second',
   propose: 'Propose',
   transferKeepAlive: 'Transfer',
-  setKeys: 'Set Keys'
+  setKeys: 'Set Keys',
+  purgeKeys: 'Purge Keys',
+  HeartbeatReceived: 'Heartbeat Received',
+  TransactionFeePaid: 'Transaction Fee Paid',
+  FeePaid: 'Fee Paid',
+  xTransactionFee: 'Transaction Fee',
+  AllGood: 'All Good'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
