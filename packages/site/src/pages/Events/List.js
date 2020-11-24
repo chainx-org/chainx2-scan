@@ -68,6 +68,7 @@ export default function() {
             />
           ),
           section: <TxAction module={section} />,
+          action: <TxAction module={section} call={method} />,
           meta,
           data,
           key: id
@@ -91,6 +92,11 @@ export default function() {
           dataIndex: 'extrinsicHash'
         },
         {
+          title: $t('event_action'),
+          dataIndex: 'action'
+        }
+        /*
+        {
           title: $t('common_module'),
           dataIndex: 'section'
         },
@@ -98,6 +104,7 @@ export default function() {
           title: $t('event_method'),
           dataIndex: 'method'
         }
+        */
       ]}
     />
   )
