@@ -2,6 +2,8 @@ const { isMongoId } = require('../../utils')
 const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
 const { getBlockCollection } = require('../../services/mongo')
 const { ObjectID } = require('mongodb')
+const { encodeAddress } = require('../../utils')
+const { getDb } = require('../../services/mongo')
 
 class BlockController {
   async getBlocks(ctx) {
@@ -10,7 +12,7 @@ class BlockController {
       ctx.status = 400
       return
     }
-
+    const db = await getDb()
     const col = await getBlockCollection()
     const total = await col.estimatedDocumentCount()
     const blocks = await col
@@ -19,9 +21,18 @@ class BlockController {
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
-
+    const vacol = await db.collection('validators')
+    let address = blocks.map(item => item.author)
+    for (let i = 0; i < address.length; i++) {
+      let unit = encodeAddress(address[i])
+      let unitquery = { account: unit }
+      let nickName = await vacol.find(unitquery).toArray()
+      let unitNickname = nickName[0].referralId
+      blocks[i].referralId = unitNickname
+    }
     ctx.body = {
       items: blocks,
+      address,
       page,
       pageSize,
       total

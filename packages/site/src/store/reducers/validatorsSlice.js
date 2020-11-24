@@ -22,6 +22,12 @@ const validatorsSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    missed: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -33,6 +39,9 @@ const validatorsSlice = createSlice({
     },
     setTrusteeNodes(state, action) {
       state.trustees = action.payload
+    },
+    setMissed(state, action) {
+      state.missed = action.payload
     }
   }
 })
@@ -40,7 +49,8 @@ const validatorsSlice = createSlice({
 export const {
   setValidators,
   setUnsettledNodes,
-  setTrusteeNodes
+  setTrusteeNodes,
+  setMissed
 } = validatorsSlice.actions
 
 export const fetchValidatorNodes = (
@@ -97,6 +107,24 @@ export const fetchTrusteeNodes = (
   }
 }
 
+export const fetchMissed = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: missed } = await api.fetch(`/missed`, {
+      page,
+      pageSize
+    })
+
+    dispatch(setMissed(missed))
+  } finally {
+    setLoading(false)
+  }
+}
+export const MissedSelector = state => state.validators.missed
 export const validatorNodesSelector = state => state.validators.validators
 export const unsettledNodesSelector = state => state.validators.unsettled
 export const trusteeNodesSelector = state => state.validators.trustees

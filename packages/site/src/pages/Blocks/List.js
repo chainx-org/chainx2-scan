@@ -19,7 +19,6 @@ export default function() {
   }, [page, pageSize])
 
   const { items: blocks, loading, total } = useLoad(api.fetchBlocks, params)
-
   return (
     <Table
       loading={loading}
@@ -41,13 +40,7 @@ export default function() {
               value={item.hash}
             />
           ),
-          author: (
-            <AccountLink
-              style={{ width: 138 }}
-              className="text-truncate"
-              value={encodeAddress(item.author)}
-            />
-          ),
+          author: <div>{item.referralId}</div>,
           timestamp: <DateShow value={item.blockTime} />,
           extrinsicNum: (item.extrinsics || []).length,
           key: item.hash
