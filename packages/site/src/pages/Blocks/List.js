@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react'
 import api from '../../services/api'
-import { Table } from '../../components'
+import { Table, ValidatorLink } from '../../components'
 import $t from '../../locale'
 import DateShow from '../../components/DateShow'
 import BlockLink from '../../components/BlockLink'
@@ -40,7 +40,14 @@ export default function() {
               value={item.hash}
             />
           ),
-          author: <div>{item.referralId}</div>,
+          author: (
+            <ValidatorLink
+              name={item.referralId}
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={encodeAddress(item.author)}
+            />
+          ),
           timestamp: <DateShow value={item.blockTime} />,
           extrinsicNum: (item.extrinsics || []).length,
           key: item.hash
