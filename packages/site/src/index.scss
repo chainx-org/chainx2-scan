@@ -1190,6 +1190,10 @@ a:focus {
   }
 }
 
+.ant-table-cell .ant-empty.ant-empty-normal {
+  margin: 0;
+}
+
 
 @media (min-width: 320px) and (max-width: 1024px) {
   .container {
