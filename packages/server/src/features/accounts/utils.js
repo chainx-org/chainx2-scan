@@ -31,7 +31,7 @@ async function getNativeAsset(address) {
 async function getExtrinsicCount(address) {
   const db = await getDb()
   const col = await db.collection('extrinsic')
-  return await col.count({ signer: address })
+  return await col.countDocuments({ signer: address })
 }
 
 module.exports = {
