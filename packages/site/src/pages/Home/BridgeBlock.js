@@ -59,7 +59,7 @@ const BridgeBlock = function() {
                         <tr key={_id}>
                           <td>
                             <ExternalLink
-                              type="btcTestnetHash"
+                              type="btcHash"
                               style={{ width: 80 }}
                               value={btcHeight}
                               render={() => {
@@ -69,7 +69,7 @@ const BridgeBlock = function() {
                           </td>
                           <td>
                             <ExternalLink
-                              type="btcTestnetHash"
+                              type="btcHash"
                               value={btcHashForExplorer}
                               render={() => {
                                 return (

@@ -52,7 +52,7 @@ export default function CrossUnclaim() {
           key: item._id,
           btc_address: (
             <ExternalLink
-              type="btcTestnetAddress"
+              type="btcAddress"
               value={item.data[1]}
               render={() => {
                 return (
@@ -67,7 +67,7 @@ export default function CrossUnclaim() {
           ),
           btc_tx_hash: (
             <ExternalLink
-              type="btcTestnetTxid"
+              type="btcTxid"
               value={btcTxHashForExplorer}
               render={() => {
                 return (

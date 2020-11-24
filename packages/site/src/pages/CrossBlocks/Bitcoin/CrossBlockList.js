@@ -54,7 +54,7 @@ export default function CrossBlocksList({ address }) {
           id: item.btcHash,
           btc_height: (
             <ExternalLink
-              type="btcTestnetHash"
+              type="btcHash"
               value={item.btcHeight}
               render={() => {
                 return <NumberFormat value={item.btcHeight} />
@@ -63,7 +63,7 @@ export default function CrossBlocksList({ address }) {
           ),
           btc_hash: (
             <ExternalLink
-              type="btcTestnetHash"
+              type="btcHash"
               value={btcHashForExplorer}
               render={() => {
                 return (

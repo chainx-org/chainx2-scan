@@ -52,7 +52,7 @@ export default function CrossBtcTx({ address }) {
           id: item.btcHash,
           btc_hash: (
             <ExternalLink
-              type="btcTestnetHash"
+              type="btcHash"
               value={btcHashForExplorer}
               render={() => {
                 return (
@@ -67,7 +67,7 @@ export default function CrossBtcTx({ address }) {
           ),
           btc_tx_hash: (
             <ExternalLink
-              type="btcTestnetTxid"
+              type="btcTxid"
               value={btcTxHashForExplorer}
               render={() => {
                 return (
