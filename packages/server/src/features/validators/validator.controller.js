@@ -25,6 +25,8 @@ class validatorsController {
       .find(query)
       .sort({ totalNomination: -1 })
       .collation({ locale: 'en_US', numericOrdering: true })
+      .skip(page * pageSize)
+      .limit(pageSize)
       .toArray()
     function IsInArray(arr, val) {
       var testStr = ',' + arr.join(',') + ','
@@ -34,6 +36,7 @@ class validatorsController {
       return item.account
     })
 
+    /*
     const ecol = await db.collection('event')
     let week = 604800000
     const currentTime = new Date().getTime()
@@ -65,9 +68,12 @@ class validatorsController {
       }
       return obj
     }, {})
+    */
     let newitems = []
     items.map((item, index) => {
       const isTrust = IsInArray(trustAddress, item.account)
+      newitems.push(Object.assign({}, item, { isTrust: isTrust }))
+      /*
       newitems.push(
         Object.assign({}, item, { isTrust: isTrust }, { weekMissed: 0 })
       )
@@ -82,6 +88,7 @@ class validatorsController {
           )
         )
       }
+      */
     })
     ctx.body = {
       newitems,
