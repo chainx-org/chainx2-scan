@@ -48,7 +48,7 @@ export default {
     en: 'Total Weight'
   },
   referral_id: {
-    zh: '别名',
+    zh: '名称',
     en: 'Nikename'
   },
   total_weight_last_update: {
@@ -62,5 +62,9 @@ export default {
   validator_address: {
     zh: '验证人地址',
     en: 'Validator Address'
+  },
+  week_missed: {
+    zh: '最近周漏块/出块总数',
+    en: 'Week Missed Blocks/Blocks'
   }
 }

@@ -59,13 +59,16 @@ export default function({ address }) {
               value={item.hash}
             />
           ),
-          signer: (
-            <AccountLink
-              style={{ width: 138 }}
-              className="text-truncate"
-              value={item.signer}
-            />
-          ),
+          signer:
+            item.signer === address ? (
+              <div>{item.signer}</div>
+            ) : (
+              <AccountLink
+                style={{ width: 138 }}
+                className="text-truncate"
+                value={item.signer}
+              />
+            ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           section: item.section,

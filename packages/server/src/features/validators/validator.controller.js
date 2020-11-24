@@ -35,10 +35,60 @@ class validatorsController {
     const validatorAddress = items.map(item => {
       return item.account
     })
+
+    /*
+    const ecol = await db.collection('event')
+    let week = 604800000
+    const currentTime = new Date().getTime()
+    let startTime = currentTime - week
+
+    let missedArray = []
+    for (let i = 0; i < items.length; i++) {
+      let equery = {
+        $and: [
+          { method: 'Slashed' },
+          { 'data.0': items[i].account },
+          { 'indexer.blockTime': { $gte: startTime } },
+          { 'indexer.blockTime': { $lte: currentTime } }
+        ]
+      }
+      let missedItem = await ecol.find(equery).toArray()
+      missedArray.push(...missedItem)
+    }
+    const address = missedArray.map(item => item.data[0])
+    function unique(arr) {
+      return Array.from(new Set(arr))
+    }
+    let unitAddress = unique(address)
+    const num = address.reduce((obj, name) => {
+      if (name in obj) {
+        obj[name]++
+      } else {
+        obj[name] = 1
+      }
+      return obj
+    }, {})
+    */
     let newitems = []
     items.map((item, index) => {
       const isTrust = IsInArray(trustAddress, item.account)
       newitems.push(Object.assign({}, item, { isTrust: isTrust }))
+      /*
+      newitems.push(
+        Object.assign({}, item, { isTrust: isTrust }, { weekMissed: 0 })
+      )
+      let isAddress = IsInArray(unitAddress, item.account)
+      if (isAddress) {
+        newitems.push(
+          Object.assign(
+            {},
+            item,
+            { weekMissed: num[item.account] },
+            { isTrust: isTrust }
+          )
+        )
+      }
+      */
     })
     ctx.body = {
       newitems,

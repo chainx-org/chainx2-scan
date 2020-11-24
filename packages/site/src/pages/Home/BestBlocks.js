@@ -8,6 +8,7 @@ import NumberFormat from '../../components/NumberFormat'
 import SeeAll from './SeeAll'
 import AddressLink from '@components/AddressLink'
 import AccountLink from '../../components/AccountLink'
+import ValidatorLink from '@components/ValidatorLink'
 import { encodeAddress } from '../../shared'
 
 export default function BestBlocks() {
@@ -42,13 +43,20 @@ export default function BestBlocks() {
             {blocks && blocks.length
               ? blocks
                   .slice(0, 6)
-                  .map(({ number, extrinsicsCnt, nikename }) => {
+                  .map(({ number, extrinsicsCnt, address, nikename }) => {
                     return (
                       <tr key={number}>
                         <td>
                           <BlockLink value={number} />
                         </td>
-                        <td>{nikename}</td>
+                        <td>
+                          <ValidatorLink
+                            name={nikename}
+                            style={{ width: 138 }}
+                            className="text-truncate"
+                            value={address}
+                          />
+                        </td>
                         <td className="has-text-right">
                           <NumberFormat value={extrinsicsCnt} />
                         </td>

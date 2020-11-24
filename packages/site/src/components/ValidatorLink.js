@@ -1,45 +1,30 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
+import { Empty } from 'antd'
 
 import hexAddPrefix from '@polkadot/util/hex/addPrefix'
 import { FormattedMessage } from 'react-intl'
 
-export default function VilidatorLink({
-  value,
-  name = false,
-  isActive = true,
-  style,
-  index = '',
-  className,
-  filter = 'detail'
-}) {
-  const hexValue = hexAddPrefix(value)
-
-  if (name === null) {
-    name = ''
-  } else if (!name) {
-    const [{ intentions = [] }] = {}
-    const intention = intentions.find(
-      ({ accountid }) => accountid === hexValue
-    ) || { name: '' }
-    name = intention.name
-  }
-
+export default function VilidatorLink({ value, name, style, className }) {
+  if (!value)
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        imageStyle={{
+          height: 16,
+          margin: 0
+        }}
+        description={false}
+      />
+    )
   return (
-    <span className="nowrap">
-      <NavLink
-        to={`/validators/${filter}/${hexValue}`}
-        style={style}
-        className={classnames('nav-link', className)}
-      >
-        {name}
-      </NavLink>
-      {!isActive && (
-        <span className="table-tag-nagtive">
-          (<FormattedMessage id="INACTIVE" />)
-        </span>
-      )}
-    </span>
+    <NavLink
+      to={`/accounts/${value}`}
+      style={style}
+      className={classnames('nav-link', className)}
+    >
+      {name}
+    </NavLink>
   )
 }
