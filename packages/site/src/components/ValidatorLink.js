@@ -14,7 +14,7 @@ export default function VilidatorLink({
   className,
   filter = 'detail'
 }) {
-  const hexValue = hexAddPrefix(value)
+  const hexValue = value
 
   if (name === null) {
     name = ''
@@ -27,19 +27,12 @@ export default function VilidatorLink({
   }
 
   return (
-    <span className="nowrap">
-      <NavLink
-        to={`/validators/${filter}/${hexValue}`}
-        style={style}
-        className={classnames('nav-link', className)}
-      >
-        {name}
-      </NavLink>
-      {!isActive && (
-        <span className="table-tag-nagtive">
-          (<FormattedMessage id="INACTIVE" />)
-        </span>
-      )}
-    </span>
+    <NavLink
+      to={`/accounts/${hexValue || value}`}
+      style={style}
+      className={classnames('nav-link', className)}
+    >
+      {name}
+    </NavLink>
   )
 }

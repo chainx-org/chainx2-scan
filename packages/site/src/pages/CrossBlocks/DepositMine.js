@@ -8,6 +8,7 @@ import Table from '@components/Table'
 import Amount from '@components/Amount'
 import $t from '@src/locale'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '../../components/AccountLink'
 
 export default function DepositMine({ address }) {
   const [page, setPage] = useState(1)
@@ -21,7 +22,6 @@ export default function DepositMine({ address }) {
   }, [dispatch, page, pageSize])
 
   const { items = [], total } = useSelector(crossDepositMineSelector) || {}
-
   const width = document.documentElement.clientWidth
   const simple = width < 1024
 
@@ -41,10 +41,10 @@ export default function DepositMine({ address }) {
           const token_name = ['BTC', 'PCX']
           return {
             key: item._id,
-            // asset_type: 'Interchain BTC(X-BTC)',
-            // asset_type: <TokenName value={token_name} id={1}/>,
             asset_type: (
-              <div style={{ whiteSpace: 'nowrap' }}>{item.info.tokenName}</div>
+              <div style={{ whiteSpace: 'nowrap' }}>
+                {'Interchain BTC(X-BTC)'}
+              </div>
             ),
             btc_total_balance: (
               <Amount
@@ -70,7 +70,7 @@ export default function DepositMine({ address }) {
               />
             ),
             reward_pot_address: (
-              <AddressLink
+              <AccountLink
                 style={{ width: 138 }}
                 className="text-truncate"
                 value={item.rewardPot}
