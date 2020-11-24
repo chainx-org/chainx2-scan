@@ -3,7 +3,7 @@ const config = require('../config')
 
 const genesisHeight = 1
 
-const dbName = 'chainx-scan-v2'
+const dbName = 'chainx-scan-v2-testnet'
 const blockCollectionName = 'block'
 const extrinsicCollectionName = 'extrinsic'
 const eventCollectionName = 'event'

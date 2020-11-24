@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb')
 const config = require('../../config')
 let client = null
 
-const dbName = 'chainx-scan-v2'
+const dbName = 'chainx-scan-v2-testnet'
 const cols = {
   block: 'block',
   extrinsic: 'extrinsic',
