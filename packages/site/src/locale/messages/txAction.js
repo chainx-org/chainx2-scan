@@ -22,6 +22,7 @@ const moduleZhNameMap = {
   'xbridge-features': '桥特性集',
   session: '会话',
   balances: '余额',
+  utility: '实用工具',
   xBridgeFeatures: '桥特性集',
   xBridgeCommon: '桥基础',
   xGatewayCommon: '桥基础',
@@ -63,7 +64,8 @@ export const moduleEnNameMap = {
   offences: 'offences',
   democracy: 'Democracy',
   imOnline: 'ImOnline',
-  xGatewayBitcoin: 'Bitcoin Gateway'
+  xGatewayBitcoin: 'Bitcoin Gateway',
+  utility: 'Utility'
 }
 
 const moduleNameMap = Object.entries(moduleEnNameMap).reduce(
@@ -196,7 +198,8 @@ export const callZhNameMap = {
   setKeys: '设置会话密钥',
   purgeKeys: '移除会话密钥',
   HeartbeatReceived: '心跳已接收',
-  AllGood: '正常运行'
+  AllGood: '正常运行',
+  batch: '批处理成功'
 }
 
 export const callEnNameMap = {
@@ -315,7 +318,8 @@ export const callEnNameMap = {
   TransactionFeePaid: 'Transaction Fee Paid',
   FeePaid: 'Fee Paid',
   xTransactionFee: 'Transaction Fee',
-  AllGood: 'All Good'
+  AllGood: 'All Good',
+  batch: 'Batch Processed'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
