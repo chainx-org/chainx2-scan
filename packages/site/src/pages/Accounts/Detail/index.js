@@ -19,6 +19,7 @@ import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
 import DealList from './DealList'
+import { store } from '../../../index'
 
 export default function() {
   const [activeKey, setActiveKey] = useState('assets')
@@ -26,8 +27,12 @@ export default function() {
   const { address } = useParams()
   const params = useMemo(() => [address], [address])
 
-  const { detail: account, loading } = useLoadDetail(api.fetchAccount, params)
-  const pubKey = account?.address ? decodeAddress(account.address) : ''
+  const { detail: account, loading } = useLoadDetail(
+    api.fetchNativeAssets,
+    params
+  )
+  // const pubKey = account?.address ? decodeAddress(account.address) : ''
+  const pubKey = decodeAddress(address) || ''
   const breadcrumb = (
     <Breadcrumb
       dataSource={[
@@ -59,15 +64,21 @@ export default function() {
         dataSource={[
           {
             label: $t('address_item'),
-            data: <AccountLink value={account.address} />
+            data: <AccountLink value={address} />
           },
           {
             label: $t('account_publickey'),
             data: pubKey
           },
+          /*
           {
             label: $t('total_transaction_item'),
-            data: account.extrinsicCount
+            data: account.refcount
+          },
+          */
+          {
+            label: $t('nonce'),
+            data: account.nonce
           }
           // {
           //   label: $t('btc_recharge_address'),
