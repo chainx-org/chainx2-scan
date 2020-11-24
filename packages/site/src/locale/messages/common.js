@@ -21,7 +21,7 @@ export default {
   },
   common_home: {
     zh: '首页',
-    en: 'Home'
+    en: ' Home'
   },
   common_wallet: {
     zh: '钱包',
