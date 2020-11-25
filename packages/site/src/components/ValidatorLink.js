@@ -20,7 +20,7 @@ export default function VilidatorLink({ value, name, style, className }) {
     )
   return (
     <NavLink
-      to={`/accounts/${value}`}
+      to={`/validators/detail/${value}`}
       style={style}
       className={classnames('nav-link', className)}
     >
