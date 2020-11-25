@@ -27,8 +27,8 @@ class BlockController {
       let uniq = encodeAddress(address[i])
       let uniqquery = { account: uniq }
       let nickName = await vacol.find(uniqquery).toArray()
-      let unitNickname = nickName[0] ? nickName[0].referralId : null
-      blocks[i].referralId = unitNickname
+      let uniqNickname = nickName[0] ? nickName[0].referralId : null
+      blocks[i]['referralId'] = uniqNickname
     }
     ctx.body = {
       items: blocks,

@@ -2,19 +2,30 @@ const httpUtils = require('./http')
 const BigNumber = require('bignumber.js')
 const mongoUtils = require('./aggregate-wrapper')
 
-const { encodeAddress } = require('@polkadot/keyring')
-const { hexAddPrefix } = require('@polkadot/util')
+const {
+  decodeAddress,
+  encodeAddress,
+  setSS58Format
+} = require('@polkadot/keyring')
+const { hexAddPrefix, u8aToHex } = require('@polkadot/util')
 
 const { Keyring } = require('@polkadot/keyring')
 
 const keyring = new Keyring()
 // keyring.setSS58Format(process.env.REACT_APP_ENV === 'test' ? 42 : 44)
 // 42 for testnet, 44 for mainnet
-keyring.setSS58Format(42)
+keyring.setSS58Format(44)
+const ss58format = 44
+setSS58Format(44)
 
 function _encodeAddress(publicKey) {
   if (!publicKey) return publicKey
-  return encodeAddress(hexAddPrefix(publicKey))
+  return encodeAddress(hexAddPrefix(publicKey), ss58format)
+}
+
+function _decodeAddress(address) {
+  if (!address) return address
+  return u8aToHex(decodeAddress(address, ss58format))
 }
 
 function ensure0xPrefix(str = '') {
@@ -50,6 +61,7 @@ module.exports = {
   ensure0xPrefix,
   safeAdd,
   encodeAddress: _encodeAddress,
+  decodeAddress: _decodeAddress,
   ...httpUtils,
   ...mongoUtils
 }
