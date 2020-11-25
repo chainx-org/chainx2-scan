@@ -23,7 +23,7 @@ function App() {
 
   const history = createBrowserHistory()
   useEffect(() => {
-    ReactGA.initialize('G-CSRS4R2T7N')
+    ReactGA.initialize('G-PRHJ576SN0')
     ReactGA.pageview(window.location.pathname)
     /*
     history.listen(location => {
