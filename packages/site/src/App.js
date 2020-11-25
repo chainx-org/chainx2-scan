@@ -9,8 +9,6 @@ import {
   fetchNativeAssetInfo
 } from '@src/store/reducers/assetSlice'
 import { localeSelector } from '@src/store/reducers/settingsSlice'
-import ReactGA from 'react-ga'
-import { createBrowserHistory } from 'history'
 
 function App() {
   const dispatch = useDispatch()
@@ -21,21 +19,8 @@ function App() {
     dispatch(fetchForeignAssetsInfo())
   }, [dispatch, locale])
 
-  const history = createBrowserHistory()
-  useEffect(() => {
-    ReactGA.initialize('G-PRHJ576SN0')
-    ReactGA.pageview(window.location.pathname)
-    /*
-    history.listen(location => {
-      ReactGA.initialize('G-CSRS4R2T7N')
-      ReactGA.set({ page: location.pathname }) // Update the user's current page
-      ReactGA.pageview(location.pathname) // Record a pageview for the given page
-    })
-    */
-  })
-
   return (
-    <Router history={history}>
+    <Router>
       <React.Fragment>
         <Header />
         <Main />
