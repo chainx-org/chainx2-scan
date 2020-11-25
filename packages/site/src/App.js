@@ -22,12 +22,14 @@ function App() {
   }, [dispatch, locale])
 
   const history = createBrowserHistory()
-
-  // Initialize google analytics page view tracking
-  history.listen(location => {
+  useEffect(() => {
     ReactGA.initialize('G-CSRS4R2T7N')
-    ReactGA.set({ page: location.pathname }) // Update the user's current page
-    ReactGA.pageview(location.pathname) // Record a pageview for the given page
+    // ReactGA.pageview(window.location.pathname);
+    history.listen(location => {
+      ReactGA.initialize('G-CSRS4R2T7N')
+      ReactGA.set({ page: location.pathname }) // Update the user's current page
+      ReactGA.pageview(location.pathname) // Record a pageview for the given page
+    })
   })
 
   return (
