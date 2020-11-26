@@ -13,20 +13,29 @@ import { useLoad, useLoadDetail } from '../../../utils/hooks'
 import api from '../../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchValidatorNodes,
-  validatorNodesSelector
+    BlockNumSelector,
+    fetchblockNum, fetchMissed,
+    fetchValidatorNodes, MissedSelector,
+    validatorNodesSelector
 } from '../../../store/reducers/validatorsSlice'
 import NoData from '../../../components/NoData'
 import Spinner from '../../../components/Spinner'
 import Amount from '../../../components/Amount'
 
 export default function() {
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(20)
+    const [loading, setLoading] = useState(false)
+
+    const dispatch = useDispatch()
   const { address } = useParams()
   const hash = decodeAddress(address)
-  const { items: blocks, total } = useLoad(api.fetchBlocks, hash)
-  console.log(hash)
-  const { number } = useLoad(api.fetchBlockCount,hash)
-    console.log(number)
+  const { items: blocks } = useLoad(api.fetchBlocks, hash)
+    useEffect(() => {
+        dispatch(fetchblockNum(setLoading, hash))
+    }, [dispatch, page, pageSize])
+
+    const { number, total } = useSelector(BlockNumSelector) || {}
 
   let name = ''
   for (let i = 0; i < blocks.length; i++) {
@@ -34,11 +43,6 @@ export default function() {
       name = blocks[i].referralId
     }
   }
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
-  const [loading, setLoading] = useState(false)
-
-  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
@@ -46,6 +50,17 @@ export default function() {
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
 
+    useEffect(() => {
+        dispatch(fetchMissed(setLoading, page - 1, pageSize))
+    }, [dispatch, page, pageSize])
+
+    const { items = [] } = useSelector(MissedSelector) || {}
+    let missed = 0
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].account === address) {
+            missed = items[i].missed
+        }
+    }
     let lastTotalVoteWeight = ''
   let weekMissed = 0
   let selfBonded = 0
@@ -133,12 +148,12 @@ export default function() {
             )
           },
           {
-            label: $t('week_missed'),
-            data: weekMissed + '出块总数'
+            label: $t('missed_block_sum'),
+            data:  missed
           },
           {
             label: $t('authored_blocks'),
-            data: 0
+            data: number
           },
           {
             label: $t('vote_weight_last'),
