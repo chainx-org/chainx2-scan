@@ -73,12 +73,11 @@ export default function() {
       dataSource={items.map(item => {
         return {
           account_address: (
-        <ValidatorLink
-            name={item.account}
-            style={{ width: 138 }}
-            className="text-truncate"
-            value={item.account}
-        />
+            <AccountLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.account}
+            />
           ),
           number: <BlockLink value={item.selfBonded} />,
           registered_block_height: (
