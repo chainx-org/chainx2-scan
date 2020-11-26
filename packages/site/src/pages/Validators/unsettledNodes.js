@@ -175,16 +175,6 @@ export default function() {
           title: $t('reward_pot_address'),
           dataIndex: 'reward_pot_address'
         }
-        /*
-        {
-          title: $t('total_weight_last_update'),
-          dataIndex: 'weight_last_update'
-        },
-        {
-          title: $t('total_vote_weight'),
-          dataIndex: 'total_weight'
-        }
-        */
       ]}
     />
   )
