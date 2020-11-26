@@ -15,7 +15,7 @@ class BlockController {
     const db = await getDb()
     const col = await getBlockCollection()
     const total = await col.estimatedDocumentCount()
-    const blocks = await col
+    let blocks = await col
       .find({})
       .sort({ 'header.number': -1 })
       .skip(page * pageSize)
@@ -24,11 +24,11 @@ class BlockController {
     const vacol = await db.collection('validators')
     let address = blocks.map(item => item.author)
     for (let i = 0; i < address.length; i++) {
-      let unit = encodeAddress(address[i])
-      let unitquery = { account: unit }
-      let nickName = await vacol.find(unitquery).toArray()
-      let unitNickname = nickName[0].referralId
-      blocks[i].referralId = unitNickname
+      let uniq = encodeAddress(address[i])
+      let uniqquery = { account: uniq }
+      let nickName = await vacol.find(uniqquery).toArray()
+      let uniqNickname = nickName[0] ? nickName[0].referralId : null
+      blocks[i]['referralId'] = uniqNickname
     }
     ctx.body = {
       items: blocks,

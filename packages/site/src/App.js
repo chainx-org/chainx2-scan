@@ -9,6 +9,7 @@ import {
   fetchNativeAssetInfo
 } from '@src/store/reducers/assetSlice'
 import { localeSelector } from '@src/store/reducers/settingsSlice'
+import ReactGA from 'react-ga'
 
 function App() {
   const dispatch = useDispatch()
@@ -18,6 +19,11 @@ function App() {
     dispatch(fetchNativeAssetInfo())
     dispatch(fetchForeignAssetsInfo())
   }, [dispatch, locale])
+
+  useEffect(() => {
+    ReactGA.set({ page: window.location.pathname }) // Update the user's current page
+    ReactGA.pageview(window.location.pathname + window.location.search)
+  })
 
   return (
     <Router>

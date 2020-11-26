@@ -7,7 +7,7 @@ import hexAddPrefix from '@polkadot/util/hex/addPrefix'
 import { FormattedMessage } from 'react-intl'
 
 export default function VilidatorLink({ value, name, style, className }) {
-  if (!value)
+  if (!name)
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}

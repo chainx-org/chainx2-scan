@@ -46,6 +46,7 @@ export default function() {
               style={{ width: 138 }}
               className="text-truncate"
               value={encodeAddress(item.author)}
+              // value={item.author}
             />
           ),
           timestamp: <DateShow value={item.blockTime} />,

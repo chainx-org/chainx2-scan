@@ -185,7 +185,7 @@ export const callZhNameMap = {
   Unlock: '解锁LBTC',
   UnlockedFromRoot: '议会解锁LBTC',
   ChannelBinding: '渠道绑定',
-  Minted: '余额变动',
+  Minted: '铸币',
   Slashed: '清除',
   Offence: '犯规',
   bond: '抵押',
@@ -199,7 +199,8 @@ export const callZhNameMap = {
   purgeKeys: '移除会话密钥',
   HeartbeatReceived: '心跳已接收',
   AllGood: '正常运行',
-  batch: '批处理成功'
+  batch: '批处理成功',
+  validate: '验证'
 }
 
 export const callEnNameMap = {
@@ -302,7 +303,7 @@ export const callEnNameMap = {
   Unlock: 'Unlock LBTC',
   UnlockedFromRoot: 'Council Unlock LBTC',
   ChannelBinding: 'Channel Binding',
-  Minted: 'Balance Changed',
+  Minted: 'Minted',
   Slashed: 'Slashed',
   Offence: 'Offence',
   bond: 'Bond',
@@ -319,7 +320,8 @@ export const callEnNameMap = {
   FeePaid: 'Fee Paid',
   xTransactionFee: 'Transaction Fee',
   AllGood: 'All Good',
-  batch: 'Batch Processed'
+  batch: 'Batch Processed',
+  validate: 'Validate'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(
