@@ -66,5 +66,49 @@ export default {
   week_missed: {
     zh: '最近周漏块/出块总数',
     en: 'Week Missed Blocks/Blocks'
+  },
+  node_detail: {
+    zh: '节点详情',
+    en: 'Intention Details'
+  },
+  ranking: {
+    zh: '排名',
+    en: 'Ranking'
+  },
+  block_authoring_address: {
+    zh: '出块地址',
+    en: 'Block Authoring Address'
+  },
+  jackpot_address: {
+    zh: '奖池地址',
+    en: 'Jackpot Address'
+  },
+  authored_blocks: {
+    zh: '出块总数',
+    en: 'Authored Blocks'
+  },
+  vote_weight_last: {
+    zh: '上一次票龄更新高度',
+    en: 'Vote Weight Last Update'
+  },
+  setup_trustee: {
+    zh: '信托设置',
+    en: 'Trustee Settings'
+  },
+  nominators: {
+    zh: '投票用户列表',
+    en: 'Nominators'
+  },
+  missed: {
+    zh: '漏块列表',
+    en: 'Missed'
+  },
+  chain: {
+    zh: '链',
+    en: 'Chain'
+  },
+  nominations: {
+    zh: '投票数量(PCX)',
+    en: 'Total Nominations(PCX)'
   }
 }

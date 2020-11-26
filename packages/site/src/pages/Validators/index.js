@@ -6,10 +6,12 @@ import UnsettledNodesList from './unsettledNodes'
 import TrusteeNodesList from './trusteeNodes'
 import ValidatorsNav from '../../components/ValidatorsNav'
 import Missed from './Missed'
+import validatorsDetail from './Detail'
 
 export default function Validators() {
   return (
     <Switch>
+      <Route path="/validators/detail/:address" component={validatorsDetail} />
       <Route
         path="/validators/:list?"
         render={props => {
