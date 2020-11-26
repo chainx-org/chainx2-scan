@@ -41,14 +41,17 @@ export default function() {
   }, [dispatch, page, pageSize])
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
+  console.log(newitems)
   let selfBonded = 0
   let totalNomination = 0
   let rewardPotBalance = 0
+    let rewardPotAccount = ''
   for (let i = 0; i < newitems.length; i++) {
     if (newitems[i].account === address) {
       selfBonded = newitems[i].selfBonded
       totalNomination = newitems[i].totalNomination
       rewardPotBalance = newitems[i].rewardPotBalance
+        rewardPotAccount = newitems[i].rewardPotAccount
     }
   }
 
@@ -85,13 +88,13 @@ export default function() {
             label: $t('address_item'),
             data: <AccountLink className="text-truncate" value={address} />
           },
-          {
-            label: $t('block_authoring_address'),
-            data: 0
-          },
+          // {
+          //   label: $t('block_authoring_address'),
+          //   data: 0
+          // },
           {
             label: $t('jackpot_address'),
-            data: 0
+            data: <AccountLink className="text-truncate" value={rewardPotAccount} />
           },
           {
             label: $t('self_bonded'),
