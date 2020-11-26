@@ -14,9 +14,9 @@ const { Keyring } = require('@polkadot/keyring')
 const keyring = new Keyring()
 // keyring.setSS58Format(process.env.REACT_APP_ENV === 'test' ? 42 : 44)
 // 42 for testnet, 44 for mainnet
-keyring.setSS58Format(44)
-const ss58format = 44
-setSS58Format(44)
+keyring.setSS58Format(42)
+const ss58format = 42
+setSS58Format(42)
 
 function _encodeAddress(publicKey) {
   if (!publicKey) return publicKey

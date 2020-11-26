@@ -6,7 +6,7 @@ import { Keyring } from '@polkadot/keyring'
 const keyring = new Keyring()
 // keyring.setSS58Format(process.env.REACT_APP_ENV === 'test' ? 42 : 44)
 // 42 for testnet, 44 for mainnet
-keyring.setSS58Format(44)
+keyring.setSS58Format(42)
 
 export default function _decodeAddress(address) {
   if (!address) return address
