@@ -59,7 +59,7 @@ export default function() {
           dataIndex: 'referral_id'
         },
         {
-          title: $t('missed_block_sum'),
+          title: $t('slashed_sum'),
           dataIndex: 'missed'
         }
       ]}

@@ -1192,10 +1192,18 @@ a:focus {
 
 .ant-table-cell .ant-empty.ant-empty-normal {
   margin: 0;
+  text-align: left;
+  svg.ant-empty-img-simple {
+    width: 20px !important;
+  }
 }
 
 td .ant-empty.ant-empty-normal {
   margin: 0;
+  text-align: left;
+  svg.ant-empty-img-simple {
+    width: 20px !important;
+  }
 }
 
 
