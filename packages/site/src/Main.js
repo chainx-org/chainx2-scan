@@ -12,17 +12,12 @@ import Dex from './pages/Dex'
 import './services/socket'
 import ReactGA from 'react-ga'
 
+ReactGA.initialize('G-PRHJ576SN0')
+
 export default function Main() {
   useEffect(() => {
-    ReactGA.initialize('G-PRHJ576SN0')
-    ReactGA.pageview(window.location.pathname)
-    /*
-    history.listen(location => {
-      ReactGA.initialize('G-CSRS4R2T7N')
-      ReactGA.set({ page: location.pathname }) // Update the user's current page
-      ReactGA.pageview(location.pathname) // Record a pageview for the given page
-    })
-    */
+    ReactGA.set({ page: window.location.pathname }) // Update the user's current page
+    ReactGA.pageview(window.location.pathname + window.location.search)
   })
   return (
     <div className="section main-content">
