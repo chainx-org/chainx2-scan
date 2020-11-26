@@ -49,7 +49,6 @@ export default function() {
             name = newitems[i].referralId
         }
     }
-    console.log(newitems)
     useEffect(() => {
         dispatch(fetchMissed(setLoading, page - 1, pageSize))
     }, [dispatch, page, pageSize])
