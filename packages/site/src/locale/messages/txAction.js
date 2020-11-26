@@ -199,7 +199,8 @@ export const callZhNameMap = {
   purgeKeys: '移除会话密钥',
   HeartbeatReceived: '心跳已接收',
   AllGood: '正常运行',
-  batch: '批处理成功'
+  batch: '批处理成功',
+  validate: '验证'
 }
 
 export const callEnNameMap = {
@@ -319,7 +320,8 @@ export const callEnNameMap = {
   FeePaid: 'Fee Paid',
   xTransactionFee: 'Transaction Fee',
   AllGood: 'All Good',
-  batch: 'Batch Processed'
+  batch: 'Batch Processed',
+  validate: 'Validate'
 }
 
 const callNameMap = Object.entries(callEnNameMap).reduce(

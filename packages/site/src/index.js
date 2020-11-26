@@ -7,6 +7,9 @@ import './index.scss'
 import './scss/antd-custom.scss'
 import { Provider } from 'react-redux'
 import initStore from './store'
+import ReactGA from 'react-ga'
+
+ReactGA.initialize('G-PRHJ576SN0')
 
 export let store = initStore()
 
