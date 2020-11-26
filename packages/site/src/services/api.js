@@ -141,6 +141,9 @@ class Api {
   fetchBlock = blockId => {
     return this.cancelableFetch(`/blocks/${blockId}`)
   }
+  fetchBlockCount = hash => {
+    return this.cancelableFetch(`/blocks/all/${hash}`)
+  }
 
   fetchExtrinsics = params => {
     return this.cancelableFetch('/extrinsics', params)

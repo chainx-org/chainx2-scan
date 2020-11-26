@@ -57,6 +57,13 @@ class BlockController {
     ctx.body = await col.findOne(query)
   }
 
+  async getBlockNum(ctx) {
+    const { hash } = ctx.params
+    let query = {author: hash}
+    const col = await getBlockCollection()
+    ctx.body = {number: await col.find(query).count()}
+  }
+
   async getBlockEvents(ctx) {
     const { page, pageSize, block } = extractPage(ctx)
     console.log(block)
