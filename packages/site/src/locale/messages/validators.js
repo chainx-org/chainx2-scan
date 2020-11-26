@@ -63,6 +63,10 @@ export default {
     zh: '验证人地址',
     en: 'Validator Address'
   },
+  validator_slashed: {
+    zh: '节点惩罚',
+    en: 'Validator Slashed'
+  },
   week_missed: {
     zh: '最近周漏块/出块总数',
     en: 'Week Missed Blocks/Blocks'
