@@ -24,6 +24,10 @@ export default function() {
   const { address } = useParams()
   const hash = decodeAddress(address)
   const { items: blocks, total } = useLoad(api.fetchBlocks, hash)
+  console.log(hash)
+  const { number } = useLoad(api.fetchBlockCount,hash)
+    console.log(number)
+
   let name = ''
   for (let i = 0; i < blocks.length; i++) {
     if (blocks[i].author === hash) {
@@ -41,17 +45,23 @@ export default function() {
   }, [dispatch, page, pageSize])
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
-  console.log(newitems)
+
+    let lastTotalVoteWeight = ''
+  let weekMissed = 0
   let selfBonded = 0
   let totalNomination = 0
   let rewardPotBalance = 0
     let rewardPotAccount = ''
+    let lastTotalVoteWeightUpdate = 0
   for (let i = 0; i < newitems.length; i++) {
     if (newitems[i].account === address) {
       selfBonded = newitems[i].selfBonded
       totalNomination = newitems[i].totalNomination
       rewardPotBalance = newitems[i].rewardPotBalance
         rewardPotAccount = newitems[i].rewardPotAccount
+        weekMissed = newitems[i].weekMissed
+        lastTotalVoteWeight = newitems[i].lastTotalVoteWeight
+        lastTotalVoteWeightUpdate = newitems[i].lastTotalVoteWeightUpdate
     }
   }
 
@@ -124,7 +134,7 @@ export default function() {
           },
           {
             label: $t('week_missed'),
-            data: 0
+            data: weekMissed + '出块总数'
           },
           {
             label: $t('authored_blocks'),
@@ -132,11 +142,11 @@ export default function() {
           },
           {
             label: $t('vote_weight_last'),
-            data: 0
+            data: lastTotalVoteWeightUpdate
           },
           {
             label: $t('WEIGHT'),
-            data: 0
+            data: lastTotalVoteWeight
           }
         ]}
       />
