@@ -30,7 +30,6 @@ export default function({ address }) {
   }, [dispatch, page, pageSize])
 
   const { items = [] } = useSelector(MissedSelector) || {}
-  console.log(items)
   let missed = 0
   for (let i = 0; i < items.length; i++) {
     if (items[i].account === address) {
