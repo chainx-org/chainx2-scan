@@ -127,6 +127,30 @@ class validatorsController {
     }
   }
 
+  async getValidatorInfo(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const db = await getDb()
+    const col = await db.collection('validators')
+
+    const query = {}
+
+    const total = await col.countDocuments(query)
+    const items = await col
+        .find(query)
+        .toArray()
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      total
+    }
+  }
+
   async getTrusteeNodes(ctx) {
     const { page, pageSize } = extractPage(ctx)
     if (pageSize === 0) {

@@ -34,6 +34,12 @@ const validatorsSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    info:{
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -51,6 +57,9 @@ const validatorsSlice = createSlice({
     },
     setBlockNum(state, action) {
       state.blocknum = action.payload
+    },
+    setValidatorInfo(state, action){
+      state.info = action.payload
     }
   }
 })
@@ -60,7 +69,8 @@ export const {
   setUnsettledNodes,
   setTrusteeNodes,
   setMissed,
-  setBlockNum
+  setBlockNum,
+  setValidatorInfo
 } = validatorsSlice.actions
 
 export const fetchValidatorNodes = (
@@ -76,6 +86,24 @@ export const fetchValidatorNodes = (
     })
 
     dispatch(setValidators(validators))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchValidator = (
+    setLoading = nonFunc,
+    page,
+    pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: info } = await api.fetch(`/validators/all`, {
+      page,
+      pageSize
+    })
+
+    dispatch(setValidatorInfo(info))
   } finally {
     setLoading(false)
   }
@@ -153,6 +181,7 @@ export const fetchblockNum = (
     setLoading(false)
   }
 }
+export const ValidatorInfoSelector = state=> state.validators.info
 export const BlockNumSelector = state=> state.validators.blocknum
 export const MissedSelector = state => state.validators.missed
 export const validatorNodesSelector = state => state.validators.validators

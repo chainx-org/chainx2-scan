@@ -14,8 +14,8 @@ import api from '../../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     BlockNumSelector,
-    fetchblockNum, fetchMissed,
-    fetchValidatorNodes, MissedSelector,
+    fetchblockNum, fetchMissed, fetchValidator,
+    fetchValidatorNodes, MissedSelector, ValidatorInfoSelector,
     validatorNodesSelector
 } from '../../../store/reducers/validatorsSlice'
 import NoData from '../../../components/NoData'
@@ -24,7 +24,7 @@ import Amount from '../../../components/Amount'
 
 export default function() {
     const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(20)
+    const [pageSize, setPageSize] = useState(1000)
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
@@ -43,10 +43,16 @@ export default function() {
   }, [dispatch, page, pageSize])
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
+
+    useEffect(() => {
+        dispatch(fetchValidator(setLoading))
+    }, [dispatch])
+
+    const { items : info } = useSelector(ValidatorInfoSelector) || {}
     let name = ''
-    for (let i = 0; i < newitems.length; i++) {
-        if (newitems[i].account === address) {
-            name = newitems[i].referralId
+    for (let i = 0; i < info.length; i++) {
+        if (info[i].account === address) {
+            name = info[i].referralId
         }
     }
     useEffect(() => {
@@ -67,15 +73,15 @@ export default function() {
   let rewardPotBalance = 0
     let rewardPotAccount = ''
     let lastTotalVoteWeightUpdate = 0
-  for (let i = 0; i < newitems.length; i++) {
-    if (newitems[i].account === address) {
-      selfBonded = newitems[i].selfBonded
-      totalNomination = newitems[i].totalNomination
-      rewardPotBalance = newitems[i].rewardPotBalance
-        rewardPotAccount = newitems[i].rewardPotAccount
-        weekMissed = newitems[i].weekMissed
-        lastTotalVoteWeight = newitems[i].lastTotalVoteWeight
-        lastTotalVoteWeightUpdate = newitems[i].lastTotalVoteWeightUpdate
+  for (let i = 0; i < info.length; i++) {
+    if (info[i].account === address) {
+      selfBonded = info[i].selfBonded
+      totalNomination = info[i].totalNomination
+      rewardPotBalance = info[i].rewardPotBalance
+        rewardPotAccount = info[i].rewardPotAccount
+        weekMissed = info[i].weekMissed
+        lastTotalVoteWeight = info[i].lastTotalVoteWeight
+        lastTotalVoteWeightUpdate = info[i].lastTotalVoteWeightUpdate
     }
   }
 
