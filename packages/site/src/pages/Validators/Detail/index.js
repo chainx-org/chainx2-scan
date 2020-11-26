@@ -37,19 +37,19 @@ export default function() {
 
     const { number, total } = useSelector(BlockNumSelector) || {}
 
-  let name = ''
-  for (let i = 0; i < blocks.length; i++) {
-    if (blocks[i].author === hash) {
-      name = blocks[i].referralId
-    }
-  }
 
   useEffect(() => {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
-
+    let name = ''
+    for (let i = 0; i < newitems.length; i++) {
+        if (newitems[i].account === address) {
+            name = newitems[i].referralId
+        }
+    }
+    console.log(newitems)
     useEffect(() => {
         dispatch(fetchMissed(setLoading, page - 1, pageSize))
     }, [dispatch, page, pageSize])

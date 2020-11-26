@@ -19,7 +19,6 @@ import ExternalLink from '@components/ExternalLink'
 import NumberFormat from '@components/NumberFormat'
 import Hash from '@components/Hash'
 import AccountLink from '../../components/AccountLink'
-import {encodeAddress} from "../../shared";
 import ValidatorLink from "../../components/ValidatorLink";
 
 export default function() {
