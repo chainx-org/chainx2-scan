@@ -39,6 +39,14 @@ class BlockController {
     }
   }
 
+  async getBlockNum(ctx) {
+    const {params} = ctx.params
+    console.log(ctx.params)
+    let query = {author: params}
+    const col = await getBlockCollection()
+    ctx.body = {number: await col.find(query).count()}
+  }
+
   async getBlock(ctx) {
     const { heightOrHashOrId } = ctx.params
     let query = {}
@@ -57,12 +65,6 @@ class BlockController {
     ctx.body = await col.findOne(query)
   }
 
-  async getBlockNum(ctx) {
-    const { hash } = ctx.params
-    let query = {author: hash}
-    const col = await getBlockCollection()
-    ctx.body = {number: await col.find(query).count()}
-  }
 
   async getBlockEvents(ctx) {
     const { page, pageSize, block } = extractPage(ctx)
