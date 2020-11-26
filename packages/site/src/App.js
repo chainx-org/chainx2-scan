@@ -9,6 +9,7 @@ import {
   fetchNativeAssetInfo
 } from '@src/store/reducers/assetSlice'
 import { localeSelector } from '@src/store/reducers/settingsSlice'
+import ReactGA from 'react-ga'
 
 function App() {
   const dispatch = useDispatch()
