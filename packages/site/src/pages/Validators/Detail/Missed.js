@@ -1,43 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from '../../../components'
 import $t from '../../../locale'
-import DateShow from '../../../components/DateShow'
-import AccountLink from '../../../components/AccountLink'
-import TxLink from '../../../components/TxLink'
-import BlockLink from '../../../components/BlockLink'
-import Amount from '../../../components/Amount'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  fetchTransfers,
-  transfersSelector
-} from '@src/store/reducers/accountSlice'
-import {
-  fetchMissed,
-  MissedSelector
+  BlockNumSelector,
+  fetchblockNum,
+  fetchUnitMissed,
+  UnitMiseedSelector
 } from '../../../store/reducers/validatorsSlice'
+import TxLink from "../../../components/TxLink";
+import BlockLink from "../../../components/BlockLink";
+import DateShow from "../../../components/DateShow";
+import AccountLink from "../../../components/AccountLink";
+import Amount from "../../../components/Amount";
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
-
   useEffect(() => {
-    dispatch(fetchTransfers(address, { page: page - 1, pageSize }, setLoading))
-  }, [address, page, pageSize, dispatch])
-  useEffect(() => {
-    dispatch(fetchMissed(setLoading, page - 1, pageSize))
-  }, [dispatch, page, pageSize])
+    dispatch(fetchUnitMissed(setLoading, address))
+  }, [dispatch,address])
 
-  const { items = [] } = useSelector(MissedSelector) || {}
-  let missed = 0
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].account === address) {
-      missed = items[i].missed
-    }
-  }
-  const { items: transfers = [], total = 0 } =
-    useSelector(transfersSelector) || {}
+  const { items = [] } = useSelector(UnitMiseedSelector) || {}
+  console.log(items)
   const width = document.documentElement.clientWidth
   const simple = width < 1024
   return (
@@ -47,23 +34,34 @@ export default function({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, total, simple }}
+      pagination={{ current: page, pageSize, simple }}
       scroll={{
         x: '100vh'
       }}
-      dataSource={transfers.map(item => {
+      dataSource={items.map(item => {
         return {
-          key: item.extrinsicHash
+          key: item.index,
+          blockTime: <DateShow value={item.indexer.blockTime} />,
+          blockHeight: item.indexer.blockHeight,
+          slashAmount: <Amount
+              value={item.data[1]}
+              precision={8}
+              symbol={'PCX'}
+          />
         }
       })}
       columns={[
-        // {
-        //     title: $t('session_index'),
-        //     dataIndex: 'token'
-        // },
         {
-          title: $t('missed_block_sum'),
-          dataIndex: missed
+          title: $t('block_time'),
+          dataIndex: 'blockTime'
+        },
+        {
+          title: $t('block_height'),
+          dataIndex: 'blockHeight'
+        },
+        {
+          title: $t('slash_amount'),
+          dataIndex:'slashAmount'
         }
       ]}
     />

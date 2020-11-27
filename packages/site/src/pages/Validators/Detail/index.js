@@ -170,9 +170,9 @@ export default function() {
           }
         ]}
       />
-      {/*<div className="box">*/}
-      {/*    <div className="tabs">*/}
-      {/*        <ul>*/}
+      <div className="box">
+          <div className="tabs">
+              <ul>
       {/*            /!*<li*!/*/}
       {/*            /!*    onClick={() => setActiveKey('trustSet')}*!/*/}
       {/*            /!*    className={classnames({ 'is-active': activeKey === 'trustSet' })}*!/*/}
@@ -187,20 +187,20 @@ export default function() {
       {/*            /!*    <a>{$t('nominators')}</a>*!/*/}
       {/*            /!*</li>*!/*/}
 
-      {/*            /!*<li*!/*/}
-      {/*            /!*    onClick={() => setActiveKey('missed')}*!/*/}
-      {/*            /!*    className={classnames({*!/*/}
-      {/*            /!*        'is-active': activeKey === 'missed'*!/*/}
-      {/*            /!*    })}*!/*/}
-      {/*            /!*>*!/*/}
-      {/*            /!*    <a>{$t('missed')}</a>*!/*/}
-      {/*            /!*</li>*!/*/}
-      {/*        </ul>*/}
-      {/*    </div>*/}
+                  <li
+                      onClick={() => setActiveKey('missed')}
+                      className={classnames({
+                          'is-active': activeKey === 'missed'
+                      })}
+                  >
+                      <a>{$t('missed')}</a>
+                  </li>
+              </ul>
+          </div>
       {/*    {activeKey === 'trustSet' &&  <TrustSet/>}*/}
       {/*    {activeKey === 'nominators' && <Nominators/>}*/}
-      {/*    {activeKey === 'missed' && <Missed/>}*/}
-      {/*</div>*/}
+          {activeKey === 'missed' && <Missed address={address}/>}
+      </div>
     </div>
   )
 }
