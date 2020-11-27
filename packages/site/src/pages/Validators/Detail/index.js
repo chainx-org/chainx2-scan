@@ -12,8 +12,8 @@ import api from '../../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     BlockNumSelector,
-    fetchblockNum, fetchMissed, fetchValidator,
-    fetchValidatorNodes, MissedSelector, ValidatorInfoSelector,
+    fetchblockNum, fetchMissed, fetchNodeBlock, fetchValidator,
+    fetchValidatorNodes, MissedSelector, NodeblockSelector, ValidatorInfoSelector,
     validatorNodesSelector
 } from '../../../store/reducers/validatorsSlice'
 import NoData from '../../../components/NoData'
@@ -31,10 +31,10 @@ export default function() {
   const hash = decodeAddress(address)
   const { items: blocks } = useLoad(api.fetchBlocks, hash)
     useEffect(() => {
-        dispatch(fetchblockNum(setLoading, hash))
-    }, [dispatch, page, pageSize])
+        dispatch(fetchNodeBlock(setLoading,address,page,pageSize))
+    }, [address, page, pageSize, dispatch])
 
-    const { number, total } = useSelector(BlockNumSelector) || {}
+    const { items: nodeblock ,total } = useSelector(NodeblockSelector) || {}
 
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export default function() {
           },
           {
             label: $t('authored_blocks'),
-            data: number
+            data: total
           },
           {
             label: $t('vote_weight_last'),
@@ -179,7 +179,12 @@ export default function() {
       {/*            /!*    <a>{$t('setup_trustee')}</a>*!/*/}
       {/*            /!*</li>*!/*/}
 
-
+                  <li
+                      onClick={() => setActiveKey('authored')}
+                      className={classnames({ 'is-active': activeKey === 'authored' })}
+                  >
+                      <a>{$t('authored')}</a>
+                  </li>
                   <li
                       onClick={() => setActiveKey('missed')}
                       className={classnames({
@@ -187,12 +192,6 @@ export default function() {
                       })}
                   >
                       <a>{$t('missed')}</a>
-                  </li>
-                  <li
-                      onClick={() => setActiveKey('authored')}
-                      className={classnames({ 'is-active': activeKey === 'authored' })}
-                  >
-                      <a>{$t('authored')}</a>
                   </li>
               </ul>
           </div>
