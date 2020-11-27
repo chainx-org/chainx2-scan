@@ -118,5 +118,13 @@ export default {
   nominations: {
     zh: '投票数量(PCX)',
     en: 'Total Nominations(PCX)'
+  },
+  block_time: {
+    zh: '区块时间',
+    en: 'Block Time'
+  },
+  slash_amount: {
+    zh: '惩罚金额',
+    en: 'Slash Amount'
   }
 }
