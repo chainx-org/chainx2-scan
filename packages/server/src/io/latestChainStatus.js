@@ -12,6 +12,7 @@ const { getTransferColCollection } = require('../services/mongo')
 
 let chainStatus = {}
 let latestHeader = {}
+let finalizedHeader = {}
 
 async function feedLatestChainStatus(io) {
   try {
@@ -35,67 +36,105 @@ async function feedLatestChainStatus(io) {
     chainStatus.best = latestHeight
 
     // 已确认区块高度
+    //console.time('finalized')
+    /*
     const finalizedHead = await api.rpc.chain.getFinalizedHead()
     const latestFinalizedBlockHeader = await api.rpc.chain.getHeader(
       finalizedHead
     )
     const finalizedHeight = latestFinalizedBlockHeader.number.toNumber()
     chainStatus.finalized = finalizedHeight
+    */
+    const subscribeFinalizedHeads = await api.rpc.chain.subscribeFinalizedHeads(
+      async header => {
+        // console.log('get latest header', data)
+        finalizedHeader = await header
+      }
+    )
+    const finalizedHeight = finalizedHeader.number
+      ? finalizedHeader.number.toNumber()
+      : 0
+    chainStatus.finalized = finalizedHeight
+    //console.timeEnd('finalized')
 
     // 已扫描区块高度
+    //console.time('scan_height')
     const statusCol = await getStatusCollection()
     const statusInfo = await statusCol.findOne({ name: 'main-scan-height' })
     chainStatus.scan_height = statusInfo.value
+    //console.timeEnd('scan_height')
 
     // 交易总数
+    //console.time('ex_count')
     const extrinsicCol = await getExtrinsicCollection()
-    const extrinsicCount = await extrinsicCol.countDocuments({})
+    //const extrinsicCount = await extrinsicCol.countDocuments({})
+    const extrinsicCount = await extrinsicCol.find({}, {}).count()
     chainStatus.extrinsic_count = extrinsicCount
+    //console.timeEnd('ex_count')
 
     // 账户总数
+    //console.time('account_count')
     const accountCol = await getAccountsCollection()
-    const accountCount = await accountCol.countDocuments({})
+    //const accountCount = await accountCol.countDocuments({})
+    const accountCount = await accountCol.find({}, {}).count()
     chainStatus.account_count = accountCount
+    //console.timeEnd('account_count')
 
     // 事件总数
+    //console.time('event_count')
     const eventCol = await getEventCollection()
-    const eventCount = await eventCol.countDocuments({})
+    //const eventCount = await eventCol.countDocuments({})
+    const eventCount = await eventCol.find({}, {}).count()
     chainStatus.event_count = eventCount
+    //console.timeEnd('event_count')
 
     // 转账总数
-    const transferCol = await getTransferColCollection()
-    const transferCount = await transferCol.countDocuments({})
+    //console.time('transfer')
+    //const transferCount = await eventCol.find({method: 'Transfer'}, {}).count()
+    const transferCount = await eventCol.countDocuments({ method: 'Transfer' })
     chainStatus.transfer_count = transferCount
+    //console.timeEnd('transfer')
 
+    //console.time('validator_count')
     const validatorCol = await getValidatorsCollection()
     // 验证节点总数
     const validatorCount = await validatorCol.countDocuments({
       isValidating: true
     })
     chainStatus.validator_count = validatorCount
+    //console.timeEnd('validator_count')
 
     // 1.节点抵押总数
     // 2.用户投票总数
     // 注：现在用的是节点得票总数，另外将用户的投票总数加起来也可以得到
+    //console.time('bonded and votes')
     const allValidators = await validatorCol.find({}).toArray()
     let selfBondedSum = 0
     let totalNomimationSum = 0
-    for (let i=0;i<allValidators.length;i++) {
+    for (let i = 0; i < allValidators.length; i++) {
       selfBondedSum = selfBondedSum + parseFloat(allValidators[i].selfBonded)
-      totalNomimationSum = totalNomimationSum + (parseFloat(allValidators[i].totalNomination) - parseFloat(allValidators[i].selfBonded))
+      totalNomimationSum =
+        totalNomimationSum +
+        (parseFloat(allValidators[i].totalNomination) -
+          parseFloat(allValidators[i].selfBonded))
     }
     chainStatus.totalValidatorBonded = selfBondedSum
     chainStatus.totalNominationSum = totalNomimationSum
+    //console.timeEnd('bonded and votes')
 
     // 发行总量
+    //console.time('total issuance')
     const totalIssuance = await api.query.balances.totalIssuance()
     chainStatus.pcx_issuance = totalIssuance
+    //console.timeEnd('total issuance')
 
     // 届数
     // const trusteeSessctionInfo = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
     // const threshold = trusteeSessctionInfo.threshold
+    //console.time('era')
     const currentEra = await api.query.xStaking.currentEra()
     chainStatus.vote_cycle = currentEra.toJSON()
+    //console.timeEnd('era')
 
     // const balance = await api.query.system.account(address)
     /*
