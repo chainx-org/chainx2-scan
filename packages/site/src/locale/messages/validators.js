@@ -126,5 +126,9 @@ export default {
   slash_amount: {
     zh: '惩罚金额',
     en: 'Slash Amount'
+  },
+  authored : {
+    zh: '出块列表',
+    en: 'Authored'
   }
 }
