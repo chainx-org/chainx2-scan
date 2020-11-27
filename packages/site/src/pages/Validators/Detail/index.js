@@ -11,31 +11,36 @@ import { useLoad, useLoadDetail } from '../../../utils/hooks'
 import api from '../../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    BlockNumSelector,
-    fetchblockNum, fetchMissed, fetchNodeBlock, fetchValidator,
-    fetchValidatorNodes, MissedSelector, NodeblockSelector, ValidatorInfoSelector,
-    validatorNodesSelector
+  BlockNumSelector,
+  fetchblockNum,
+  fetchMissed,
+  fetchNodeBlock,
+  fetchValidator,
+  fetchValidatorNodes,
+  MissedSelector,
+  NodeblockSelector,
+  ValidatorInfoSelector,
+  validatorNodesSelector
 } from '../../../store/reducers/validatorsSlice'
 import NoData from '../../../components/NoData'
 import Spinner from '../../../components/Spinner'
 import Amount from '../../../components/Amount'
-import Authored from "./Authored";
+import Authored from './Authored'
 
 export default function() {
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1000)
-    const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(1000)
+  const [loading, setLoading] = useState(false)
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { address } = useParams()
   const hash = decodeAddress(address)
   const { items: blocks } = useLoad(api.fetchBlocks, hash)
-    useEffect(() => {
-        dispatch(fetchNodeBlock(setLoading,address,page,pageSize))
-    }, [address, page, pageSize, dispatch])
+  useEffect(() => {
+    dispatch(fetchNodeBlock(setLoading, address, page, pageSize))
+  }, [address, page, pageSize, dispatch])
 
-    const { items: nodeblock ,total } = useSelector(NodeblockSelector) || {}
-
+  const { items: nodeblock, total } = useSelector(NodeblockSelector) || {}
 
   useEffect(() => {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
@@ -43,48 +48,48 @@ export default function() {
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
 
-    useEffect(() => {
-        dispatch(fetchValidator(setLoading))
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchValidator(setLoading))
+  }, [dispatch])
 
-    const { items : info } = useSelector(ValidatorInfoSelector) || {}
-    let name = ''
-    for (let i = 0; i < info.length; i++) {
-        if (info[i].account === address) {
-            name = info[i].referralId
-        }
+  const { items: info } = useSelector(ValidatorInfoSelector) || {}
+  let name = ''
+  for (let i = 0; i < info.length; i++) {
+    if (info[i].account === address) {
+      name = info[i].referralId
     }
-    useEffect(() => {
-        dispatch(fetchMissed(setLoading, page - 1, pageSize))
-    }, [dispatch, page, pageSize])
+  }
+  useEffect(() => {
+    dispatch(fetchMissed(setLoading, page - 1, pageSize))
+  }, [dispatch, page, pageSize])
 
-    const { items = [] } = useSelector(MissedSelector) || {}
-    let missed = 0
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].account === address) {
-            missed = items[i].missed
-        }
+  const { items = [] } = useSelector(MissedSelector) || {}
+  let missed = 0
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].account === address) {
+      missed = items[i].missed
     }
-    let lastTotalVoteWeight = ''
+  }
+  let lastTotalVoteWeight = ''
   let weekMissed = 0
   let selfBonded = 0
   let totalNomination = 0
   let rewardPotBalance = 0
-    let rewardPotAccount = ''
-    let lastTotalVoteWeightUpdate = 0
+  let rewardPotAccount = ''
+  let lastTotalVoteWeightUpdate = 0
   for (let i = 0; i < info.length; i++) {
     if (info[i].account === address) {
       selfBonded = info[i].selfBonded
       totalNomination = info[i].totalNomination
       rewardPotBalance = info[i].rewardPotBalance
-        rewardPotAccount = info[i].rewardPotAccount
-        weekMissed = info[i].weekMissed
-        lastTotalVoteWeight = info[i].lastTotalVoteWeight
-        lastTotalVoteWeightUpdate = info[i].lastTotalVoteWeightUpdate
+      rewardPotAccount = info[i].rewardPotAccount
+      weekMissed = info[i].weekMissed
+      lastTotalVoteWeight = info[i].lastTotalVoteWeight
+      lastTotalVoteWeightUpdate = info[i].lastTotalVoteWeightUpdate
     }
   }
 
-  const [activeKey, setActiveKey] = useState('missed')
+  const [activeKey, setActiveKey] = useState('authored')
   const breadcrumb = (
     <Breadcrumb
       dataSource={[
@@ -123,7 +128,9 @@ export default function() {
           // },
           {
             label: $t('jackpot_address'),
-            data: <AccountLink className="text-truncate" value={rewardPotAccount} />
+            data: (
+              <AccountLink className="text-truncate" value={rewardPotAccount} />
+            )
           },
           {
             label: $t('self_bonded'),
@@ -152,12 +159,12 @@ export default function() {
             )
           },
           {
-            label: $t('missed_block_sum'),
-            data:  missed
-          },
-          {
             label: $t('authored_blocks'),
             data: total
+          },
+          {
+            label: $t('missed_block_sum'),
+            data: missed
           },
           {
             label: $t('vote_weight_last'),
@@ -170,34 +177,34 @@ export default function() {
         ]}
       />
       <div className="box">
-          <div className="tabs">
-              <ul>
-      {/*            /!*<li*!/*/}
-      {/*            /!*    onClick={() => setActiveKey('trustSet')}*!/*/}
-      {/*            /!*    className={classnames({ 'is-active': activeKey === 'trustSet' })}*!/*/}
-      {/*            /!*>*!/*/}
-      {/*            /!*    <a>{$t('setup_trustee')}</a>*!/*/}
-      {/*            /!*</li>*!/*/}
+        <div className="tabs">
+          <ul>
+            {/*            /!*<li*!/*/}
+            {/*            /!*    onClick={() => setActiveKey('trustSet')}*!/*/}
+            {/*            /!*    className={classnames({ 'is-active': activeKey === 'trustSet' })}*!/*/}
+            {/*            /!*>*!/*/}
+            {/*            /!*    <a>{$t('setup_trustee')}</a>*!/*/}
+            {/*            /!*</li>*!/*/}
 
-                  <li
-                      onClick={() => setActiveKey('authored')}
-                      className={classnames({ 'is-active': activeKey === 'authored' })}
-                  >
-                      <a>{$t('authored')}</a>
-                  </li>
-                  <li
-                      onClick={() => setActiveKey('missed')}
-                      className={classnames({
-                          'is-active': activeKey === 'missed'
-                      })}
-                  >
-                      <a>{$t('missed')}</a>
-                  </li>
-              </ul>
-          </div>
-      {/*    {activeKey === 'trustSet' &&  <TrustSet/>}*/}
-          {activeKey === 'missed' && <Missed address={address}/>}
-          {activeKey === 'authored' && <Authored address={address}/>}
+            <li
+              onClick={() => setActiveKey('authored')}
+              className={classnames({ 'is-active': activeKey === 'authored' })}
+            >
+              <a>{$t('authored')}</a>
+            </li>
+            <li
+              onClick={() => setActiveKey('missed')}
+              className={classnames({
+                'is-active': activeKey === 'missed'
+              })}
+            >
+              <a>{$t('missed')}</a>
+            </li>
+          </ul>
+        </div>
+        {/*    {activeKey === 'trustSet' &&  <TrustSet/>}*/}
+        {activeKey === 'authored' && <Authored address={address} />}
+        {activeKey === 'missed' && <Missed address={address} />}
       </div>
     </div>
   )

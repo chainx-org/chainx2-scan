@@ -127,8 +127,12 @@ export default {
     zh: '惩罚金额',
     en: 'Slash Amount'
   },
-  authored : {
+  authored: {
     zh: '出块列表',
     en: 'Authored'
+  },
+  block_extrinsic_num: {
+    zh: '交易总数',
+    en: 'Extrinsic Count'
   }
 }

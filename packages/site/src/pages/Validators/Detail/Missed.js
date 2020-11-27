@@ -8,11 +8,11 @@ import {
   fetchUnitMissed,
   UnitMiseedSelector
 } from '../../../store/reducers/validatorsSlice'
-import TxLink from "../../../components/TxLink";
-import BlockLink from "../../../components/BlockLink";
-import DateShow from "../../../components/DateShow";
-import AccountLink from "../../../components/AccountLink";
-import Amount from "../../../components/Amount";
+import TxLink from '../../../components/TxLink'
+import BlockLink from '../../../components/BlockLink'
+import DateShow from '../../../components/DateShow'
+import AccountLink from '../../../components/AccountLink'
+import Amount from '../../../components/Amount'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
@@ -21,7 +21,7 @@ export default function({ address }) {
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     dispatch(fetchUnitMissed(setLoading, address))
-  }, [dispatch,address])
+  }, [dispatch, address])
 
   const { items = [] } = useSelector(UnitMiseedSelector) || {}
   const width = document.documentElement.clientWidth
@@ -42,25 +42,23 @@ export default function({ address }) {
           key: item.index,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           blockHeight: item.indexer.blockHeight,
-          slashAmount: <Amount
-              value={item.data[1]}
-              precision={8}
-              symbol={'PCX'}
-          />
+          slashAmount: (
+            <Amount value={item.data[1]} precision={8} symbol={'PCX'} />
+          )
         }
       })}
       columns={[
-        {
-          title: $t('block_time'),
-          dataIndex: 'blockTime'
-        },
         {
           title: $t('block_height'),
           dataIndex: 'blockHeight'
         },
         {
+          title: $t('block_time'),
+          dataIndex: 'blockTime'
+        },
+        {
           title: $t('slash_amount'),
-          dataIndex:'slashAmount'
+          dataIndex: 'slashAmount'
         }
       ]}
     />
