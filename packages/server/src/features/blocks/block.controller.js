@@ -41,7 +41,6 @@ class BlockController {
 
   async getBlockNum(ctx) {
     const {params} = ctx.params
-    console.log(ctx.params)
     let query = {author: params}
     const col = await getBlockCollection()
     ctx.body = {number: await col.find(query).count()}

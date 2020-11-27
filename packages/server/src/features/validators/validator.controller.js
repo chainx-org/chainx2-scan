@@ -233,6 +233,21 @@ class validatorsController {
       total
     }
   }
+
+  async getUnitedMissed(ctx) {
+    const { params } = ctx.params
+    let str = params.replace(/[\r\n]/g,"");
+    const db = await getDb()
+    const col = await db.collection('event')
+    const query = { $and: [{method:'Slashed'},{'data.0':str}] }
+    console.log(query)
+    const items = await col
+        .find(query)
+        .toArray()
+    ctx.body = {
+      items
+    }
+  }
 }
 
 module.exports = new validatorsController()
