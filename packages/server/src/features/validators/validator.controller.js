@@ -240,7 +240,6 @@ class validatorsController {
     const db = await getDb()
     const col = await db.collection('event')
     const query = { $and: [{method:'Slashed'},{'data.0':str}] }
-    console.log(query)
     const items = await col
         .find(query)
         .toArray()

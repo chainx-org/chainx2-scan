@@ -1,3 +1,4 @@
+const {decodeAddress} = require("../../utils");
 const { isMongoId } = require('../../utils')
 const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
 const { getBlockCollection } = require('../../services/mongo')
@@ -67,7 +68,6 @@ class BlockController {
 
   async getBlockEvents(ctx) {
     const { page, pageSize, block } = extractPage(ctx)
-    console.log(block)
     if (pageSize === 0) {
       ctx.status = 400
       return
@@ -82,6 +82,32 @@ class BlockController {
       .limit(pageSize)
       .toArray()
 
+    ctx.body = {
+      items: blocks,
+      page,
+      pageSize,
+      total
+    }
+  }
+
+  async getNodeBlock(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    const { address } = ctx.params
+    let hash = decodeAddress(address)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const col = await getBlockCollection()
+    const total = await col.estimatedDocumentCount()
+    let query = {'author':hash}
+    const blocks = await col
+        .find(query)
+        .sort({ 'header.number': -1 })
+        .skip(page * pageSize)
+        .limit(pageSize)
+        .toArray()
     ctx.body = {
       items: blocks,
       page,
