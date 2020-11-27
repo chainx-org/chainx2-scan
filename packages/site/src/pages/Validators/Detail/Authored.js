@@ -7,10 +7,7 @@ import TxLink from '../../../components/TxLink'
 import BlockLink from '../../../components/BlockLink'
 import Amount from '../../../components/Amount'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  fetchTransfers,
-  transfersSelector
-} from '@src/store/reducers/accountSlice'
+import {fetchNodeBlock, NodeblockSelector,} from "../../../store/reducers/validatorsSlice";
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
@@ -19,11 +16,10 @@ export default function({ address }) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchTransfers(address, { page: page - 1, pageSize }, setLoading))
+    dispatch(fetchNodeBlock(setLoading,address,page,pageSize))
   }, [address, page, pageSize, dispatch])
 
-  const { items: transfers = [], total = 0 } =
-    useSelector(transfersSelector) || {}
+  const { items ,total } = useSelector(NodeblockSelector) || {}
   const width = document.documentElement.clientWidth
   const simple = width < 1024
   return (
@@ -37,66 +33,32 @@ export default function({ address }) {
       scroll={{
         x: '100vh'
       }}
-      dataSource={transfers.map(item => {
+      dataSource={items.map(item => {
         return {
-          key: item.extrinsicHash,
-          token: 'PCX',
-          hash: (
-            <TxLink
-              style={{ width: 136 }}
-              className="text-truncate"
-              value={item.extrinsicHash}
-            />
+          key: item._id,
+          blockHash: (
+              <BlockLink
+                  style={{ width: 136 }}
+                  className="text-truncate"
+                  value={item.hash}
+              />
           ),
-          blockHeight: <BlockLink value={item.indexer.blockHeight} />,
-          blockTime: <DateShow value={item.indexer.blockTime} />,
-          sender:
-            item.data[0] === address ? (
-              <div style={{ width: 138 }} className="text-truncate">
-                {address}
-              </div>
-            ) : (
-              <AccountLink
-                style={{ width: 136 }}
-                className="text-truncate"
-                value={item.data[0]}
-              />
-            ),
-          receiver:
-            item.data[1] === address ? (
-              <div style={{ width: 138 }} className="text-truncate">
-                {address}
-              </div>
-            ) : (
-              <AccountLink
-                style={{ width: 136 }}
-                className="text-truncate"
-                value={item.data[1]}
-              />
-            ),
-          value: <Amount value={item.data[2]} symbol={item.token} />
+          blockHeight: <BlockLink value={item.header.number} />,
+          blockTime: <DateShow value={item.blockTime} />
         }
       })}
       columns={[
         {
-          title: $t('address_item'),
-          dataIndex: 'token'
+          title: $t('block_hash'),
+          dataIndex: 'blockHash'
         },
         {
-          title: $t('nominations'),
-          dataIndex: 'blockHeight'
-        },
-        {
-          title: $t('UNFREEZERESERVED'),
+          title: $t('block_time'),
           dataIndex: 'blockTime'
         },
         {
-          title: $t('UPDATEWEIGHT'),
-          dataIndex: 'hash'
-        },
-        {
-          title: $t('WEIGHT'),
-          dataIndex: 'sender'
+          title: $t('block_height'),
+          dataIndex: 'blockHeight'
         }
       ]}
     />

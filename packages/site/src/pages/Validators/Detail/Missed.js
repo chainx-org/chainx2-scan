@@ -24,7 +24,6 @@ export default function({ address }) {
   }, [dispatch,address])
 
   const { items = [] } = useSelector(UnitMiseedSelector) || {}
-  console.log(items)
   const width = document.documentElement.clientWidth
   const simple = width < 1024
   return (

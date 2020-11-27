@@ -4,8 +4,6 @@ import $t from '../../../locale'
 import AccountLink from '../../../components/AccountLink'
 import PanelList from '../../../components/PanelList'
 import classnames from 'classnames'
-import TrustSet from './TrustSet'
-import Nominators from './Nominators'
 import Missed from './Missed'
 import { useParams } from 'react-router-dom'
 import { decodeAddress } from '../../../shared'
@@ -21,6 +19,7 @@ import {
 import NoData from '../../../components/NoData'
 import Spinner from '../../../components/Spinner'
 import Amount from '../../../components/Amount'
+import Authored from "./Authored";
 
 export default function() {
     const [page, setPage] = useState(1)
@@ -180,12 +179,6 @@ export default function() {
       {/*            /!*    <a>{$t('setup_trustee')}</a>*!/*/}
       {/*            /!*</li>*!/*/}
 
-      {/*            /!*<li*!/*/}
-      {/*            /!*    onClick={() => setActiveKey('nominators')}*!/*/}
-      {/*            /!*    className={classnames({ 'is-active': activeKey === 'nominators' })}*!/*/}
-      {/*            /!*>*!/*/}
-      {/*            /!*    <a>{$t('nominators')}</a>*!/*/}
-      {/*            /!*</li>*!/*/}
 
                   <li
                       onClick={() => setActiveKey('missed')}
@@ -195,11 +188,17 @@ export default function() {
                   >
                       <a>{$t('missed')}</a>
                   </li>
+                  <li
+                      onClick={() => setActiveKey('authored')}
+                      className={classnames({ 'is-active': activeKey === 'authored' })}
+                  >
+                      <a>{$t('authored')}</a>
+                  </li>
               </ul>
           </div>
       {/*    {activeKey === 'trustSet' &&  <TrustSet/>}*/}
-      {/*    {activeKey === 'nominators' && <Nominators/>}*/}
           {activeKey === 'missed' && <Missed address={address}/>}
+          {activeKey === 'authored' && <Authored address={address}/>}
       </div>
     </div>
   )
