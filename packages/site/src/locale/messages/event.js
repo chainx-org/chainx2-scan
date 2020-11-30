@@ -50,5 +50,9 @@ export default {
   event_action: {
     zh: '操作',
     en: 'Action'
+  },
+  block_event_count: {
+    zh: '事件总数',
+    en: 'Event Count'
   }
 }
