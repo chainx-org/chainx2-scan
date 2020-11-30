@@ -16,7 +16,6 @@ const { useMemo } = require('react')
 
 export default function() {
   const { eventId } = useParams()
-  console.log('eventId', eventId)
 
   const params = useMemo(() => [eventId], [eventId])
 
