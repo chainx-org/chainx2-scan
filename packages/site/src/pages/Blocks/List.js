@@ -51,6 +51,7 @@ export default function() {
           ),
           timestamp: <DateShow value={item.blockTime} />,
           extrinsicNum: (item.extrinsics || []).length,
+          eventCount: item.eventCount || 0,
           key: item.hash
         }
       })}
@@ -74,6 +75,10 @@ export default function() {
         {
           title: $t('block_extrinsic_num'),
           dataIndex: 'extrinsicNum'
+        },
+        {
+          title: $t('block_event_count'),
+          dataIndex: 'eventCount'
         }
       ]}
     />

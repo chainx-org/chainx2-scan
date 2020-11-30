@@ -9,6 +9,7 @@ import {
   fetchMissed,
   MissedSelector
 } from '../../store/reducers/validatorsSlice'
+import ValidatorLink from "../../components/ValidatorLink";
 
 export default function() {
   const [page, setPage] = useState(1)
@@ -39,11 +40,12 @@ export default function() {
       dataSource={items.map(item => {
         return {
           account_address: (
-            <AccountLink
-              style={{ width: 138 }}
-              className="text-truncate"
-              value={item.account}
-            />
+              <ValidatorLink
+                  name={item.account}
+                  style={{ width: 138 }}
+                  className="text-truncate"
+                  value={item.account}
+              />
           ),
           referral_id: <div>{item.referralId}</div>,
           missed: <div>{item.missed}</div>
