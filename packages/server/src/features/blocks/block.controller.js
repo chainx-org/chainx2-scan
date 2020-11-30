@@ -78,7 +78,7 @@ class BlockController {
     const blocks = await col
       .find({})
       .sort({ 'header.number': -1 })
-      .skip(page * pageSize)
+      .skip((page +1) * pageSize)
       .limit(pageSize)
       .toArray()
 
@@ -91,7 +91,8 @@ class BlockController {
   }
 
   async getNodeBlock(ctx) {
-    const { page, pageSize } = extractPage(ctx)
+    let { page, pageSize } = extractPage(ctx)
+    page = page - 1
     const { address } = ctx.params
     let hash = decodeAddress(address)
     if (pageSize === 0) {
@@ -100,8 +101,8 @@ class BlockController {
     }
 
     const col = await getBlockCollection()
-    const total = await col.estimatedDocumentCount()
-    let query = {'author':hash}
+    let query = {author:hash}
+    const total = await  col.find(query).count()
     const blocks = await col
         .find(query)
         .sort({ 'header.number': -1 })

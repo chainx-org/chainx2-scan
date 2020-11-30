@@ -6,7 +6,7 @@ import PanelList from '../../../components/PanelList'
 import classnames from 'classnames'
 import Missed from './Missed'
 import { useParams } from 'react-router-dom'
-import { decodeAddress } from '../../../shared'
+import {decodeAddress, encodeAddress} from '../../../shared'
 import { useLoad, useLoadDetail } from '../../../utils/hooks'
 import api from '../../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,16 +31,16 @@ export default function() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(1000)
   const [loading, setLoading] = useState(false)
-
   const dispatch = useDispatch()
   const { address } = useParams()
   const hash = decodeAddress(address)
-  const { items: blocks } = useLoad(api.fetchBlocks, hash)
-  useEffect(() => {
-    dispatch(fetchNodeBlock(setLoading, address, page, pageSize))
-  }, [address, page, pageSize, dispatch])
+    useEffect(() => {
+        dispatch(fetchNodeBlock(setLoading, address, page, pageSize))
+    }, [address, page, pageSize, dispatch])
 
-  const { items: nodeblock, total } = useSelector(NodeblockSelector) || {}
+    const { items: block, total: num } = useSelector(NodeblockSelector) || {}
+
+    const { number, total } = useSelector(BlockNumSelector) || {}
 
   useEffect(() => {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
@@ -160,7 +160,7 @@ export default function() {
           },
           {
             label: $t('authored_blocks'),
-            data: total
+            data: num
           },
           {
             label: $t('missed_block_sum'),
