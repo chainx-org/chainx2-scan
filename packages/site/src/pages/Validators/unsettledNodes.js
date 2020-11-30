@@ -19,6 +19,7 @@ import ExternalLink from '@components/ExternalLink'
 import NumberFormat from '@components/NumberFormat'
 import Hash from '@components/Hash'
 import AccountLink from '../../components/AccountLink'
+import ValidatorLink from "../../components/ValidatorLink";
 
 export default function() {
   // const { items: blocks, loading, total } = useLoad(api.fetchBlocks, params)
@@ -72,11 +73,12 @@ export default function() {
       dataSource={items.map(item => {
         return {
           account_address: (
-            <AccountLink
-              style={{ width: 138 }}
-              className="text-truncate"
-              value={item.account}
-            />
+              <ValidatorLink
+                  name={item.account}
+                  style={{ width: 138 }}
+                  className="text-truncate"
+                  value={item.account}
+              />
           ),
           number: <BlockLink value={item.selfBonded} />,
           registered_block_height: (
@@ -175,16 +177,6 @@ export default function() {
           title: $t('reward_pot_address'),
           dataIndex: 'reward_pot_address'
         }
-        /*
-        {
-          title: $t('total_weight_last_update'),
-          dataIndex: 'weight_last_update'
-        },
-        {
-          title: $t('total_vote_weight'),
-          dataIndex: 'total_weight'
-        }
-        */
       ]}
     />
   )

@@ -127,6 +127,30 @@ class validatorsController {
     }
   }
 
+  async getValidatorInfo(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const db = await getDb()
+    const col = await db.collection('validators')
+
+    const query = {}
+
+    const total = await col.countDocuments(query)
+    const items = await col
+        .find(query)
+        .toArray()
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      total
+    }
+  }
+
   async getTrusteeNodes(ctx) {
     const { page, pageSize } = extractPage(ctx)
     if (pageSize === 0) {
@@ -207,6 +231,20 @@ class validatorsController {
       page,
       pageSize,
       total
+    }
+  }
+
+  async getUnitedMissed(ctx) {
+    const { params } = ctx.params
+    let str = params.replace(/[\r\n]/g,"");
+    const db = await getDb()
+    const col = await db.collection('event')
+    const query = { $and: [{method:'Slashed'},{'data.0':str}] }
+    const items = await col
+        .find(query)
+        .toArray()
+    ctx.body = {
+      items
     }
   }
 }

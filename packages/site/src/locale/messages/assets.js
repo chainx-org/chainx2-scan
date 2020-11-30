@@ -37,7 +37,7 @@ export default {
     en: 'Locked Balance'
   },
   UNFREEZERESERVED: {
-    zh: '赎回冻结',
+    zh: '赎回冻结(PCX)',
     en: 'Unfreeze Reserved'
   },
   DEXRESERVED: {

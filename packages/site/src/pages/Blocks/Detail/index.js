@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import classnames from 'classnames'
 import Breadcrumb from '../../../components/Breadcrumb'
 import $t from '../../../locale'
@@ -11,22 +11,27 @@ import PanelList from '../../../components/PanelList'
 import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 import Extrinsics from './Extrinsics'
-import { useLoadDetail } from '../../../utils/hooks'
+import { useLoad, useLoadDetail } from '../../../utils/hooks'
 import NoData from '../../../components/NoData'
 import Paneljson from '../../../components/PanelJson'
-
+import { encodeAddress } from '../../../shared'
+import ValidatorLink from '../../../components/ValidatorLink'
 export default function() {
   const { heightOrHash } = useParams()
-
   const params = useMemo(() => [heightOrHash], [heightOrHash])
-
   const { detail: block, loading } = useLoadDetail(api.fetchBlock, params)
-
   const latestHeight = useSelector(latestHeightSelector)
   const hasNext = block?.header?.number < latestHeight
   const preHeight = block?.header?.number - 1
   const deviceWidth = document.documentElement.clientWidth
 
+  const { items: blocks, total } = useLoad(api.fetchBlocks, params)
+  let name = ''
+  for (let i = 0; i < blocks.length; i++) {
+    if (blocks[i].author === block?.author) {
+      name = blocks[i].referralId
+    }
+  }
   const header =
     deviceWidth < 1024 ? null : (
       <div className="switch-block">
@@ -117,6 +122,17 @@ export default function() {
           {
             label: $t('block_digest'),
             data: <Paneljson json={block?.header?.digest} />
+          },
+          {
+            label: $t('block_author'),
+            data: (
+              <ValidatorLink
+                name={name}
+                style={{ width: 138 }}
+                className="text-truncate"
+                value={encodeAddress(block?.author)}
+              />
+            )
           }
         ]}
       />

@@ -1,3 +1,4 @@
+const {decodeAddress} = require("../../utils");
 const { isMongoId } = require('../../utils')
 const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
 const { getBlockCollection } = require('../../services/mongo')
@@ -39,6 +40,13 @@ class BlockController {
     }
   }
 
+  async getBlockNum(ctx) {
+    const {params} = ctx.params
+    let query = {author: params}
+    const col = await getBlockCollection()
+    ctx.body = {number: await col.find(query).count()}
+  }
+
   async getBlock(ctx) {
     const { heightOrHashOrId } = ctx.params
     let query = {}
@@ -57,9 +65,9 @@ class BlockController {
     ctx.body = await col.findOne(query)
   }
 
+
   async getBlockEvents(ctx) {
     const { page, pageSize, block } = extractPage(ctx)
-    console.log(block)
     if (pageSize === 0) {
       ctx.status = 400
       return
@@ -70,10 +78,37 @@ class BlockController {
     const blocks = await col
       .find({})
       .sort({ 'header.number': -1 })
-      .skip(page * pageSize)
+      .skip((page +1) * pageSize)
       .limit(pageSize)
       .toArray()
 
+    ctx.body = {
+      items: blocks,
+      page,
+      pageSize,
+      total
+    }
+  }
+
+  async getNodeBlock(ctx) {
+    let { page, pageSize } = extractPage(ctx)
+    page = page - 1
+    const { address } = ctx.params
+    let hash = decodeAddress(address)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const col = await getBlockCollection()
+    let query = {author:hash}
+    const total = await  col.find(query).count()
+    const blocks = await col
+        .find(query)
+        .sort({ 'header.number': -1 })
+        .skip(page * pageSize)
+        .limit(pageSize)
+        .toArray()
     ctx.body = {
       items: blocks,
       page,
