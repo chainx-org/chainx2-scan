@@ -20,17 +20,63 @@ import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
 import DealList from './DealList'
 import { store } from '../../../index'
-
+import {
+    fetchTrusteeNodes,
+    trusteeNodesSelector
+} from '@src/store/reducers/validatorsSlice'
+import {
+    fetchUnsettledNodes,
+    fetchValidatorNodes,
+    unsettledNodesSelector, validatorNodesSelector
+} from "../../../store/reducers/validatorsSlice";
 export default function() {
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(9999999)
+    const [loading, setLoading] = useState(false)
   const [activeKey, setActiveKey] = useState('assets')
 
   const { address } = useParams()
   const params = useMemo(() => [address], [address])
 
-  const { detail: account, loading } = useLoadDetail(
+  const { detail: account } = useLoadDetail(
     api.fetchNativeAssets,
     params
   )
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchTrusteeNodes(setLoading, page - 1, pageSize))
+    }, [dispatch, page, pageSize])
+
+    const { items = []} = useSelector(trusteeNodesSelector) || {}
+    useEffect(() => {
+        dispatch(fetchUnsettledNodes(setLoading, page - 1, pageSize))
+    }, [dispatch, page, pageSize])
+
+    const { items : unsettledInfo } = useSelector(unsettledNodesSelector) || {}
+    useEffect(() => {
+        dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
+    }, [dispatch, page, pageSize])
+
+    const { newitems = [] } = useSelector(validatorNodesSelector) || {}
+    let validator = false
+    for (let i = 0; i< items.length; i++){
+        if(newitems[i].account === address){
+            validator = true
+        }
+    }
+
+    let unsettled = false
+    for(let i = 0 ; i < unsettledInfo.length; i++){
+        if(unsettledInfo[i].account === address){
+            unsettled = true
+        }
+    }
+    let trust = false
+    for(let i = 0; i< items.length; i++){
+        if(items[i].account === address){
+            trust  = true
+        }
+    }
   // const pubKey = account?.address ? decodeAddress(account.address) : ''
   const pubKey = decodeAddress(address) || ''
   const breadcrumb = (
@@ -64,7 +110,18 @@ export default function() {
         dataSource={[
           {
             label: $t('address_item'),
-            data: <AccountLink value={address} />
+            data: <div style={{display:'flex'}}>
+                {trust ? <div style={{marginRight:'20px',background:'rgba(246, 201, 74)',borderRadius: '4px',color:"black",width:'4em',textAlign:'center'}}>
+                    信托
+                </div> : null}
+                {unsettled ? <div style={{marginRight:'20px',background:'rgba(246, 201, 74)',borderRadius: '4px',color:"black",width:'4em',textAlign:'center'}}>
+                    同步
+                </div> : null}
+                {validator ? <div style={{marginRight:'20px',background:'rgba(246, 201, 74)',borderRadius: '4px',color:"black",width:'4em',textAlign:'center'}}>
+                    验证
+                </div> : null}
+                <AccountLink value={address} />
+            </div>
           },
           {
             label: $t('account_publickey'),
