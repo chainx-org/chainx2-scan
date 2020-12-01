@@ -36,6 +36,7 @@ export default function() {
   }, [dispatch, page, pageSize])
 
   const { items = [], total } = useSelector(trusteeNodesSelector) || {}
+
   return (
     <Table
       loading={loading}
