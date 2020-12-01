@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import $t from '../../locale'
 import {
   Chart,
@@ -11,11 +11,48 @@ import {
   Coordinate,
   Guide
 } from 'bizcharts'
+import {useDispatch, useSelector, shallowEqual} from "react-redux";
+import {crossDepositMineSelector, fetchDepositMine} from "../../store/reducers/crossBlocksSlice";
+import {latestChainStatusSelector} from "../../store/reducers/latestChainStatusSlice";
 const PowerDistributton = function() {
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(20)
+  const [loading, setLoading] = useState(false)
+
+  const dispatch = useDispatch()
+  // BTC 数量
+  let Xbtcshare = 0
+  useEffect(() => {
+    dispatch(fetchDepositMine(setLoading, page - 1, pageSize))
+  }, [])
+  let { items } = useSelector(crossDepositMineSelector, shallowEqual)
+  items = useMemo(()=>{
+    return items
+  },[items])
+  let info = items[0]
+  //BTC数量
+  let btcBalance = 0
+  if(info){
+    btcBalance = info.balance.Usable / 100000000
+  }
+  let PCXdata = useSelector(latestChainStatusSelector, shallowEqual) || {}
+  PCXdata = useMemo(()=> {
+    return PCXdata
+  },[PCXdata])
+  // 节点抵押总数
+  let totalValidatorBonded = PCXdata.totalValidatorBonded / 100000000
+  // 用户投票总数
+  let totalVote = PCXdata.totalNominationSum / 100000000
+  let pcxPower = totalValidatorBonded + totalVote
+  //X-BTC奖励构成
+  let Xbtc = (400 * btcBalance / pcxPower * 28.8)/50
+  if(Xbtc){
+    Xbtcshare = Xbtc.toFixed(4)
+  }
   const data = [
     {
       type: 'X-BTC',
-      value: 0.011
+      value: parseFloat(Xbtcshare)
     },
     {
       type: 'PolkaX',
@@ -23,7 +60,7 @@ const PowerDistributton = function() {
     },
     {
       type: 'TR',
-      value: 0.213
+      value: 1 - 0.2 - 0.576 - parseFloat(Xbtcshare)
     },
     {
       type: 'PCX',

@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import { nonFunc } from '@src/utils'
-import { getApi } from '@chainx2/scan-server/src/api'
 
 const crossBlocksSlice = createSlice({
   name: 'crossblocks',
