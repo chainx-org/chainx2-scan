@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { useRedux } from '../../shared'
@@ -8,11 +8,16 @@ import api from '../../services/api'
 import { Amount, NumberFormat, AntSpinner as Spinner } from '../../components'
 import PCX from '../../assets/tokens/pcx.png'
 import $t from '../../locale'
+import {fetchTradingPairs, tradingPairsSelector} from "../../store/reducers/dexSlice";
 import PowerDistributton from './PowerDistributton'
 
 export default function ChainStatus() {
   const data = useSelector(latestChainStatusSelector) || {}
-
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchTradingPairs())
+    }, [dispatch])
+    const Tradingpairs = useSelector(tradingPairsSelector)
   const dataSource = [
     {
       label: (
@@ -106,14 +111,13 @@ export default function ChainStatus() {
       data: (
         <div>
           <Amount
-            value={data.last_price}
+            value={Tradingpairs.latestTransactionPrices}
             hideSymbol
-            symbol="BTC"
             precision={9}
             minDigits={7}
-          />{' '}
+          />{Tradingpairs ? Tradingpairs.latestTransactionPrices : 0}
           /
-          <Amount value={data.btc_power} hideSymbol />
+            <Amount value={40000000000} hideSymbol />
         </div>
       )
     },
