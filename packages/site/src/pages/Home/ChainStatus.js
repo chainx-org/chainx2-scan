@@ -111,9 +111,8 @@ export default function ChainStatus() {
       data: (
         <div>
           <Amount
-            value={data.last_price}
+            value={Tradingpairs.latestTransactionPrices}
             hideSymbol
-            symbol="BTC"
             precision={9}
             minDigits={7}
           />{Tradingpairs ? Tradingpairs.latestTransactionPrices : 0}
