@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "start-2": "node src/index-2.js",
+    "start-3": "node src/index-3.js",
+    "start-4": "node src/index-4.js",
+    "start-5": "node src/index-5.js"
   },
   "dependencies": {
     "@chainx-v2/account": "^0.0.45",
