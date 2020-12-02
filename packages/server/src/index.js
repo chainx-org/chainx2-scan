@@ -26,7 +26,7 @@ app.use(
       reset: 'Rate-Limit-Reset',
       total: 'Rate-Limit-Total'
     },
-    max: 100,
+    max: 60,
     disableHeader: false,
     whitelist: ctx => {
       // some logic that returns a boolean
