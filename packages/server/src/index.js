@@ -18,7 +18,7 @@ app.use(
   ratelimit({
     driver: 'memory',
     db: rateLimit,
-    duration: 60000,
+    duration: 3 * 60000,
     errorMessage: 'Sometimes You Just Have to Slow Down.',
     id: ctx => ctx.ip,
     headers: {
@@ -26,7 +26,7 @@ app.use(
       reset: 'Rate-Limit-Reset',
       total: 'Rate-Limit-Total'
     },
-    max: 60,
+    max: 120,
     disableHeader: false,
     whitelist: ctx => {
       // some logic that returns a boolean
