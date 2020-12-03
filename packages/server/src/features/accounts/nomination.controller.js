@@ -9,7 +9,8 @@ class NominationController {
     const col = await getEventCollection()
     const query = {
       $and: [
-        { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
+        // { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
+        { method: 'Bonded' },
         { 'data.0': address }
       ]
     }

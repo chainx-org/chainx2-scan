@@ -8,6 +8,7 @@ import {
 } from '@src/store/reducers/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import AddressLink from '@components/AddressLink'
+import AccountLink from '@components/AccountLink'
 import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 
@@ -32,8 +33,22 @@ export default function AccountNomination({ address }) {
         return {
           key: item._id,
           // blockTime: <DateShow value={data.indexer.blockTime} />,
-          nominator: <AddressLink value={item.data[0]} short={true} />,
-          nominee: <AddressLink value={item.data[1]} short={true} />,
+          nominator: (
+            <AccountLink
+              style={{ width: 136 }}
+              className="text-truncate"
+              value={item.data[0]}
+              short={true}
+            />
+          ),
+          nominee: (
+            <AccountLink
+              style={{ width: 136 }}
+              className="text-truncate"
+              value={item.data[1]}
+              short={true}
+            />
+          ),
           balance: (
             <Amount value={item.data[2]} precision={8} hideSymbol={true} />
           ),
