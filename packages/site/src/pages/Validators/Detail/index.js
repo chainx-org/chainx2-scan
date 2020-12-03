@@ -6,7 +6,7 @@ import PanelList from '../../../components/PanelList'
 import classnames from 'classnames'
 import Missed from './Missed'
 import { useParams } from 'react-router-dom'
-import {decodeAddress, encodeAddress} from '../../../shared'
+import { decodeAddress, encodeAddress } from '../../../shared'
 import { useLoad, useLoadDetail } from '../../../utils/hooks'
 import api from '../../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ import NoData from '../../../components/NoData'
 import Spinner from '../../../components/Spinner'
 import Amount from '../../../components/Amount'
 import Authored from './Authored'
+import Votes from './Votes'
 
 export default function() {
   const [page, setPage] = useState(1)
@@ -34,13 +35,13 @@ export default function() {
   const dispatch = useDispatch()
   const { address } = useParams()
   const hash = decodeAddress(address)
-    useEffect(() => {
-        dispatch(fetchNodeBlock(setLoading, address, page, pageSize))
-    }, [address, page, pageSize, dispatch])
+  useEffect(() => {
+    dispatch(fetchNodeBlock(setLoading, address, page, pageSize))
+  }, [address, page, pageSize, dispatch])
 
-    const { items: block, total: num } = useSelector(NodeblockSelector) || {}
+  const { items: block, total: num } = useSelector(NodeblockSelector) || {}
 
-    const { number, total } = useSelector(BlockNumSelector) || {}
+  const { number, total } = useSelector(BlockNumSelector) || {}
 
   useEffect(() => {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
@@ -193,6 +194,14 @@ export default function() {
               <a>{$t('authored')}</a>
             </li>
             <li
+              onClick={() => setActiveKey('votes')}
+              className={classnames({
+                'is-active': activeKey === 'votes'
+              })}
+            >
+              <a>{$t('vote_list')}</a>
+            </li>
+            <li
               onClick={() => setActiveKey('missed')}
               className={classnames({
                 'is-active': activeKey === 'missed'
@@ -205,6 +214,7 @@ export default function() {
         {/*    {activeKey === 'trustSet' &&  <TrustSet/>}*/}
         {activeKey === 'authored' && <Authored address={address} />}
         {activeKey === 'missed' && <Missed address={address} />}
+        {activeKey === 'votes' && <Votes address={address} />}
       </div>
     </div>
   )

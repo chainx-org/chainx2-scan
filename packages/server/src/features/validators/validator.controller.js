@@ -140,9 +140,7 @@ class validatorsController {
     const query = {}
 
     const total = await col.countDocuments(query)
-    const items = await col
-        .find(query)
-        .toArray()
+    const items = await col.find(query).toArray()
     ctx.body = {
       items,
       page,
@@ -236,15 +234,42 @@ class validatorsController {
 
   async getUnitedMissed(ctx) {
     const { params } = ctx.params
-    let str = params.replace(/[\r\n]/g,"");
+    let str = params.replace(/[\r\n]/g, '')
     const db = await getDb()
     const col = await db.collection('event')
-    const query = { $and: [{method:'Slashed'},{'data.0':str}] }
-    const items = await col
-        .find(query)
-        .toArray()
+    const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
+    const items = await col.find(query).toArray()
     ctx.body = {
       items
+    }
+  }
+
+  async getValidatorVotes(ctx) {
+    const db = await getDb()
+    const col = await db.collection('event')
+    const { page, pageSize } = extractPage(ctx)
+    const { address } = ctx.params
+    const query = {
+      $and: [
+        // { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
+        { method: 'Bonded' },
+        { 'data.1': address }
+      ]
+    }
+    const total = await col.countDocuments(query)
+    // console.log('total', total)
+    const items = await col
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      total
     }
   }
 }
