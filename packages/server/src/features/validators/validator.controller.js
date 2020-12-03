@@ -251,7 +251,8 @@ class validatorsController {
     const { address } = ctx.params
     const query = {
       $and: [
-        { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
+        // { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
+        { method: 'Bonded' },
         { 'data.1': address }
       ]
     }
