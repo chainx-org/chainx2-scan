@@ -131,8 +131,24 @@ export default {
     zh: '出块列表',
     en: 'Authored'
   },
+  vote_list: {
+    zh: '投票列表',
+    en: 'Voted List'
+  },
   block_extrinsic_num: {
     zh: '交易总数',
     en: 'Extrinsic Count'
+  },
+  sync_node: {
+    zh: '同步节点',
+    en: 'Sysncing Node'
+  },
+  validator_node: {
+    zh: '验证节点',
+    en: 'Validator'
+  },
+  trustee_node: {
+    zh: '信托节点',
+    en: 'Trustee'
   }
 }
