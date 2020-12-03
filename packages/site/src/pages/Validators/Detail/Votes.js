@@ -42,8 +42,22 @@ export default function({ address }) {
         return {
           key: item._id,
           // blockTime: <DateShow value={data.indexer.blockTime} />,
-          nominator: <AddressLink value={item.data[0]} short={true} />,
-          nominee: <AddressLink value={item.data[1]} short={true} />,
+          nominator: (
+            <AccountLink
+              style={{ width: 136 }}
+              className="text-truncate"
+              value={item.data[0]}
+              short={true}
+            />
+          ),
+          nominee: (
+            <AccountLink
+              style={{ width: 136 }}
+              className="text-truncate"
+              value={item.data[1]}
+              short={true}
+            />
+          ),
           balance: (
             <Amount value={item.data[2]} precision={8} hideSymbol={true} />
           ),
