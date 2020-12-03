@@ -22,12 +22,12 @@ export default function AccountAsset(props) {
   )
   const width = document.documentElement.clientWidth
   const simple = width < 1024
-  var display = ''
+  var display = 'none'
   if (crossAsset) {
     if (JSON.stringify(crossAsset[0]) === '{}') {
       display = 'none'
     } else {
-      display = ''
+      display = 'block'
     }
   }
 

@@ -35,19 +35,25 @@ const validatorsSlice = createSlice({
       pageSize: 10,
       total: 0
     },
-    info:{
+    info: {
       items: [],
       page: 0,
       pageSize: 10,
       total: 0
     },
-    unitmissed:{
+    unitmissed: {
       items: [],
       page: 0,
       pageSize: 10,
       total: 0
     },
     block: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
+    validatorVotes: {
       items: [],
       page: 0,
       pageSize: 10,
@@ -70,14 +76,17 @@ const validatorsSlice = createSlice({
     setBlockNum(state, action) {
       state.blocknum = action.payload
     },
-    setValidatorInfo(state, action){
+    setValidatorInfo(state, action) {
       state.info = action.payload
     },
-    setUnitMissed(state, action){
+    setUnitMissed(state, action) {
       state.unitmissed = action.payload
     },
-    setNodeBlock(state, action){
+    setNodeBlock(state, action) {
       state.block = action.payload
+    },
+    setValidatorVotes(state, action) {
+      state.validatorVotes = action.payload
     }
   }
 })
@@ -90,7 +99,8 @@ export const {
   setBlockNum,
   setValidatorInfo,
   setUnitMissed,
-  setNodeBlock
+  setNodeBlock,
+  setValidatorVotes
 } = validatorsSlice.actions
 
 export const fetchValidatorNodes = (
@@ -112,9 +122,9 @@ export const fetchValidatorNodes = (
 }
 
 export const fetchValidator = (
-    setLoading = nonFunc,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
@@ -184,10 +194,10 @@ export const fetchMissed = (
 }
 
 export const fetchUnitMissed = (
-    setLoading = nonFunc,
-    params,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  params,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
@@ -203,10 +213,10 @@ export const fetchUnitMissed = (
 }
 
 export const fetchblockNum = (
-    setLoading = nonFunc,
-    hash,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  hash,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
@@ -221,12 +231,11 @@ export const fetchblockNum = (
   }
 }
 
-
 export const fetchNodeBlock = (
-    setLoading = nonFunc,
-    address,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  address,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
@@ -240,14 +249,32 @@ export const fetchNodeBlock = (
   }
 }
 
+export const fetchValidatorVotes = (
+  setLoading = nonFunc,
+  address,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: votes } = await api.fetch(`/validatorvotes/${address}`, {
+      page,
+      pageSize
+    })
+    dispatch(setValidatorVotes(votes))
+  } finally {
+    setLoading(false)
+  }
+}
 
-export const UnitMiseedSelector = state=> state.validators.unitmissed
-export const ValidatorInfoSelector = state=> state.validators.info
-export const BlockNumSelector = state=> state.validators.blocknum
+export const UnitMiseedSelector = state => state.validators.unitmissed
+export const ValidatorInfoSelector = state => state.validators.info
+export const BlockNumSelector = state => state.validators.blocknum
 export const MissedSelector = state => state.validators.missed
 export const validatorNodesSelector = state => state.validators.validators
 export const unsettledNodesSelector = state => state.validators.unsettled
 export const trusteeNodesSelector = state => state.validators.trustees
-export const NodeblockSelector = state=> state.validators.block
+export const NodeblockSelector = state => state.validators.block
+export const validatorVotesSelector = state => state.validators.validatorVotes
 
 export default validatorsSlice.reducer
