@@ -52,7 +52,7 @@ initDb()
     require('./io')(io)
 
     app.context.db = db
-    const port = config.server.port || 3213
+    const port = 3217
 
     server.listen(port, () =>
       console.log(`✅  The server is running at http://localhost:${port}/`)
