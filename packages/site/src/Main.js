@@ -10,13 +10,15 @@ import ScrollTop from './components/ScrollTop'
 import Home from './pages/Home'
 import Dex from './pages/Dex'
 import './services/socket'
-import ReactGA from 'react-ga'
+// import ReactGA from 'react-ga'
 
 export default function Main() {
+  /*
   useEffect(() => {
     ReactGA.set({ page: window.location.pathname }) // Update the user's current page
     ReactGA.pageview(window.location.pathname + window.location.search)
   })
+  */
   return (
     <div className="section main-content">
       <section className="container">
