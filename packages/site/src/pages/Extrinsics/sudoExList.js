@@ -47,9 +47,9 @@ export default function({ blockHeight }) {
           </div>
         )
       }}
-      dataSource={extrinsics.map(item => {
+      dataSource={extrinsics.map((item, idx) => {
         return {
-          key: item.hash,
+          key: idx,
           hash: (
             <TxLink
               style={{ width: 138 }}
