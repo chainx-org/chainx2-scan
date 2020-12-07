@@ -43,8 +43,11 @@ let preBlockHash = null
 
 async function main() {
   // 更新区块高度
+  console.time('a')
   await updateHeight()
+  console.timeEnd('a')
   // 初始化sdk
+  console.time('b')
   let api
   let apiLoop = true
   while (apiLoop) {
@@ -57,17 +60,26 @@ async function main() {
       continue
     }
   }
+  console.timeEnd('b')
+  console.time('c')
   await updateChainProperties()
+  console.timeEnd('c')
   // 监听并更新validators
   // await listenAndUpdateValidators()
   // 获取首个扫描区块高度
+  console.time('d')
   let scanHeight = await getFirstScanHeight()
+  console.timeEnd('d')
   console.log('scanHeight', scanHeight)
+  console.time('e')
   await deleteDataFrom(scanHeight)
   await init(scanHeight)
+  console.timeEnd('e')
 
   while (true) {
+    console.time('f')
     const chainHeight = getLatestHeight()
+    console.timeEnd('f')
     if (scanHeight > chainHeight) {
       // 如果要检索的高度大于现在的最大高度，那么等一等
       console.log('scanHeigth > chainHeight')
@@ -75,6 +87,7 @@ async function main() {
       continue
     }
 
+    console.time('g')
     let blockHash
     try {
       blockHash = await api.rpc.chain.getBlockHash(scanHeight)
@@ -85,6 +98,7 @@ async function main() {
       await sleep(1000)
       continue
     }
+    console.timeEnd('g')
 
     if (!blockHash) {
       // 正常情况下这种情况不应该出现，上边已经判断过`scanHeight > chainHeight`
@@ -93,6 +107,7 @@ async function main() {
       continue
     }
 
+    console.time('h')
     let block
     try {
       block = await api.rpc.chain.getBlock(blockHash)
@@ -102,6 +117,7 @@ async function main() {
       await sleep(1000)
       continue
     }
+    console.timeEnd('h')
 
     if (
       preBlockHash &&
@@ -117,13 +133,18 @@ async function main() {
       continue
     }
 
+    console.time('i')
     const validators = await api.query.session.validators.at(blockHash)
+    console.timeEnd('i')
+    console.time('j')
     const author = extractAuthor(validators, block.block.header)
+    console.timeEnd('j')
 
     logger.info('indexing block:', block.block.header.number.toString())
     let indexedBlockHeight
     indexedBlockHeight = await block.block.header.number.toNumber()
 
+    console.time('k')
     try {
       console.log('try handle block start')
       await handleBlock(block.block, author)
@@ -147,15 +168,22 @@ async function main() {
       // continue
     }
     preBlockHash = block.block.hash.toHex()
+    console.timeEnd('k')
 
+    console.time('l')
     await updateIndexedHeight(indexedBlockHeight)
     await updateLatestHeight(chainHeight)
     await updateAssetsInfo(scanHeight)
 
     await updateScanHeight(scanHeight++)
-    await updateTrusteeList(blockHash)
-    await updateDepositMineInfo(blockHash)
-    await listenAndUpdateValidators(chainHeight)
+    console.timeEnd('l')
+    console.time('m')
+    if (chainHeight % 4 === 0) {
+      await updateTrusteeList(blockHash)
+      await updateDepositMineInfo(blockHash)
+      await listenAndUpdateValidators(chainHeight)
+    }
+    console.timeEnd('m')
   }
 }
 
