@@ -56,7 +56,7 @@ export default function({ address }) {
           key: item._id,
           btc_tx_hash: (
             <ExternalLink
-              type="btcTxid"
+              type="btcTestnetTxid"
               value={btcTxHashForExplorer}
               render={() => {
                 return (

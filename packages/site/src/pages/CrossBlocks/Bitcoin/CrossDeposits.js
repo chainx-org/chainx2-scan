@@ -71,7 +71,7 @@ export default function CrossDeposits({ props }) {
           */
           btc_tx_hash: (
             <ExternalLink
-              type="btcTxid"
+              type="btcTestnetTxid"
               value={btcTxHashForExplorer}
               render={() => {
                 return (

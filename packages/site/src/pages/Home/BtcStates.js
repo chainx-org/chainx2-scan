@@ -51,7 +51,7 @@ export default function BtcStates() {
               <div className="btc_content">
                 <ExternalLink
                   value={status.hotAddress ? status.hotAddress.addr : null}
-                  type="btcAddress"
+                  type="btcTestnetAddress"
                   style={{ width: 138 }}
                   className="text-truncate"
                 />
@@ -62,7 +62,7 @@ export default function BtcStates() {
               <div className="btc_content">
                 <ExternalLink
                   value={status.coldAddress ? status.coldAddress.addr : null}
-                  type="btcAddress"
+                  type="btcTestnetAddress"
                   style={{ width: 138 }}
                   className="text-truncate"
                 />

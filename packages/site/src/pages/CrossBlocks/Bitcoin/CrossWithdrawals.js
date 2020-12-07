@@ -88,7 +88,7 @@ export default function CrossWithdrawals({ address }) {
           ),
           */
           btc_withdraw_address: (
-            <ExternalLink type="btcAddress" value={item.data[1].addr} />
+            <ExternalLink type="btcTestnetAddress" value={item.data[1].addr} />
           ),
           tx_balance: (
             <Amount

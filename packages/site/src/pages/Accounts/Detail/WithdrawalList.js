@@ -49,7 +49,7 @@ export default function({ address }) {
           key: item._id,
           withdrawal_id: item.data[0],
           btc_withdraw_address: (
-            <ExternalLink type="btcAddress" value={item.data[1].addr} />
+            <ExternalLink type="btcTestnetAddress" value={item.data[1].addr} />
           ),
           tx_balance: (
             <Amount
