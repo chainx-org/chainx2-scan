@@ -33,6 +33,7 @@ export default function Main() {
           <Route path="/events" component={Events} />
           <Route path="/accounts" component={Accounts} />
           <Route path="/dex" component={Dex} />
+          <Route path="/runtimeHistory" component={Blocks}/>
         </Switch>
       </section>
     </div>
