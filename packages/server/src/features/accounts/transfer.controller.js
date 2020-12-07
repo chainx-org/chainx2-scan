@@ -56,20 +56,24 @@ class TransferController {
     const col = await getTransferColCollection()
     const total = await col.count({ $or: [{ from: address }, { to: address }] })
     */
+    console.time('a')
     const col = await getEventCollection()
+    console.timeEnd('a')
+    console.time('b')
     const query = {
-      $and: [
-        { $and: [{ section: 'balances' }, { method: 'Transfer' }] },
-        { data: { $elemMatch: { $eq: address } } }
-      ]
+      $and: [{ method: 'Transfer' }, { data: { $elemMatch: { $eq: address } } }]
     }
-    const total = await col.count(query)
+    const total = await col.countDocuments(query)
+    console.timeEnd('b')
+    console.time('c')
     const transfers = await col
       .find(query)
+      .hint({ method: 1 })
       .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
+    console.timeEnd('c')
 
     ctx.body = {
       items: transfers,
