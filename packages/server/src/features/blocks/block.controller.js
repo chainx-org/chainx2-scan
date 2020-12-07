@@ -1,3 +1,4 @@
+const {getExtrinsicCollection} = require("../../services/mongo");
 const { decodeAddress } = require('../../utils')
 const { isMongoId } = require('../../utils')
 const { extractPage, ensure0xPrefix, isHash } = require('../../utils')
@@ -119,6 +120,37 @@ class BlockController {
       .toArray()
     ctx.body = {
       items: blocks,
+      page,
+      pageSize,
+      total
+    }
+  }
+
+  async getRuntime(ctx) {
+    let { page, pageSize } = extractPage(ctx)
+    page = page - 1
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+    const col = await getEventCollection()
+    let query = {method:'CodeUpdated'}
+    const total = await col.find(query).count()
+    const runtime = await col
+        .find(query)
+        .skip(page * pageSize)
+        .toArray()
+    let hash = runtime.map(item => item.extrinsicHash)
+
+    const excol = await getExtrinsicCollection()
+    let info = []
+    for(let i = 0; i<hash.length; i++){
+      let unitquery = {hash:hash[i].toString()}
+      const unit = await excol.find(unitquery).toArray()
+      info.push(...unit)
+    }
+    ctx.body = {
+      info,
       page,
       pageSize,
       total
