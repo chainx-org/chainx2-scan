@@ -68,6 +68,28 @@ class ExtrinsicController {
       total
     }
   }
+  async getSearchExtrinsic(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+    const { search } = ctx.params
+    const col = await getExtrinsicCollection()
+    const totalnum = await col.find({$or:[{"name":search},{"section": search},{"hash": search}]}).count()
+    const items = await col
+        .find({$or:[{"name":search},{"section": search},{"hash": search}]})
+        .skip((page - 1) * pageSize)
+        .limit(pageSize)
+        .toArray()
+
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      totalnum
+    }
+  }
 }
 
 module.exports = new ExtrinsicController()

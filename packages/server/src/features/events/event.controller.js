@@ -99,6 +99,28 @@ class EventController {
     const col = await getEventCollection()
     ctx.body = await col.findOne(query)
   }
+  async getSearchEvent(ctx) {
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+    const { search } = ctx.params
+    const col = await getEventCollection()
+    const total = await col.find({$or:[{"method":search},{"section": search}]}).count()
+    const data = await col
+        .find({$or:[{"method":search},{"section": search}]})
+        .skip((page - 1) * pageSize)
+        .limit(pageSize)
+        .toArray()
+
+    ctx.body = {
+      data,
+      page,
+      pageSize,
+      total
+    }
+  }
 }
 
 module.exports = new EventController()
