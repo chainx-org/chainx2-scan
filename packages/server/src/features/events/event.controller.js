@@ -109,7 +109,8 @@ class EventController {
     const col = await getEventCollection()
     const total = await col.find({$or:[{"method":search},{"section": search}]}).count()
     const data = await col
-        .find({$or:[{"method":search},{"section": search}]})
+        .find({$or:[{"method":search},{"section": search}]}).collation({ locale: 'en', strength: 2 })
+        .sort({ 'indexer.blockHeight': -1})
         .skip((page - 1) * pageSize)
         .limit(pageSize)
         .toArray()

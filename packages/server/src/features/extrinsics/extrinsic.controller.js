@@ -78,7 +78,8 @@ class ExtrinsicController {
     const col = await getExtrinsicCollection()
     const totalnum = await col.find({$or:[{"name":search},{"section": search},{"hash": search}]}).count()
     const items = await col
-        .find({$or:[{"name":search},{"section": search},{"hash": search}]})
+        .find({$or:[{"name":search},{"section": search},{"hash": search}]}).collation({ locale: 'en', strength: 2 })
+        .sort({ 'indexer.blockHeight': -1})
         .skip((page - 1) * pageSize)
         .limit(pageSize)
         .toArray()
