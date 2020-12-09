@@ -20,9 +20,14 @@ class ExtrinsicController {
 
     const col = await getExtrinsicCollection()
     const total = await col.estimatedDocumentCount()
+    // 需要在 mongo shell 里创建 index, db.extrinsic.createIndex({"indexer.blockHeight": -1, "indexer.index": 1})
     const extrinsics = await col
       .find(query)
-      .sort({ 'indexer.blockHeight': -1, 'indexer.index': 1 })
+      .hint({
+        'indexer.blockHeight': -1,
+        'indexer.index': 1
+      })
+      // .sort({ 'indexer.blockHeight': -1, 'indexer.index': 1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()

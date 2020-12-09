@@ -147,9 +147,7 @@ class BlockController {
     const total = await col.countDocuments(query)
     const runtime = await col
       .find(query)
-      .sort({
-        'indexer.blockHeight': -1
-      })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
