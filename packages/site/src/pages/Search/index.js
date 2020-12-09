@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Input, Select } from 'antd'
+import { Input, Select, Tooltip } from 'antd'
 import BlockLink from "../../components/BlockLink";
 import {Table, ValidatorLink} from "../../components";
 import {encodeAddress} from "../../shared";
@@ -13,6 +13,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import TxLink from "../../components/TxLink";
 import extrinsic from "../../locale/messages/extrinsic";
+import {
+    QuestionCircleOutlined
+} from '@ant-design/icons';
 export default function Search() {
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(20)
@@ -54,7 +57,8 @@ export default function Search() {
     }
     return (
         <div>
-            <div>
+            <div style={{display:'flex'}}>
+                <div>
                 <span style={{marginRight:20}}>
                     搜索类型
                 </span>
@@ -62,6 +66,12 @@ export default function Search() {
                     <Option value="event">event</Option>
                     <Option value="extrinsic">extrinsic</Option>
                 </Select>
+                </div>
+                <div style={{height:'32px', display:'flex', alignItems:'center',marginLeft:'20px'}} >
+                    <Tooltip title={'1.请先选择要搜索的类型：event 或者 extrinsic ， 然后在搜索框内输入关键字。 2.目前 event 支持 method 和section 查询 , extrinsic 支持 hash,name,section 查询。 3.如果表格为空，则没有查询结果。4.查询参数支持大小写模糊匹配'} placement={'bottom'}>
+                        <QuestionCircleOutlined/><span>帮助</span>
+                    </Tooltip>
+                </div>
             </div>
             <Search
                 placeholder="搜索前请先选择搜索类型"
