@@ -74,7 +74,8 @@ class ExtrinsicController {
       ctx.status = 400
       return
     }
-    const { search } = ctx.params
+    let { search } = ctx.params
+    search = new RegExp(["^", search, "$"].join(""), "i");
     const col = await getExtrinsicCollection()
     const totalnum = await col.find({$or:[{"name":search},{"section": search},{"hash": search}]}).count()
     const items = await col

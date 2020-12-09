@@ -105,16 +105,16 @@ class EventController {
       ctx.status = 400
       return
     }
-    const { search } = ctx.params
+    let { search } = ctx.params
+    search = new RegExp(["^", search, "$"].join(""), "i");
     const col = await getEventCollection()
     const total = await col.find({$or:[{"method":search},{"section": search}]}).count()
     const data = await col
-        .find({$or:[{"method":search},{"section": search}]}).collation({ locale: 'en', strength: 2 })
+        .find({$or:[{method:search},{section: search}]})
         .sort({ 'indexer.blockHeight': -1})
         .skip((page - 1) * pageSize)
         .limit(pageSize)
         .toArray()
-
     ctx.body = {
       data,
       page,
