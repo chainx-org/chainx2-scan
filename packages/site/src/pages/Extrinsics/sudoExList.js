@@ -42,7 +42,7 @@ export default function({ blockHeight }) {
         return (
           <div>
             <pre style={{ textAlign: 'left' }}>
-              {JSON.stringify(data.args, null, 2)}
+              CallIndex: {JSON.stringify(data.callIndex, null, 2)}
             </pre>
           </div>
         )
@@ -67,7 +67,8 @@ export default function({ blockHeight }) {
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           action: <TxAction module={item.section} call={item.name} />,
-          args: item.args,
+          // args: item.args,
+          callIndex: item.args.call.callIndex,
           status: item.isSuccess ? <Success /> : <Fail />
         }
       })}

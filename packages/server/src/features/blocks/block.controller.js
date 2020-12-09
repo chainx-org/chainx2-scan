@@ -135,12 +135,19 @@ class BlockController {
     }
     const col = await getEventCollection()
     let query = { method: 'CodeUpdated' }
+    const keys = {
+      hash: 1,
+      signer: 1,
+      indexer: 1,
+      section: 1,
+      name: 1,
+      isSuccess: 1,
+      _id: 0
+    }
     const total = await col.countDocuments(query)
     const runtime = await col
       .find(query)
-      .sort({
-        'indexer.blockHeight': -1
-      })
+      .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
@@ -150,7 +157,10 @@ class BlockController {
     let info = []
     for (let i = 0; i < hash.length; i++) {
       let unitquery = { hash: hash[i].toString() }
-      const unit = await excol.find(unitquery).toArray()
+      const unit = await excol
+        .find(unitquery)
+        .project(keys)
+        .toArray()
       info.push(...unit)
     }
     ctx.body = {
