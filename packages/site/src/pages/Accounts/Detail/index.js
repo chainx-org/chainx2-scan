@@ -55,17 +55,9 @@ export default function() {
     dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
   }, [dispatch, page, pageSize])
 
-  const { newitems = [] } = useSelector(validatorNodesSelector) || {}
+  const { newitems= [] } = useSelector(validatorNodesSelector) || {}
   let validator = false
-  for (let i = 0; i < items.length; i++) {
-    const item = newitems[i]
-    if (item) {
-      if (item.account === address) {
-        validator = true
-      }
-    }
-  }
-
+  let trust = false
   let unsettled = false
   for (let i = 0; i < unsettledInfo.length; i++) {
     const item = unsettledInfo[i]
@@ -75,12 +67,21 @@ export default function() {
       }
     }
   }
-  let trust = false
+
   for (let i = 0; i < items.length; i++) {
     const item = items[i]
     if (item) {
       if (item.account === address) {
         trust = true
+      }
+    }
+  }
+
+  for (let i = 0; i < newitems.length; i++) {
+    const item = newitems[i]
+    if (item) {
+      if (item.account === address) {
+        validator = true
       }
     }
   }
