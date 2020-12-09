@@ -1,6 +1,8 @@
+
 const { getDb } = require('../../services/mongo')
 const { getApi } = require('../../api')
 const { extractPage } = require('../../utils')
+const { decodeAddress } = require('../../utils')
 
 class validatorsController {
   async getValidators(ctx) {
@@ -222,8 +224,8 @@ class validatorsController {
       nickname[0].missed = item[accountitem]
       items.push(...nickname)
     }
+    items.sort(function(a,b){return a.missed - b.missed})
     const total = items.length
-
     ctx.body = {
       items,
       page,
@@ -233,12 +235,17 @@ class validatorsController {
   }
 
   async getUnitedMissed(ctx) {
+    const api = await getApi()
+
     const { params } = ctx.params
     let str = params.replace(/[\r\n]/g, '')
     const db = await getDb()
     const col = await db.collection('event')
     const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
     const items = await col.find(query).toArray()
+    for (let i = 0; i<items.length ; i++){
+      let unitsession = await api.query.session.currentIndex.at(items[i].indexer.blockHash).then(response=> items[i].session = response.words[0])
+    }
     ctx.body = {
       items
     }
