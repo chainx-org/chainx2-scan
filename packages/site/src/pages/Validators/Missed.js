@@ -39,6 +39,7 @@ export default function() {
       }}
       dataSource={items.map(item => {
         return {
+          key:item._id,
           account_address: (
               <ValidatorLink
                   name={item.account}
