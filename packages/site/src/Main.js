@@ -10,7 +10,7 @@ import ScrollTop from './components/ScrollTop'
 import Home from './pages/Home'
 import Dex from './pages/Dex'
 import './services/socket'
-import Search from "./pages/Search";
+import Search from './pages/Search'
 // import ReactGA from 'react-ga'
 
 export default function Main() {
@@ -34,7 +34,8 @@ export default function Main() {
           <Route path="/events" component={Events} />
           <Route path="/accounts" component={Accounts} />
           <Route path="/dex" component={Dex} />
-          <Route path="/search" component={Search}/>
+          <Route path="/search" component={Search} />
+          <Route path="/runtimeHistory" component={Blocks} />
         </Switch>
       </section>
     </div>

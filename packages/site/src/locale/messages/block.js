@@ -102,5 +102,9 @@ export default {
   mining_distribution: {
     zh: '挖矿收益分配比例',
     en: 'Mining Distribution'
+  },
+  code_Update: {
+    zh: '运行时升级记录',
+    en: 'Runtime Upgrade History'
   }
 }
