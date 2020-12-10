@@ -254,6 +254,8 @@ class validatorsController {
     for (let i = 0; i<items.length ; i++){
        items[i].session = data[i].words[0]
     }
+    items.sort(function(a,b){return a.blockHeight - b.blockHeight})
+    items.reverse()
     ctx.body = {
       items
     }
