@@ -28,7 +28,7 @@ import {
   unsettledNodesSelector,
   validatorNodesSelector
 } from '../../../store/reducers/validatorsSlice'
-import ValidatorLink from "../../../components/ValidatorLink";
+import ValidatorLink from '../../../components/ValidatorLink'
 
 export default function() {
   const [page, setPage] = useState(1)
@@ -117,63 +117,70 @@ export default function() {
           {
             label: $t('address_item'),
             data: (
-                <div style={{ display: 'flex' }}>
-                  {trust ? (
-                      <div>
-                        <div
-                            style={{
-                              marginRight: '20px',
-                              background: 'rgba(246, 201, 74)',
-                              borderRadius: '4px',
-                              color: 'black',
-                              width: '6em',
-                              textAlign: 'center'
-                            }}
-                        >
-                          {$t('trustee_node')}
-                        </div>
-                      </div>
-                  ) : null}
-                  {unsettled ? (
-                      <div
-                          style={{
-                            marginRight: '20px',
-                            background: 'rgba(246, 201, 74)',
-                            borderRadius: '4px',
-                            color: 'black',
-                            width: '6em',
-                            textAlign: 'center'
-                          }}
-                      >
-                        {$t('sync_node')}
-                      </div>
-                  ) : null}
-                  {validator ? (
-                      <div
-                          style={{
-                            marginRight: '20px',
-                            background: 'rgba(246, 201, 74)',
-                            borderRadius: '4px',
-                            color: 'black',
-                            width: '6em',
-                            textAlign: 'center'
-                          }}
-                      >
-                        {$t('validator_node')}
-                      </div>
-                  ) : null}
-                  {validator || trust || unsettled ? (
-                      <div>
-                        <ValidatorLink
-                            name={'节点详情'}
-                            className="text-truncate"
-                            value={address}
-                            style={{marginRight: '20px', color: 'white', background: 'rgba(70, 174, 226)', borderRadius: '4px',width: '6em',textAlign: 'center'}}
-                        />
-                      </div>
-                  ) : null}
-                  <AccountLink value={address} />
-                </div>
+              <div style={{ display: 'flex' }}>
+                {trust ? (
+                  <div>
+                    <div
+                      style={{
+                        marginRight: '20px',
+                        background: 'rgba(246, 201, 74)',
+                        borderRadius: '4px',
+                        color: 'black',
+                        width: '6em',
+                        textAlign: 'center'
+                      }}
+                    >
+                      {$t('trustee_node')}
+                    </div>
+                  </div>
+                ) : null}
+                {unsettled ? (
+                  <div
+                    style={{
+                      marginRight: '20px',
+                      background: 'rgba(246, 201, 74)',
+                      borderRadius: '4px',
+                      color: 'black',
+                      width: '6em',
+                      textAlign: 'center'
+                    }}
+                  >
+                    {$t('sync_node')}
+                  </div>
+                ) : null}
+                {validator ? (
+                  <div
+                    style={{
+                      marginRight: '20px',
+                      background: 'rgba(246, 201, 74)',
+                      borderRadius: '4px',
+                      color: 'black',
+                      width: '6em',
+                      textAlign: 'center'
+                    }}
+                  >
+                    {$t('validator_node')}
+                  </div>
+                ) : null}
+                {validator || trust || unsettled ? (
+                  <div>
+                    <ValidatorLink
+                      name={'节点详情'}
+                      className="text-truncate"
+                      value={address}
+                      style={{
+                        marginRight: '20px',
+                        color: 'white',
+                        background: 'rgba(70, 174, 226)',
+                        borderRadius: '4px',
+                        width: '6em',
+                        textAlign: 'center'
+                      }}
+                    />
+                  </div>
+                ) : null}
+                <AccountLink value={address} />
+              </div>
             )
           },
           {

@@ -81,7 +81,7 @@ const accountSlice = createSlice({
     setWithdrawals(state, action) {
       state.withdrawals = action.payload
     },
-    setRuntimeHistory(state,action) {
+    setRuntimeHistory(state, action) {
       state.runtime = action.payload
     }
   }
@@ -224,19 +224,16 @@ export const fetchDeposits = (
 }
 
 export const fetchRuntimeHistory = (
-    setLoading = nonFunc,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
-    const { result: runtime } = await api.fetch(
-        '/runtimeHistory',
-        {
-          page,
-          pageSize
-        }
-    )
+    const { result: runtime } = await api.fetch('/runtimeHistory', {
+      page,
+      pageSize
+    })
 
     dispatch(setRuntimeHistory(runtime))
   } finally {

@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router'
 import BlockDetail from './Detail'
 import BlocksList from './List'
 import BlockChainNav from '../../components/BlockChainNav'
-import RuntimeHistory from "./RuntimeHistory";
+import RuntimeHistory from './RuntimeHistory'
 
 export default function Blocks() {
   return (
@@ -19,15 +19,15 @@ export default function Blocks() {
           </div>
         )}
       />
-        <Route
-            path="/runtimeHistory"
-            render={props => (
-                <div className="box">
-                    <BlockChainNav activeKey="runtime_history" />
-                    <RuntimeHistory {...props} />
-                </div>
-            )}
-        />
+      <Route
+        path="/runtimeHistory"
+        render={props => (
+          <div className="box">
+            <BlockChainNav activeKey="runtime_history" />
+            <RuntimeHistory {...props} />
+          </div>
+        )}
+      />
     </Switch>
   )
 }
