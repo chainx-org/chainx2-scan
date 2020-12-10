@@ -243,8 +243,16 @@ class validatorsController {
     const col = await db.collection('event')
     const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
     const items = await col.find(query).toArray()
+    let itemsHash = items.map(item => item.indexer.blockHash)
+    let requestArray = []
+    for(let i = 0; i < itemsHash.length; i++){
+      requestArray.push(api.query.session.currentIndex.at(itemsHash[i]))
+    }
+    const data = await Promise.all([
+        ...requestArray
+    ]);
     for (let i = 0; i<items.length ; i++){
-      let unitsession = await api.query.session.currentIndex.at(items[i].indexer.blockHash).then(response=> items[i].session = response.words[0])
+       items[i].session = data[i].words[0]
     }
     ctx.body = {
       items
@@ -264,7 +272,6 @@ class validatorsController {
       ]
     }
     const total = await col.countDocuments(query)
-    // console.log('total', total)
     const items = await col
       .find(query)
       .sort({ 'indexer.blockHeight': -1 })
