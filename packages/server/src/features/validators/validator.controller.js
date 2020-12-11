@@ -237,26 +237,25 @@ class validatorsController {
 
   async getUnitedMissed(ctx) {
     const api = await getApi()
-
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
     const { params } = ctx.params
     let str = params.replace(/[\r\n]/g, '')
     const db = await getDb()
     const col = await db.collection('event')
     const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
-    const items = await col.find(query).toArray()
+    const items = await col.find(query).skip(page * pageSize).limit(pageSize).toArray()
+    const total = await col.find(query).count()
     let itemsHash = items.map(item => item.indexer.blockHash)
-    let requestArray = []
-    for(let i = 0; i < itemsHash.length; i++){
-      requestArray.push(api.query.session.currentIndex.at(itemsHash[i]))
-    }
-    const data = await Promise.all([
-        ...requestArray
-    ]);
-    for (let i = 0; i<items.length ; i++){
-       items[i].session = data[i].words[0]
+    for(let i = 0; i< itemsHash.length; i++){
+      await api.query.session.currentIndex.at(itemsHash[i]).then(data => items[i].session = data.words[0] )
     }
     ctx.body = {
-      items
+      items,
+      total
     }
   }
 
