@@ -114,5 +114,9 @@ export default {
   transfer_balance: {
     zh: '金额',
     en: 'Balance'
+  },
+  balance_history: {
+    zh: '历史余额',
+    en: 'Balance History'
   }
 }

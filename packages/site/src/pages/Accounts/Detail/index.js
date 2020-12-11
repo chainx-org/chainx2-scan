@@ -29,6 +29,7 @@ import {
   validatorNodesSelector
 } from '../../../store/reducers/validatorsSlice'
 import ValidatorLink from '../../../components/ValidatorLink'
+import BalanceHistory from "./BalanceHistory";
 
 export default function() {
   const [page, setPage] = useState(1)
@@ -263,6 +264,14 @@ export default function() {
             >
               <a>{$t('withdrawal_list')}</a>
             </li>
+            <li
+                onClick={() => setActiveKey('balanceHistory')}
+                className={classnames({
+                  'is-active': activeKey === 'balanceHistory'
+                })}
+            >
+              <a>{$t('balance_history')}</a>
+            </li>
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
@@ -273,6 +282,7 @@ export default function() {
         {activeKey === 'deal' && <DealList address={address} />}
         {activeKey === 'deposit' && <DepositList address={address} />}
         {activeKey === 'withdrawal' && <WithdrawalList address={address} />}
+        {activeKey === 'balanceHistory' && <BalanceHistory/>}
       </div>
     </div>
   )

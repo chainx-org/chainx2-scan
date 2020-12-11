@@ -1,3 +1,4 @@
+const { getApi } = require('../../api')
 const { getDb } = require('../../services/mongo')
 const { extractPage } = require('../../utils')
 
@@ -29,6 +30,67 @@ class DealController {
       page,
       pageSize,
       total
+    }
+  }
+
+  async getBalance(ctx) {
+    const { account } = ctx.params
+    const api = await getApi()
+    const db = await getDb()
+    const col = await db.collection('status')
+    const status = await col.find({}).toArray()
+    const lastHeight = status[0].latestHeight
+    let HeightArray = []
+    const firstHeight = lastHeight % 14400
+    HeightArray.push(firstHeight)
+    const length = parseInt(lastHeight / 14400)
+    for(let i = 1; i < length; i++){
+      HeightArray.push(firstHeight + 14400 * i)
+    }
+    HeightArray.push(lastHeight)
+    let hashArray = []
+    for(let i = 0; i < HeightArray.length; i++){
+      const col = await db.collection('block')
+      const hash = await col.find({'header.number': HeightArray[i]}).toArray()
+      hashArray.push(...hash)
+    }
+    let newHash  = hashArray.map(item=> item.hash)
+    console.log(newHash)
+    let requestArray = []
+    for(let i = 0; i < newHash.length; i++){
+      requestArray.push(api.query.system.account.at(newHash[i]))
+    }
+    const data = await Promise.all([
+      ...requestArray
+    ]);
+    console.log(data)
+    ctx.body = {
+      data
+    }
+  }
+
+  async getUnitedMissed(ctx) {
+    const api = await getApi()
+
+    const { params } = ctx.params
+    let str = params.replace(/[\r\n]/g, '')
+    const db = await getDb()
+    const col = await db.collection('event')
+    const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
+    const items = await col.find(query).toArray()
+    let itemsHash = items.map(item => item.indexer.blockHash)
+    let requestArray = []
+    for(let i = 0; i < itemsHash.length; i++){
+      requestArray.push(api.query.session.currentIndex.at(itemsHash[i]))
+    }
+    const data = await Promise.all([
+      ...requestArray
+    ]);
+    for (let i = 0; i<items.length ; i++){
+      items[i].session = data[i].words[0]
+    }
+    ctx.body = {
+      items
     }
   }
 }
