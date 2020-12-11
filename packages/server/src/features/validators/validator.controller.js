@@ -225,6 +225,7 @@ class validatorsController {
       items.push(...nickname)
     }
     items.sort(function(a,b){return a.missed - b.missed})
+    items.reverse()
     const total = items.length
     ctx.body = {
       items,
