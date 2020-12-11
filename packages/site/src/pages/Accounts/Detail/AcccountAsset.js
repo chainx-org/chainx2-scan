@@ -236,7 +236,7 @@ export default function AccountAsset(props) {
                 ),
                 total: (
                   <Amount
-                    value={item.data.free - item.data.reserved}
+                    value={item.data.free + item.data.reserved}
                     symbol={item.token}
                     hideSymbol={true}
                   />
