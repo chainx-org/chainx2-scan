@@ -1,4 +1,3 @@
-
 const { getDb } = require('../../services/mongo')
 const { getApi } = require('../../api')
 const { extractPage } = require('../../utils')
@@ -224,7 +223,9 @@ class validatorsController {
       nickname[0].missed = item[accountitem]
       items.push(...nickname)
     }
-    items.sort(function(a,b){return a.missed - b.missed})
+    items.sort(function(a, b) {
+      return a.missed - b.missed
+    })
     items.reverse()
     const total = items.length
     ctx.body = {
@@ -247,11 +248,18 @@ class validatorsController {
     const db = await getDb()
     const col = await db.collection('event')
     const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
-    const items = await col.find(query).skip(page * pageSize).limit(pageSize).toArray()
+    const items = await col
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
     const total = await col.find(query).count()
     let itemsHash = items.map(item => item.indexer.blockHash)
-    for(let i = 0; i< itemsHash.length; i++){
-      await api.query.session.currentIndex.at(itemsHash[i]).then(data => items[i].session = data.words[0] )
+    for (let i = 0; i < itemsHash.length; i++) {
+      await api.query.session.currentIndex
+        .at(itemsHash[i])
+        .then(data => (items[i].session = data.words[0]))
     }
     ctx.body = {
       items,
