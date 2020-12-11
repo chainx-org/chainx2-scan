@@ -38,7 +38,7 @@ export default function({ blockHeight }) {
             <Amount value={item.data.free - item.data.miscFrozen} />
           ),
           totalBalance: (
-            <Amount minDigits={8} value={item.data.free - item.data.reserved} />
+            <Amount minDigits={8} value={item.data.free + item.data.reserved} />
           )
           // totalBtc: (
           //   <Amount
