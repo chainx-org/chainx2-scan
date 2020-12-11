@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import { nonFunc } from '@src/utils'
+import extrinsic from '../../locale/messages/extrinsic'
 
 const validatorsSlice = createSlice({
   name: 'validators',
@@ -58,6 +59,18 @@ const validatorsSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    searchData: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
+    extrinsic: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -87,6 +100,12 @@ const validatorsSlice = createSlice({
     },
     setValidatorVotes(state, action) {
       state.validatorVotes = action.payload
+    },
+    setSearch(state, action) {
+      state.searchData = action.payload
+    },
+    setSearchExtrinsic(state, action) {
+      state.extrinsic = action.payload
     }
   }
 })
@@ -100,7 +119,9 @@ export const {
   setValidatorInfo,
   setUnitMissed,
   setNodeBlock,
-  setValidatorVotes
+  setValidatorVotes,
+  setSearch,
+  setSearchExtrinsic
 } = validatorsSlice.actions
 
 export const fetchValidatorNodes = (
@@ -249,6 +270,45 @@ export const fetchNodeBlock = (
   }
 }
 
+export const fetchEventSearch = (
+  setLoading = nonFunc,
+  search,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: data } = await api.fetch(`/search/${search}`, {
+      page,
+      pageSize
+    })
+    dispatch(setSearch(data))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchExtrinsicSearch = (
+  setLoading = nonFunc,
+  search,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: extrinsic } = await api.fetch(
+      `/searchExtrinsic/${search}`,
+      {
+        page,
+        pageSize
+      }
+    )
+    dispatch(setSearchExtrinsic(extrinsic))
+  } finally {
+    setLoading(false)
+  }
+}
+
 export const fetchValidatorVotes = (
   setLoading = nonFunc,
   address,
@@ -266,7 +326,8 @@ export const fetchValidatorVotes = (
     setLoading(false)
   }
 }
-
+export const extrinsicSearchSelector = state => state.validators.extrinsic
+export const eventSearchSelector = state => state.validators.searchData
 export const UnitMiseedSelector = state => state.validators.unitmissed
 export const ValidatorInfoSelector = state => state.validators.info
 export const BlockNumSelector = state => state.validators.blocknum

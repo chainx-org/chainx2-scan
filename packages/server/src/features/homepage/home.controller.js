@@ -35,6 +35,17 @@ class HomeController {
       depositCount
     }
   }
+
+  async getIssuance(ctx) {
+    const api = await getApi()
+
+    const totalIssuance = await api.query.balances.totalIssuance()
+    console.log(totalIssuance)
+
+    ctx.body = {
+      totalIssuance
+    }
+  }
 }
 
 module.exports = new HomeController()

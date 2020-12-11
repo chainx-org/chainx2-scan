@@ -13,6 +13,7 @@ import BlockLink from '../../../components/BlockLink'
 import DateShow from '../../../components/DateShow'
 import AccountLink from '../../../components/AccountLink'
 import Amount from '../../../components/Amount'
+import api from '../../../services/api'
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
@@ -39,12 +40,13 @@ export default function({ address }) {
       }}
       dataSource={items.map(item => {
         return {
-          key: item.index,
+          key: item._id,
           blockTime: <DateShow value={item.indexer.blockTime} />,
           blockHeight: item.indexer.blockHeight,
           slashAmount: (
             <Amount value={item.data[1]} precision={8} symbol={'PCX'} />
-          )
+          ),
+          sessionNumber: <div>{item.session}</div>
         }
       })}
       columns={[
@@ -55,6 +57,10 @@ export default function({ address }) {
         {
           title: $t('block_time'),
           dataIndex: 'blockTime'
+        },
+        {
+          title: $t('session_number'),
+          dataIndex: 'sessionNumber'
         },
         {
           title: $t('slash_amount'),

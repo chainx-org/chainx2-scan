@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import api from '../../services/api'
 import { Table } from '../../components'
 import $t from '../../locale'
@@ -6,26 +6,29 @@ import DateShow from '../../components/DateShow'
 import TxLink from '../../components/TxLink'
 import BlockLink from '../../components/BlockLink'
 import TxAction from '../../components/TxAction'
-import { useLoad } from '../../utils/hooks'
 import Success from '@components/Success'
 import Fail from '@components/Fail'
 import AccountLink from '../../components/AccountLink'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  fetchRuntimeHistory,
+  runtimeSelector
+} from '../../store/reducers/accountSlice'
 
 export default function({ blockHeight }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    dispatch(fetchRuntimeHistory(setLoading, page, pageSize))
+  }, [dispatch, page, pageSize])
+
+  const { info = [], total } = useSelector(runtimeSelector) || {}
+  console.log('runtime', info)
+
   const width = document.documentElement.clientWidth
   const simple = width < 1024
-  const params = useMemo(() => {
-    return blockHeight
-      ? { block: blockHeight, page, pageSize }
-      : { page, pageSize }
-  }, [blockHeight, page, pageSize])
-
-  const { items: extrinsics, loading, total } = useLoad(
-    api.fetchSudoExtrinsics,
-    params
-  )
 
   return (
     <Table
@@ -38,16 +41,17 @@ export default function({ blockHeight }) {
       scroll={{
         x: '100vh'
       }}
-      expandedRowRender={data => {
-        return (
-          <div>
-            <pre style={{ textAlign: 'left' }}>
-              CallIndex: {JSON.stringify(data.callIndex, null, 2)}
-            </pre>
-          </div>
-        )
-      }}
-      dataSource={extrinsics.map((item, idx) => {
+      /*
+            expandedRowRender={data => {
+                return (
+                    <div style={{ textAlign: 'left' }}>
+                        <h3>Args:</h3>
+                        <pre>{JSON.stringify(data.args, null, 2)}</pre>
+                    </div>
+                )
+            }}
+            */
+      dataSource={info.map((item, idx) => {
         return {
           key: idx,
           hash: (
@@ -61,14 +65,13 @@ export default function({ blockHeight }) {
             <AccountLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.signer}
+              value={item.indexer.blockHash}
             />
           ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
           blockTime: <DateShow value={item.indexer.blockTime} />,
-          action: <TxAction module={item.section} call={item.name} />,
-          // args: item.args,
-          callIndex: item.args.call.callIndex,
+          action: <TxAction module={'CodeUpdated'} />,
+          args: item.args,
           status: item.isSuccess ? <Success /> : <Fail />
         }
       })}

@@ -27,6 +27,13 @@ export default function BlockChainNav(props) {
         >
           <NavLink to="/sudo_extrinsics">{$t('sudo_ex_list')}</NavLink>
         </li>
+        <li
+          className={classnames({
+            'is-active': activeKey === 'runtime_history'
+          })}
+        >
+          <NavLink to="/runtimeHistory">{$t('code_Update')}</NavLink>
+        </li>
       </ul>
     </div>
   )

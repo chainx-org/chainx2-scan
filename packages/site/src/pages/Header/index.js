@@ -108,6 +108,17 @@ export default withRouter(function(props) {
               {$t('dex_section')}
             </NavLink>
           </div>
+          <NavLink
+            to="/search"
+            style={{
+              display: 'flex',
+              flexDirection: 'column-reverse',
+              fontSize: '1px',
+              color: '#3f3f3f'
+            }}
+          >
+            .
+          </NavLink>
           <div className="navbar-end is-hidden-touch is-hidden-tablet-only">
             <InputSearch {...props} />
           </div>
