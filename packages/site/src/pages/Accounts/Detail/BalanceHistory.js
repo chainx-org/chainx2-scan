@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { Spin } from 'antd';
 import $t from '../../../locale'
 import { G2,
     Chart,
@@ -24,61 +25,31 @@ const BalanceHistory = ()=> {
     const [loading, setLoading] = useState(false)
     useEffect(()=>{
         dispatch(fetchAccountBalance(account, setLoading))
-    },[setLoading])
-    const { items = [], total } = useSelector(AccountbalanceSelector) || {}
-    const data = [
-        {
-            year: "1991",
-            value: 3
-        },
-        {
-            year: "1992",
-            value: 4
-        },
-        {
-            year: "1993",
-            value: 3.5
-        },
-        {
-            year: "1994",
-            value: 5
-        },
-        {
-            year: "1995",
-            value: 4.9
-        },
-        {
-            year: "1996",
-            value: 6
-        },
-        {
-            year: "1997",
-            value: 7
-        },
-        {
-            year: "1998",
-            value: 9
-        },
-        {
-            year: "1999",
-            value: 13
-        }
-    ];
+    },[setLoading,address])
+    const items = useSelector(AccountbalanceSelector) || {}
+   let data = []
+    if(loading){
+        data = []
+    }else{
+        data = items.data
+    }
     const cols = {
-        value: {
+        balance: {
             min: 0,
             range:[0,0.93],
             alias:'PCX'
         },
-        year: {
+        height: {
             range: [0, 0.9],
             alias:$t('block_height')
         }
     };
     return (
         <div>
+            <div>
+                <Spin spinning={loading} style={{position: 'absolute', top:'60%',left: '50%'}}/>
             <Chart height={400} data={data} scale={cols} forceFit>
-                <Axis name="year" title={{
+                <Axis name="balance" title={{
                     position:'end',
                     offset:15,
                     textStyle: {
@@ -89,7 +60,7 @@ const BalanceHistory = ()=> {
                         rotate: 0
                     }
                 }} />
-                <Axis name="value"  title={{
+                <Axis name="height"  title={{
                     position:'end',
                     offset:5.5,
                     textStyle: {
@@ -105,18 +76,18 @@ const BalanceHistory = ()=> {
                         type: "y"
                     }}
                 />
-                <Geom type="line" position="year*value" size={2}
+                <Geom type="line" position="height*balance" size={2}
                       color="#f6c94a"
-                      tooltip={['year*value',(year,value)=>{
+                      tooltip={['height*balance',(height,balance)=>{
                           return {
                               name:'pcx', // 要显示的名字
-                              value:value,
-                              title:year
+                              value:balance,
+                              title:height
                           }
                       }]} />
                 <Geom
                     type="point"
-                    position="year*value"
+                    position="height*balance"
                     color="#f6c94a"
                     size={4}
                     shape={"circle"}
@@ -124,15 +95,16 @@ const BalanceHistory = ()=> {
                         stroke: "#fff",
                         lineWidth: 1
                     }}
-                    tooltip={['year*value',(year,value)=>{
+                    tooltip={['height*balance',(height,balance)=>{
                         return {
                             name:'pcx', // 要显示的名字
-                            value:value,
-                            title:year
+                            value:balance,
+                            title:height
                         }
                     }]}
                 />
             </Chart>
+            </div>
         </div>
     );
 }
