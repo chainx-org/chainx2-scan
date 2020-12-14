@@ -40,6 +40,7 @@ class DealController {
     const col = await db.collection('status')
     const status = await col.find({}).toArray()
     const lastHeight = status[0].latestHeight
+
     let HeightArray = []
     const firstHeight = lastHeight % 14400
     HeightArray.push(firstHeight)
@@ -55,15 +56,15 @@ class DealController {
       hashArray.push(...hash)
     }
     let newHash  = hashArray.map(item=> item.hash)
-    console.log(newHash)
-    let requestArray = []
-    for(let i = 0; i < newHash.length; i++){
-      requestArray.push(api.query.system.account.at(newHash[i]))
+    let balance = []
+    for (let i = 0; i < newHash.length; i ++){
+      let scanvalue = await api.query.system.account.at(newHash[i],account)
+      balance.push((scanvalue.data.free - scanvalue.data.miscFrozen) / 100000000)
     }
-    const data = await Promise.all([
-      ...requestArray
-    ]);
-    console.log(data)
+    let data = []
+    for (let i= 0; i<HeightArray.length; i++){
+      data.push({height:HeightArray[i], balance: balance[i]})
+    }
     ctx.body = {
       data
     }
