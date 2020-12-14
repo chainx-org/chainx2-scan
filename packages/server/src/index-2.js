@@ -50,7 +50,7 @@ app
     ratelimit({
       driver: 'memory',
       db: rateLimit,
-      duration: 10000,
+      duration: 60000,
       errorMessage: '请求过于频繁(Request too frequently)',
       id: ctx => ctx.ip,
       headers: {
@@ -58,7 +58,7 @@ app
         reset: 'Rate-Limit-Reset',
         total: 'Rate-Limit-Total'
       },
-      max: 60,
+      max: 120,
       disableHeader: false,
       whitelist: ctx => {
         // some logic that returns a boolean

@@ -17,14 +17,14 @@ import api from "../../../services/api";
 
 export default function({ address }) {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
+  const [pageSize, setPageSize] = useState(5)
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    dispatch(fetchUnitMissed(setLoading, address))
-  }, [dispatch, address])
+    dispatch(fetchUnitMissed(setLoading, address, page - 1, pageSize))
+  }, [dispatch, address, page - 1, pageSize])
 
-  const { items = [] } = useSelector(UnitMiseedSelector) || {}
+  const { items = [], total } = useSelector(UnitMiseedSelector) || {}
   const width = document.documentElement.clientWidth
   const simple = width < 1024
   return (
@@ -34,7 +34,7 @@ export default function({ address }) {
         setPage(current)
         setPageSize(size)
       }}
-      pagination={{ current: page, pageSize, simple }}
+      pagination={{ current: page, pageSize, simple, total }}
       scroll={{
         x: '100vh'
       }}
