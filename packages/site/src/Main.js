@@ -11,6 +11,7 @@ import Home from './pages/Home'
 import Dex from './pages/Dex'
 import './services/socket'
 import Search from './pages/Search'
+import SS58 from './pages/Tools/SS58'
 // import ReactGA from 'react-ga'
 
 export default function Main() {
