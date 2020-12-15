@@ -107,6 +107,20 @@ export default withRouter(function(props) {
             >
               {$t('dex_section')}
             </NavLink>
+            <a
+                className="navbar-item is-tab has-dropdown is-hoverable"
+                style={{alignItems: 'center'}}
+            >
+              工具
+              <div className="navbar-dropdown">
+                <NavLink className="navbar-item" to="/ss58" style={{color:'black'}}>
+                  ss58账号转换
+                </NavLink>
+                <NavLink className="navbar-item" to="/dex" style={{color:'black'}}>
+                  codec编码解码
+                </NavLink>
+              </div>
+            </a>
           </div>
           <NavLink to="/search" style={{display:'flex',flexDirection:'column-reverse', fontSize:'1px',color:'#3f3f3f'}}>
             .
