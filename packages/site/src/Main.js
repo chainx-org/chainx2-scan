@@ -35,6 +35,7 @@ export default function Main() {
           <Route path="/accounts" component={Accounts} />
           <Route path="/dex" component={Dex} />
           <Route path="/search" component={Search} />
+          <Route path="/ss58" component={SS58} />
           <Route path="/runtimeHistory" component={Blocks} />
         </Switch>
       </section>
