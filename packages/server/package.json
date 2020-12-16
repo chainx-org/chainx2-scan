@@ -10,8 +10,8 @@
     "start-5": "node src/index-5.js"
   },
   "dependencies": {
-    "@chainx-v2/account": "^0.0.45",
-    "@chainx-v2/api": "^0.0.45",
+    "@chainx-v2/account": "^0.0.50",
+    "@chainx-v2/api": "^0.0.50",
     "@polkadot/api": "^2.4.1",
     "@koa/cors": "^3.1.0",
     "@polkadot/keyring": "^3.6.1",
