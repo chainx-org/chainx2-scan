@@ -1,6 +1,21 @@
 const { getDb } = require('../../services/mongo')
+const { getApi } = require('../../api')
 
 class DepthController {
+  async getDepthFromRPC(ctx) {
+    const { pairId } = ctx.params
+    const { cnt = 50 } = ctx.query
+    const api = await getApi()
+    const depth = await api.rpc.xspot.getDepth(pairId, cnt)
+    const { asks, bids } = depth.toJSON()
+    ctx.body = {
+      item: {
+        asks,
+        bids
+      }
+    }
+  }
+
   async getDepth(ctx) {
     const db = await getDb()
     const col = await db.collection('depth')
