@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Spin } from 'antd';
+import { Spin, Button } from 'antd';
 import $t from '../../../locale'
 import { G2,
     Chart,
@@ -19,13 +19,15 @@ import { G2,
     Util} from 'bizcharts'
 import {AccountbalanceSelector, fetchAccountBalance, fetchDeals} from "../../../store/reducers/accountSlice";
 const BalanceHistory = ()=> {
+    const [page, setPage] = useState(0)
+    const [pageSize, setPageSize] = useState(10)
     const dispatch = useDispatch()
     const { address } = useParams()
     let account = address
     const [loading, setLoading] = useState(false)
     useEffect(()=>{
-        dispatch(fetchAccountBalance(account, setLoading))
-    },[setLoading,address])
+        dispatch(fetchAccountBalance(account, setLoading,page,pageSize))
+    },[setLoading,address,page,pageSize])
     const items = useSelector(AccountbalanceSelector) || {}
    let data = []
     if(loading){
@@ -48,6 +50,10 @@ const BalanceHistory = ()=> {
         <div>
             <div>
                 <Spin spinning={loading} style={{position: 'absolute', top:'60%',left: '50%'}}/>
+                {!loading ? <div style={{marginLeft:'70%'}}>
+                    <Button onClick={()=> setPage(page + 1)} style={{marginRight:'20px'}}>下一周期</Button>
+                    <Button onClick={()=> setPage(page - 1)}>上一周期</Button>
+                </div> : null}
             <Chart height={400} data={data} scale={cols} forceFit>
                 <Axis name="balance" title={{
                     position:'end',

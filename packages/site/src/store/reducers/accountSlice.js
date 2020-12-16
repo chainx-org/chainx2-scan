@@ -276,11 +276,13 @@ export const fetchWithdrawals = (
 export const fetchAccountBalance = (
     account,
     setLoading = nonFunc,
+    page,
+    pageSize
 )=> async dispatch => {
   setLoading(true)
   try {
     const {result : balance } = await api.fetch(
-        `/accounts/balance/${account}`
+        `/accounts/balance/${account}`,{page,pageSize}
     )
     dispatch(setBalance(balance))
   }finally {

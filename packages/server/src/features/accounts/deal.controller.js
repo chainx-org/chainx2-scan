@@ -35,6 +35,11 @@ class DealController {
 
   async getBalance(ctx) {
     const { account } = ctx.params
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
     const api = await getApi()
     const db = await getDb()
     const col = await db.collection('status')
@@ -52,7 +57,8 @@ class DealController {
     let hashArray = []
     for(let i = 0; i < HeightArray.length; i++){
       const col = await db.collection('block')
-      const hash = await col.find({'header.number': HeightArray[i]}).toArray()
+      const hash = await col.find({'header.number': HeightArray[i]}).skip(page * pageSize)
+          .limit(pageSize).toArray()
       hashArray.push(...hash)
     }
     let newHash  = hashArray.map(item=> item.hash)
