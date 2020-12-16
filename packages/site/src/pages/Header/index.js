@@ -116,9 +116,6 @@ export default withRouter(function(props) {
                 <NavLink className="navbar-item" to="/ss58" style={{color:'black'}}>
                   ss58账号转换
                 </NavLink>
-                <NavLink className="navbar-item" to="/dex" style={{color:'black'}}>
-                  codec编码解码
-                </NavLink>
               </div>
             </a>
           </div>
