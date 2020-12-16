@@ -254,5 +254,9 @@ export default {
   bridge_newblocks: {
     zh: '转接桥最新区块',
     en: 'Bitcoin Bridge New Blocks'
+  },
+  cross_threshold: {
+    zh: '有效签名数',
+    en: 'Multi Signer Threshold'
   }
 }

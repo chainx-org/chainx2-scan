@@ -141,7 +141,7 @@ export default function CrossHost({ address }) {
       })}
       columns={[
         {
-          title: $t('session_number'),
+          title: $t('cross_threshold'),
           dataIndex: 'threshold'
         },
         {
