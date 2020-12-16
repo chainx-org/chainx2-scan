@@ -90,7 +90,6 @@ export const fetchFills = (
 
 export const fetchDepth = (pairId, cnt = 6) => async dispatch => {
   const { result } = await api.fetch(`/dex/depth/${pairId}`, { cnt })
-
   dispatch(setDepth(result))
 }
 

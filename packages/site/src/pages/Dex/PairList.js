@@ -44,6 +44,7 @@ export default function PairList() {
               <Amount
                 value={Tradingpairs ? Tradingpairs.latestTransactionPrices : 0}
                 precision={9}
+                minDigits={7}
                 symbol={'BTC'}
               />
             </div>

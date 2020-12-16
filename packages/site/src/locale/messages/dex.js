@@ -11,6 +11,14 @@ export default {
     zh: '当前委托列表',
     en: 'Open Orders'
   },
+  dex_open_sell_orders: {
+    zh: '当前卖单',
+    en: 'Sell'
+  },
+  dex_open_buy_orders: {
+    zh: '当前买单',
+    en: 'Buy'
+  },
   dex_fill_history: {
     zh: '历史成交列表',
     en: 'Trade History'
@@ -82,5 +90,17 @@ export default {
   dex_day_deal_amount: {
     zh: '24小时交易量',
     en: '24 Hour Trading Volume'
+  },
+  dex_order_created_blockheight: {
+    zh: '创建高度',
+    en: 'Created Height'
+  },
+  dex_order_updated_blockheight: {
+    zh: '更新高度',
+    en: 'Updated Height'
+  },
+  dex_account_order_number: {
+    zh: '账户委托编号',
+    en: 'Account Order Id'
   }
 }
