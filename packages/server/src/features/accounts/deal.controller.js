@@ -40,12 +40,13 @@ class DealController {
       ctx.status = 400
       return
     }
+
     const api = await getApi()
     const db = await getDb()
     const col = await db.collection('status')
     const status = await col.find({}).toArray()
-    const lastHeight = status[0].latestHeight
 
+    const lastHeight = status[0].latestHeight
     let HeightArray = []
     const firstHeight = lastHeight % 14400
     HeightArray.push(firstHeight)
@@ -54,11 +55,22 @@ class DealController {
       HeightArray.push(firstHeight + 14400 * i)
     }
     HeightArray.push(lastHeight)
+
+    function group(array, subGroupLength) {
+      let index = 0;
+      let newArray = [];
+      while(index < array.length) {
+        newArray.push(array.slice(index, index += subGroupLength));
+      }
+      return newArray;
+    }
+    let groupArray = group(HeightArray, 5)
+    let now  = groupArray[page]
     let hashArray = []
-    for(let i = 0; i < HeightArray.length; i++){
+    for(let i = 0; i < now.length; i++){
       const col = await db.collection('block')
-      const hash = await col.find({'header.number': HeightArray[i]}).skip(page * pageSize)
-          .limit(pageSize).toArray()
+      const hash = await col.find({'header.number': now[i]})
+          .toArray()
       hashArray.push(...hash)
     }
     let newHash  = hashArray.map(item=> item.hash)
@@ -68,8 +80,8 @@ class DealController {
       balance.push((scanvalue.data.free - scanvalue.data.miscFrozen) / 100000000)
     }
     let data = []
-    for (let i= 0; i<HeightArray.length; i++){
-      data.push({height:HeightArray[i], balance: balance[i]})
+    for (let i= 0; i<now.length; i++){
+      data.push({height:now[i], balance: balance[i]})
     }
     ctx.body = {
       data
