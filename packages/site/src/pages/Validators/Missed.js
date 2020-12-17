@@ -55,7 +55,13 @@ export default function() {
               value={item.account}
             />
           ),
-          missed: <div>{item.missed}</div>
+          missed: <ValidatorLink
+              name={item.missed}
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.account}
+              activeKey={'missed'}
+          />
         }
       })}
       columns={[
