@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { useRedux } from '../../shared'
@@ -8,16 +8,21 @@ import api from '../../services/api'
 import { Amount, NumberFormat, AntSpinner as Spinner } from '../../components'
 import PCX from '../../assets/tokens/pcx.png'
 import $t from '../../locale'
-import {fetchTradingPairs, tradingPairsSelector} from "../../store/reducers/dexSlice";
+import {
+  fetchTradingPairs,
+  tradingPairsSelector
+} from '../../store/reducers/dexSlice'
 import PowerDistributton from './PowerDistributton'
 
 export default function ChainStatus() {
   const data = useSelector(latestChainStatusSelector) || {}
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(fetchTradingPairs())
-    }, [dispatch])
-    const Tradingpairs = useSelector(tradingPairsSelector)
+  /*
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchTradingPairs())
+  }, [dispatch])
+  const Tradingpairs = useSelector(tradingPairsSelector)
+  */
   const dataSource = [
     {
       label: (
@@ -35,7 +40,6 @@ export default function ChainStatus() {
     {
       label: (
         <>
-          ChainX
           {$t('total_extrinsics')} / {$t('total_accounts')}
         </>
       ),
@@ -104,20 +108,26 @@ export default function ChainStatus() {
     {
       label: (
         <div>
-          {$t('price')} / {$t('btc_mining')}
+          {$t('btc_pcx_price')} / {$t('btc_usable_balance')}
         </div>
         // 写死了精度 9
       ),
       data: (
         <div>
           <Amount
-            value={Tradingpairs.latestTransactionPrices}
+            value={data.latestPrice}
             hideSymbol
             precision={9}
             minDigits={7}
-          />{Tradingpairs ? Tradingpairs.latestTransactionPrices : 0}
+          />
+          {data.latestPrice}
           /
-            <Amount value={40000000000} hideSymbol />
+          <Amount
+            value={data.usableBTC}
+            precision={8}
+            symbol="BTC"
+            hideSymbol
+          />
         </div>
       )
     },
