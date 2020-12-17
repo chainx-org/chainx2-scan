@@ -15,7 +15,7 @@ import AccountLink from '../../../components/AccountLink'
 import Amount from '../../../components/Amount'
 import api from "../../../services/api";
 
-export default function({ address }) {
+export default function({ address}) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(5)
   const dispatch = useDispatch()
@@ -51,16 +51,16 @@ export default function({ address }) {
       })}
       columns={[
         {
+          title: $t('session_number'),
+          dataIndex: 'sessionNumber'
+        },
+        {
           title: $t('block_height'),
           dataIndex: 'blockHeight'
         },
         {
           title: $t('block_time'),
           dataIndex: 'blockTime'
-        },
-        {
-          title: $t('session_number'),
-          dataIndex: 'sessionNumber'
         },
         {
           title: $t('slash_amount'),
