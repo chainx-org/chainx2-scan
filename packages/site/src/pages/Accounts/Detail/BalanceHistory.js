@@ -18,6 +18,7 @@ import { G2,
     Facet,
     Util} from 'bizcharts'
 import {AccountbalanceSelector, fetchAccountBalance, fetchDeals} from "../../../store/reducers/accountSlice";
+import {latestChainStatusSelector} from "../../../store/reducers/latestChainStatusSlice";
 const BalanceHistory = ()=> {
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -25,10 +26,12 @@ const BalanceHistory = ()=> {
     const { address } = useParams()
     let account = address
     const [loading, setLoading] = useState(false)
+
     useEffect(()=>{
-        dispatch(fetchAccountBalance(account, setLoading,page,pageSize))
+        dispatch(fetchAccountBalance(account,setLoading,page,pageSize))
     },[setLoading,address,page,pageSize])
     const items = useSelector(AccountbalanceSelector) || {}
+
    let data = []
     if(loading){
         data = []
