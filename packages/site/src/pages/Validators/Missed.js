@@ -49,7 +49,13 @@ export default function() {
               />
           ),
           referral_id: <div>{item.referralId}</div>,
-          missed: <div>{item.missed}</div>
+          missed: <ValidatorLink
+              name={item.missed}
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.account}
+              activeKey={'missed'}
+          />
         }
       })}
       columns={[
