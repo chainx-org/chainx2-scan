@@ -30,6 +30,12 @@ const validatorsSlice = createSlice({
       pageSize: 10,
       total: 0
     },
+    recentSlashed: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
     blocknum: {
       items: [],
       page: 0,
@@ -86,6 +92,9 @@ const validatorsSlice = createSlice({
     setMissed(state, action) {
       state.missed = action.payload
     },
+    setRecentSlashed(state, action) {
+      state.recentSlashed = action.payload
+    },
     setBlockNum(state, action) {
       state.blocknum = action.payload
     },
@@ -115,6 +124,7 @@ export const {
   setUnsettledNodes,
   setTrusteeNodes,
   setMissed,
+  setRecentSlashed,
   setBlockNum,
   setValidatorInfo,
   setUnitMissed,
@@ -209,6 +219,27 @@ export const fetchMissed = (
     })
 
     dispatch(setMissed(missed))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const fetchRecentSlashed = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: recentSlashed } = await api.fetch(
+      `/validators/recent_slashed`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setRecentSlashed(recentSlashed))
   } finally {
     setLoading(false)
   }
@@ -332,6 +363,7 @@ export const UnitMiseedSelector = state => state.validators.unitmissed
 export const ValidatorInfoSelector = state => state.validators.info
 export const BlockNumSelector = state => state.validators.blocknum
 export const MissedSelector = state => state.validators.missed
+export const RecentSlashedSelector = state => state.validators.recentSlashed
 export const validatorNodesSelector = state => state.validators.validators
 export const unsettledNodesSelector = state => state.validators.unsettled
 export const trusteeNodesSelector = state => state.validators.trustees

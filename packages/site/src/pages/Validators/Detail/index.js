@@ -28,7 +28,7 @@ import Amount from '../../../components/Amount'
 import Authored from './Authored'
 import Votes from './Votes'
 
-export default function() {
+export default function(props) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(1000)
   const [loading, setLoading] = useState(false)
@@ -89,8 +89,12 @@ export default function() {
       lastTotalVoteWeightUpdate = info[i].lastTotalVoteWeightUpdate
     }
   }
+  if (props.location.state.activeKey === 'missed') {
+    var [activeKey, setActiveKey] = useState('missed')
+  } else {
+    ;[activeKey, setActiveKey] = useState('authored')
+  }
 
-  const [activeKey, setActiveKey] = useState('authored')
   const breadcrumb = (
     <Breadcrumb
       dataSource={[

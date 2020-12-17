@@ -114,5 +114,13 @@ export default {
   transfer_balance: {
     zh: '金额',
     en: 'Balance'
+  },
+  transfer_out: {
+    zh: '转出',
+    en: 'Transfer out'
+  },
+  transfer_in: {
+    zh: '转入',
+    en: 'Transfer in'
   }
 }

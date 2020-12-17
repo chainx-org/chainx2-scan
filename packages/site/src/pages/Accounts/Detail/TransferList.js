@@ -24,6 +24,7 @@ export default function({ address }) {
 
   const { items: transfers = [], total = 0 } =
     useSelector(transfersSelector) || {}
+  console.log(transfers)
   const width = document.documentElement.clientWidth
   const simple = width < 1024
   return (
@@ -74,7 +75,31 @@ export default function({ address }) {
                 value={item.data[1]}
               />
             ),
-          value: <Amount value={item.data[2]} symbol={item.token} />
+          value: <Amount value={item.data[2]} symbol={item.token} />,
+          direction:
+            item.data[0] === address ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  background: '#D32F2F',
+                  color: 'white'
+                }}
+              >
+                {$t('transfer_out')}
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  background: '#4CAF50',
+                  color: 'white'
+                }}
+              >
+                {$t('transfer_in')}
+              </div>
+            )
         }
       })}
       columns={[
@@ -93,6 +118,10 @@ export default function({ address }) {
         {
           title: $t('ex_hash'),
           dataIndex: 'hash'
+        },
+        {
+          title: $t('dex_order_direction'),
+          dataIndex: 'direction'
         },
         {
           title: $t('sender'),

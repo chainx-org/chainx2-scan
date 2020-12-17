@@ -107,6 +107,28 @@ export default withRouter(function(props) {
             >
               {$t('dex_section')}
             </NavLink>
+            <div
+              className="navbar-item is-tab has-dropdown is-hoverable"
+              style={{ alignItems: 'center' }}
+            >
+              工具
+              <div className="navbar-dropdown">
+                <NavLink
+                  className="navbar-item"
+                  to="/ss58"
+                  style={{ color: 'black' }}
+                >
+                  ss58账号转换
+                </NavLink>
+                <NavLink
+                  className="navbar-item"
+                  to="/search"
+                  style={{ color: 'black' }}
+                >
+                  搜索事件/交易
+                </NavLink>
+              </div>
+            </div>
           </div>
           <NavLink
             to="/search"

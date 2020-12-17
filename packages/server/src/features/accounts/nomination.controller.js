@@ -8,10 +8,11 @@ class NominationController {
     const { address } = ctx.params
     const col = await getEventCollection()
     const query = {
-      $and: [
-        // { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
+      'data.0': address,
+      $or: [
         { method: 'Bonded' },
-        { 'data.0': address }
+        { method: 'Unbonded' },
+        { method: 'Rebonded' }
       ]
     }
     const total = await col.count(query)

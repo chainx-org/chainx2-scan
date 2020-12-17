@@ -21,7 +21,6 @@ export default function AccountNomination({ address }) {
   }, [address, dispatch])
 
   const { items } = useSelector(accountVotesSelector) || {}
-
   return (
     <Table
       loading={loading}
@@ -41,19 +40,31 @@ export default function AccountNomination({ address }) {
               short={true}
             />
           ),
-          nominee: (
-            <AccountLink
-              style={{ width: 136 }}
-              className="text-truncate"
-              value={item.data[1]}
-              short={true}
-            />
-          ),
-          balance: (
-            <Amount value={item.data[2]} precision={8} hideSymbol={true} />
-          ),
+          nominee:
+            item.method === 'Rebonded' ? (
+              <AccountLink
+                style={{ width: 136 }}
+                className="text-truncate"
+                value={item.data[2]}
+                short={true}
+              />
+            ) : (
+              <AccountLink
+                style={{ width: 136 }}
+                className="text-truncate"
+                value={item.data[1]}
+                short={true}
+              />
+            ),
+          balance:
+            item.method === 'Rebonded' ? (
+              <Amount value={item.data[3]} precision={8} hideSymbol={true} />
+            ) : (
+              <Amount value={item.data[2]} precision={8} hideSymbol={true} />
+            ),
           blockTime: <DateShow value={item.indexer.blockTime} />,
-          blockHeight: <BlockLink value={item.indexer.blockHeight} />
+          blockHeight: <BlockLink value={item.indexer.blockHeight} />,
+          method: <div>{item.method}</div>
           //nomination: item.nomination
           //revocations: <Amount value={data.revocations} hideSymbol />,
           // revocations: data.revocations,
@@ -90,6 +101,10 @@ export default function AccountNomination({ address }) {
             </>
           ),
           dataIndex: 'balance'
+        },
+        {
+          title: $t('common_operation'),
+          dataIndex: 'method'
         }
         // {
         //   title: (
