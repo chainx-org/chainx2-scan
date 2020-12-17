@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import { nonFunc } from '@src/utils'
-import extrinsic from "../../locale/messages/extrinsic";
+import extrinsic from '../../locale/messages/extrinsic'
 
 const validatorsSlice = createSlice({
   name: 'validators',
@@ -25,6 +25,12 @@ const validatorsSlice = createSlice({
       total: 0
     },
     missed: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
+    recentSlashed: {
       items: [],
       page: 0,
       pageSize: 10,
@@ -86,6 +92,9 @@ const validatorsSlice = createSlice({
     setMissed(state, action) {
       state.missed = action.payload
     },
+    setRecentSlashed(state, action) {
+      state.recentSlashed = action.payload
+    },
     setBlockNum(state, action) {
       state.blocknum = action.payload
     },
@@ -101,12 +110,12 @@ const validatorsSlice = createSlice({
     setValidatorVotes(state, action) {
       state.validatorVotes = action.payload
     },
-    setSearch(state, action){
+    setSearch(state, action) {
       state.searchData = action.payload
     },
-   setSearchExtrinsic(state, action){
-     state.extrinsic = action.payload
-   }
+    setSearchExtrinsic(state, action) {
+      state.extrinsic = action.payload
+    }
   }
 })
 
@@ -115,6 +124,7 @@ export const {
   setUnsettledNodes,
   setTrusteeNodes,
   setMissed,
+  setRecentSlashed,
   setBlockNum,
   setValidatorInfo,
   setUnitMissed,
@@ -214,6 +224,27 @@ export const fetchMissed = (
   }
 }
 
+export const fetchRecentSlashed = (
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: recentSlashed } = await api.fetch(
+      `/validators/recent_slashed`,
+      {
+        page,
+        pageSize
+      }
+    )
+
+    dispatch(setRecentSlashed(recentSlashed))
+  } finally {
+    setLoading(false)
+  }
+}
+
 export const fetchUnitMissed = (
   setLoading = nonFunc,
   params,
@@ -271,10 +302,10 @@ export const fetchNodeBlock = (
 }
 
 export const fetchEventSearch = (
-    setLoading = nonFunc,
-    search,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  search,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
@@ -289,17 +320,20 @@ export const fetchEventSearch = (
 }
 
 export const fetchExtrinsicSearch = (
-    setLoading = nonFunc,
-    search,
-    page,
-    pageSize
+  setLoading = nonFunc,
+  search,
+  page,
+  pageSize
 ) => async dispatch => {
   setLoading(true)
   try {
-    const { result: extrinsic } = await api.fetch(`/searchExtrinsic/${search}`, {
-      page,
-      pageSize
-    })
+    const { result: extrinsic } = await api.fetch(
+      `/searchExtrinsic/${search}`,
+      {
+        page,
+        pageSize
+      }
+    )
     dispatch(setSearchExtrinsic(extrinsic))
   } finally {
     setLoading(false)
@@ -323,12 +357,13 @@ export const fetchValidatorVotes = (
     setLoading(false)
   }
 }
-export const extrinsicSearchSelector = state=> state.validators.extrinsic
+export const extrinsicSearchSelector = state => state.validators.extrinsic
 export const eventSearchSelector = state => state.validators.searchData
 export const UnitMiseedSelector = state => state.validators.unitmissed
 export const ValidatorInfoSelector = state => state.validators.info
 export const BlockNumSelector = state => state.validators.blocknum
 export const MissedSelector = state => state.validators.missed
+export const RecentSlashedSelector = state => state.validators.recentSlashed
 export const validatorNodesSelector = state => state.validators.validators
 export const unsettledNodesSelector = state => state.validators.unsettled
 export const trusteeNodesSelector = state => state.validators.trustees

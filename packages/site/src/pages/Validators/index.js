@@ -6,6 +6,7 @@ import UnsettledNodesList from './unsettledNodes'
 import TrusteeNodesList from './trusteeNodes'
 import ValidatorsNav from '../../components/ValidatorsNav'
 import Missed from './Missed'
+import RecentSlashed from './recentSlashed'
 import validatorsDetail from './Detail'
 
 export default function Validators() {
@@ -30,6 +31,7 @@ export default function Validators() {
                 {list === 'unsettled' && <UnsettledNodesList {...props} />}
                 {list === 'btc_trustees' && <TrusteeNodesList {...props} />}
                 {list === 'missed' && <Missed {...props} />}
+                {list === 'recent_slashed' && <RecentSlashed {...props} />}
               </div>
             </>
           )

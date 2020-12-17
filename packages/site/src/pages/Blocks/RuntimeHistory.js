@@ -65,7 +65,7 @@ export default function({ blockHeight }) {
             <AccountLink
               style={{ width: 138 }}
               className="text-truncate"
-              value={item.indexer.blockHash}
+              value={item.signer}
             />
           ),
           blockHeight: <BlockLink value={item.indexer.blockHeight} />,
