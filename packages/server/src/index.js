@@ -50,7 +50,8 @@ if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`)
 
   // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
+  // for (let i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < 4; i++) {
     cluster.fork()
   }
 
@@ -67,7 +68,9 @@ if (cluster.isMaster) {
   }).listen(8000);
   */
   const server = http.createServer(app.callback())
-  const io = new Socket(server)
+  const io = new Socket(server, {
+    transports: ['websocket', 'flashsocket', 'polling']
+  })
 
   initDb()
     .then(db => {

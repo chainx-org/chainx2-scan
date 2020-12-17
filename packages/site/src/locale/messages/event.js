@@ -4,8 +4,8 @@ export default {
     en: 'Events'
   },
   event_count: {
-    zh: 'ChainX事件总数',
-    en: 'Event Count'
+    zh: '事件总数',
+    en: 'Total Events'
   },
   event_id: {
     zh: '事件 Id',

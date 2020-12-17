@@ -77,7 +77,7 @@ export default {
   },
   price: {
     zh: '价格(PCX/BTC)',
-    en: 'Total Issuance(PCX) / Turnout'
+    en: 'Price(PCX/BTC)'
   },
   use_vote: {
     zh: '用户投票总数(PCX)',

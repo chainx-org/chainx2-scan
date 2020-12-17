@@ -7,7 +7,7 @@ import { setLatestChainStatus } from '../store/reducers/latestChainStatusSlice'
 const socket = io(process.env.REACT_APP_SERVER)
 // const socket = io('http://localhost:3213')
 
-socket.connect()
+socket.connect({ transports: ['flashsocket', 'polling', 'websocket'] })
 socket.on('connect', () => {
   socket.emit('subscribe', 'LATEST_CHAIN_STATUS_ROOM')
   socket.emit('subscribe', 'LATEST_BLOCKS_ROOM')
