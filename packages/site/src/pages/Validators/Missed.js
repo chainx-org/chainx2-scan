@@ -9,11 +9,11 @@ import {
   fetchMissed,
   MissedSelector
 } from '../../store/reducers/validatorsSlice'
-import ValidatorLink from "../../components/ValidatorLink";
+import ValidatorLink from '../../components/ValidatorLink'
 
 export default function() {
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(20)
+  const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(false)
 
   const width = document.documentElement.clientWidth
@@ -39,16 +39,22 @@ export default function() {
       }}
       dataSource={items.map(item => {
         return {
-          key:item._id,
+          key: item._id,
           account_address: (
-              <ValidatorLink
-                  name={item.account}
-                  style={{ width: 138 }}
-                  className="text-truncate"
-                  value={item.account}
-              />
+            <AccountLink
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.account}
+            />
           ),
-          referral_id: <div>{item.referralId}</div>,
+          referral_id: (
+            <ValidatorLink
+              name={item.referralId}
+              style={{ width: 138 }}
+              className="text-truncate"
+              value={item.account}
+            />
+          ),
           missed: <div>{item.missed}</div>
         }
       })}
