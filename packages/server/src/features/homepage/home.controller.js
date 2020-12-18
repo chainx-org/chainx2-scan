@@ -26,13 +26,14 @@ class HomeController {
 
     // 提现交易数
     const withdrawalQuery = {
-      $and: [{ section: 'xGatewayBitcoin' }, { method: 'WithdrawalCreated' }]
+      $and: [{ section: 'xGatewayRecords' }, { method: 'WithdrawalFinished' }]
     }
     const withdrawalCount = await col.countDocuments(withdrawalQuery)
 
     ctx.body = {
       ...trusteeListInfoJSON,
-      depositCount
+      depositCount,
+      withdrawalCount
     }
   }
 
