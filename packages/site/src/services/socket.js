@@ -9,8 +9,8 @@ const socket = io(process.env.REACT_APP_SERVER)
 
 socket.connect({
   transports: ['websocket', 'polling'],
-  timeout: 1000,
-  reconnectionDelayMax: 3000
+  timeout: 3000,
+  reconnectionDelayMax: 6000
 })
 socket.on('connect', () => {
   socket.emit('subscribe', 'LATEST_CHAIN_STATUS_ROOM')

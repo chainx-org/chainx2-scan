@@ -75,8 +75,8 @@ if (cluster.isMaster) {
       // methods: ["GET", "POST"]
       origin: '*'
     },
-    pingInterval: 3000,
-    pingTimeout: 1000
+    pingInterval: 6000,
+    pingTimeout: 3000
   })
 
   initDb()
