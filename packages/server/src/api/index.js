@@ -16,7 +16,7 @@ async function getApi() {
         'wss://testnet-1.chainx.org/ws'
     */
     // const ws_endpoint = 'wss://mainnet.chainx.org/ws'
-    const ws_endpoint = 'ws://8.208.20.58:8087'
+    const ws_endpoint = 'ws://47.110.34.31:9087'
     provider = new WsProvider(ws_endpoint)
     api = await ApiPromise.create(options({ provider }))
   }
