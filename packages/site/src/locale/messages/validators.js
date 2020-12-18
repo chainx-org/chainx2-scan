@@ -154,5 +154,9 @@ export default {
   recent_slashed_list: {
     zh: '最近惩罚列表',
     en: 'Recent Slashed List'
+  },
+  position: {
+    zh: '身份',
+    en: 'Position'
   }
 }
