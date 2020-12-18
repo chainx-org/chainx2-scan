@@ -69,7 +69,7 @@
     "rxjs": "^6.6.0",
     "sass-loader": "8.0.2",
     "semver": "6.3.0",
-    "socket.io-client": "^2.3.0",
+    "socket.io-client": "^3.0.0",
     "string-template": "^1.0.0",
     "style-loader": "0.23.1",
     "styled-components": "^5.1.1",
