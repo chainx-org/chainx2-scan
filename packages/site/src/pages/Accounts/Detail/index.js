@@ -19,20 +19,10 @@ import AcccountAsset from './AcccountAsset'
 import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
 import DealList from './DealList'
-import { store } from '../../../index'
-import {
-  fetchTrusteeNodes,
-  fetchUnsettledNodes,
-  fetchValidatorNodes,
-  trusteeNodesSelector,
-  unsettledNodesSelector,
-  validatorNodesSelector
-} from '../../../store/reducers/validatorsSlice'
 import ValidatorLink from '../../../components/ValidatorLink'
+import {accountTypeSelector, fetchAccountType} from "../../../store/reducers/accountSlice";
 
 export default function() {
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(9999999)
   const [loading, setLoading] = useState(false)
   const [activeKey, setActiveKey] = useState('assets')
 
@@ -41,49 +31,20 @@ export default function() {
 
   const { detail: account } = useLoadDetail(api.fetchNativeAssets, params)
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchTrusteeNodes(setLoading, page - 1, pageSize))
-  }, [dispatch, page, pageSize])
 
-  const { items = [] } = useSelector(trusteeNodesSelector) || {}
-  useEffect(() => {
-    dispatch(fetchUnsettledNodes(setLoading, page - 1, pageSize))
-  }, [dispatch, page, pageSize])
-
-  const { items: unsettledInfo } = useSelector(unsettledNodesSelector) || {}
-  useEffect(() => {
-    dispatch(fetchValidatorNodes(setLoading, page - 1, pageSize))
-  }, [dispatch, page, pageSize])
-
-  const { newitems = [] } = useSelector(validatorNodesSelector) || {}
-  let validator = false
-  for (let i = 0; i < newitems.length; i++) {
-    const item = newitems[i]
-    if (item) {
-      if (item.account === address) {
-        validator = true
-      }
+  useEffect(()=> {
+   dispatch(fetchAccountType(setLoading,address))
+  },[dispatch])
+  const { data } = useSelector(accountTypeSelector) || {}
+    let trust = false
+    let unsettled = false
+    let validator = false
+    if(data){
+        trust = data.trust
+        unsettled = data.unsettled
+        validator = data.validator
     }
-  }
 
-  let unsettled = false
-  for (let i = 0; i < unsettledInfo.length; i++) {
-    const item = unsettledInfo[i]
-    if (item) {
-      if (item.account === address) {
-        unsettled = true
-      }
-    }
-  }
-  let trust = false
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i]
-    if (item) {
-      if (item.account === address) {
-        trust = true
-      }
-    }
-  }
   const pubKey = decodeAddress(address) || ''
   const breadcrumb = (
     <Breadcrumb
