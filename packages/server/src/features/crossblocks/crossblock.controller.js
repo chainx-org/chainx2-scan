@@ -39,7 +39,8 @@ class crossBlocksController {
     }
 
     const db = await getDb()
-    //const col = await db.collection('crossTransaction')
+
+    /*
     const col = await db.collection('event')
 
     const query = {
@@ -53,11 +54,16 @@ class crossBlocksController {
         }
       ]
     }
+    */
+
+    const col = await db.collection('crossTransaction')
+
+    const query = {}
 
     const total = await col.countDocuments(query)
     const items = await col
       .find(query)
-      .sort({ 'indexer.blockHeight': -1 })
+      .sort({ btcHeight: -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
