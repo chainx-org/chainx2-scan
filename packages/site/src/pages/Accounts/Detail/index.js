@@ -21,6 +21,7 @@ import { decodeAddress } from '@src/shared'
 import DealList from './DealList'
 import ValidatorLink from '../../../components/ValidatorLink'
 import {accountTypeSelector, fetchAccountType} from "../../../store/reducers/accountSlice";
+import {ValidatorInfoSelector} from "../../../store/reducers/validatorsSlice";
 
 export default function() {
   const [loading, setLoading] = useState(false)
@@ -44,6 +45,14 @@ export default function() {
         unsettled = data.unsettled
         validator = data.validator
     }
+
+  const { items: info } = useSelector(ValidatorInfoSelector) || {}
+  let name = ''
+  for (let i = 0; i < info.length; i++) {
+    if (info[i].account === address) {
+      name = info[i].referralId
+    }
+  }
 
   const pubKey = decodeAddress(address) || ''
   const breadcrumb = (
@@ -79,67 +88,6 @@ export default function() {
             label: $t('address_item'),
             data: (
               <div style={{ display: 'flex' }}>
-                {trust ? (
-                  <div>
-                    <div
-                      style={{
-                        marginRight: '20px',
-                        background: 'rgba(246, 201, 74)',
-                        borderRadius: '4px',
-                        color: 'black',
-                        width: '6em',
-                        textAlign: 'center'
-                      }}
-                    >
-                      {$t('trustee_node')}
-                    </div>
-                  </div>
-                ) : null}
-                {unsettled ? (
-                  <div
-                    style={{
-                      marginRight: '20px',
-                      background: 'rgba(246, 201, 74)',
-                      borderRadius: '4px',
-                      color: 'black',
-                      width: '6em',
-                      textAlign: 'center'
-                    }}
-                  >
-                    {$t('sync_node')}
-                  </div>
-                ) : null}
-                {validator ? (
-                  <div
-                    style={{
-                      marginRight: '20px',
-                      background: 'rgba(246, 201, 74)',
-                      borderRadius: '4px',
-                      color: 'black',
-                      width: '6em',
-                      textAlign: 'center'
-                    }}
-                  >
-                    {$t('validator_node')}
-                  </div>
-                ) : null}
-                {validator || trust || unsettled ? (
-                  <div>
-                    <ValidatorLink
-                      name={'节点详情'}
-                      className="text-truncate"
-                      value={address}
-                      style={{
-                        marginRight: '20px',
-                        color: 'white',
-                        background: 'rgba(70, 174, 226)',
-                        borderRadius: '4px',
-                        width: '6em',
-                        textAlign: 'center'
-                      }}
-                    />
-                  </div>
-                ) : null}
                 <AccountLink value={address} />
               </div>
             )
@@ -148,20 +96,69 @@ export default function() {
             label: $t('account_publickey'),
             data: pubKey
           },
-          /*
-          {
-            label: $t('total_transaction_item'),
-            data: account.refcount
-          },
-          */
           {
             label: $t('nonce'),
             data: account.nonce
-          }
-          // {
-          //   label: $t('btc_recharge_address'),
-          //   data: '--'
-          // }
+          },
+          validator || trust || unsettled ?
+          {
+            label: $t('position'),
+            data: <div style={{display:'flex'}}>
+              {trust ? (
+                  <div>
+                    <div
+                        style={{
+                          marginRight: '20px',
+                          background: 'rgba(246, 201, 74)',
+                          borderRadius: '4px',
+                          color: 'black',
+                          width: '6em',
+                          textAlign: 'center'
+                        }}
+                    >
+                      {$t('trustee_node')}
+                    </div>
+                  </div>
+              ) : null}
+              {unsettled ? (
+                  <div
+                      style={{
+                        marginRight: '20px',
+                        background: 'rgba(246, 201, 74)',
+                        borderRadius: '4px',
+                        color: 'black',
+                        width: '6em',
+                        textAlign: 'center'
+                      }}
+                  >
+                    {$t('sync_node')}
+                  </div>
+              ) : null}
+              {validator ? (
+                  <div
+                      style={{
+                        marginRight: '20px',
+                        background: 'rgba(246, 201, 74)',
+                        borderRadius: '4px',
+                        color: 'black',
+                        width: '6em',
+                        textAlign: 'center'
+                      }}
+                  >
+                    {$t('validator_node')}
+                  </div>
+              ) : null}
+            </div>
+          } : '',
+          validator || trust || unsettled ?
+          {
+            label: $t('node_detail'),
+            data:  <ValidatorLink
+                name={name}
+                className="text-truncate"
+                value={address}
+            />
+          } : ''
         ]}
       />
 
