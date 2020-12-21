@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Button } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
+import $t from '../../locale'
 import xx from '../../assets/0x.svg'
 import hash from '../../assets/hash.svg'
 import search from '../../assets/scan.webp'
@@ -120,7 +121,7 @@ export default function SS58() {
       style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
     >
       <div>
-        <div style={{ fontWeight: 'bold' }}>SS58账号转化</div>
+        <div style={{ fontWeight: 'bold' }}>{$t('ss58_transform')}</div>
         <div
           style={{
             width: '400px',
@@ -138,7 +139,11 @@ export default function SS58() {
                 marginLeft: '40px'
               }}
             >
-              {<div style={{ fontWeight: 'bold' }}>输入账号或公钥</div>}
+              {
+                <div style={{ fontWeight: 'bold' }}>
+                  {$t('input_address_or_pubkey')}
+                </div>
+              }
               <Input
                 value={searchValue}
                 onChange={handleSearchValue}
@@ -156,7 +161,7 @@ export default function SS58() {
                 <div
                   style={{ color: 'red', fontSize: '12px', marginTop: '10px' }}
                 >
-                  转换失败，未找到此账号或公钥
+                  {$t('transform_failed')}
                 </div>
               ) : null}
               <Button
@@ -170,7 +175,7 @@ export default function SS58() {
                   color: 'white'
                 }}
               >
-                转换
+                {$t('transform')}
               </Button>
             </div>
           </div>
@@ -344,7 +349,7 @@ export default function SS58() {
   ) : (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div>
-        <div style={{ fontWeight: 'bold' }}>SS58账号转化</div>
+        <div style={{ fontWeight: 'bold' }}>{$t('ss58_transform')}</div>
         <div
           style={{
             width: '400px',
@@ -362,7 +367,11 @@ export default function SS58() {
                 marginLeft: '40px'
               }}
             >
-              {<div style={{ fontWeight: 'bold' }}>输入账号或公钥</div>}
+              {
+                <div style={{ fontWeight: 'bold' }}>
+                  {$t('input_address_or_pubkey')}
+                </div>
+              }
               <div>
                 <TextArea
                   value={searchValue}
@@ -386,7 +395,7 @@ export default function SS58() {
                     marginTop: '10px'
                   }}
                 >
-                  转换失败，未找到此账号或公钥
+                  {$t('transform_failed')}
                 </div>
               ) : null}
               <Button
@@ -400,7 +409,7 @@ export default function SS58() {
                   color: 'white'
                 }}
               >
-                转换
+                {$t('transform')}
               </Button>
             </div>
           </div>

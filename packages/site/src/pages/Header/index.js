@@ -114,13 +114,13 @@ export default withRouter(function(props) {
               className="navbar-item is-tab has-dropdown is-hoverable"
               style={{ alignItems: 'center' }}
             >
-              工具
+              {$t('tools')}
               <div className="navbar-dropdown">
                 <NavLink className="navbar-item" to="/ss58" style={style}>
-                  ss58账号转换
+                  {$t('ss58_transform')}
                 </NavLink>
                 <NavLink className="navbar-item" to="/search" style={style}>
-                  搜索事件/交易
+                  {$t('search_event_and_extrinsic')}
                 </NavLink>
               </div>
             </div>
