@@ -116,7 +116,7 @@ export default function CrossWithdrawals({ address }) {
           ),
           asset_type: 'BTC',
           chainx_time: <DateShow value={item.indexer.blockTime} />,
-          state: item.withdrawState
+          state: item.withdrawalState
         }
       })}
       columns={[
@@ -153,13 +153,11 @@ export default function CrossWithdrawals({ address }) {
         {
           title: $t('tx_balance'),
           dataIndex: 'tx_balance'
-        }
-        /*
+        },
         {
           title: $t('withdraw_state'),
           dataIndex: 'state'
         }
-        */
       ]}
     />
   )

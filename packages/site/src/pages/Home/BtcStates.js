@@ -80,7 +80,7 @@ export default function BtcStates() {
               <div className="btc_title">{$t('withdrawal_txs')}</div>
               <div className="btc_content">
                 <NavLink to="/crossblocks/bitcoin/withdrawals">
-                  {status.withdrawlCount ? status.withdrawalCount : 0}
+                  {status.withdrawalCount ? status.withdrawalCount : 0}
                 </NavLink>
               </div>
             </div>

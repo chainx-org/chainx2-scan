@@ -39,6 +39,23 @@ class crossBlocksController {
     }
 
     const db = await getDb()
+
+    /*
+    const col = await db.collection('event')
+
+    const query = {
+      $or: [
+        { $and: [{ section: 'xGatewayBitcoin' }, { method: 'Deposited' }] },
+        {
+          $and: [
+            { section: 'xGatewayRecords' },
+            { method: 'WithdrawalFinished' }
+          ]
+        }
+      ]
+    }
+    */
+
     const col = await db.collection('crossTransaction')
 
     const query = {}
@@ -104,7 +121,7 @@ class crossBlocksController {
     }
 
     const total = await col.countDocuments(query)
-    let items = await col
+    const events = await col
       .find(query)
       .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
@@ -112,15 +129,43 @@ class crossBlocksController {
       .toArray()
 
     const api = await getApi()
-    const withdrawList = await api.rpc.xgatewayrecords.withdrawalList()
+    const withdrawalList = await api.rpc.xgatewayrecords.withdrawalList()
+    const keys = Object.keys(withdrawalList.toJSON())
 
-    for (let i = 0; i < items.length; i++) {
-      // const withdrawState = await api.query.xGatewayRecords.withdrawalStateOf(items[i].data[0])
-      const withdrawState =
-        withdrawList.length > 0
-          ? withdrawList.toJSON()[items[i].data[0]].state
+    let items = []
+    for (let i = 0; i < events.length; i++) {
+      let item = events[i]
+      const id = item.data[0]
+      let state = ''
+      if (keys.length > 0 && keys.includes(id.toString())) {
+        state = withdrawalList.toJSON()[id].state || ''
+      } else {
+        /*
+        const query = {
+          $and: [
+            { method:  { $in: ['WithdrawalProcessed', 'WithdrawalRecovered', 'WithdrawalCanceled', 'WithdrawalFinished', 'WithdrawalProposalVoted' ] } },
+            { 'data.0': id }
+          ]
+        }
+        const results = await col
+        .find(query)
+        .sort({ 'indexer.blockHeight': -1 })
+        .toArray()
+        state = results[0].method
+        */
+        // console.log('raw', state)
+        // state = raw.toString()
+        //const raw = await api.query.xGatewayRecords.withdrawalStateOf(id)
+        state = 'Finished'
+      }
+
+      /*
+      const withdrawalState =
+          ? (withdrawalList.toJSON()[items[i].data[0]] ? withdrawalList.toJSON()[items[i].data[0]].state : '')
           : ''
-      items[i].withdrawState = withdrawState
+      */
+      item['withdrawalState'] = state
+      items.push(item)
     }
 
     ctx.body = {

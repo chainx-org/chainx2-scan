@@ -31,6 +31,7 @@ import Votes from './Votes'
 export default function(props) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(1000)
+  const [activeKey, setActiveKey] = useState('authored')
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const { address } = useParams()
@@ -89,12 +90,6 @@ export default function(props) {
       lastTotalVoteWeightUpdate = info[i].lastTotalVoteWeightUpdate
     }
   }
-  if (props.location.state.activeKey === 'missed') {
-    var [activeKey, setActiveKey] = useState('missed')
-  } else {
-    ;[activeKey, setActiveKey] = useState('authored')
-  }
-
   const breadcrumb = (
     <Breadcrumb
       dataSource={[
