@@ -21,6 +21,9 @@ export default withRouter(function(props) {
     path => !!matchPath(location.pathname, { path })
   )
   const [active, SetActive] = React.useState(false)
+  const width = document.documentElement.clientWidth
+  const mobile = width < 1024
+  let style = mobile === true ? {} : { color: 'black' }
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="container">
@@ -111,21 +114,13 @@ export default withRouter(function(props) {
               className="navbar-item is-tab has-dropdown is-hoverable"
               style={{ alignItems: 'center' }}
             >
-              工具
+              {$t('tools')}
               <div className="navbar-dropdown">
-                <NavLink
-                  className="navbar-item"
-                  to="/ss58"
-                  style={{ color: 'black' }}
-                >
-                  ss58账号转换
+                <NavLink className="navbar-item" to="/ss58" style={style}>
+                  {$t('ss58_transform')}
                 </NavLink>
-                <NavLink
-                  className="navbar-item"
-                  to="/search"
-                  style={{ color: 'black' }}
-                >
-                  搜索事件/交易
+                <NavLink className="navbar-item" to="/search" style={style}>
+                  {$t('search_event_and_extrinsic')}
                 </NavLink>
               </div>
             </div>

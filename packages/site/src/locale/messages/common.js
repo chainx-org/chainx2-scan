@@ -94,5 +94,29 @@ export default {
   WeChat: {
     zh: '微信',
     en: 'WeChat'
+  },
+  search_event_and_extrinsic: {
+    zh: '搜索事件/交易',
+    en: 'Search Events/Extrinsics'
+  },
+  tools: {
+    zh: '工具',
+    en: 'Tools'
+  },
+  ss58_transform: {
+    zh: '转换地址/公钥',
+    en: 'Transform Address/Public Key'
+  },
+  input_address_or_pubkey: {
+    zh: '请输入账户地址或公钥',
+    en: 'Please Input Address or Public Key'
+  },
+  transform: {
+    zh: '转换！',
+    en: 'Transform!'
+  },
+  transform_failed: {
+    zh: '转换失败，未找到此账户地址或公钥',
+    en: 'Transformation failed. Address or public key not found'
   }
 }
