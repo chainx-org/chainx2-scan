@@ -8,6 +8,7 @@ const { initDb } = require('./services/mongo')
 const config = require('../config')
 //const { Socket } = require('socket.io')
 const ratelimit = require('koa-ratelimit')
+const compress = require('koa-compress')
 const cluster = require('cluster')
 const numCPUs = require('os').cpus().length
 
@@ -41,6 +42,18 @@ app
       blacklist: ctx => {
         // some logic that returns a boolean
       }
+    })
+  )
+  .use(
+    compress({
+      threshold: 2048,
+      gzip: {
+        flush: require('zlib').constants.Z_SYNC_FLUSH
+      },
+      deflate: {
+        flush: require('zlib').constants.Z_SYNC_FLUSH
+      },
+      br: false // disable brotli
     })
   )
 

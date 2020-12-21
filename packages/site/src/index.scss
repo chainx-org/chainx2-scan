@@ -461,7 +461,9 @@ a:focus {
           border-width: 0;
           padding-bottom: 0.5rem;
         }
-
+        &.active{
+          background-color: transparent;
+        }
         &.is-active {
           color: #fff;
           border-bottom: 3px solid $primary;

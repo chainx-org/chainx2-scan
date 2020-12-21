@@ -35,6 +35,8 @@ export default function Search() {
   }, [search, page, pageSize, dispatch])
 
   const { items, totalnum } = useSelector(extrinsicSearchSelector) || []
+  const width = document.documentElement.clientWidth
+  const mobile = width < 1024
   let info
   if (data) {
     info = data
@@ -60,14 +62,25 @@ export default function Search() {
       <div style={{ display: 'flex' }}>
         <div>
           <span style={{ marginRight: 20 }}>搜索类型</span>
-          <Select
-            defaultValue="event"
-            style={{ width: 400, marginBottom: 20 }}
-            onChange={handleChange}
-          >
-            <Option value="event">event</Option>
-            <Option value="extrinsic">extrinsic</Option>
-          </Select>
+          {mobile ? (
+            <Select
+              defaultValue="event"
+              style={{ width: '200px', marginBottom: 20 }}
+              onChange={handleChange}
+            >
+              <Option value="event">event</Option>
+              <Option value="extrinsic">extrinsic</Option>
+            </Select>
+          ) : (
+            <Select
+              defaultValue="event"
+              style={{ width: '400px', marginBottom: 20 }}
+              onChange={handleChange}
+            >
+              <Option value="event">event</Option>
+              <Option value="extrinsic">extrinsic</Option>
+            </Select>
+          )}
         </div>
         <div
           style={{
