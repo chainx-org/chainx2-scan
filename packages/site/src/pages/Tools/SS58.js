@@ -5,6 +5,7 @@ import xx from '../../assets/0x.svg'
 import hash from '../../assets/hash.svg'
 import search from '../../assets/scan.webp'
 import {decodeAddress, encodeAddress} from '../../shared'
+import PrefixItem from "./PrefixItem";
 
 const {hexToU8a, isHex} = require('@polkadot/util');
 const MyIcon = createFromIconfontCN({
@@ -220,6 +221,7 @@ export default function SS58() {
                                         <div>{address}</div>
                                     </div>
                                 </li>
+                                <PrefixItem prefix={'Chainx (Prefix: 44)'} value={address}/>
                             </ul> : <div style={{
                                 display: 'flex',
                                 justifyContent: 'center',
