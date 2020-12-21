@@ -58,7 +58,7 @@ export default function() {
 
   const { newitems = [] } = useSelector(validatorNodesSelector) || {}
   let validator = false
-  for (let i = 0; i < items.length; i++) {
+  for (let i = 0; i < newitems.length; i++) {
     const item = newitems[i]
     if (item) {
       if (item.account === address) {

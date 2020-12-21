@@ -115,8 +115,13 @@ export default {
     zh: '金额',
     en: 'Balance'
   },
-  balance_history: {
-    zh: '历史余额',
-    en: 'Balance History'
+  transfer_out: {
+    zh: '转出',
+    en: 'Transfer out'
+  },
+  transfer_in: {
+    zh: '转入',
+    en: 'Transfer in'
+
   }
 }

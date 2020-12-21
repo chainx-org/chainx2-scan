@@ -3,8 +3,10 @@ import $t from '@src/locale'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   activePairSelector,
+  fetchPairs,
   fetchDepth,
-  normalizedDepthSelector
+  normalizedDepthSelector,
+  depthSelector
 } from '@src/store/reducers/dexSlice'
 import classnames from 'classnames'
 import Amount from '@components/Amount'
@@ -15,24 +17,35 @@ import {
 
 export default function PendingOrders() {
   const dispatch = useDispatch()
-  const active = useSelector(activePairSelector)
-  const { asks, bids } = useSelector(normalizedDepthSelector)
-  const totalConcatArr = [...asks, ...bids].map(item => item.total)
-  const max = Math.max(...totalConcatArr)
-
-  const { pipDecimals: precision = 0, tickDecimals: unitPrecision = 0 } =
-    active || {}
 
   useEffect(() => {
-    if (typeof active !== 'undefined' && active !== null) {
-      dispatch(fetchDepth(active.pairId))
-    }
-  }, [dispatch, active])
+    dispatch(fetchPairs())
+  }, [dispatch])
+
+  const active = useSelector(activePairSelector)
 
   useEffect(() => {
     dispatch(fetchTradingPairs())
   }, [dispatch])
   const Tradingpairs = useSelector(tradingPairsSelector)
+
+  useEffect(() => {
+    if (typeof active !== 'undefined' && active !== null) {
+      dispatch(fetchDepth(active.pairId))
+    }
+  }, [dispatch, active, Tradingpairs])
+
+  // const { asks, bids } = useSelector(normalizedDepthSelector)
+  const { item: depth } = useSelector(depthSelector) || {}
+  const asks = depth ? depth.asks : []
+  const bids = depth ? depth.bids : []
+  const totalConcatArr = [...asks, ...bids].map(item => item.total)
+  const max = Math.max(...totalConcatArr)
+  // const max = 5
+
+  const { pipDecimals: precision = 0, tickDecimals: unitPrecision = 0 } =
+    active || {}
+
   return (
     <section className="panel">
       <div className="panel-heading">{$t('dex_depth_orders')}</div>
@@ -63,17 +76,22 @@ export default function PendingOrders() {
                         />
                         <span className="price">
                           <Amount
-                            value={item.price}
-                            precision={precision}
+                            value={item[0]}
+                            precision={9}
                             minDigits={precision - unitPrecision}
                             hideSymbol
                           />
                         </span>
                         <span className="amount">
-                          <Amount value={item.amount} symbol="PCX" hideSymbol />
+                          <Amount value={item[1]} symbol="PCX" hideSymbol />
                         </span>
                         <span className="total">
-                          <Amount value={item.total} symbol="PCX" hideSymbol />
+                          <Amount
+                            value={(item[0] / 10 ** 8) * item[1]}
+                            precision={9}
+                            symbol="PCX"
+                            hideSymbol
+                          />
                         </span>
                       </div>
                     )
@@ -105,17 +123,22 @@ export default function PendingOrders() {
                       />
                       <span className="price">
                         <Amount
-                          value={item.price}
-                          precision={precision}
+                          value={item[0]}
+                          precision={9}
                           minDigits={precision - unitPrecision}
                           hideSymbol
                         />
                       </span>
                       <span className="amount">
-                        <Amount value={item.amount} symbol="PCX" hideSymbol />
+                        <Amount value={item[1]} symbol="PCX" hideSymbol />
                       </span>
                       <span className="total">
-                        <Amount value={item.total} symbol="PCX" hideSymbol />
+                        <Amount
+                          value={(item[0] / 10 ** 8) * item[1]}
+                          precesion={9}
+                          symbol="PCX"
+                          hideSymbol
+                        />
                       </span>
                     </div>
                   )

@@ -254,5 +254,17 @@ export default {
   bridge_newblocks: {
     zh: '转接桥最新区块',
     en: 'Bitcoin Bridge New Blocks'
+  },
+  cross_threshold: {
+    zh: '有效签名数',
+    en: 'Multi Signer Threshold'
+  },
+  btc_usable_balance: {
+    zh: 'BTC总余额',
+    en: 'BTC Balance'
+  },
+  btc_pcx_price: {
+    zh: '价格(PCX/BTC)',
+    en: 'Price(PCX/BTC)'
   }
 }

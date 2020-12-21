@@ -150,5 +150,9 @@ export default {
   trustee_node: {
     zh: '信托节点',
     en: 'Trustee'
+  },
+  recent_slashed_list: {
+    zh: '最近惩罚列表',
+    en: 'Recent Slashed List'
   }
 }

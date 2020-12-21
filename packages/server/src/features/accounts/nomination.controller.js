@@ -7,13 +7,7 @@ class NominationController {
     // const col = await db.collection('vote')
     const { address } = ctx.params
     const col = await getEventCollection()
-    const query = {
-      $and: [
-        // { method: { $in: ['Bonded', 'Rebonded', 'Unbonded'] } },
-        { method: 'Bonded' },
-        { 'data.0': address }
-      ]
-    }
+    const query = {'data.0': address , $or: [{ "method": 'Bonded'},{"method": 'Unbonded'},{"method": 'Rebonded'}]}
     const total = await col.count(query)
     // console.log('total', total)
     const items = await col

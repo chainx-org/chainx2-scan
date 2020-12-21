@@ -6,7 +6,7 @@ const http = require('http')
 const cors = require('@koa/cors')
 const { initDb } = require('./services/mongo')
 const config = require('../config')
-const Socket = require('socket.io')
+//const { Socket } = require('socket.io')
 const ratelimit = require('koa-ratelimit')
 const cluster = require('cluster')
 const numCPUs = require('os').cpus().length
@@ -50,7 +50,8 @@ if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`)
 
   // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
+  // for (let i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < 4; i++) {
     cluster.fork()
   }
 
@@ -67,7 +68,16 @@ if (cluster.isMaster) {
   }).listen(8000);
   */
   const server = http.createServer(app.callback())
-  const io = new Socket(server)
+  const io = require('socket.io')(server, {
+    transports: ['websocket', 'polling'],
+    cors: {
+      // origin: ["https://scan.chainx.org", "https://scan-v2.chainx.org"],
+      // methods: ["GET", "POST"]
+      origin: '*'
+    },
+    pingInterval: 6000,
+    pingTimeout: 3000
+  })
 
   initDb()
     .then(db => {

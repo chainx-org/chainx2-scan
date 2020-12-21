@@ -22,6 +22,15 @@ export default function ValidatorsNav(props) {
         <li className={classnames({ 'is-active': activeKey === 'missed' })}>
           <NavLink to="/validators/missed">{$t('validator_slashed')}</NavLink>
         </li>
+        <li
+          className={classnames({
+            'is-active': activeKey === 'recent_slashed'
+          })}
+        >
+          <NavLink to="/validators/recent_slashed">
+            {$t('recent_slashed_list')}
+          </NavLink>
+        </li>
       </ul>
     </div>
   )

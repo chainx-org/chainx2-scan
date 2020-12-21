@@ -294,6 +294,45 @@ class validatorsController {
       total
     }
   }
+
+  async getRecentSlashed(ctx) {
+    const db = await getDb()
+    const statusCol = await db.collection('status')
+    const eventCol = await db.collection('event')
+    const validatorCol = await db.collection('validators')
+    const { indexedHeight } = await statusCol.findOne({})
+    const { page, pageSize } = extractPage(ctx)
+    const recent_block = 300 * 50
+    const query = {
+      $and: [
+        { method: 'Slashed' },
+        { 'indexer.blockHeight': { $gt: indexedHeight - recent_block } }
+      ]
+    }
+    const total = await eventCol.countDocuments(query)
+    const events = await eventCol
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1 })
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .toArray()
+
+    let items = []
+    for (let i = 0; i < events.length; i++) {
+      let item = events[i]
+      const address = item.data[0]
+      const result = await validatorCol.findOne({ account: address })
+      item['referralId'] = result ? result.referralId : ''
+      items.push(item)
+    }
+
+    ctx.body = {
+      items,
+      page,
+      pageSize,
+      total
+    }
+  }
 }
 
 module.exports = new validatorsController()

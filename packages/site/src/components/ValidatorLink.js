@@ -6,7 +6,7 @@ import { Empty } from 'antd'
 import hexAddPrefix from '@polkadot/util/hex/addPrefix'
 import { FormattedMessage } from 'react-intl'
 
-export default function VilidatorLink({ value, name, style, className }) {
+export default function VilidatorLink({ value, name, style, className,activeKey }) {
   if (!name)
     return (
       <Empty
@@ -20,7 +20,7 @@ export default function VilidatorLink({ value, name, style, className }) {
     )
   return (
     <NavLink
-      to={`/validators/detail/${value}`}
+      to={{pathname:`/validators/detail/${value}`,state:{activeKey}}}
       style={style}
       className={classnames('nav-link', className)}
     >

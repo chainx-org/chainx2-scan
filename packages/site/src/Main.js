@@ -11,6 +11,7 @@ import Home from './pages/Home'
 import Dex from './pages/Dex'
 import './services/socket'
 import Search from './pages/Search'
+import SS58 from './pages/Tools/SS58'
 // import ReactGA from 'react-ga'
 
 export default function Main() {
@@ -35,6 +36,7 @@ export default function Main() {
           <Route path="/accounts" component={Accounts} />
           <Route path="/dex" component={Dex} />
           <Route path="/search" component={Search} />
+          <Route path="/ss58" component={SS58} />
           <Route path="/runtimeHistory" component={Blocks} />
         </Switch>
       </section>

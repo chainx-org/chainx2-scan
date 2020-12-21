@@ -3,6 +3,7 @@ const { FEED_INTERVAL } = require('./constant')
 const { latestChainStatusRoom } = require('./constant')
 const { getBlockCollection } = require('../services/mongo')
 const { getApi } = require('../api')
+const { getDb } = require('../services/mongo')
 const { getExtrinsicCollection } = require('../services/mongo')
 const { getEventCollection } = require('../services/mongo')
 const { getStatusCollection } = require('../services/mongo')
@@ -11,12 +12,13 @@ const { getValidatorsCollection } = require('../services/mongo')
 const { getTransferColCollection } = require('../services/mongo')
 
 let chainStatus = {}
-let latestHeader = {}
-let finalizedHeader = {}
+// let latestHeader = {}
+// let finalizedHeader = {}
 
 async function feedLatestChainStatus(io) {
   try {
     const api = await getApi()
+    const db = await getDb()
 
     // 最新区块高度
     /*
@@ -24,12 +26,15 @@ async function feedLatestChainStatus(io) {
     const heightInfo = await statusCol.findOne({ name: 'main-scan-height' })
     chainStatus.best = heightInfo.latestHeight
     */
+    /*
     const subscribeNewHeads = await api.rpc.chain.subscribeNewHeads(
       async header => {
         // console.log('get latest header', data)
         latestHeader = await header
       }
     )
+    */
+    const latestHeader = await api.rpc.chain.getHeader()
     const latestHeight = latestHeader.number
       ? latestHeader.number.toNumber()
       : 0
@@ -45,12 +50,16 @@ async function feedLatestChainStatus(io) {
     const finalizedHeight = latestFinalizedBlockHeader.number.toNumber()
     chainStatus.finalized = finalizedHeight
     */
+    /*
     const subscribeFinalizedHeads = await api.rpc.chain.subscribeFinalizedHeads(
       async header => {
         // console.log('get latest header', data)
         finalizedHeader = await header
       }
     )
+    */
+    const finalizedHead = await api.rpc.chain.getFinalizedHead()
+    const finalizedHeader = await api.rpc.chain.getHeader(finalizedHead)
     const finalizedHeight = finalizedHeader.number
       ? finalizedHeader.number.toNumber()
       : 0
@@ -68,7 +77,7 @@ async function feedLatestChainStatus(io) {
     //console.time('ex_count')
     const extrinsicCol = await getExtrinsicCollection()
     //const extrinsicCount = await extrinsicCol.countDocuments({})
-    const extrinsicCount = await extrinsicCol.find({}, {}).count()
+    const extrinsicCount = await extrinsicCol.countDocuments()
     chainStatus.extrinsic_count = extrinsicCount
     //console.timeEnd('ex_count')
 
@@ -76,7 +85,7 @@ async function feedLatestChainStatus(io) {
     //console.time('account_count')
     const accountCol = await getAccountsCollection()
     //const accountCount = await accountCol.countDocuments({})
-    const accountCount = await accountCol.find({}, {}).count()
+    const accountCount = await accountCol.countDocuments()
     chainStatus.account_count = accountCount
     //console.timeEnd('account_count')
 
@@ -84,7 +93,7 @@ async function feedLatestChainStatus(io) {
     //console.time('event_count')
     const eventCol = await getEventCollection()
     //const eventCount = await eventCol.countDocuments({})
-    const eventCount = await eventCol.find({}, {}).count()
+    const eventCount = await eventCol.countDocuments()
     chainStatus.event_count = eventCount
     //console.timeEnd('event_count')
 
@@ -135,6 +144,24 @@ async function feedLatestChainStatus(io) {
     const currentEra = await api.query.xStaking.currentEra()
     chainStatus.vote_cycle = currentEra.toJSON()
     //console.timeEnd('era')
+
+    // 最新价格
+    const dealCollection = await db.collection('deals')
+    const items = await dealCollection
+      .find({})
+      .sort()
+      .toArray()
+    let latestDexPrice = 0
+    if (items[items.length - 1]) {
+      latestDexPrice = items[items.length - 1].price
+    }
+    chainStatus.latestPrice = latestDexPrice
+
+    // BTC余额
+    const depositMineCol = await db.collection('depositMine')
+    const depositMine = await depositMineCol.find().toArray()
+    const usableBTC = depositMine[0].balance.Usable
+    chainStatus.usableBTC = usableBTC
 
     // const balance = await api.query.system.account(address)
     /*

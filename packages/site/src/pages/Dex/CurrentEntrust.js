@@ -13,6 +13,7 @@ import Amount from '@components/Amount'
 import HasFill from '@components/HasFill'
 import OrderStatus from '@components/OrderStatus'
 import AccountLink from '../../components/AccountLink'
+import BlockLink from '../../components/BlockLink'
 
 export default function CurrentEntrust() {
   const [page, setPage] = useState(1)
@@ -46,6 +47,8 @@ export default function CurrentEntrust() {
         const hasFill = data.alreadyFilled
 
         return {
+          createdBlockHeight: <BlockLink value={data.props.createdAt} />,
+          updatedBlockHeight: <BlockLink value={data.lastUpdateAt} />,
           accountid: (
             <AccountLink
               style={{ maxWidth: 136 }}
@@ -80,8 +83,16 @@ export default function CurrentEntrust() {
           dataIndex: 'accountid'
         },
         {
-          title: $t('dex_order_number'),
+          title: $t('dex_account_order_number'),
           dataIndex: 'id'
+        },
+        {
+          title: $t('dex_order_created_blockheight'),
+          dataIndex: 'createdBlockHeight'
+        },
+        {
+          title: $t('dex_order_updated_blockheight'),
+          dataIndex: 'updatedBlockHeight'
         },
         {
           title: $t('dex_order_direction'),
