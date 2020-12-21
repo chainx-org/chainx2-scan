@@ -8,6 +8,7 @@ const { initDb } = require('./services/mongo')
 const config = require('../config')
 const Socket = require('socket.io')
 const ratelimit = require('koa-ratelimit')
+const compress = require('koa-compress')
 const cluster = require('cluster')
 const numCPUs = require('os').cpus().length
 
