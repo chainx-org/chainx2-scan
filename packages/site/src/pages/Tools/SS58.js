@@ -221,28 +221,108 @@ export default function SS58() {
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 44)'}
-                value={address}
+                prefix={'Polkadot (Prefix: 0)'}
+                value={polkdotAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 44)'}
-                value={address}
+                prefix={'Kusama (Prefix: 2)'}
+                value={KusamaAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 43)'}
-                value={address}
+                prefix={'Darwinia (Prefix: 18)'}
+                value={DarwiniaAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 43)'}
-                value={address}
+                prefix={'Crab (Prefix: 42)'}
+                value={CrabAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 43)'}
-                value={address}
+                prefix={'Westend (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Edgeware (Prefix: 7)'}
+                value={EdgewareAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Centrifuge (Prefix: 36)'}
+                value={CentrifugeAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Mandala (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Phala (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Bifrost (Prefix: 6)'}
+                value={BifrostAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Plasm (Prefix: 5)'}
+                value={PlasmAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Stafi (Prefix: 20)'}
+                value={StafiAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Kulupu (Prefix: 16)'}
+                value={KulupuAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Crust (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Laminar (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Karura (Prefix: 8)'}
+                value={KaruraAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Reynolds (Prefix: 9)'}
+                value={ReynoldsAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Acala (Prefix: 10)'}
+                value={AcalaAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Polymath (Prefix: 12)'}
+                value={PolymathAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Robonomics (Prefix: 32)'}
+                value={RobonomicsAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Substrate (Prefix: 42)'}
+                value={CrabAddress}
                 style={lastStyle}
               />
             </ul>
