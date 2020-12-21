@@ -68,6 +68,18 @@ app
       }
     })
   )
+  .use(
+    compress({
+      threshold: 2048,
+      gzip: {
+        flush: require('zlib').constants.Z_SYNC_FLUSH
+      },
+      deflate: {
+        flush: require('zlib').constants.Z_SYNC_FLUSH
+      },
+      br: false // disable brotli
+    })
+  )
 
 require('./routes')(app)
 
