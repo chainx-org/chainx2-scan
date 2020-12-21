@@ -61,26 +61,15 @@ export default function Search() {
     <div>
       <div style={{ display: 'flex' }}>
         <div>
-          <span style={{ marginRight: 20 }}>搜索类型</span>
-          {mobile ? (
-            <Select
-              defaultValue="event"
-              style={{ width: '200px', marginBottom: 20 }}
-              onChange={handleChange}
-            >
-              <Option value="event">event</Option>
-              <Option value="extrinsic">extrinsic</Option>
-            </Select>
-          ) : (
-            <Select
-              defaultValue="event"
-              style={{ width: '400px', marginBottom: 20 }}
-              onChange={handleChange}
-            >
-              <Option value="event">event</Option>
-              <Option value="extrinsic">extrinsic</Option>
-            </Select>
-          )}
+          <span style={{ marginRight: 20 }}>{$t('search_type')}</span>
+          <Select
+            defaultValue="event"
+            style={{ width: 400, marginBottom: 20 }}
+            onChange={handleChange}
+          >
+            <Option value="event">event</Option>
+            <Option value="extrinsic">extrinsic</Option>
+          </Select>
         </div>
         <div
           style={{
@@ -97,14 +86,14 @@ export default function Search() {
             placement={'bottom'}
           >
             <QuestionCircleOutlined />
-            <span>帮助</span>
+            <span>{$t('help')}</span>
           </Tooltip>
         </div>
       </div>
       <Search
-        placeholder="搜索前请先选择搜索类型"
+        placeholder={$t('search_before')}
         allowClear
-        enterButton="搜索"
+        enterButton={$t('search')}
         size="large"
         onSearch={onSearch}
       />
