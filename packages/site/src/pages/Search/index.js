@@ -35,6 +35,8 @@ export default function Search() {
   }, [search, page, pageSize, dispatch])
 
   const { items, totalnum } = useSelector(extrinsicSearchSelector) || []
+  const width = document.documentElement.clientWidth
+  const mobile = width < 1024
   let info
   if (data) {
     info = data
