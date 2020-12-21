@@ -20,8 +20,11 @@ import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
 import DealList from './DealList'
 import ValidatorLink from '../../../components/ValidatorLink'
-import {accountTypeSelector, fetchAccountType} from "../../../store/reducers/accountSlice";
-import {ValidatorInfoSelector} from "../../../store/reducers/validatorsSlice";
+import {
+  accountTypeSelector,
+  fetchAccountType
+} from '../../../store/reducers/accountSlice'
+import { ValidatorInfoSelector } from '../../../store/reducers/validatorsSlice'
 
 export default function() {
   const [loading, setLoading] = useState(false)
@@ -33,18 +36,18 @@ export default function() {
   const { detail: account } = useLoadDetail(api.fetchNativeAssets, params)
   const dispatch = useDispatch()
 
-  useEffect(()=> {
-   dispatch(fetchAccountType(setLoading,address))
-  },[dispatch])
+  useEffect(() => {
+    dispatch(fetchAccountType(setLoading, address))
+  }, [dispatch])
   const { data } = useSelector(accountTypeSelector) || {}
-    let trust = false
-    let unsettled = false
-    let validator = false
-    if(data){
-        trust = data.trust
-        unsettled = data.unsettled
-        validator = data.validator
-    }
+  let trust = false
+  let unsettled = false
+  let validator = false
+  if (data) {
+    trust = data.trust
+    unsettled = data.unsettled
+    validator = data.validator
+  }
 
   const { items: info } = useSelector(ValidatorInfoSelector) || {}
   let name = ''
@@ -100,13 +103,29 @@ export default function() {
             label: $t('nonce'),
             data: account.nonce
           },
-          validator || trust || unsettled ?
-          {
-            label: $t('position'),
-            data: <div style={{display:'flex'}}>
-              {trust ? (
-                  <div>
-                    <div
+          validator || trust || unsettled
+            ? {
+                label: $t('node_type'),
+                data: (
+                  <div style={{ display: 'flex' }}>
+                    {trust ? (
+                      <div>
+                        <div
+                          style={{
+                            marginRight: '20px',
+                            background: 'rgba(246, 201, 74)',
+                            borderRadius: '4px',
+                            color: 'black',
+                            width: '6em',
+                            textAlign: 'center'
+                          }}
+                        >
+                          {$t('trustee_node')}
+                        </div>
+                      </div>
+                    ) : null}
+                    {unsettled ? (
+                      <div
                         style={{
                           marginRight: '20px',
                           background: 'rgba(246, 201, 74)',
@@ -115,50 +134,40 @@ export default function() {
                           width: '6em',
                           textAlign: 'center'
                         }}
-                    >
-                      {$t('trustee_node')}
-                    </div>
+                      >
+                        {$t('sync_node')}
+                      </div>
+                    ) : null}
+                    {validator ? (
+                      <div
+                        style={{
+                          marginRight: '20px',
+                          background: 'rgba(246, 201, 74)',
+                          borderRadius: '4px',
+                          color: 'black',
+                          width: '6em',
+                          textAlign: 'center'
+                        }}
+                      >
+                        {$t('validator_node')}
+                      </div>
+                    ) : null}
                   </div>
-              ) : null}
-              {unsettled ? (
-                  <div
-                      style={{
-                        marginRight: '20px',
-                        background: 'rgba(246, 201, 74)',
-                        borderRadius: '4px',
-                        color: 'black',
-                        width: '6em',
-                        textAlign: 'center'
-                      }}
-                  >
-                    {$t('sync_node')}
-                  </div>
-              ) : null}
-              {validator ? (
-                  <div
-                      style={{
-                        marginRight: '20px',
-                        background: 'rgba(246, 201, 74)',
-                        borderRadius: '4px',
-                        color: 'black',
-                        width: '6em',
-                        textAlign: 'center'
-                      }}
-                  >
-                    {$t('validator_node')}
-                  </div>
-              ) : null}
-            </div>
-          } : '',
-          validator || trust || unsettled ?
-          {
-            label: $t('node_detail'),
-            data:  <ValidatorLink
-                name={name}
-                className="text-truncate"
-                value={address}
-            />
-          } : ''
+                )
+              }
+            : '',
+          validator || trust || unsettled
+            ? {
+                label: $t('node_detail'),
+                data: (
+                  <ValidatorLink
+                    name={name}
+                    className="text-truncate"
+                    value={address}
+                  />
+                )
+              }
+            : ''
         ]}
       />
 
