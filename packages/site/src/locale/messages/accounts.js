@@ -126,5 +126,17 @@ export default {
   node_type: {
     zh: '节点类型',
     en: 'Node Type'
+  },
+  help: {
+    zh: '帮助',
+    en: 'Help'
+  },
+  search_type: {
+    zh: '搜索类型',
+    en: 'Search Type'
+  },
+  search_before: {
+    zh: '搜索前请先选择搜索类型',
+    en: 'Please select the type before searching'
   }
 }
