@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import { nonFunc } from '@src/utils'
+import {setValidatorVotes} from "./validatorsSlice";
 
 const accountSlice = createSlice({
   name: 'settings',
@@ -48,6 +49,12 @@ const accountSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    type: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -83,6 +90,9 @@ const accountSlice = createSlice({
     },
     setRuntimeHistory(state, action) {
       state.runtime = action.payload
+    },
+    setType(state, action){
+      state.type = action.payload
     }
   }
 })
@@ -98,7 +108,8 @@ export const {
   setCashList,
   setDeposits,
   setWithdrawals,
-  setRuntimeHistory
+  setRuntimeHistory,
+  setType
 } = accountSlice.actions
 
 export const fetchTransfers = (
@@ -263,6 +274,20 @@ export const fetchWithdrawals = (
   }
 }
 
+export const fetchAccountType = (
+    setLoading = nonFunc,
+    address,
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: type } = await api.fetch(`/accountType/${address}`)
+    dispatch(setType(type))
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const accountTypeSelector = state => state.accounts.type
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
 export const extrinsicsSelector = state => state.accounts.extrinsics

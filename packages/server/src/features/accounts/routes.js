@@ -36,4 +36,5 @@ router.get(
   '/accounts/:address/withdrawals',
   withdrawalsController.getWithdrawals
 )
+router.get('/accountType/:address',blockController.getAccountType)
 module.exports = router
