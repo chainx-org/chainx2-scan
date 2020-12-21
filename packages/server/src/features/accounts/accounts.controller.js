@@ -1,4 +1,3 @@
-
 const { getExtrinsicCount } = require('./utils')
 const { encodeAddress } = require('../../utils')
 const { getNativeAsset } = require('./utils')
@@ -184,75 +183,37 @@ class AccountsController {
     const { address } = ctx.params
     const db = await getDb()
     const validatorCol = await db.collection('validators')
-    const api = await getApi()
-    const trusteeListInfo = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
-    const trusteeList = trusteeListInfo.toJSON().trusteeList
-    const trustQuery = { account: { $in: trusteeList } }
-    const trustItems = await validatorCol
-        .find(trustQuery)
-        .sort({ totalNomination: -1 })
-        .collation({ locale: 'en_US', numericOrdering: true })
-        .toArray()
-    const unsettledQuery = { isValidating: false }
-    const unsettledItems = await validatorCol
-        .find(unsettledQuery)
-        .sort({ totalNomination: -1 })
-        .collation({ locale: 'en_US', numericOrdering: true })
-        .toArray()
+    const trusteeCol = await db.collection('trustees')
 
-    // 获取验证节点
-    const trustees = await db
-        .collection('trustees')
-        .find({})
-        .toArray()
-    const trustAddress = trustees.map(item => {
+    const trustees = await trusteeCol.find({}).toArray()
+    const trusteeAddressList = trustees.map(item => {
       return item.address
     })
-    const query = { isValidating: true }
-    const items = await validatorCol
-        .find(query)
-        .sort({ totalNomination: -1 })
-        .collation({ locale: 'en_US', numericOrdering: true })
-        .toArray()
-    function IsInArray(arr, val) {
-      var testStr = ',' + arr.join(',') + ','
-      return testStr.indexOf(',' + val + ',') !== -1
-    }
-    const validatorAddress = items.map(item => {
+
+    const validatorQuery = { isValidating: true }
+    const validatorItems = await validatorCol.find(validatorQuery).toArray()
+    const validatorAddressList = validatorItems.map(item => {
       return item.account
     })
 
-    let valiadtorList = []
-    items.map((item, index) => {
-      const isTrust = IsInArray(trustAddress, item.account)
-      valiadtorList.push(Object.assign({}, item, { isTrust: isTrust }))
+    const unsettledQuery = { isValidating: false }
+    const unsettledItems = await validatorCol.find(unsettledQuery).toArray()
+    const unsettledAddressList = unsettledItems.map(item => {
+      return item.account
     })
+
     let validator = false
-    for (let i = 0; i < valiadtorList.length; i++) {
-      const item = valiadtorList[i]
-      if (item) {
-        if (item.account === address) {
-          validator = true
-        }
-      }
-    }
     let unsettled = false
     let trust = false
-    for (let i = 0; i < trustItems.length; i++) {
-      const item = trustItems[i]
-      if (item) {
-        if (item.account === address) {
-          trust = true
-        }
-      }
+
+    if (trusteeAddressList.includes(address)) {
+      trsut = true
     }
-    for (let i = 0; i < unsettledItems.length; i++) {
-      const item = unsettledItems[i]
-      if (item) {
-        if (item.account === address) {
-          unsettled = true
-        }
-      }
+    if (validatorAddressList.includes(address)) {
+      validator = true
+    }
+    if (unsettledAddressList.includes(address)) {
+      unsettled = true
     }
     let data = {
       trust,
