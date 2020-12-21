@@ -4,7 +4,8 @@ import { createFromIconfontCN } from '@ant-design/icons'
 import xx from '../../assets/0x.svg'
 import hash from '../../assets/hash.svg'
 import search from '../../assets/scan.webp'
-import { decodeAddress, encodeAddress } from '../../shared'
+import { encodeAddress } from '@polkadot/keyring'
+import { decodeAddress } from '../../shared'
 import PrefixItem from './PrefixItem'
 const { TextArea } = Input
 const { hexToU8a, isHex } = require('@polkadot/util')
@@ -32,6 +33,21 @@ export default function SS58() {
   let [show, Setshow] = useState(false)
   let [searchValue, SetsearchValue] = useState('')
   let [address, Setaddress] = useState('')
+  let [polkdotAddress, SetPolkdotAddress] = useState('')
+  let [KusamaAddress, SetKusamaAddress] = useState('')
+  let [DarwiniaAddress, SetDarwiniaAddress] = useState('')
+  let [CrabAddress, SetCrabAddress] = useState('')
+  let [EdgewareAddress, SetEdgewareAddress] = useState('')
+  let [CentrifugeAddress, SetCentrifugeAddress] = useState('')
+  let [BifrostAddress, SetBifrostAddress] = useState('')
+  let [PlasmAddress, SetPlasmAddress] = useState('')
+  let [StafiAddress, SetStafiAddress] = useState('')
+  let [KulupuAddress, SetKulupuAddress] = useState('')
+  let [KaruraAddress, SetKaruraAddress] = useState('')
+  let [RobonomicsAddress, SetRobonomicsAddress] = useState('')
+  let [PolymathAddress, SetPolymathAddress] = useState('')
+  let [AcalaAddress, SetAcalaAddress] = useState('')
+  let [ReynoldsAddress, SetReynoldsAddress] = useState('')
   let [publicKey, SetpublicKey] = useState('')
   let [notFound, SetnotFound] = useState(false)
   const width = document.documentElement.clientWidth
@@ -41,8 +57,23 @@ export default function SS58() {
   }
   const handleTransform = () => {
     if (searchValue.includes('0x')) {
-      Setaddress(encodeAddress(searchValue))
+      Setaddress(encodeAddress(searchValue, 44))
       SetpublicKey(searchValue)
+      SetPolkdotAddress(encodeAddress(searchValue, 0))
+      SetKusamaAddress(encodeAddress(searchValue, 2))
+      SetDarwiniaAddress(encodeAddress(searchValue, 18))
+      SetCrabAddress(encodeAddress(searchValue, 42))
+      SetEdgewareAddress(encodeAddress(searchValue, 7))
+      SetCentrifugeAddress(encodeAddress(searchValue, 36))
+      SetBifrostAddress(encodeAddress(searchValue, 6))
+      SetPlasmAddress(encodeAddress(searchValue, 5))
+      SetStafiAddress(encodeAddress(searchValue, 20))
+      SetKulupuAddress(encodeAddress(searchValue, 16))
+      SetKaruraAddress(encodeAddress(searchValue, 8))
+      SetRobonomicsAddress(encodeAddress(searchValue, 32))
+      SetPolymathAddress(encodeAddress(searchValue, 12))
+      SetAcalaAddress(encodeAddress(searchValue, 10))
+      SetReynoldsAddress(encodeAddress(searchValue, 9))
     } else {
       const isValidAddressPolkadotAddress = () => {
         try {
@@ -60,7 +91,22 @@ export default function SS58() {
       const isValid = isValidAddressPolkadotAddress()
       if (isValid) {
         SetpublicKey(decodeAddress(searchValue))
-        Setaddress(searchValue)
+        Setaddress(encodeAddress(searchValue, 44))
+        SetPolkdotAddress(encodeAddress(searchValue, 0))
+        SetKusamaAddress(encodeAddress(searchValue, 2))
+        SetDarwiniaAddress(encodeAddress(searchValue, 18))
+        SetCrabAddress(encodeAddress(searchValue, 42))
+        SetEdgewareAddress(encodeAddress(searchValue, 7))
+        SetCentrifugeAddress(encodeAddress(searchValue, 36))
+        SetBifrostAddress(encodeAddress(searchValue, 6))
+        SetPlasmAddress(encodeAddress(searchValue, 5))
+        SetStafiAddress(encodeAddress(searchValue, 20))
+        SetKulupuAddress(encodeAddress(searchValue, 16))
+        SetKaruraAddress(encodeAddress(searchValue, 8))
+        SetRobonomicsAddress(encodeAddress(searchValue, 32))
+        SetPolymathAddress(encodeAddress(searchValue, 12))
+        SetAcalaAddress(encodeAddress(searchValue, 10))
+        SetReynoldsAddress(encodeAddress(searchValue, 9))
       } else {
         SetnotFound(true)
         return
@@ -307,7 +353,6 @@ export default function SS58() {
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 fontSize: '12px',
-                border: '1px solid red',
                 height: '540px',
                 overflowY: 'scroll'
               }}
@@ -336,28 +381,108 @@ export default function SS58() {
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 44)'}
-                value={address}
+                prefix={'Polkadot (Prefix: 0)'}
+                value={polkdotAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 44)'}
-                value={address}
+                prefix={'Kusama (Prefix: 2)'}
+                value={KusamaAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 43)'}
-                value={address}
+                prefix={'Darwinia (Prefix: 18)'}
+                value={DarwiniaAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 43)'}
-                value={address}
+                prefix={'Crab (Prefix: 42)'}
+                value={CrabAddress}
                 style={style}
               />
               <PrefixItem
-                prefix={'Chainx (Prefix: 43)'}
-                value={address}
+                prefix={'Westend (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Edgeware (Prefix: 7)'}
+                value={EdgewareAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Centrifuge (Prefix: 36)'}
+                value={CentrifugeAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Mandala (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Phala (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Bifrost (Prefix: 6)'}
+                value={BifrostAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Plasm (Prefix: 5)'}
+                value={PlasmAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Stafi (Prefix: 20)'}
+                value={StafiAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Kulupu (Prefix: 16)'}
+                value={KulupuAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Crust (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Laminar (Prefix: 42)'}
+                value={CrabAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Karura (Prefix: 8)'}
+                value={KaruraAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Reynolds (Prefix: 9)'}
+                value={ReynoldsAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Acala (Prefix: 10)'}
+                value={AcalaAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Polymath (Prefix: 12)'}
+                value={PolymathAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Robonomics (Prefix: 32)'}
+                value={RobonomicsAddress}
+                style={style}
+              />
+              <PrefixItem
+                prefix={'Substrate (Prefix: 42)'}
+                value={CrabAddress}
                 style={lastStyle}
               />
             </ul>
