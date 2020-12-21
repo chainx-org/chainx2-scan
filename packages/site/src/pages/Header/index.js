@@ -21,6 +21,9 @@ export default withRouter(function(props) {
     path => !!matchPath(location.pathname, { path })
   )
   const [active, SetActive] = React.useState(false)
+  const width = document.documentElement.clientWidth
+  const mobile = width < 1024
+  let style = mobile === true ? {} : { color: 'black' }
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="container">
@@ -113,18 +116,10 @@ export default withRouter(function(props) {
             >
               工具
               <div className="navbar-dropdown">
-                <NavLink
-                  className="navbar-item"
-                  to="/ss58"
-                  style={{ color: 'black' }}
-                >
+                <NavLink className="navbar-item" to="/ss58" style={style}>
                   ss58账号转换
                 </NavLink>
-                <NavLink
-                  className="navbar-item"
-                  to="/search"
-                  style={{ color: 'black' }}
-                >
+                <NavLink className="navbar-item" to="/search" style={style}>
                   搜索事件/交易
                 </NavLink>
               </div>
