@@ -67,8 +67,8 @@ export default function CrossBlocks(props) {
                     {(!list || list === 'blocks') && (
                       <CrossBlockList {...props} />
                     )}
-                    {list === 'crosstx' && <CrossBtcTx {...props} />}
                     {/*
+                    {list === 'crosstx' && <CrossBtcTx {...props} />}
                     {list === 'crossbind' && <CrossBlockList {...props} />}
                     */}
                     {list === 'deposits' && <CrossDeposits {...props} />}
