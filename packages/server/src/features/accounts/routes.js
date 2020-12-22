@@ -1,4 +1,3 @@
-
 const Router = require('koa-router')
 const blockController = require('./accounts.controller')
 const transferController = require('./transfer.controller')
@@ -37,5 +36,7 @@ router.get(
   '/accounts/:address/withdrawals',
   withdrawalsController.getWithdrawals
 )
-router.get('/accounts/balance/:account',dealController.getBalance)
+router.get('/accounts/balance/:account', dealController.getBalance)
+router.get('/accountType/:address', blockController.getAccountType)
+
 module.exports = router

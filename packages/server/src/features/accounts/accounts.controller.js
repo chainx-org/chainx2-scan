@@ -178,6 +178,52 @@ class AccountsController {
     const accountInfoJSON = accountInfo.toJSON()
     ctx.body = [accountInfoJSON]
   }
+
+  async getAccountType(ctx) {
+    const { address } = ctx.params
+    const db = await getDb()
+    const validatorCol = await db.collection('validators')
+    const trusteeCol = await db.collection('trustees')
+
+    const trustees = await trusteeCol.find({}).toArray()
+    const trusteeAddressList = trustees.map(item => {
+      return item.address
+    })
+
+    const validatorQuery = { isValidating: true }
+    const validatorItems = await validatorCol.find(validatorQuery).toArray()
+    const validatorAddressList = validatorItems.map(item => {
+      return item.account
+    })
+
+    const unsettledQuery = { isValidating: false }
+    const unsettledItems = await validatorCol.find(unsettledQuery).toArray()
+    const unsettledAddressList = unsettledItems.map(item => {
+      return item.account
+    })
+
+    let validator = false
+    let unsettled = false
+    let trust = false
+
+    if (trusteeAddressList.includes(address)) {
+      trsut = true
+    }
+    if (validatorAddressList.includes(address)) {
+      validator = true
+    }
+    if (unsettledAddressList.includes(address)) {
+      unsettled = true
+    }
+    let data = {
+      trust,
+      unsettled,
+      validator
+    }
+    ctx.body = {
+      data
+    }
+  }
 }
 
 module.exports = new AccountsController()

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import { nonFunc } from '@src/utils'
+import { setValidatorVotes } from './validatorsSlice'
 
 const accountSlice = createSlice({
   name: 'settings',
@@ -54,6 +55,12 @@ const accountSlice = createSlice({
       page: 0,
       pageSize: 10,
       total: 0
+    },
+    type: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
     }
   },
   reducers: {
@@ -92,6 +99,9 @@ const accountSlice = createSlice({
     },
     setBalance(state, action) {
       state.balance = action.payload
+    },
+    setType(state, action) {
+      state.type = action.payload
     }
   }
 })
@@ -108,7 +118,8 @@ export const {
   setDeposits,
   setWithdrawals,
   setRuntimeHistory,
-  setBalance
+  setBalance,
+  setType
 } = accountSlice.actions
 
 export const fetchTransfers = (
@@ -274,23 +285,37 @@ export const fetchWithdrawals = (
 }
 
 export const fetchAccountBalance = (
-    account,
-    setLoading = nonFunc,
-    page,
-    pageSize
-)=> async dispatch => {
+  account,
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
   setLoading(true)
   try {
-    const {result : balance } = await api.fetch(
-        `/accounts/balance/${account}`,{page,pageSize}
+    const { result: balance } = await api.fetch(
+      `/accounts/balance/${account}`,
+      { page, pageSize }
     )
     dispatch(setBalance(balance))
-  }finally {
+  } finally {
+    setLoading(false)
+  }
+}
+export const fetchAccountType = (
+  setLoading = nonFunc,
+  address
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: type } = await api.fetch(`/accountType/${address}`)
+    dispatch(setType(type))
+  } finally {
     setLoading(false)
   }
 }
 
 export const AccountbalanceSelector = state => state.accounts.balance
+export const accountTypeSelector = state => state.accounts.type
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
 export const extrinsicsSelector = state => state.accounts.extrinsics
@@ -300,7 +325,4 @@ export const dealsSelector = state => state.accounts.deals
 export const depositsSelector = state => state.accounts.deposits
 export const withdrawalsSelector = state => state.accounts.withdrawals
 export const runtimeSelector = state => state.accounts.runtime
-
-
-
 export default accountSlice.reducer

@@ -122,6 +122,9 @@ export default {
   transfer_in: {
     zh: '转入',
     en: 'Transfer in'
-
+  },
+  node_type: {
+    zh: '节点类型',
+    en: 'Node Type'
   }
 }
