@@ -138,5 +138,9 @@ export default {
   search_before: {
     zh: '搜索前请先选择搜索类型',
     en: 'Please select the type before searching'
+  },
+  balance_history: {
+    zh: '余额历史',
+    en: 'Balance History '
   }
 }
