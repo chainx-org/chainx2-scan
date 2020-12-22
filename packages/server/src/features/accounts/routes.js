@@ -1,5 +1,5 @@
 const Router = require('koa-router')
-const blockController = require('./accounts.controller')
+const accountsController = require('./accounts.controller')
 const transferController = require('./transfer.controller')
 const transactionController = require('./transaction.controller')
 const nominationController = require('./nomination.controller')
@@ -9,11 +9,11 @@ const depositsController = require('./deposits.controller')
 const withdrawalsController = require('./withdrawals.controller')
 
 const router = new Router()
-router.get('/accounts', blockController.getAccounts)
-router.get('/accounts/:addressOrId', blockController.getAccount)
+router.get('/accounts', accountsController.getAccounts)
+router.get('/accounts/:addressOrId', accountsController.getAccount)
 
-router.get('/accounts/:address/assets', blockController.getAssets)
-router.get('/accounts/:address/crossassets', blockController.getCrossAssets)
+router.get('/accounts/:address/assets', accountsController.getAssets)
+router.get('/accounts/:address/crossassets', accountsController.getCrossAssets)
 router.get('/accounts/:address/transfers', transferController.accountTransfers)
 router.get(
   '/accounts/:address/votes',
@@ -36,7 +36,7 @@ router.get(
   '/accounts/:address/withdrawals',
   withdrawalsController.getWithdrawals
 )
-router.get('/accounts/balance/:account', dealController.getBalance)
-router.get('/accountType/:address', blockController.getAccountType)
+router.get('/accounts/balance/:account', accountsController.getBalanceHistory)
+router.get('/accountType/:address', accountsController.getAccountType)
 
 module.exports = router

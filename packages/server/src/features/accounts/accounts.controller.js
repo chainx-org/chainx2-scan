@@ -224,6 +224,70 @@ class AccountsController {
       data
     }
   }
+
+  async getBalanceHistory(ctx) {
+    const { account } = ctx.params
+    const { page, pageSize } = extractPage(ctx)
+    if (pageSize === 0) {
+      ctx.status = 400
+      return
+    }
+
+    const api = await getApi()
+    const db = await getDb()
+    const col = await db.collection('status')
+    const status = await col.find({}).toArray()
+
+    const lastHeight = status[0].indexedHeight
+    let HeightArray = []
+    const firstHeight = lastHeight % 14400
+    // HeightArray.push(firstHeight)
+    const length = parseInt(lastHeight / 14400)
+    for (let i = 0; i <= length; i++) {
+      HeightArray.push(14400 * i)
+    }
+    HeightArray.push(lastHeight)
+
+    function group(array, subGroupLength) {
+      let index = 0
+      let newArray = []
+      while (index < array.length) {
+        newArray.push(array.slice(index, (index += subGroupLength)))
+      }
+      return newArray
+    }
+    let groupArray = group(HeightArray, 5) || []
+    // console.log('group array', groupArray)
+    // console.log('length', groupArray.length)
+    let now = [...groupArray].pop()
+    // console.log('page', page)
+    if (page > 0 && page <= groupArray.length) {
+      now = groupArray[groupArray.length - page]
+    }
+    // console.log('now', now)
+    let hashArray = []
+    for (let i = 0; i < now.length; i++) {
+      const col = await db.collection('block')
+      const hash = await col.find({ 'header.number': now[i] }).toArray()
+      hashArray.push(...hash)
+    }
+    let newHash = hashArray.map(item => item.hash)
+    let balance = []
+    for (let i = 0; i < newHash.length; i++) {
+      let scanvalue = await api.query.system.account.at(newHash[i], account)
+      balance.push(
+        (scanvalue.data.free.toNumber() + scanvalue.data.reserved.toNumber()) /
+          100000000
+      )
+    }
+    let data = []
+    for (let i = 0; i < now.length; i++) {
+      data.push({ height: now[i], balance: balance[i] })
+    }
+    ctx.body = {
+      data
+    }
+  }
 }
 
 module.exports = new AccountsController()

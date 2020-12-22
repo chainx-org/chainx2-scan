@@ -142,5 +142,13 @@ export default {
   balance_history: {
     zh: '余额历史',
     en: 'Balance History '
+  },
+  previous_5_days: {
+    zh: '前5天',
+    en: 'Previous 5 days'
+  },
+  next_5_days: {
+    zh: '后5天',
+    en: 'Next 5 days'
   }
 }
