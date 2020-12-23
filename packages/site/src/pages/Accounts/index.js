@@ -10,7 +10,6 @@ export default function Accounts() {
     <Switch>
       <Route path="/accounts/:address" component={Detail} />
       <Route path="/accounts/transfer" component={Detail} />
-
       <Route
         path="/accounts"
         render={props => (

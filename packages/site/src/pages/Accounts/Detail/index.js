@@ -20,6 +20,7 @@ import classnames from 'classnames'
 import { decodeAddress } from '@src/shared'
 import DealList from './DealList'
 import ValidatorLink from '../../../components/ValidatorLink'
+import BalanceHistory from './BalanceHistory'
 import {
   accountTypeSelector,
   fetchAccountType
@@ -230,6 +231,14 @@ export default function() {
             >
               <a>{$t('withdrawal_list')}</a>
             </li>
+            <li
+              onClick={() => setActiveKey('balanceHistory')}
+              className={classnames({
+                'is-active': activeKey === 'balanceHistory'
+              })}
+            >
+              <a>{$t('balance_history')}</a>
+            </li>
           </ul>
         </div>
         {activeKey === 'assets' && <AcccountAsset address={address} />}
@@ -240,6 +249,7 @@ export default function() {
         {activeKey === 'deal' && <DealList address={address} />}
         {activeKey === 'deposit' && <DepositList address={address} />}
         {activeKey === 'withdrawal' && <WithdrawalList address={address} />}
+        {activeKey === 'balanceHistory' && <BalanceHistory />}
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+const { getApi } = require('../../api')
 const { getDb } = require('../../services/mongo')
 const { extractPage } = require('../../utils')
 
@@ -29,6 +30,29 @@ class DealController {
       page,
       pageSize,
       total
+    }
+  }
+
+  async getUnitedMissed(ctx) {
+    const api = await getApi()
+
+    const { params } = ctx.params
+    let str = params.replace(/[\r\n]/g, '')
+    const db = await getDb()
+    const col = await db.collection('event')
+    const query = { $and: [{ method: 'Slashed' }, { 'data.0': str }] }
+    const items = await col.find(query).toArray()
+    let itemsHash = items.map(item => item.indexer.blockHash)
+    let requestArray = []
+    for (let i = 0; i < itemsHash.length; i++) {
+      requestArray.push(api.query.session.currentIndex.at(itemsHash[i]))
+    }
+    const data = await Promise.all([...requestArray])
+    for (let i = 0; i < items.length; i++) {
+      items[i].session = data[i].words[0]
+    }
+    ctx.body = {
+      items
     }
   }
 }
