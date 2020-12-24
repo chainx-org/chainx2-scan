@@ -280,12 +280,29 @@ class validatorsController {
       ]
     }
     const total = await col.countDocuments(query)
+
     const items = await col
       .find(query)
       .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
+
+    const newitems = await col.aggregate([
+      { $sort: { blockHeight: -1 } },
+      { $match: query },
+      {
+        $group: {
+          _id: '$data.0',
+          blockHash: { $first: '$indexer.blockHash' }
+        }
+      },
+      { $sort: { lastUpdateAt: -1 } },
+      { $skip: page * pageSize },
+      { $limit: pageSize }
+    ])
+
+    console.log({ newitems })
 
     ctx.body = {
       items,
