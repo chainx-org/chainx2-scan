@@ -279,30 +279,46 @@ class validatorsController {
         { 'data.1': address }
       ]
     }
-    const total = await col.countDocuments(query)
+    // const total = await col.countDocuments(query)
 
+    /*
     const items = await col
       .find(query)
       .sort({ 'indexer.blockHeight': -1 })
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
+    */
 
-    const newitems = await col.aggregate([
-      { $sort: { blockHeight: -1 } },
-      { $match: query },
-      {
-        $group: {
-          _id: '$data.0',
-          blockHash: { $first: '$indexer.blockHash' }
-        }
-      },
-      { $sort: { lastUpdateAt: -1 } },
-      { $skip: page * pageSize },
-      { $limit: pageSize }
-    ])
+    const allItems = await col
+      .find(query)
+      .sort({ 'indexer.blockHeight': -1 })
+      .toArray()
 
-    console.log({ newitems })
+    let newItems = []
+    let item = {}
+
+    for (let i = 0; i < allItems.length; i++) {
+      item = allItems[i]
+      item['nominator'] = allItems[i].data[0]
+      newItems.push(item)
+    }
+
+    const groupBy = keys => array =>
+      array.reduce((objectsByKeyValue, obj) => {
+        const value = keys.map(key => obj[key]).join('-')
+        objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj)
+        return objectsByKeyValue
+      }, {})
+    const groupByAddress = groupBy(['nominator'])
+
+    const newItems2 = groupByAddress(newItems)
+    const newItems3 = Object.entries(newItems2)
+
+    const total = newItems3.length
+    const start = page * pageSize
+    const end = start + pageSize
+    const items = newItems3.slice(start, end)
 
     ctx.body = {
       items,
