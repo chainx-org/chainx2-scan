@@ -50,6 +50,12 @@ const accountSlice = createSlice({
       pageSize: 10,
       total: 0
     },
+    balance: {
+      items: [],
+      page: 0,
+      pageSize: 10,
+      total: 0
+    },
     type: {
       items: [],
       page: 0,
@@ -91,6 +97,9 @@ const accountSlice = createSlice({
     setRuntimeHistory(state, action) {
       state.runtime = action.payload
     },
+    setBalance(state, action) {
+      state.balance = action.payload
+    },
     setType(state, action) {
       state.type = action.payload
     }
@@ -109,6 +118,7 @@ export const {
   setDeposits,
   setWithdrawals,
   setRuntimeHistory,
+  setBalance,
   setType
 } = accountSlice.actions
 
@@ -274,6 +284,23 @@ export const fetchWithdrawals = (
   }
 }
 
+export const fetchAccountBalance = (
+  account,
+  setLoading = nonFunc,
+  page,
+  pageSize
+) => async dispatch => {
+  setLoading(true)
+  try {
+    const { result: balance } = await api.fetch(
+      `/accounts/balance/${account}`,
+      { page, pageSize }
+    )
+    dispatch(setBalance(balance))
+  } finally {
+    setLoading(false)
+  }
+}
 export const fetchAccountType = (
   setLoading = nonFunc,
   address
@@ -287,6 +314,7 @@ export const fetchAccountType = (
   }
 }
 
+export const AccountbalanceSelector = state => state.accounts.balance
 export const accountTypeSelector = state => state.accounts.type
 export const transfersSelector = state => state.accounts.transfers
 export const accountVotesSelector = state => state.accounts.votes
@@ -297,5 +325,4 @@ export const dealsSelector = state => state.accounts.deals
 export const depositsSelector = state => state.accounts.deposits
 export const withdrawalsSelector = state => state.accounts.withdrawals
 export const runtimeSelector = state => state.accounts.runtime
-
 export default accountSlice.reducer

@@ -25,6 +25,7 @@ export default function({ address }) {
   }, [dispatch, address, page, pageSize])
 
   const { items = [], total } = useSelector(validatorVotesSelector) || {}
+  console.log('items', items)
   const width = document.documentElement.clientWidth
   const simple = width < 1024
   return (
@@ -38,10 +39,51 @@ export default function({ address }) {
       scroll={{
         x: '100vh'
       }}
-      dataSource={items.map(item => {
+      expandedRowRender={data => {
+        const items = data.oldItems
+        const rows = items.map(item => (
+          <tr>
+            <td>
+              <AccountLink
+                style={{ width: 136 }}
+                className="text-truncate"
+                value={item.data[0]}
+                short={true}
+              />
+            </td>
+            <td>
+              <DateShow value={item.indexer.blockTime} />
+            </td>
+            <td>
+              <BlockLink value={item.indexer.blockHeight} />
+            </td>
+            <td>
+              <Amount value={item.data[2]} precision={8} hideSymbol={true} />
+            </td>
+          </tr>
+        ))
+        return (
+          <table>
+            <thead>
+              <tr>
+                <th>{$t('nominator')}</th>
+                <th>{$t('VOTETIME')}</th>
+                <th>{$t('UPDATEWEIGHT')}</th>
+                <th>{$t('BONDED')}(PCX)</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </table>
+        )
+      }}
+      dataSource={items.map(entry => {
+        const item = entry[1][0]
+        const oldItems = entry[1].slice(1)
         return {
           key: item._id,
           // blockTime: <DateShow value={data.indexer.blockTime} />,
+
+          oldItems: oldItems,
           nominator: (
             <AccountLink
               style={{ width: 136 }}
@@ -58,6 +100,7 @@ export default function({ address }) {
               short={true}
             />
           ),
+          voteCount: entry[1].length,
           balance: (
             <Amount value={item.data[2]} precision={8} hideSymbol={true} />
           ),
@@ -78,6 +121,10 @@ export default function({ address }) {
         {
           title: $t('nominee'),
           dataIndex: 'nominee'
+        },
+        {
+          title: $t('vote_count'),
+          dataIndex: 'voteCount'
         },
         {
           title: $t('VOTETIME'),

@@ -8,7 +8,7 @@ const socket = io(process.env.REACT_APP_SERVER)
 // const socket = io('http://localhost:3213')
 
 socket.connect({
-  transports: ['websocket', 'polling'],
+  transports: ['polling', 'websocket'],
   timeout: 3000,
   reconnectionDelayMax: 6000
 })
