@@ -18,7 +18,10 @@ module.exports = async function extractUserTransfer(
   const properties = getChainProperties()
   let [token, assetId] = [properties.tokenSymbol, 0]
 
-  const section = extrinsic.method.sectionName.toLowerCase()
+  console.log({ extrinsic })
+  const section = extrinsic.method.sectionName
+    ? extrinsic.method.sectionName.toLowerCase()
+    : ''
   if (section === 'xassets') {
     assetId = args.id + ''
     const asset = await getAssetInfoById(assetId)
