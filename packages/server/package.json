@@ -12,7 +12,7 @@
   "dependencies": {
     "@chainx-v2/account": "^0.0.50",
     "@chainx-v2/api": "^0.0.50",
-    "@polkadot/api": "^2.4.1",
+    "@polkadot/api": "^3.0.0",
     "@koa/cors": "^3.1.0",
     "@polkadot/keyring": "^3.6.1",
     "@polkadot/util": "^3.6.1",

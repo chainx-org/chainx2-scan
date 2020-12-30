@@ -158,5 +158,9 @@ export default {
   position: {
     zh: '身份',
     en: 'Position'
+  },
+  vote_count: {
+    zh: '投票次数',
+    en: 'Vote Count'
   }
 }

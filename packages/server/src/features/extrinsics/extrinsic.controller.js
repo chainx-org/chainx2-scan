@@ -19,7 +19,7 @@ class ExtrinsicController {
     }
 
     const col = await getExtrinsicCollection()
-    const total = await col.estimatedDocumentCount()
+    const total = await col.countDocuments(query)
     // 需要在 mongo shell 里创建 index, db.extrinsic.createIndex({"indexer.blockHeight": -1, "indexer.index": 1})
     const extrinsics = await col
       .find(query)
