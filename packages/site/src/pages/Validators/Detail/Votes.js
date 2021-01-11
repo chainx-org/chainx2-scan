@@ -44,11 +44,10 @@ export default function({ address }) {
         const rows = items.map(item => (
           <tr>
             <td>
-              <AccountLink
+              <TxLink
                 style={{ width: 136 }}
                 className="text-truncate"
-                value={item.data[0]}
-                short={true}
+                value={item.extrinsicHash}
               />
             </td>
             <td>
@@ -66,7 +65,7 @@ export default function({ address }) {
           <table>
             <thead>
               <tr>
-                <th>{$t('nominator')}</th>
+                <th>{$t('ex_hash')}</th>
                 <th>{$t('VOTETIME')}</th>
                 <th>{$t('UPDATEWEIGHT')}</th>
                 <th>{$t('BONDED')}(PCX)</th>

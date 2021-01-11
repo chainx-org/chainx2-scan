@@ -120,7 +120,6 @@ export default function ChainStatus() {
             precision={9}
             minDigits={7}
           />
-          {data.latestPrice}
           /
           <Amount
             value={data.usableBTC}
