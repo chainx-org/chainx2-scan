@@ -151,12 +151,13 @@ class BlockController {
       .skip(page * pageSize)
       .limit(pageSize)
       .toArray()
-    let hash = runtime.map(item => item.extrinsicHash)
+    let hashArray = runtime.map(item => item.extrinsicHash)
 
     const excol = await getExtrinsicCollection()
     let info = []
-    for (let i = 0; i < hash.length; i++) {
-      let unitquery = { hash: hash[i].toString() }
+    let unitquery = {}
+    for (let i = 0; i < hashArray.length; i++) {
+      unitquery = { hash: hashArray[i] }
       const unit = await excol
         .find(unitquery)
         .project(keys)
