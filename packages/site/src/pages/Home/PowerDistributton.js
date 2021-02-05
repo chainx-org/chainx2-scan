@@ -32,7 +32,7 @@ const PowerDistributton = function() {
   items = useMemo(() => {
     return items
   }, [items])
-  let info = items[0]
+  let info = items ? items[0] : {}
   //BTC数量
   let btcBalance = 0
   if (info) {
