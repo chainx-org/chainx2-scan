@@ -23,7 +23,9 @@ export const LangChanger = function() {
   }
 
   const setNagtive = e => {
-    if (e.toElement.className !== 'show-lang') setActive(false)
+    if (e.toElement) {
+      if (e.toElement.className !== 'show-lang') setActive(false)
+    }
   }
 
   activeLanguageIndex = useSelector(localeSelector) === 'zh' ? 0 : 1
