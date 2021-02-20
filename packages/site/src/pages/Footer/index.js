@@ -23,20 +23,23 @@ export const LangChanger = function() {
   }
 
   const setNagtive = e => {
-    if (e.toElement) {
+    try {
       if (e.toElement.className !== 'show-lang') setActive(false)
+    } catch (e) {
+      console.log('error')
     }
   }
 
   activeLanguageIndex = useSelector(localeSelector) === 'zh' ? 0 : 1
 
   useEffect(() => {
-    document.body.addEventListener('click', setNagtive)
-    return () => document.body.removeEventListener('click', setNagtive)
+    var el = document.getElementById('langSelector')
+    el.addEventListener('click', setNagtive)
+    return () => el.removeEventListener('click', setNagtive)
   })
 
   return (
-    <div className="lang-selector">
+    <div className="lang-selector" id="langSelector">
       <div className="show-lang" onClick={() => setActive(!active)}>
         {languages[activeLanguageIndex]}{' '}
         <Up className={classnames('select-arrow', { active })} />
