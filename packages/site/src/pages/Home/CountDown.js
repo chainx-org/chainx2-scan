@@ -37,25 +37,25 @@ const CountDown = function() {
             className="column is-one-quarter-mobile"
             style={{ fontSize: '2.4rem', textAlign: 'center' }}
           >
-            {zeroPad(days)}
+            {days ? zeroPad(days) : ''}
           </div>
           <div
             className="column is-one-quarter-mobile"
             style={{ fontSize: '2.4rem', textAlign: 'center' }}
           >
-            {zeroPad(hours)}
+            {hours ? zeroPad(hours) : ''}
           </div>
           <div
             className="column is-one-quarter-mobile"
             style={{ fontSize: '2.4rem', textAlign: 'center' }}
           >
-            {zeroPad(minutes)}
+            {minutes ? zeroPad(minutes) : ''}
           </div>
           <div
             className="column is-one-quarter-mobile"
             style={{ fontSize: '2.4rem', textAlign: 'center' }}
           >
-            {zeroPad(seconds)}
+            {seconds ? zeroPad(seconds) : ''}
           </div>
         </div>
       )
@@ -72,7 +72,7 @@ const CountDown = function() {
         <div className="columns" style={{ width: '100%', textAlign: 'center' }}>
           <div className="column is-one-quarter-desktop">
             <img src={halving} alt="halving" style={{ width: '5rem' }} />
-            <h1 style={{ fontSize: '2.4rem' }}>{halvingBlock}</h1>
+            <h1 style={{ fontSize: '2.4rem' }}>{halvingBlock || ''}</h1>
             <h3 style={{ fontSize: '1rem' }}>{$t('halving_left_blocks')}</h3>
           </div>
           <div className="column pt-5">
