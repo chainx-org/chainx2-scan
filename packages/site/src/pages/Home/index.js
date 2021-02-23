@@ -4,7 +4,7 @@ import BestExtrinsics from './BestExtrinsics'
 import ChainStatus from './ChainStatus'
 import BtcStates from './BtcStates'
 import PowerDistribution from './PowerDistributton'
-import CountDown from './CountDown'
+import Halving from './Halving'
 import BridgeBlock from './BridgeBlock'
 import InputSearch from '../../components/InputSearch'
 export default function Home(props) {
@@ -22,7 +22,7 @@ export default function Home(props) {
       </div>
       <div className="columns">
         <div className="column">
-          <CountDown />
+          <Halving />
         </div>
       </div>
       <div className="columns">

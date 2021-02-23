@@ -3,80 +3,17 @@ import Countdown, { zeroPad } from 'react-countdown'
 import $t from '../../locale'
 import halving from '../../assets/halving.png'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+import CountDown from '@components/CountDown'
 import { latestChainStatusSelector } from '../../store/reducers/latestChainStatusSlice'
 
-const CountDown = function() {
+const Halving = function() {
   const data = useSelector(latestChainStatusSelector) || {}
-
   const currentIndex = parseInt(data.current_index)
   const currentFinalized = parseInt(data.finalized)
   const halvingIndex = 55533
   const halvingBlock = 55533 * 50 - currentFinalized
-  const milliseconds = (halvingIndex - currentIndex) * 5 * 60 * 1000
-  const dateTime = new Date(Date.now() + milliseconds)
-
-  const Completionist = () => <span>{$t('halving_succeed')}</span>
-
-  // Renderer callback with condition
-  const renderer = ({
-    days,
-    hours,
-    minutes,
-    seconds,
-    milliseconds,
-    completed
-  }) => {
-    if (completed) {
-      // Render a completed state
-      return <Completionist />
-    } else {
-      // Render a countdown
-      return (
-        <div className="columns is-mobile">
-          <div
-            className="column is-one-quarter-mobile"
-            style={{
-              fontSize: '2.4rem',
-              textAlign: 'center',
-              color: '#3F3F3F'
-            }}
-          >
-            {days ? zeroPad(days) : ''}
-          </div>
-          <div
-            className="column is-one-quarter-mobile"
-            style={{
-              fontSize: '2.4rem',
-              textAlign: 'center',
-              color: '#3F3F3F'
-            }}
-          >
-            {hours ? zeroPad(hours) : ''}
-          </div>
-          <div
-            className="column is-one-quarter-mobile"
-            style={{
-              fontSize: '2.4rem',
-              textAlign: 'center',
-              color: '#3F3F3F'
-            }}
-          >
-            {minutes ? zeroPad(minutes) : ''}
-          </div>
-          <div
-            className="column is-one-quarter-mobile"
-            style={{
-              fontSize: '2.4rem',
-              textAlign: 'center',
-              color: '#3F3F3F'
-            }}
-          >
-            {seconds ? zeroPad(seconds) : ''}
-          </div>
-        </div>
-      )
-    }
-  }
+  // const milliseconds = (halvingIndex - currentIndex) * 5 * 60 * 1000
+  // const dateTime = new Date(Date.now() + milliseconds)
 
   return (
     <section
@@ -85,7 +22,15 @@ const CountDown = function() {
     >
       <div className="panel-heading">{$t('halving_countdown')}</div>
       <div className="panel-block py-5">
-        <div className="columns" style={{ width: '100%', textAlign: 'center' }}>
+        <div
+          className="columns"
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            marginLeft: 'unset',
+            marginRight: 'unset'
+          }}
+        >
           <div className="column is-one-quarter-desktop">
             <img src={halving} alt="halving" style={{ width: '5rem' }} />
             <h1 style={{ fontSize: '2.4rem', color: '#3F3F3F' }}>
@@ -96,7 +41,7 @@ const CountDown = function() {
             </h3>
           </div>
           <div className="column pt-5">
-            <Countdown date={dateTime} renderer={renderer} />
+            <CountDown sessionIndex={currentIndex} />
             <div className="columns is-mobile">
               <span
                 className="column is-one-quarter-mobile"
@@ -146,4 +91,4 @@ const CountDown = function() {
   )
 }
 
-export default CountDown
+export default Halving
