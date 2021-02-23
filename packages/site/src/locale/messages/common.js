@@ -118,5 +118,41 @@ export default {
   transform_failed: {
     zh: '转换失败，未找到此账户地址或公钥',
     en: 'Transformation failed. Address or public key not found'
+  },
+  year: {
+    zh: '年',
+    en: 'Year'
+  },
+  month: {
+    zh: '月',
+    en: 'Months'
+  },
+  day: {
+    zh: '天',
+    en: 'Days'
+  },
+  hour: {
+    zh: '时',
+    en: 'Hours'
+  },
+  minute: {
+    zh: '分',
+    en: 'Minutes'
+  },
+  seconds: {
+    zh: '秒',
+    en: 'Seconds'
+  },
+  halving_countdown: {
+    zh: 'PCX 减半倒计时',
+    en: 'PCX Halving Countdown'
+  },
+  halving_succeed: {
+    zh: 'PCX 减半成功！',
+    en: 'PCX Halving Succeeded!'
+  },
+  halving_left_blocks: {
+    zh: 'PCX 减半剩余区块数',
+    en: 'Blocks Left for PCX Halving'
   }
 }

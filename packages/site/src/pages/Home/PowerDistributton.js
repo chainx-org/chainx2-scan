@@ -35,8 +35,10 @@ const PowerDistributton = function() {
   let info = items ? items[0] : {}
   //BTC数量
   let btcBalance = 0
-  if (info) {
+  try {
     btcBalance = info.balance.Usable / 100000000
+  } catch (e) {
+    btcBalance = 0
   }
   let PCXdata = useSelector(latestChainStatusSelector, shallowEqual) || {}
   PCXdata = useMemo(() => {
