@@ -66,6 +66,9 @@ async function feedLatestChainStatus(io) {
     chainStatus.finalized = finalizedHeight
     //console.timeEnd('finalized')
 
+    const currentIndex = await api.query.session.currentIndex()
+    chainStatus.current_index = currentIndex
+
     // 已扫描区块高度
     //console.time('scan_height')
     const statusCol = await getStatusCollection()
