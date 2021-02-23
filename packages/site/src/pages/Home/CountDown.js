@@ -35,25 +35,41 @@ const CountDown = function() {
         <div className="columns is-mobile">
           <div
             className="column is-one-quarter-mobile"
-            style={{ fontSize: '2.4rem', textAlign: 'center' }}
+            style={{
+              fontSize: '2.4rem',
+              textAlign: 'center',
+              color: '#3F3F3F'
+            }}
           >
             {days ? zeroPad(days) : ''}
           </div>
           <div
             className="column is-one-quarter-mobile"
-            style={{ fontSize: '2.4rem', textAlign: 'center' }}
+            style={{
+              fontSize: '2.4rem',
+              textAlign: 'center',
+              color: '#3F3F3F'
+            }}
           >
             {hours ? zeroPad(hours) : ''}
           </div>
           <div
             className="column is-one-quarter-mobile"
-            style={{ fontSize: '2.4rem', textAlign: 'center' }}
+            style={{
+              fontSize: '2.4rem',
+              textAlign: 'center',
+              color: '#3F3F3F'
+            }}
           >
             {minutes ? zeroPad(minutes) : ''}
           </div>
           <div
             className="column is-one-quarter-mobile"
-            style={{ fontSize: '2.4rem', textAlign: 'center' }}
+            style={{
+              fontSize: '2.4rem',
+              textAlign: 'center',
+              color: '#3F3F3F'
+            }}
           >
             {seconds ? zeroPad(seconds) : ''}
           </div>
@@ -72,33 +88,53 @@ const CountDown = function() {
         <div className="columns" style={{ width: '100%', textAlign: 'center' }}>
           <div className="column is-one-quarter-desktop">
             <img src={halving} alt="halving" style={{ width: '5rem' }} />
-            <h1 style={{ fontSize: '2.4rem' }}>{halvingBlock || ''}</h1>
-            <h3 style={{ fontSize: '1rem' }}>{$t('halving_left_blocks')}</h3>
+            <h1 style={{ fontSize: '2.4rem', color: '#3F3F3F' }}>
+              {halvingBlock || ''}
+            </h1>
+            <h3 style={{ fontSize: '1rem', color: '#8E8E8E' }}>
+              {$t('halving_left_blocks')}
+            </h3>
           </div>
           <div className="column pt-5">
             <Countdown date={dateTime} renderer={renderer} />
             <div className="columns is-mobile">
               <span
                 className="column is-one-quarter-mobile"
-                style={{ fontSize: '1rem', textAlign: 'center' }}
+                style={{
+                  fontSize: '1rem',
+                  textAlign: 'center',
+                  color: '#8E8E8E'
+                }}
               >
                 {$t('day')}
               </span>
               <span
                 className="column is-one-quarter-mobile"
-                style={{ fontSize: '1rem', textAlign: 'center' }}
+                style={{
+                  fontSize: '1rem',
+                  textAlign: 'center',
+                  color: '#8E8E8E'
+                }}
               >
                 {$t('hour')}
               </span>
               <span
                 className="column is-one-quarter-mobile"
-                style={{ fontSize: '1rem', textAlign: 'center' }}
+                style={{
+                  fontSize: '1rem',
+                  textAlign: 'center',
+                  color: '#8E8E8E'
+                }}
               >
                 {$t('minute')}
               </span>
               <span
                 className="column is-one-quarter-mobile"
-                style={{ fontSize: '1rem', textAlign: 'center' }}
+                style={{
+                  fontSize: '1rem',
+                  textAlign: 'center',
+                  color: '#8E8E8E'
+                }}
               >
                 {$t('seconds')}
               </span>
