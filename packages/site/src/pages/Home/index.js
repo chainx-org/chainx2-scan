@@ -4,6 +4,7 @@ import BestExtrinsics from './BestExtrinsics'
 import ChainStatus from './ChainStatus'
 import BtcStates from './BtcStates'
 import PowerDistribution from './PowerDistributton'
+import CountDown from './CountDown'
 import BridgeBlock from './BridgeBlock'
 import InputSearch from '../../components/InputSearch'
 export default function Home(props) {
@@ -11,12 +12,17 @@ export default function Home(props) {
     <section className="blockTransaction">
       <div className="columns is-hidden-desktop">
         <div className="column">
-          <InputSearch {...props}/>
+          <InputSearch {...props} />
         </div>
       </div>
       <div className="columns">
         <div className="column">
           <ChainStatus />
+        </div>
+      </div>
+      <div className="columns">
+        <div className="column">
+          <CountDown />
         </div>
       </div>
       <div className="columns">
