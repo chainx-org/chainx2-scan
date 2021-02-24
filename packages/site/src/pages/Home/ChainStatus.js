@@ -156,13 +156,13 @@ export default function ChainStatus() {
   const loading = (
     <div
       style={{
-        height: 176,
+        height: 256,
         background: '#fff',
         width: '100%',
         display: 'flex'
       }}
     >
-      <Spinner />
+      <Spinner style={{ height: '100px' }} />
     </div>
   )
 

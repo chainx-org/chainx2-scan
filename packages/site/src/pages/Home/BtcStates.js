@@ -39,7 +39,7 @@ export default function BtcStates() {
       <div className="panel-block">
         {!status.hotAddress ? (
           <div style={{ minHeight: 250, display: 'flex', width: '100%' }}>
-            <Spinner />
+            <Spinner style={{ height: '100px' }} />
           </div>
         ) : (
           <div
