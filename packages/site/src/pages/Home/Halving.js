@@ -19,13 +19,14 @@ const Halving = function() {
   const loading = (
     <div
       style={{
-        height: 176,
+        height: 120,
         background: '#fff',
         width: '100%',
-        display: 'flex'
+        display: 'flex',
+        margin: '0 auto'
       }}
     >
-      <Spinner />
+      <Spinner style={{ height: '60px' }} />
     </div>
   )
 
@@ -36,7 +37,7 @@ const Halving = function() {
     >
       <div className="panel-heading">{$t('halving_countdown')}</div>
       {data && currentIndex ? (
-        <div className="panel-block py-5">
+        <div className="panel-block py-5" style={{ minHeight: '100px' }}>
           <div
             className="columns"
             style={{
