@@ -43,7 +43,7 @@ const CountDown = React.memo(props => {
               color: '#3F3F3F'
             }}
           >
-            {days ? zeroPad(days) : ''}
+            {days ? zeroPad(days) : '00'}
           </div>
           <div
             className="column is-one-quarter-mobile"
@@ -53,7 +53,7 @@ const CountDown = React.memo(props => {
               color: '#3F3F3F'
             }}
           >
-            {hours ? zeroPad(hours) : ''}
+            {hours ? zeroPad(hours) : '00'}
           </div>
           <div
             className="column is-one-quarter-mobile"
@@ -63,7 +63,7 @@ const CountDown = React.memo(props => {
               color: '#3F3F3F'
             }}
           >
-            {minutes ? zeroPad(minutes) : ''}
+            {minutes ? zeroPad(minutes) : '00'}
           </div>
           <div
             className="column is-one-quarter-mobile"
