@@ -9,6 +9,7 @@ const {
 const { ObjectID } = require('mongodb')
 const { encodeAddress } = require('../../utils')
 const { getDb } = require('../../services/mongo')
+const { getApi } = require('../../api')
 
 class BlockController {
   async getBlocks(ctx) {
@@ -124,6 +125,22 @@ class BlockController {
       pageSize,
       total
     }
+  }
+
+  async getHalving(ctx) {
+    const api = await getApi()
+    const currentIndex = await api.query.session.currentIndex()
+    const finalizedHead = await api.rpc.chain.getFinalizedHead()
+    const finalizedHeader = await api.rpc.chain.getHeader(finalizedHead)
+    const finalizedHeight = finalizedHeader.number
+      ? finalizedHeader.number.toNumber()
+      : 0
+    const halvingIndex = 55533
+    const halvingBlock = 55533 * 50 - finalizedHeight
+    const milliseconds = (halvingIndex - currentIndex) * 5 * 60 * 1000
+    const dateTime = new Date(Date.now() + milliseconds)
+    const data = { block: halvingBlock, time: dateTime }
+    ctx.body = { ...data }
   }
 
   async getRuntime(ctx) {
