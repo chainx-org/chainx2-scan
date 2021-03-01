@@ -101,15 +101,6 @@ const Halving = function() {
                   {$t('seconds')}
                 </span>
               </div>
-              <div className="is-size-7  has-text-right">
-                <a
-                  href="https://www.chainxpcxhalving.com/"
-                  className="has-text-success"
-                  target="_blank"
-                >
-                  {$t('halving_community_edition')}
-                </a>
-              </div>
             </div>
           </div>
         </div>
