@@ -9,7 +9,9 @@ const cols = {
   status: 'status',
   event: 'event',
   accounts: 'accounts',
-  validators: 'validators'
+  validators: 'validators',
+  issueRequests: 'issue-requests',
+  redeemRequests: 'redeem-requests'
 }
 
 const transferCollectionName = 'transfer'
@@ -21,6 +23,8 @@ let statusCol = null
 let accountsCol = null
 let transferCol = null
 let validatorsCol = null
+let issueRequestCol = null
+let redeemRequestCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
@@ -32,6 +36,8 @@ async function initDb() {
   accountsCol = db.collection(cols.accounts)
   transferCol = db.collection(transferCollectionName)
   validatorsCol = db.collection(cols.validators)
+  issueRequestCol = db.collection(cols.issueRequests)
+  redeemRequestCol = db.collection(cols.redeemRequests)
 
   return db
 }
@@ -64,6 +70,20 @@ async function getValidatorsCollection() {
   return validatorsCol
 }
 
+async function getIssueRequestCollection() {
+  if (!issueRequestCol) {
+    await initDb()
+  }
+  return issueRequestCol
+}
+
+async function getRedeemRequestCollection() {
+  if (!redeemRequestCol) {
+    await initDb()
+  }
+  return redeemRequestCol
+}
+
 async function getStatusCollection() {
   if (!statusCol) {
     await initDb()
@@ -93,5 +113,7 @@ module.exports = {
   getStatusCollection,
   getAccountsCollection,
   getTransferColCollection,
-  getValidatorsCollection
+  getValidatorsCollection,
+  getIssueRequestCollection,
+  getRedeemRequestCollection
 }
