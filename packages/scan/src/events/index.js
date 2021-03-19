@@ -1,6 +1,7 @@
 const { extractAccount } = require('../account')
 const { getOrdersCollection, getVoteCollection } = require('../mongoClient')
 const { logger } = require('../util')
+const { handleRequestEvent } = require('./xGateway')
 
 function getNormalizedOrderFromEvent(event) {
   const order = event.data.toJSON()[0]
@@ -88,9 +89,9 @@ async function handleStakingEvent(method, event) {
   }
 }
 
-async function extractEventBusinessData(event) {
+async function extractEventBusinessData(event, indexer) {
   const { section, method } = event
-
+  console.log(section, method)
   if (method === 'NewAccount') {
     const account = event.data.toJSON()
     await extractAccount(account)
@@ -98,6 +99,8 @@ async function extractEventBusinessData(event) {
     await handleSpotEvent(method, event)
   } else if (section === 'xStaking') {
     await handleStakingEvent(method, event)
+  } else if (section === 'xGatewayBitcoinV2') {
+    await handleRequestEvent(method, event, indexer)
   }
 }
 

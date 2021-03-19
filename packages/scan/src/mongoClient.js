@@ -15,6 +15,8 @@ const transferCollectionName = 'transfer'
 const voteCollectionName = 'vote'
 const chainCollectionName = 'chain'
 const ordersCollectionName = 'orders'
+const issueRequestCollectionName = 'issue-requests'
+const redeemRequestCollectionName = 'redeem-requests'
 
 const mainScanName = 'main-scan-height'
 
@@ -32,6 +34,8 @@ let orderCol = null
 let db = null
 let chainCol = null
 let ordersCol = null
+let issueRequestCol = null
+let redeemRequestCol = null
 
 async function initDb() {
   client = await MongoClient.connect(config.mongo.url)
@@ -47,6 +51,8 @@ async function initDb() {
   voteCol = db.collection(voteCollectionName)
   chainCol = db.collection(chainCollectionName)
   ordersCol = db.collection(ordersCollectionName)
+  issueRequestCol = db.collection(issueRequestCollectionName)
+  redeemRequestCol = db.collection(redeemRequestCollectionName)
 
   await _createIndexes()
 }
@@ -91,6 +97,20 @@ async function getVoteCollection() {
     await initDb()
   }
   return voteCol
+}
+
+async function getIssueRequestCollection() {
+  if (!issueRequestCol) {
+    await initDb()
+  }
+  return issueRequestCol
+}
+
+async function getRedeemRequestCollection() {
+  if (!redeemRequestCol) {
+    await initDb()
+  }
+  return redeemRequestCol
 }
 
 async function getValidatorsCollection() {
@@ -223,5 +243,7 @@ module.exports = {
   deleteDataFrom,
   getVoteCollection,
   getChainCollection,
+  getIssueRequestCollection,
+  getRedeemRequestCollection,
   getOrdersCollection
 }
