@@ -124,7 +124,7 @@ async function handleEvents(events, indexer, extrinsics) {
     const method = event.method
     const data = event.data.toJSON()
 
-    await extractEventBusinessData(event)
+    await extractEventBusinessData(event, indexer)
 
     if (method == 'NewAccount') {
       const account = event.data.toJSON()
@@ -202,8 +202,8 @@ async function handleExtrinsic(extrinsic, indexer) {
   const hash = extrinsic.hash.toHex()
   const callIndex = u8aToHex(extrinsic.callIndex)
   const { args } = extrinsic.method.toJSON()
-  const name = extrinsic.method.methodName
-  const section = extrinsic.method.sectionName
+  const name = extrinsic.method.method
+  const section = extrinsic.method.section
   let signer = extrinsic._raw.signature.get('signer').toString()
   //如果signer的解析长度不正确，则该交易是无签名交易
   if (signer.length < 48) {

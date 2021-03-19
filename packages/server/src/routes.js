@@ -6,7 +6,8 @@ const featureRouters = [
   require('./features/transfer/routes'),
   require('./features/transaction/routes'),
   require('./features/nomination/router'),
-  require('./features/orders/routes')
+  require('./features/orders/routes'),
+  require('./features/xbridge/routes')
 ]
 
 module.exports = app => {
