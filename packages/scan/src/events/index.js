@@ -91,7 +91,6 @@ async function handleStakingEvent(method, event) {
 
 async function extractEventBusinessData(event, indexer) {
   const { section, method } = event
-  console.log(section, method)
   if (method === 'NewAccount') {
     const account = event.data.toJSON()
     await extractAccount(account)

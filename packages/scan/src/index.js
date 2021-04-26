@@ -53,7 +53,6 @@ async function main() {
   let scanHeight = await getFirstScanHeight()
   // 删除该扫描区块
   await deleteDataFrom(scanHeight)
-
   while (true) {
     const chainHeight = getLatestHeight()
     if (scanHeight > chainHeight) {
@@ -211,11 +210,6 @@ async function handleExtrinsic(extrinsic, indexer) {
   }
   if (section.toLowerCase() === 'xassets') {
     console.log(section)
-  } else if (section === 'balances') {
-    // 转账，更新余额表，更新转账列表
-    console.log('transfer' + args.toString())
-    await updateBalance(extrinsic, hash, signer, args.dest)
-    await extractUserTransfer(extrinsic, hash, indexer, signer, args)
   } else if (section === 'xStaking') {
     // 更新xStaking列表
     console.log('xStaking')

@@ -1,9 +1,9 @@
 module.exports = {
   mongo: {
-    url: "mongodb://localhost:27017",
-    db: "chainx-scan-v2" // api server will connect to
+    url: 'mongodb://localhost:27017',
+    db: 'chainx-scan-v2' // api server will connect to
   },
   server: {
-    port: 3213
+    port: 9200
   }
-};
+}

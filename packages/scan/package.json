@@ -15,7 +15,8 @@
     "@chainx-v2/api": "^0.0.50",
     "@chainx-v2/crypto": "0.0.24",
     "@chainx-v2/util": "0.0.24",
-    "@polkadot/api": "^4.1.1",
+    "@polkadot/api": "^4.2.1",
+    "@polkadot/keyring": "^6.0.5",
     "log4js": "^6.3.0",
     "mongodb": "^3.5.9"
   }

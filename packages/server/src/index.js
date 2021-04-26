@@ -13,7 +13,7 @@ const app = new Koa()
 app
   .use(logger())
   .use(bodyParser())
-  .use(cors())
+  .use(cors('*'))
   .use(helmet())
 
 require('./routes')(app)
@@ -25,10 +25,10 @@ initDb()
     require('./io')(io)
 
     app.context.db = db
-    const port = config.server.port || 3213
+    const port = config.server.port || 9200
 
-    server.listen(port, () =>
-      console.log(`✅  The server is running at http://localhost:${port}/`)
+    server.listen(port, '0.0.0.0', () =>
+      console.log(`✅  The server is running at http://0.0.0.0:${port}/`)
     )
   })
   .catch(err => {
