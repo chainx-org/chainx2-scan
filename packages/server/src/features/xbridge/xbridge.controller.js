@@ -17,6 +17,7 @@ class XBridgeController {
       ctx.status = 400
       return
     }
+
     const col = await getIssueRequestCollection()
     const total = await col.count({
       requester: requester
