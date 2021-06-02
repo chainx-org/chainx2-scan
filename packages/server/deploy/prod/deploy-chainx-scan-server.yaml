@@ -32,10 +32,10 @@ spec:
             - name: http-main
               containerPort: 3123
               protocol: TCP
-            - name: http-main
+            - name: http-main1
               containerPort: 3125
               protocol: TCP
-            - name: http-main
+            - name: http-main2
               containerPort: 3128
               protocol: TCP
           envFrom:

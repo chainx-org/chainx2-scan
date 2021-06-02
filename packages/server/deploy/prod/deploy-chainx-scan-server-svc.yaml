@@ -11,11 +11,11 @@ spec:
       protocol: TCP
       port: 3213
       targetPort: 3213
-    - name: tcp-main
+    - name: tcp-main1
       protocol: TCP
       port: 3213
       targetPort: 3215
-    - name: tcp-main
+    - name: tcp-main2
       protocol: TCP
       port: 3128
       targetPort: 3128
