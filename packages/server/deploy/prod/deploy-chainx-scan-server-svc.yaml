@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: chainx-scan-server-svc
+  namespace: chainx-prod
+  labels:
+    app: chainx-scan-server-svc
+spec:
+  ports:
+    - name: tcp-main
+      protocol: TCP
+      port: 3213
+      targetPort: 3213
+    - name: tcp-main
+      protocol: TCP
+      port: 3213
+      targetPort: 3215
+    - name: tcp-main
+      protocol: TCP
+      port: 3128
+      targetPort: 3128
+  selector:
+    app: chainx-scan-server-svc
+status:
+  loadBalancer: {}

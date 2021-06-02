@@ -7,7 +7,8 @@
     "start-2": "node src/index-2.js",
     "start-3": "node src/index-3.js",
     "start-4": "node src/index-4.js",
-    "start-5": "node src/index-5.js"
+    "start-5": "node src/index-5.js",
+    "start-all": "node src/index.js & node src/index-2.js & node src/index-3.js"
   },
   "dependencies": {
     "@chainx-v2/account": "^0.0.50",

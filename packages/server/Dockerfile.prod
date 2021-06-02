@@ -1,0 +1,16 @@
+FROM node:14.5.0 AS builder
+
+WORKDIR /opt/web
+
+ENV PATH="./node_modules/.bin:$PATH"
+
+ENV NODE_ENV=production
+
+COPY . ./
+
+RUN yarn install --production=true
+
+EXPOSE 3213 3218 3215
+
+CMD ["yarn","start-all"]
+
