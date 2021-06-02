@@ -45,8 +45,8 @@ pipeline {
                 variable: 'KUBECONFIG')
               ])
               {
-                sh 'envsubst <  deploy/prod/deploy-chainx-scan.yaml | kubectl apply -f -'
-                sh 'envsubst <  deploy/prod/deploy-chainx-scan-svc.yaml  | kubectl apply -f -'
+                sh 'envsubst <  packages/scan/deploy/prod/deploy-chainx-scan.yaml | kubectl apply -f -'
+                sh 'envsubst <  packages/scan/deploy/prod/deploy-chainx-scan-svc.yaml  | kubectl apply -f -'
               }
             }
 
