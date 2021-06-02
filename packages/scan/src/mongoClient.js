@@ -53,7 +53,8 @@ let depositMineCol = null
 let errorBlockCol = null
 
 async function initDb() {
-  client = await MongoClient.connect(config.mongo.url, {
+  console.log(process.env.mongo_url)
+  client = await MongoClient.connect(process.env.mongo_url, {
     useUnifiedTopology: true
   })
 

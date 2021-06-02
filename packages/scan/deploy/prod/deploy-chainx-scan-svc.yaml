@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: chainx-scan-svc
+  namespace: chainx-prod
+  labels:
+    app: chainx-scan-svc
+spec:
+  selector:
+    app: chainx-scan
+status:
+  loadBalancer: {}
