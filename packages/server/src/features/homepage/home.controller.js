@@ -41,11 +41,8 @@ class HomeController {
     const api = await getApi()
 
     const totalIssuance = await api.query.balances.totalIssuance()
-    console.log(totalIssuance)
-
-    ctx.body = {
-      totalIssuance
-    }
+    const totalNumber = Number(totalIssuance) / 100000000
+    ctx.body = totalNumber
   }
 }
 
