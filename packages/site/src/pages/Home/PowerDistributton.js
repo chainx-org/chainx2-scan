@@ -27,7 +27,7 @@ const PowerDistributton = function() {
   let Xbtcshare = 0
   useEffect(() => {
     dispatch(fetchDepositMine(setLoading, page - 1, pageSize))
-  }, [])
+  }, [dispatch, page, pageSize])
   let { items } = useSelector(crossDepositMineSelector, shallowEqual) || {}
   items = useMemo(() => {
     return items
@@ -58,10 +58,6 @@ const PowerDistributton = function() {
     {
       type: 'X-BTC',
       value: parseFloat(Xbtcshare)
-    },
-    {
-      type: 'PolkaX',
-      value: 0.2
     },
     {
       type: 'TR',
