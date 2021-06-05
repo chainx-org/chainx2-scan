@@ -65,7 +65,7 @@ const PowerDistributton = function() {
     },
     {
       type: 'PCX',
-      value: 0.576
+      value: 0.776
     }
   ]
 
