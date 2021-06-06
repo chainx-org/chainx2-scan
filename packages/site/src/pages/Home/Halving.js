@@ -50,7 +50,7 @@ const Halving = function() {
             <div className="column is-one-quarter-desktop">
               <img src={halving} alt="halving" style={{ width: '5rem' }} />
               <h1 style={{ fontSize: '2.4rem', color: '#3F3F3F' }}>
-                {halvingBlock || '0'}
+                {2761158 || '0'}
               </h1>
               <h3 style={{ fontSize: '1rem', color: '#8E8E8E' }}>
                 {$t('halving_left_blocks')}
