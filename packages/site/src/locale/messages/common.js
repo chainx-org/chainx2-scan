@@ -152,8 +152,8 @@ export default {
     en: 'PCX Halving Succeeded!'
   },
   halving_left_blocks: {
-    zh: 'PCX 减半剩余区块数',
-    en: 'Blocks Left for PCX Halving'
+    zh: 'PCX 减半区块',
+    en: 'Blocks for PCX Halving'
   },
   halving_community_edition: {
     zh: '社区版本',

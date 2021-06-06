@@ -58,7 +58,7 @@ const Halving = function() {
             </div>
 
             <div className="column pt-5">
-              <CountDown sessionIndex={currentIndex} />
+              <CountDown sessionIndex={2761158} />
               <div className="columns is-mobile">
                 <span
                   className="column is-one-quarter-mobile"
