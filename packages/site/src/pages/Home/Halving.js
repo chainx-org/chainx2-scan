@@ -31,83 +31,9 @@ const Halving = function() {
   )
 
   return (
-    <section
-      className="panel"
-      // style={{ width: 417, marginBottom: '1.25rem' }}
-    >
-      <div className="panel-heading">{$t('halving_countdown')}</div>
-      {data && currentIndex ? (
-        <div className="panel-block py-5" style={{ minHeight: '100px' }}>
-          <div
-            className="columns"
-            style={{
-              width: '100%',
-              textAlign: 'center',
-              marginLeft: 'unset',
-              marginRight: 'unset'
-            }}
-          >
-            <div className="column is-one-quarter-desktop">
-              <img src={halving} alt="halving" style={{ width: '5rem' }} />
-              <h1 style={{ fontSize: '2.4rem', color: '#3F3F3F' }}>
-                {2761158 || '0'}
-              </h1>
-              <h3 style={{ fontSize: '1rem', color: '#8E8E8E' }}>
-                {$t('halving_left_blocks')}
-              </h3>
-            </div>
-
-            <div className="column pt-5">
-              <CountDown sessionIndex={2761158} />
-              <div className="columns is-mobile">
-                <span
-                  className="column is-one-quarter-mobile"
-                  style={{
-                    fontSize: '1rem',
-                    textAlign: 'center',
-                    color: '#8E8E8E'
-                  }}
-                >
-                  {$t('day')}
-                </span>
-                <span
-                  className="column is-one-quarter-mobile"
-                  style={{
-                    fontSize: '1rem',
-                    textAlign: 'center',
-                    color: '#8E8E8E'
-                  }}
-                >
-                  {$t('hour')}
-                </span>
-                <span
-                  className="column is-one-quarter-mobile"
-                  style={{
-                    fontSize: '1rem',
-                    textAlign: 'center',
-                    color: '#8E8E8E'
-                  }}
-                >
-                  {$t('minute')}
-                </span>
-                <span
-                  className="column is-one-quarter-mobile"
-                  style={{
-                    fontSize: '1rem',
-                    textAlign: 'center',
-                    color: '#8E8E8E'
-                  }}
-                >
-                  {$t('seconds')}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        loading
-      )}
-    </section>
+    <div
+    // style={{ width: 417, marginBottom: '1.25rem' }}
+    ></div>
   )
 }
 
